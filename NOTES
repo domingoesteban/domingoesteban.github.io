@@ -21,6 +21,13 @@ SUBLIME 3 TUTORIAL
 
  * Emmet : autocompletar html
 
+ * View In Browser : NO estoy seguro si es lo mejor, bloque el sublime mientras lo visualiza
+
+
+- EMMET:
+  Envolver en etiquete (o usando la sintaxis de emmet). Seleccionar texto y luego ctrl+shift+g (en la pagina dice 'A', pero no funciona - ver ⌃W en windows)
+
+
 GITHUB
 ======
 
@@ -42,7 +49,10 @@ GITHUB
 	 (REF: http://stackoverflow.com/questions/572549/difference-between-git-add-a-and-git-add  )
 
 
+UNIX TERMINAL
+=============
 
-
+- Move all except one file (or directory):
+  $ mv !(carpeta) ~/carpeta
 
 

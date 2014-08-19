@@ -276,7 +276,8 @@ ul.unstyled {
     ----------------------------------- */
 
 #jumboWelcome {
-  background-color: #4A34C3;
+  /*background-color: #4A34C3;*/
+  background-color: #3F29B8;
   margin-top: 60px;
   margin-bottom: 0px;
   padding: 0;
@@ -287,9 +288,9 @@ ul.unstyled {
   margin-left: 10px;
 }
 
-#jumboWelcomeText {
+/*#jumboWelcomeText {
   background: rgba(0, 0, 0, 0.1);
-}
+}*/
 
 #jumboWelcome .container h1 {
   font-weight: bold;
@@ -298,6 +299,10 @@ ul.unstyled {
 
 #jumboWelcome .container p {
   color: #FFFFFF;
+}
+
+#jumboWelcome .container p a{
+    color: inherit;
 }
 
 #jumboWelcomeImage {
