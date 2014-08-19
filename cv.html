@@ -42,26 +42,15 @@
 
       <div class="collapse navbar-collapse" id="mainnavbar-responsive">
       	<ul class="nav navbar-nav pull-left" >
-      		<li class="active"><a href="#"><span class="glyphicon glyphicon-home"></span> Home </a></li>
+      		<li><a href="index.html"><span class="glyphicon glyphicon-home"></span> Home </a></li>
 
           <li><a href="robotics.html"><span class="glyphicon glyphicon-hdd"></span> Robotics </a></li>
 
-      		<li><a href="cv.html" class="mytooltip" title="Curriculum Vitae" data-placement="bottom"><span class="glyphicon glyphicon-list-alt"></span> CV </a></li>
+      		<li class="active"><a href="#" class="mytooltip" title="Curriculum Vitae" data-placement="bottom"><span class="glyphicon glyphicon-list-alt"></span> CV </a></li>
 
       		<li><a href="bio.html"><span class="glyphicon glyphicon-fire"></span> Bio </a></li>
 
       		<li><a href="#contactModal" data-toggle="modal" data-target="#contactModal"><span class="glyphicon glyphicon-user"></span> Contact </a></li>
-
-      		<!--li class="dropdown">
-      			<a href="#" class="dropdown-toggle" data-toggle="dropdown">Desplegar <b class="caret"></b></a>
-      			<ul class="dropdown-menu">
-      				<li><a href="#">Link 1</a></li>
-      				<li><a href="#">Link 2</a></li>
-      				<li><a href="#">Link 3</a></li>
-      				<li><a href="#footer">Link 4</a></li>
-      				<li><a href="#figura">Link 5</a></li>
-      			</ul>
-      		</li-->
       	</ul>
         <ul class="nav navbar-nav pull-right">
           <li><a href="#" class="mytooltip" title="Search" data-placement="bottom"><span class="glyphicon glyphicon-search"></span></a>
@@ -72,7 +61,6 @@
 		</div>
 	</nav> <!-- end #mainnavigationbar -->
 </div>
-
 
 <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm">
@@ -96,71 +84,131 @@
 </div>
 
 
-<!-- <div class="carousel slide" id="mainCarousel">
-  
-</div>  --> <!-- end #mainCarousel -->
-
-<!--div class="row" id="bigCallout1">
-  <div class="col-12">
-    <div class="well">
-      <div class="page-header">
-        <h2> Hey, I'm Domingo.</h2>
+<div class="panel-group" id="cvAccordion">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#cvAccordion" href="#cvAccordionPersonalData">
+          Personal Data
+        </a>
+      </h4>
+    </div>
+    <div id="cvAccordionPersonalData" class="panel-collapse collapse">
+      <div class="panel-body">
+        <ul>
+          <li> <b> First Name /Surname:</b>   Domingo ESTEBAN </li>
+          <li> <b> Address:</b>   C/ Juan Duque, 34, Bajo-A. 28011 <br/> Madrid - Spain</li>
+          <li> <b> Mobile:</b>   +34 602582780  </li>
+          <li> <b> Email:</b>   domingoesteban@outlook.com  <br/> mingo.esteban@gmail.com </li>
+          <li> <b> Skype:</b>   domingoesteban </li>
+          <li> <b> Nationality:</b>   Peruvian and Spaniard </li>
+        </ul>
       </div>
-      <p class="lead">
-        Welcome to my personal web page.
-      </p>
-      <a href="#" class="btn btn-primary btn-lg">Know me ...</a>
     </div>
   </div>
-</div--> <!-- end #bigCallout row -->
-
-<div class="jumbotron" id="jumboWelcome">
-  <div class="container">
-    <div class="row">
-      <div id="jumboWelcomeText" class="col-xs-12 col-sm-6">
-        <h1 class="text-center">Welcome to my Personal Website!</h1>
-        <p> My name is Domingo Esteban. </p>
-        <p><a href="cv.html" class="btn btn-primary btn-lg" role="button">View more</a></p>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#cvAccordion" href="#cvAccordionSkills">
+          Skills
+        </a>
+      </h4>
+    </div>
+    <div id="cvAccordionSkills" class="panel-collapse collapse">
+      <div class="panel-body">
+        <ul>
+          <li> Robotics </li>
+          <li> Robot motion planning </li>
+          <li> Robot simulation </li>
+          <li> Artificial intelligence </li>
+          <li> Machine learning </li>
+          <li> Robot programming </li>
+          <li> C/C++ </li>
+          <li> MATLAB® </li>
+          <li> Visual Basic </li>
+          <li> ROS </li>
+          <li> Gazebo </li>
+          <li> Python </li>
+          <li> Modelica </li>
+          <li> RAPID </li>
+        </ul>
       </div>
-      <div class="col-sm-6 hidden-xs">
-        <img id="jumboWelcomeImage" src="images/index/domingo-principal1.jpg" alt="DomingoEsteban"/>  
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#cvAccordion" href="#cvAccordionEducation">
+          Education
+        </a>
+      </h4>
+    </div>
+    <div id="cvAccordionEducation" class="panel-collapse collapse">
+      <div class="panel-body">
+        <ul>
+          <li> <b> M.Sc. in Robotics and Automation</b> Universidad Carlos III de Madrid </li>
+          <li> <b> B.Sc. in Industrial Engineering</b> Universidad Nacional de San Agustín </li>
+          <li> <b> B.Sc. in Economics and Business</b> Universidad Católica San Pablo </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#cvAccordion" href="#cvAccordionExperience">
+          Experience
+        </a>
+      </h4>
+    </div>
+    <div id="cvAccordionExperience" class="panel-collapse collapse">
+      <div class="panel-body">
+        <ul>
+          <li> <b> Robotics and Automation Intern</b> - IXION Industry and Aerospace, S.L </li>
+          <li> <b> Intern - Pierina Mine</b> - Barrick Gold Corporation</li>
+          <li> <b> Intern - Sociedad Minera Cerro Verde</b> - Freeport-McMoRan Copper and Gold Inc.  </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#cvAccordion" href="#cvAccordionLanguages">
+          Languages
+        </a>
+      </h4>
+    </div>
+    <div id="cvAccordionLanguages" class="panel-collapse collapse">
+      <div class="panel-body">
+        <ul>
+          <li> Spanish (Native or bilingual proficiency) </li>
+          <li> English (Full professional proficiency) </li>
+          <li> French (Limited working proficiency) </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#cvAccordion" href="#cvAccordionCertifications">
+          Certifications
+        </a>
+      </h4>
+    </div>
+    <div id="cvAccordionCertifications" class="panel-collapse collapse">
+      <div class="panel-body">
+        <ul>
+          <li> <b> Autonomous Mobile Robots - AMRx</b> - edX / ETH Zurich (ETHx) </li>
+          <li> <b> Control of Mobile Robots</b> - Coursera / Georgia Institute of Technology</li>
+          <li> <b> Machine Learning</b> - Coursera / Standford University </li>
+          <li> <b> An Introduction to Interactive Programming in Python</b> - Coursera / Rice University </li>
+        </ul>
       </div>
     </div>
   </div>
 </div>
-
-<div class="jumbotron" id="jumboIndexRobotics">
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-6 hidden-xs">
-        <img id="jumboIndexRoboticsImage" src="images/index/domingo-principal2.jpg" alt="DomingoEsteban"/>  
-      </div>
-      <div id="jumboIndexRoboticsText" class="col-xs-12 col-sm-6">
-        <h1 class="text-center">My work in Robotics</h1>
-        <p> Motion planning, robot simulation, robot learning. </p>
-        <p class="text-right"><a href="robotics.html" class="btn btn-success btn-lg" role="button">View more</a></p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="row" id="featuresHeading1">
-<!-- <img src="images/index/domingo-principal1.jpg" height="540" width="720" alt="DomingoEsteban"/>  -->
-</div> <!-- end #featuresHeading1 row -->
-
-<div class="row" id="features">
-  
-</div> <!-- end #features row -->
-
-<div class="row" id="moreInfo1">
-  
-</div> <!-- end #moreInfo1 row -->
-
-<div class="row" id="moreCourses1">
-  
-</div> <!-- end #moreCourses1 row -->
-
-</div> <!-- end #main container -->
 
 
 <footer id="footerSocialMedia">

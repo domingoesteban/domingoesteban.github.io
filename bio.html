@@ -42,26 +42,15 @@
 
       <div class="collapse navbar-collapse" id="mainnavbar-responsive">
       	<ul class="nav navbar-nav pull-left" >
-      		<li class="active"><a href="#"><span class="glyphicon glyphicon-home"></span> Home </a></li>
+      		<li><a href="index.html"><span class="glyphicon glyphicon-home"></span> Home </a></li>
 
           <li><a href="robotics.html"><span class="glyphicon glyphicon-hdd"></span> Robotics </a></li>
 
       		<li><a href="cv.html" class="mytooltip" title="Curriculum Vitae" data-placement="bottom"><span class="glyphicon glyphicon-list-alt"></span> CV </a></li>
 
-      		<li><a href="bio.html"><span class="glyphicon glyphicon-fire"></span> Bio </a></li>
+      		<li class="active"><a href="#"><span class="glyphicon glyphicon-fire"></span> Bio </a></li>
 
       		<li><a href="#contactModal" data-toggle="modal" data-target="#contactModal"><span class="glyphicon glyphicon-user"></span> Contact </a></li>
-
-      		<!--li class="dropdown">
-      			<a href="#" class="dropdown-toggle" data-toggle="dropdown">Desplegar <b class="caret"></b></a>
-      			<ul class="dropdown-menu">
-      				<li><a href="#">Link 1</a></li>
-      				<li><a href="#">Link 2</a></li>
-      				<li><a href="#">Link 3</a></li>
-      				<li><a href="#footer">Link 4</a></li>
-      				<li><a href="#figura">Link 5</a></li>
-      			</ul>
-      		</li-->
       	</ul>
         <ul class="nav navbar-nav pull-right">
           <li><a href="#" class="mytooltip" title="Search" data-placement="bottom"><span class="glyphicon glyphicon-search"></span></a>
@@ -72,7 +61,6 @@
 		</div>
 	</nav> <!-- end #mainnavigationbar -->
 </div>
-
 
 <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm">
@@ -96,72 +84,46 @@
 </div>
 
 
-<!-- <div class="carousel slide" id="mainCarousel">
+<div class="carousel slide" id="bioCarousel">
+
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#bioCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#bioCarousel" data-slide-to="1"></li>
+    <li data-target="#bioCarousel" data-slide-to="2"></li>
+  </ol>
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner">
+    <div class="item active" id="bioCarouselSlide1">
+      <div class="carousel-caption">
+        <h4>Arequipa</h4>
+        <p>Founded on August 15, 1540, as 'Villa Hermosa de Nuestra Señora de la Asunción" ... </p>
+      </div> <!-- end carousel-caption -->
+    </div> <!-- end item -->
+    <div class="item" id="bioCarouselSlide2">
+      <div class="carousel-caption">
+        <h4>Madrid</h4>
+        <p>Located on the Manzanares River in the centre of both the country and the Community of Madrid...</p>
+      </div> <!-- end carousel-caption -->
+    </div> <!-- end item -->
+    <div class="item" id="bioCarouselSlide3">
+      <div class="carousel-caption">
+        <h4>Villasandino</h4>
+        <p>Medieval town on the banks of the River Odra and the edge of the old Roman road "Via Aquitania"</p>
+      </div> <!-- end carousel-caption -->
+    </div> <!-- end item -->
+  </div> <!-- end carousel-inner -->
+
+  <!-- Controls -->
+  <a class="left carousel-control" href="#bioCarousel" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left"></span>
+  </a>
+  <a class="right carousel-control" href="#bioCarousel" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right"></span>
+  </a>
   
-</div>  --> <!-- end #mainCarousel -->
-
-<!--div class="row" id="bigCallout1">
-  <div class="col-12">
-    <div class="well">
-      <div class="page-header">
-        <h2> Hey, I'm Domingo.</h2>
-      </div>
-      <p class="lead">
-        Welcome to my personal web page.
-      </p>
-      <a href="#" class="btn btn-primary btn-lg">Know me ...</a>
-    </div>
-  </div>
-</div--> <!-- end #bigCallout row -->
-
-<div class="jumbotron" id="jumboWelcome">
-  <div class="container">
-    <div class="row">
-      <div id="jumboWelcomeText" class="col-xs-12 col-sm-6">
-        <h1 class="text-center">Welcome to my Personal Website!</h1>
-        <p> My name is Domingo Esteban. </p>
-        <p><a href="cv.html" class="btn btn-primary btn-lg" role="button">View more</a></p>
-      </div>
-      <div class="col-sm-6 hidden-xs">
-        <img id="jumboWelcomeImage" src="images/index/domingo-principal1.jpg" alt="DomingoEsteban"/>  
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="jumbotron" id="jumboIndexRobotics">
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-6 hidden-xs">
-        <img id="jumboIndexRoboticsImage" src="images/index/domingo-principal2.jpg" alt="DomingoEsteban"/>  
-      </div>
-      <div id="jumboIndexRoboticsText" class="col-xs-12 col-sm-6">
-        <h1 class="text-center">My work in Robotics</h1>
-        <p> Motion planning, robot simulation, robot learning. </p>
-        <p class="text-right"><a href="robotics.html" class="btn btn-success btn-lg" role="button">View more</a></p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="row" id="featuresHeading1">
-<!-- <img src="images/index/domingo-principal1.jpg" height="540" width="720" alt="DomingoEsteban"/>  -->
-</div> <!-- end #featuresHeading1 row -->
-
-<div class="row" id="features">
-  
-</div> <!-- end #features row -->
-
-<div class="row" id="moreInfo1">
-  
-</div> <!-- end #moreInfo1 row -->
-
-<div class="row" id="moreCourses1">
-  
-</div> <!-- end #moreCourses1 row -->
-
-</div> <!-- end #main container -->
-
+</div>  <!-- end #bioCarousel -->
 
 <footer id="footerSocialMedia">
 <div class="container">
