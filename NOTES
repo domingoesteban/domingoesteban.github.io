@@ -23,6 +23,7 @@ SUBLIME 3 TUTORIAL
 
  * View In Browser : NO estoy seguro si es lo mejor, bloque el sublime mientras lo visualiza
 
+ * AutoFileName: Previsualizar rutas
 
 - EMMET:
   Envolver en etiquete (o usando la sintaxis de emmet). Seleccionar texto y luego ctrl+shift+g (en la pagina dice 'A', pero no funciona - ver ⌃W en windows)
