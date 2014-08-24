@@ -104,7 +104,8 @@ ul.unstyled {
 }
 
 #bioCarousel { 
-  margin-top: 60px;
+  /*margin-top: 60px;*/
+  /*margin-top: 1px;*/
 }
 
 #bioCarousel .item{ height: 400px;}
@@ -310,6 +311,44 @@ ul.unstyled {
    width: 560px;
 }
 
+#jumboBio {
+  margin-top: 60px;
+  margin-bottom: 0px;
+  padding: 0;
+  /*background-color: transparent;*/
+  background: url('../../images/background/noise-1.png') center;
+  /*background-size: 100% auto;*/
+}
+
+#jumboBio h1{
+  margin-bottom: 0;
+  font-size: 40px;
+}
+
+#jumboBio h2{
+  margin:  0;
+  color: #b9b9b9;
+  font-size: 20px;
+}
+
+#jumboBio p{
+  color: #080808;
+  font-size: 15px;
+  /*text-justify: inter-word;*/
+}
+
+#jumboBio a {
+  color: #080808;
+}
+
+#jumboBioText {
+  background-color: white;
+}
+
+#jumboBioImage {
+  width: 100%;
+  height: auto;
+}
 
 #jumboIndexRobotics {
   background-color: #216E0E;
