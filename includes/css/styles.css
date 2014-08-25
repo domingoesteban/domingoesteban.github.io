@@ -182,7 +182,8 @@ ul.unstyled {
 }
 
 #roboticsCarouselSlide3 {
-  background: url('../../images/robotics/TEO-fondoAzul.jpg') top center no-repeat;
+  /*background: url('../../images/robotics/TEO-fondoAzul.jpg') top center no-repeat;*/
+  background: url('../../images/robotics/Whole-body-TEO-Intro.png') top center no-repeat;
 }
 
 /* Media queries */
@@ -204,7 +205,8 @@ ul.unstyled {
 }
 
 #roboticsCarouselSlide3 {
-  background: url('../../images/robotics/TEO-fondoAzul.jpg') top center no-repeat;
+  /*background: url('../../images/robotics/TEO-fondoAzul.jpg') top center no-repeat;*/
+  background: url('../../images/robotics/Whole-body-TEO-Intro.png') top center no-repeat;
 }
 
 }
@@ -222,7 +224,8 @@ ul.unstyled {
 }
 
 #roboticsCarouselSlide3 {
-  background: url('../../images/robotics/TEO-fondoAzul.jpg') top center no-repeat;
+  /*background: url('../../images/robotics/TEO-fondoAzul.jpg') top center no-repeat;*/
+  background: url('../../images/robotics/Whole-body-TEO-Intro.png') center no-repeat;
 }
 
 }
@@ -257,9 +260,9 @@ ul.unstyled {
     Collapse 
     ----------------------------------- */
 
-#cvAccordion {
+/*#cvAccordion {
   margin-top: 60px;  
-}
+}*/
 
 #cvAccordion .panel-heading {
   background-color: #2B2B2B;
@@ -311,6 +314,8 @@ ul.unstyled {
    width: 560px;
 }
 
+
+
 #jumboBio {
   margin-top: 60px;
   margin-bottom: 0px;
@@ -350,6 +355,8 @@ ul.unstyled {
   height: auto;
 }
 
+
+
 #jumboIndexRobotics {
   background-color: #216E0E;
   margin: 0px;
@@ -368,4 +375,55 @@ ul.unstyled {
 #jumboIndexRoboticsImage {
    height: 420px;
    width: 560px;
+}
+
+
+
+
+#jumboWholeBodyHumanoidAbstract {
+  margin-top: 60px;
+  margin-bottom: 0px;
+  padding: 0;
+  /*background-color: transparent;*/
+  background: url('../../images/background/noise-1.png') center;
+  /*background-size: 100% auto;*/
+}
+
+#jumboWholeBodyHumanoidAbstract h1{
+  margin-bottom: 0;
+  font-size: 40px;
+}
+
+#jumboWholeBodyHumanoidAbstract h2{
+  margin:  0;
+  color: #b9b9b9;
+  font-size: 20px;
+}
+
+#jumboWholeBodyHumanoidAbstract p{
+  color: #080808;
+  font-size: 15px;
+  /*text-justify: inter-word;*/
+}
+
+#jumboWholeBodyHumanoidAbstract a {
+  color: #080808;
+}
+
+#jumboWholeBodyHumanoidAbstractText {
+  background-color: white;
+}
+
+#jumboWholeBodyHumanoidAbstractImage {
+  width: 100%;
+  height: auto;
+}
+
+/*  -----------------------------------
+    Others
+    ----------------------------------- */
+
+#cvIntroText {
+  margin-top: 60px;  
+  color: white;
 }

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Domingo Esteban - Robotics - Whole-body trajectory generation for a humanoid robot</title>
+	<meta name="keywords" content="Domingo, Esteban, Robotics, Whole-body, humanoid, trajectory">
+	<meta name="description" content="Whole-body trajectory generation for a humanoid robot">
+	<meta name="author" content="Domingo Esteban">
+
+  <!-- Mobile viewport optimized -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<!--meta name="viewport" content="width=device-width, initial-scale=1"-->
+
+  <!-- Bootstrap CSS -->
+  <!-- <link rel="stylesheet" href="../framework/css/bootstrap.css"> -->
+<link href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' rel='stylesheet'/>
+<link href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css' rel='stylesheet'/>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../includes/css/styles.css">
+
+  <!-- Including Modernizr (Before any other Javascript) -->
+
+  <!-- Favicon -->
+  <link href="../images/icons/robot-favicon.ico" rel="icon" type="image/x-icon" />
+
+</head>
+
+
+<body>
+
+<div class="container" id="main">
+
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="mainnavigationbar">
+		<div class="container-fluid">
+			
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainnavbar-responsive">
+					<span class="sr-only"> Toggle Navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a href="../index.html" class="navbar-brand">Domingo Esteban</a>
+			</div>
+
+
+      <div class="collapse navbar-collapse" id="mainnavbar-responsive">
+      	<ul class="nav navbar-nav pull-left" >
+      		<li><a href="../index.html"><span class="glyphicon glyphicon-home"></span> Home </a></li>
+
+          <li><a href="../robotics.html"><span class="glyphicon glyphicon-hdd"></span> Robotics </a></li>
+
+      		<li><a href="../cv.html" class="mytooltip" title="Curriculum Vitae" data-placement="bottom"><span class="glyphicon glyphicon-list-alt"></span> CV </a></li>
+
+			<li><a href="//blog.domingoesteban.com"><span class="glyphicon glyphicon-pencil"></span> Blog </a></li>
+
+      		<li><a href="../bio.html"><span class="glyphicon glyphicon-fire"></span> Bio </a></li>
+
+      		<li><a href="#contactModal" data-toggle="modal" data-target="#contactModal"><span class="glyphicon glyphicon-user"></span> Contact </a></li>
+      	</ul>
+<!--         <ul class="nav navbar-nav pull-right">
+          <li><a href="#" class="mytooltip" title="Search" data-placement="bottom"><span class="glyphicon glyphicon-search"></span></a>
+         </li>
+       </ul> -->
+      </div>
+
+		</div>
+	</nav> <!-- end #mainnavigationbar -->
+</div>
+
+<div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content" id="contactModalContent">
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title text-center" id="contactModalLabel">Contact info</h4>
+      </div>
+      <div class="modal-body">
+        <ul class="unstyled text-center">
+          <li> <b><span class="glyphicon glyphicon-phone"></span> Mobile / Cell phone: </b><br/> +34 602 58 27 80</li>
+          <hr style="width:20px"/>
+          <li> <img class="contactModalIcon" src="images/icons/skype-circle-logo-white-128.png" alt="Skype"/> <b>Skype ID:</b><br/> domingoesteban</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="jumbotron" id="jumboWholeBodyHumanoidAbstract">
+  <div class="container">
+    <div class="row">
+      <div id="jumboWholeBodyHumanoidAbstractText" class="col-xs-12 col-sm-7">
+        <h1><b>WHOLE-BODY TRAJECTORY GENERATION FOR A HUMANOID ROBOT </b></h1>
+        <h2>Domingo Esteban</h2>
+        <hr/>
+        <p class="text-justify">Whole-body motion of a humanoid robot is still a difficult problem for the robotics community, because planning and control of motion in a hyper-redundant system as a humanoid is not easy. Within the many movements that can be generated, a whole-body walking is still complex; the definition of the trajectories that have to be executed by the different parts of the body, in such a way that the step is stable, it can be a tedious task.</p>
+        <p class="text-justify">Considering the above, my master thesis attempted to develop whole-body movement by the generation of trajectories in the operational space and the inverse kinematics control to generate the trajectory for the joints, concretely, first and second order algorithms were used.</p>
+        <p class="text-justify">The work was applied in TEO, a humanoid robot developed by the Carlos III of Madrid University. First, the definition of the configuration of TEO in the operational space and in the generalized coordinates space were proposed.</p>
+        <p class="text-justify">The thesis focused on the generation of trajectories necessary for whole-body walking considering a number of footprints. The generation of this footprints were done with the local gait axis algorithm. A pattern generator for the whole-body gait were also proposed and tested for different sequences of footprints.</p>
+
+        <p class="text-justify"><i>More detail soon...</i></p>
+      </div>
+      <div class="col-sm-5 hidden-xs">
+        <img id="jumboWholeBodyHumanoidAbstractImage" src="../images/robotics/Whole-body-TEO-Intro.png" alt="whole-body-humanoid-Abstract"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<footer id="footerSocialMedia">
+<div class="container">
+  <div class="row" class="center-block">
+    <div class="col-xs-2 text-center center-block">
+      <a target="_blank" href="https://twitter.com/domingoesteban"><img class="footericon" src="../images/icons/twitter-circle-logo-128.png" alt="Twitter"/></a>
+    </div>
+    <div class="col-xs-2 text-center center-block">
+      <a target="_blank" href="https://www.facebook.com/domingoesteban"><img class="footericon" src="../images/icons/facebook-circle-logo-128.png" alt="Facebook"/></a>
+    </div>
+    <div class="col-xs-2 text-center">
+      <a target="_blank" href="https://google.com/+DomingoEsteban"><img class="footericon" src="../images/icons/googleplus-circle-logo-128.png" alt="Google Plus"/></a>
+    </div>
+    <div class="col-xs-2 text-center" >
+      <a target="_blank" href="https://www.linkedin.com/in/domingoesteban"><img class="footericon" src="../images/icons/linkedin-circle-logo-128.png" alt="Linkedin"/></a>
+    </div>
+    <div class="col-xs-2 text-center" >
+      <a target="_blank" href="https://github.com/domingoesteban"><img class="footericon" src="../images/icons/github-circle-logo-128.png" alt="Linkedin"/></a>
+    </div>
+  </div>
+</div>
+
+<div class="row" id="footerCopyright">
+  <div class="col-xs-12">
+    <h6 class="text-center">Copyright © 2014 Domingo Esteban</h6>
+  </div>
+</div>
+
+
+</footer>
+
+
+
+<!-- JAVASCRIPT (At the bottom for faster page loading)-->
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery.js"></script> <!-- Online version 1 -->
+<!--script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script--> <!-- Online version 2 -->
+
+<!-- ARREGLAR!!!! -->
+<!--script>window.jQuery || document.write('<script src="includes/js/jquery.js"></script>')</script--> <!-- If no online access 1 -->
+<!--script src="includes/js/jquery.js"> </script--> <!-- If no online access 2 -->
+
+<!-- Bootstrap JS -->
+<script src="../framework/js/bootstrap.js"> </script>
+
+<!-- Custom JS -->
+<script src="../includes/js/scripts.js"></script>
+
+</body>
+
+</html>
