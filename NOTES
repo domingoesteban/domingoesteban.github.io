@@ -50,14 +50,14 @@ GITHUB
 	 (REF: http://stackoverflow.com/questions/572549/difference-between-git-add-a-and-git-add  )
 
 
+HTML
+====
+
+- Custom favicon: http://www.favicon.cc
+
+
 UNIX TERMINAL
 =============
 
 - Move all except one file (or directory):
   $ mv !(carpeta) ~/carpeta
-
-
-HTML
-====
-
-- Custom favicon: http://www.favicon.cc
