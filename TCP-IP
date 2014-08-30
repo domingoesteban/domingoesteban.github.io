@@ -1,0 +1,201 @@
+INTRODUCCION A REDES TCP/IP
+===========================
+- Conjunto de reglas para comunicarse en diferentes redes (internet o locales).
+- Es un ESTANDAR: Normas revisadas por un organismo de estandarizacion que permite la conectividad y comunicacion de redes.
+- Otros protocolos en Linux: X25 y Netware.
+- 5 capas: fisico->enlace->red->transporte->aplicacion
+- Fisico: propio hardware, cable u ondas
+- Enlace: como se codifica y distribuye HLDC (MAC + Ethernet)
+- Red: enrutamiento y envio de trafico. (IP:191.255...)
+- Transporte: asigna cabeceras de transporte para ver si la comunicacion se realiza de forma correcta. TCP y UDP
+- Aplicacion: Para transmision web y correo electronico. HTTP SNMP FTP
+- tcpdump y ethereal(ahora Wireshark): programas en Linux para visualizar el flujo de la comunicacion por todos los niveles
+
+PROTOCOLO INTERNET IP
+=====================
+- Esta en la capa de red.
+- Sirve para el direccionamiento y control para que los paquetes puedan ser enrutados.
+- ENRUTAMIENTO: modo en el que viaja un paquete para que pueda llegar a su destino.
+- Para comunicar 2 ordenadores se necesita 2 identificadores unicos para identificarse.
+- Este identificador puede ser: 1) Identificador fisico, si se da en los niveles bajos de la red. 2) Identificador logico, si se da en los niveles altos de la entrega.
+- IP: identifica a un ordenador y a su propia red.
+- PAQUETE DE RED IP: unidad minima que se puede enviar en este protocolo, contiene: 1)Direccion IP de origen. 2)Direccion IP de destino. 3)Datos
+- Tiene un modelo asociado al modelo cliente-servidor
+
+ESPACIO DE DIRECCIONAMIENTO IP
+==============================
+- Una direccion IP esta representada por 4 bloques numericos entre 0 y 255: 192.168.1.98  . Dependiendo de los valores de los bloques, la red quedara divida en rangos (conjunto de maquinas que se comunican entre si)
+- RANGO: Sirve para identificar un conjunto de direcciones IP.
+- La direccion debera estar asociada con una direccion MAC.
+- Direccion MAC: identificador de la tarjeta de red
+- La tarjeta de red, es la que a bajo nivel, se encarga de transmitir todos los paquetes que se mandan o reciben.
+- $ ifconfig | grep HWaddr --> Visualizar las asociaciones IP/MAC
+- El identificador IP, expresa tambien el DIRECCIONAMIENTO, es decir a que tipo de red se corresponde cada una.
+- Una red privada comienza con 192, 172 o 10.
+- Para distinguir los tipos de redes privadas, hay diferentes clases: Clase A, clase B, C, D y E.
+- CLASE: Una categoria para clasificar una determinada IP.
+- En una red local, normalmente, hay una IP pblica asignada al router (e.g. 192.168.1.1) y otra a nuestra maquina (e.g. 192.168.1.2) 
+- En una red con coneccion a internet, se tiene una IP publica asignada a nuestro router por la compañia de servicios (e.g. 80.141.42.19), y una IP privada (e.g. 192.168.1.1) que se encuentra en el mismo rango (clase de red) que el resto de host de la red.
+- El router puede actuar como SERVIDOR DHCP, que asigna direcciones IP consecutivas a cada maquina. Por norma estan comprendidas en el rango 192.168.1.x, direcciones de clase C reservadas a las redes locales, aunque puede variar segun la topologia.
+- El router actua de GATEWAY o PUERTA DE ENLACE, dispositivo que permite unir redes con protocolos o arquitecturas diferentes traduciendo la informacion que circula por ellas de protocolo de la red de origen a la de destino, y enmascarando un conjunto de direcciones internas (varias maquinas) hacia una sola direccion externa.
+- un Gateway es Una pasarela de red, Un punto donde se produce un salto de red y Sistema para separar dos subredes.
+
+PROTOCOLO DHCP (Dynamic Host Configuration Protocol)
+====================================================
+- El S.O. puede utilizar el protocolo DHCP, en lugar de configurar la red manualmente.
+- DHCP: Un protocolo de asignación de IP y Un protocolo de red.
+- Este protocolo actua unicamente asignando de forma automatica, una direccion IP y una ruta de salida a internet por defecto.
+- $ dhclient eth0   -->  Para que el servidor asigne a la interfaz de red una direccion IP automatica.
+- Cuando el router llevan el protocolo DHCP de fabrica, el S.P. realizara una peticion al servidor DHCP quien, tras una fase de intercambio de credenciales (HandShake) asignara la direccion IP y mascara apropiada asi como las rutas y servidores DNS correctos.
+
+RESOLUCION DE DIRECCIONES IP
+============================
+- PROTOCOLO ARP: se encarga unicamente de traducir una direccion IP en una direccion MAC.
+- Esta operacion se realiza mediante el uso de una tabla ARP.
+- $ arp -a   --> Para consultar la tabla ARP
+- El comando "arp" permite hacer otras cosas, como aniadir y borrar entradas de la tabla ARP.
+- El resultado muestra la direccion IP y MAC del dispositivo para salir a internet.
+
+ENCAMINAMIENTO O ENRUTAMIENTO IP
+================================
+- El encaminamiento IP hace referencia al modo en que los paquetes enviados durante la transmision viajan y encuentran al puesto al que estan destinados.
+- Cada sistema relaiza un encaminamiento entre los puestos (redes) que lo forman. Por lo que uno de estos sistemas pueda mandar un paquete a su destino por un camino determinado.
+- Para poder realizar el enrutamiento, cada sistema autonomo dispone de unas TABLAS DE ENRUTAMIENTO, que indican a que direccion tienen que mandarse los paquetes de una red.
+- Por ejemplo un sistema que quiera enviar un paquete de una IP situado en Espana a un servidor en USA, consulta la tabla cual es el camino adecuado para llegar a el pasando por otros paises. La tabla de enrutamiento indicara en cada paso el siguiente sistema autonomo al que tiene que llegar.
+- En redes pequenas, solo se contemplan las rutas internas y cada maquina dispone de una tabla de rutas para salir a internet.
+- Si se tiene una red grande hay que aniadir nuevas rutas.
+
+INTERNAL CONTROL MESSAGE PROTOCOL
+=================================
+- Protocolo complementario al IP, se utiliza para comunicar mensajes de error en una red.
+- Se puede usar para ver si un dispositivo esta disponible o no.
+
+PROTOCOLOS DE TRANSPORTE TCP/UDP
+================================
+- Por encima de la capa IP (red), esta la capa de transporte que implementa dos protocolos TCP-UDP.
+- El PROTOCOLO TCP (Transmission Control Protocol) y las funcionalidades que aporta a la transmision son: 1)Orientacion a conexion, hay que conseguir una conexion previa de los ordenadores antes de transmitir algun dato, pa que llegue de forma ordenada y sin duplicados, y sera necesario cerrar la conexion. 2) Fiabilidad, la informacion llega de forma correcta al destino, cuando se envia un mensaje se recibe una confirmacion, si pasa cierto tiempo sin recibir nada, el cliente vuelve a enviar el mensaje.
+- El PROTOCOLO UDP (User Datagram Protocol), es 1) No orientado a conexion, no hay que establecer conexion previa con el servidor, los mensajes pueden duplicarse o llegar desordenados. 2) No fiable, pueden perderse o llegar dañados. Utiliza el protocolo IP para el transporte de los datos, se habilita un puerto de origen y un puerto de destino en la red, para habilitar un servicio en un protocolo remoto.
+
+CONFIGURACIÓN DE KERNEL PARA TCP/IP
+===================================
+- El kernel es el nucleo del S.O. y se encarga de toda la comunicacion y gestion de recursos del sistema (memoria, dispositivos, cpu, etc.)
+- Para la configuracion de red es posible modificar algunos parametros de red a traves del sistema de ficheros /proc  . El kernel deja mucha informacion de la red en este lugar, como las conexiones abiertas, la configuracion especifica de paquetes, etc.
+- $ ls /proc/
+- Se puede ver informacion en /proc/net/netstat (Ojo, no se puede editar, es info que nos da el S.O.)
+- En /proc/sys/net, hay parametros de red que si se puede cambiar.
+- Si se cambia el valor del fichero /proc/sys/net/ipv4/
+ip_forward a 1, la máquina podrá hacer forward del tráfico. Esto quiere decir que podrá reenviar paquetes que pasen por ella con el objetivo de que podamos actuar como router.
+
+INFORMACION DE RED BASICA
+=========================
+- Con $ ifconfig --> Info de los dispositivos de red
+- inetaddr: direccion IP para cada dispositivo de red.
+- Interfaz eth0, eth1, ... : Dispositivo de red.
+- DISPOSITIVO LOOPBACK, hace referencia al propio ordenador, normalmente referenciado con el nombre de ordenador localhost. Sin este dispositivo, cuando se configurase un servicio (programa de red), no podriamos hacer las pruebas en local y se necesitaria tener habilitados los servicios en otro ordenador.
+- Con $ route -->  Info de la tabla de rutas
+- $ route -n , para que no se le ponga nombres a las direcciones IP.
+- Con este comando se puede visualizar las rutas que usara el sistema para salir a internet., muestra el siguiente ordenador por el que se saldra a Internet.
+
+
+===================================
+LECCION 2: CONFIGURACIÓN HW DE RED 
+===================================
+
+DISPOSITIVOS Y PSEUDO-DISPOSITIVOS
+==================================
+- En otros Unix, los dispostivos de red tienen correspondencias en el directorio /dev
+- En Linux, no pasa esto porque los dispositivos de red se crean de forma dinamica y por lo tanto no requieren de la presencia de ficheros de dispositivos.
+- En linux, para ocultar el hardware que puede usarse en un entorno de red, TCP/IP define una interfaz a travez de la cual podemos acceder al hardware.
+- Esta ingerfaz es la misma para todos los dispositivos de hardware, y se encarga del envio y recepcion de paquetes de red.
+- En el caso de una tarjeta ethernet, la nomenclatura comienza por eth seguido del numero de interfaz.
+- Los dispositivos de red son creados automaticamente por el controlador de dispositivos mientras se inicia y localiza el hardware en el arranque del sistema. Por ejemplo, el controlador ethernet crea interfaces eth[0...n] segun vaya encontrando tarjetas ethernet.
+- Siempre se dispone del dispositivo loopback, que hace referencia a la maquina en si.
+- Hay otros dispositivos que hacen referencia a otro tipo de conexiones de internet, por ejemplo las conexiones privadas de maquina que se denominan VPN (virtual private network).
+- Para poder ver estos dispositivos se consulta el sistema de ficheros 'sysfs' en las ultimas versiones de redhat y fedora. Se trata de un sistema de ficheros virtual tipo /proc, que permite conocer informacion de los dispositivos ubicados en el directorio /sys.
+- $ cd /sys
+
+INTERFACES DE RED
+=================
+- INTERFAZ DE RED: La forma de referenciar a un dispositivo de red
+- ifconfig puede usarse tambien para cambiar informacion y parametros de red. Ver $man ifconfig.
+- ifconfig permite crear alias de dispositivos, los alias permiten tener mas de una direccion IP asignada a una tarjeta de red. 
+- $ ifconfig eth0:0 192.168.1.165
+- Para operaciones mas avanzadas, instalar ethtool o mii-tool, para manipular parametros de la interfaz de red.
+- Para instalar programas en fedora, usar yum.
+- Para instalar programas en SUSE, usar yast2.
+
+CONFIGURACION DE RED
+====================
+- Configurar una interfaz de red es el proceso de asignar direcciones apropiadas a un dispositivo y asignar valores adecuados a otros parametros configurables.
+- La informacion que se necesita conocer antes de configurar una red es:
+1) La direccion IP. (Si solo se quiere configurar el modo loopback, para acceder al propio ordenador, la direccion sera 172.0.0.1)
+2) La MASCARA DE RED. Determina en que parte de la direccion IP se encuentra el numero de subred, y en que parte especifica el host en la subred. La mascara de red es un patron de bits, que al ser superpuesto a una direccion de la red, le dira en que subred se encuentra esa direccion. Para subredes de clase C, se usa la mascara 255.255.255.0, para clase B se usa 255.255.0.0. El codigo de NET-2 selecciona una mascara que asume que no hay una subred.
+3) La DIRECCION DE RED. Se obtiene madiente una operacion logica de adicion o AND entre su direccion IP y la mascara. e.g. (IP)192.168.1.165 +(Mask)255.255.255.0=192.168.1.0   e.g.2, (IP)192.168.1.165 +(Mask)255.255.0.0=192.168.0.0
+4) La direccion de BROADCAST, se utiliza para lanzar paquetes que deben recibir todas las maquinas de la subred. Si el host de la subred se obtiene mediante el ultimo octeto de la direccion IP (osea la mascara es la 255.255.255.0), su direccion de boradcast sera la que se obtiene la de aplicar la operacion logica OR entre su direccion de red y 0.0.0.255. E.g., si la IP es 128.253.154.32, la mascara 255.255.255.0, entonces la direccion de broadcast es 128.253.154.255. Algunas subredes estan configuradas para usar su direccion de red como direccion de broadcast. El broadcast no es util en configuraccion loopback.
+- En IPV6 multifusion (multicast) ya no hay nodos.
+5) La direccion de PASARELA O GATEWAY. Un gateway es una maquina que se encuentra a la vez en dos redes direntes (direcciones IP diferentes), y reparte paquetes entre ellas. Si una red esta aislada, o el ordenador se encuentra con una configuracion local, no se necesita la direccion de pasarela. Suele terminar en 1.
+- ifconfig = interface configure
+- e.g., poner direccion IP 192.168.1.10 y como gateway 192.168.1.1. : 1) # ifconfig eth0 192.268.1.10 2) # route add default gw 192.168.1.1 (este comando aniade el gateway por defecto)
+- probar si se tiene internet, con $ ping google.com
+OJO: $ --> normal user.  # --> superuser
+
+CONFIGURACION DEL RESOLVER
+==========================
+- SERVIDOR DNS (Domain Name System), un servidor DNS sera el encargado de decirnos a que direccion IP corresponde un nombre.
+- RESOLVER, configura la resolucion de nombres a direcciones IP. Solo se necesita saber a que servidor de nombres preguntar por un nombre para que devuelva una direccion IP.
+- Se necesita saber a que dominio pertenecen nuestras maquinas, el software de resolucion de nombres proporciona el servicio de traduccion consultando al DNS, por lo que se debe de conocer la direccion IP del servidor de nombres o NAMESERVER local que se va a usar.
+- Para ello se debe editar el fichero '/etc/resolv.config', y las tres palabras: DOMAIN, SEARCH y NAMESERVER.
+- Los servidores de OpenDNS aparte de ser utiles para resolver nombres, nos preveinen de algunos problemas de seguridad asociados al protocolo DNS.
+
+PRUEBAS DE CONECTIVIDAD
+=======================
+- $ ping : envia al ordenador un paquete de datos que en caso de recibirse adecuadamente, devolvera de inmediato.
+- Puede existir firewalls que impidan comprobar la conectividad
+- El comando telnet, tambien sirve para probar la conectividad.
+- traceroute : Muestra todos los servidores u ordenadores por donde pasa un paquete de informacion hasta alcanzar su destino.
+- $ traceroute google.es
+
+
+========================================
+LECCION 3: SERVICIOS Y CONTROL DE ACCESO
+======================================== 
+
+INTRODUCCIÓN A XINETD (eXtended InterNET Daemon)
+================================================
+- SERVICIO: aquel programa o proceso que esta en ejecucion en el esistema para realizar una determinada tarea.
+- e.g., el programa telnet se dedica a 'escuchar' las conecciones de red y habilitar asi la ejecucion de comandos remotos en un sistema, usa el puerto 23.
+- PUERTO: Es la forma de indicar a que servicio queremos acceder en una maquina.
+- CONTROL DE ACCESO: Es el mecanismo con el que contamos para decidir si permitimos o denegamos a un ordenador de la red conectarse a uno de estos servicios.
+- xinetd (antes inetd), es un demonio del sistema que se encarga de la ejecucion de diferetes procesos o servicios. Viene por defecto en Redhat o fedora.
+- DEMONIO> un proceso que esta activo todo el tiempo y cuyo padre es 'init', el proceso del que dependen todos los demas una vez que se ha iniciado el sistema.
+- Se accede a la configuracion de xinetd en /etc/xinetd.conf, y aniadir nuevos servicios en /etc/xinetd.d
+- Los servicios de xineetd no son utiles en el sistema y suelen estar desactivados por recomendaciones de seguridad, aun asi se usa para aniadir nuevos servicios que no puedan ejecutarse solos.cd
+
+CONFIGURACION DE XINETD
+=======================
+- Una vez activado cualquiera de los servicios de xited sera necesario reiniciar el propio servicio xinetd. Se activan asignando a disable el valor no.
+- Para reiniciar:
+# /etc/init.d/xinetd restart     o
+# service xinetd restart
+
+CONTROL DE ACCESO
+=================
+- Una vez activado un servicio de xinetd se debe definir un determinado control de acceso, esto es posible mediante las ACL.
+- una ACL (access control list), es una lista de control de acceso que permite o deniega el acceso a servicios en funcion del nombre de una maquina o una direccion IP.
+- e.g. para denegar a un determinado rango de direcciones 10.0.0.0/24, se coloca en la directiva 'no_access' de /etc/xinetd/SERVICIO -> no_access = 10.0.1.0/24
+- Tambien se puede definir cuando queremos que se pueda conectar a nuestro servicio en funcion de un determinado intervalo horario con el uso de la directiva 'access_times', access_times = 09:45-16:15
+
+MONITORIZACION DE ACTIVIDAD
+===========================
+- xinetd proporciona mecanismos de registro que permite conocer la actividad de usuario.
+- se puede definir reglas que registren el resutado de un intento de conexion.
+- Por ejemplo, se puede obtener la hora y el identificador de usuario en caso de exito y el identicador de usuario en caso de fallo. Seria: 
+log_on_success += PID HOST EXIT
+log_on_failure += USERID
+
+ANIADIR SERVICIO XINETD
+=======================
+- ir a /etc/xinetd.d
+- # cp echo newservice
+- Se agrega, edita las directivas
+- Se reinicia xinetd: # /etc/init.d/xinetd restart
