@@ -61,3 +61,6 @@ UNIX TERMINAL
 
 - Move all except one file (or directory):
   $ mv !(carpeta) ~/carpeta
+
+
+
