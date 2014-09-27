@@ -303,5 +303,16 @@
 
 /* Large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
+  .custom-tutorials-block .items .tutorial-item .item-hover .item-info,
+  .custom-tutorials-block .items .tutorial-item .item-img
+   {
+    width: 350px;
+    height: 186px;
+  }
 
+  .custom-tutorials-block .items .tutorial-item {
+      width: 350px;
+      height: 186px;
+      position: relative;
+  }
 }
