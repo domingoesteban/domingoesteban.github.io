@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Linux - Domingo Esteban</title>
+  <meta name="keywords" content="Domingo, Esteban, Cabala, Robotics, Peru, España, Madrid, Arequipa, Linux, Networks, TCP-IP, Apache">
+  <meta name="description" content="Tutorial de Linux - Domingo Esteban">
+  <meta name="author" content="Domingo Esteban">
+
+  <!-- Mobile viewport optimized -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+  <!--meta name="viewport" content="width=device-width, initial-scale=1"-->
+
+  <!-- Bootstrap CSS -->
+  <!-- <link rel="stylesheet" href="../framework/css/bootstrap.css"> -->
+<link href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' rel='stylesheet'/>
+<link href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css' rel='stylesheet'/>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../../includes/css/styles.css"/>
+  <link rel="stylesheet" href="../../includes/css/tutorials-styles.css"/>
+
+  <!-- Including Modernizr (Before any other Javascript) -->
+
+  <!-- Favicon -->
+  <link href="../images/icons/robot-favicon.ico" rel="icon" type="image/x-icon" />
+
+</head>
+
+<body>
+
+
+<section class="tutorial-block-intro" style="background-color:#F9F7EB;">
+  <div class="container">
+    <h1 align="center">Linux</h1>
+
+    <article>
+
+      <h1>Introduccion</h1>
+        <p>
+          <b>Linux</b>, hace referencia a un sistema operativo propiamente dicho y al nombre de un núcleo de una gran cantidad de colección de sistemas.
+        </p>
+
+        <p>
+          <b>GNU/Linux:</b> Colecciones de software que suelen contener grandes cantidades de paquetes de software y herramientas además del núcleo.
+        </p>
+
+        <h2>Distribuciones de Linux </h2>
+          <p>
+            Las distribuciones son desarrollos completos con un núcleo en común.
+          </p>
+
+        <h2>Kernel de Linux</h2>
+          <p>
+            El kernel o núcleo de Linux es el encargado de que el software y el hardware puedan trabajar juntos. Las funciones más importantes del kernel son:
+            <ul>
+              <li>Administración de la memoria para todos los programas y procesos en ejecución.</li>
+              <li>Administración del tiempo de procesado que los programas y acciones en ejecución utilizan.</li>
+              <li>Permitir el acceso a los periféricos y elementos del ordenador.</li>
+            </ul>
+          </p>
+          <p>
+            Hay dos tipos de versiones del núcleo:
+            <ul>
+              <li><b>Versión de producción:</b> Es la versión estable y resultado final de las versiones de desarrollo o experimentales.</li>
+              <li><b>Versión de desarrollo:</b> (o versión experimental). Utilizado para programar, comprobar y verificar nuevas características, correcciones, etc. Estos núcleos suelen presentar alguna inestabilidad.</li>
+            </ul>
+          </p>
+
+        <h2>Fedora Core</h2>
+          <p>
+            El proyecto Fedora, que produce y mantiene Fedora Core, es una colaboración entre Red Hat Inc. y la comunidad software libre y codigo abierto (FOSS).
+          </p>
+
+          <p>
+            Su principal objetivo es conseguir un sistema operativo de propósito general, basado exclusivamente en software libre con el apoyo de la comunidad Linux.  
+          </p>
+          <p>
+            Se llama Core, porque incluye sólo el núcleo, las partes más básicas del sistema operativo. Para incluir nuevo software, hay que incluir los repositorios.
+          </p>
+          <p>
+            Los <b>repositorios</b> son los lugares de los cuales se puede descargar los paquetes de software para su posterior instalación. Con el fin de descargar, descomprimir e instalar los paquetes se utiliza <b>apt-get</b>, <b>yum</b>, <b>aptitude</b>, entre otros.
+          </p>
+        
+        <h2>Proceso de instalación</h2>
+          <p>
+            Cuando se formatea el disco duro y se reparticiona para ubicar el sistema operativo, lo hace con una partición especial: <b>swap</b>, que opera fundamentalmente sobre la carga del sistema.
+          </p>
+          <p>
+            Para poder realizar la partición, se suele utilizar programas especiales, como Partition Magic.
+          </p>
+          <p>
+            El proceso de instalación de fedora se compone de dos partes: arranque desde el CD-ROM y arranque de Fedora.
+          </p>
+
+      <h1>Redes en Linux</h1>
+
+        <h2>TCP/IP en Linux </h2>
+
+        <h2>Configuración HW de red</h2>
+
+        <h2>Servicios y control de acceso</h2>
+          <h3>Niveles de ejecución</h3>
+          <p>
+            Un <b>nivel de ejecución</b> o runlevel, es cada uno de los estados de ejecución (modos de operación) en que se puede encontrar el sistema operativo Linux. Según la base estándard para Linux (LSB), debe haber, en general, 7 niveles niveles de ejecución:
+            <ul style="list-style-type: none;">
+              <li>(0) <b>Halt:</b> (Parada) Apaga el sistema.</li>
+              <li>(1) <b>Single-user mode:</b> (Monousuario) Modo texto usuario único root para tareas administrativas.</li>
+              <li>(2) <b>Multi-user mode:</b> Multiusuario sin soporte de red, usuario-definible. No configura las interfaces de red y no exporta los servicios de red.</li>
+              <li>(3) <b>Multi-user mode with networking:</b> Multiusuario con soporte de red, modo texto multiusuario. Comienza el sistema de forma normal.</li>
+              <li>(4) <b>Not used / User-definable:</b> Sin usar (usuario-definible). Para propósitos especiales.</li>
+              <li>(5) <b>Multi-user with display manager:</b> Multiusuario en modo gráfico (con pantalla de inicio de sesión basada en X). Al igual que el nivel de ejecución 3, pero con gestor de pantalla.</li>
+              <li>(6) <b>Reboot:</b> Reinicia el sistema</li>
+            </ul>
+          </p>
+          <p>
+            El nivel de ejecución por defecto para el sistema está listado en el fichero <b><code>/etc/inittab</code></b>
+          </p>
+
+          <h3>Configuración de Servicios</h3>
+          <p>
+            En Linux existen diferentes servicios de arranque. Estos servicios tienen procedimientos de inicio y parada que permiten su trabajo sin necesidad de supervisión, y se ejecutan a través de <b>scripts</b> que se encuentran generalmente en el directorio <b><code>/etc/init.d</code></b>
+          </p>
+          <p>
+            En el caso de Fedora, se puede utizar la herramienta <b>redhat-config-services</b> que permite activar o desactivar estos servicios.
+          </p>
+          <p>
+            Para poder activar y desactivar estos servicios, se puede utilizar el comando <b><code>chkconfig</code></b>. Utilizando el argumento -list, es decir <b><code>chklist -list</code></b>, se obtiene na lista de los servicios y si están iniciados o detenidos para cada nivel de ejecución. Al final de la lista, se enumeran los servicios manejados por xinetd.
+          </p>
+
+    </article>
+  </div>
+</section>
+
+
+<section class="tutorial-block-intro" style="background-color:#F9F7EB;">
+  <div class="container">
+    <h2>Reference List</h2>
+    <ol>
+      <li><cite id="refLinux"> Linux</cite></li>
+    </ol>
+  </div>
+</section>
+
+<footer id="footerSocialMedia">
+  <div class="container">
+    <div class="row center-block">
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
+        <a target="_blank" href="https://www.linkedin.com/in/domingoesteban"><img class="footericon" src="../../images/icons/linkedin2-circle-logo-128.png" alt="Linkedin"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
+        <a target="_blank" href="https://github.com/domingoesteban"><img class="footericon" src="../../images/icons/github2-circle-logo-128.png" alt="Github"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
+        <a target="_blank" href="https://twitter.com/domingoesteban"><img class="footericon" src="../../images/icons/twitter2-circle-logo-128.png" alt="Twitter"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
+        <a target="_blank" href="https://google.com/+DomingoEsteban"><img class="footericon" src="../../images/icons/googleplus2-circle-logo-128.png" alt="Google Plus"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
+        <a target="_blank" href="https://www.youtube.com/user/domingoestebanc"><img class="footericon" src="../../images/icons/youtube2-circle-logo-128.png" alt="Youtube"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
+        <a target="_blank" href="https://www.facebook.com/domingoesteban"><img class="footericon" src="../../images/icons/facebook2-circle-logo-128.png" alt="Facebook"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
+        <a target="_blank" href="https://instagram.com/domingoesteban"><img class="footericon" src="../../images/icons/instagram2-circle-logo-128.png" alt="Instagram"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
+        <a target="_blank" href="https://vine.co/domingoesteban"><img class="footericon" src="../../images/icons/vine-circle-logo-128.png" alt="Vine"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
+        <a target="_blank" href="https://vimeo.com/domingoesteban"><img class="footericon" src="../../images/icons/vimeo-circle-logo-128.png" alt="Vimeo"/></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-12" id="footerCopyright">
+    <h6 class="text-center">Copyright © 2014 Domingo Esteban</h6>
+    <!-- <p class="text-center"><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> </p> -->
+  </div>
+
+</footer>
+
+<!-- JAVASCRIPT (At the bottom for faster page loading)-->
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery.js"></script> <!-- Online version 1 -->
+<!--script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script--> <!-- Online version 2 -->
+
+<!-- ARREGLAR!!!! -->
+<!--script>window.jQuery || document.write('<script src="includes/js/jquery.js"></script>')</script--> <!-- If no online access 1 -->
+<!--script src="includes/js/jquery.js"> </script--> <!-- If no online access 2 -->
+
+<!-- Bootstrap JS -->
+<script src="../framework/js/bootstrap.js"> </script>
+
+<!-- Custom JS -->
+<script src="../includes/js/scripts.js"></script>
+
+</body>
+
+<!-- PAGINA PARA FORMATO DE REFERENCIAS: http://www.york.ac.uk/integrity/ieee.html -->
+
+</html> 
