@@ -142,8 +142,36 @@
 
       <br/>
       <li>There are other ways to organize the patterns. Some patterns are often used together. Some patterns are alternatives. Some patterns result in similar designs even though the patterns have different intents. How they reference each other in their "related patterns" sections.</li> 
-
       </ul>
+
+      <h2> How design patterns solve design problems </h2>
+
+        <h3>Finding appropriate objects</h3>
+        <ul>
+          <li>An object packages both data and the procedures that data. The procedures are typically called <b>methods</b>. An object performs an operation when it receives a request (or <b>message</b>) form a <b>client</b>.</li>
+          <li>Requests are the only way to get an object to execute an operation. Operations are the only way to change object's internal data. Because of these restrictions, the object's internal state is said to be encapsulated.</li>
+          <li>The hard part about OO design is descomposing a system into objects. There are many different approaches to do this, as the analysis model.</li>
+          <li>Design patterns help you identify less-obvious abstractions and the objects that can capture them. For example, objects that represent a process or algorithm don't occur in nature, yet they are a crucial part of flexible designs.</li>
+          <li>The composite (183) pattern introduces an abstraction for treating objects uniformely that doesn't have a physical counterpart.</li>
+          <li>The strategy (349) pattern describes how to implement interchangeable families of algorithms.</li>
+          <li>The state (338) pattern represents each state of an entiry as an object.</li>
+        </ul>
+
+        <h3>Determining object granularity</h3>
+        <ul>
+          <li>Objects represent everything down to the hardware or all the way up to entire applications. How we decide what should be an object?</li>
+          <li>The Facade (208) pattern describes how to represent complete subsystems as objects.</li>
+          <li>The Flyweight (218) pattern describes how to support huge humbers of objects at the finest granularities.</li>
+          <li>Abstract factory (99) and Builder (110) yield objects whose only responsibilities are creating other objects.</li>
+          <li>Visitors (366) and Command (263) yield objects whose only responsibilities are to implement a request on another object or group of objects.</li>
+        </ul>
+
+        <h3>Specifying object interfaces</h3>
+        <ul>
+          <li>Every operation declared by an object specifies the operation's name, the objects it takes as parameters, and the operation's return value. This is known as the operation's signature.</li>
+          <li>The set of all signatures defined by an object's operations is called the interface to the object.</li>
+          <li>A type is a name used to denote a particular interface. An object may have many types, and widely diferent objects can share a type.</li>
+        </ul>
     </article>
   </div>
 </section>
@@ -152,11 +180,8 @@
 <section class="tutorial-block-intro" style="background-color:#F9F7EB;">
   <div class="container">
     <h2>Reference List</h2>
-
     <ol>
-      <li><cite id="refWikipediaLinux"> Wikipedia. “Linux”, Wikipedia.org. [Online]. Available  <a href="http://en.wikipedia.org/wiki/Linux" target="_blank">http://en.wikipedia.org/wiki/Linux</a> [Last Modified: 26 September 2014 at 03:01].</cite></li>
-
-      <li><cite id="refKuppensXenomai"> H. Kuppens (2011, Aug. 22). “Real-time Linux (Xenomai). Exercise #1: The Basics of Real-Time Linux”. BBC News [Online]. Available: <a href="http://www.cs.ru.nl/lab/xenomai/exercises/ex01/Exercise-1.html" target="_blank">http://www.cs.ru.nl/lab/xenomai/exercises/ex01/Exercise-1.html</a> [Accessed: Sep. 26, 2014].</cite></li>
+      <li><cite id="refGoFBook"> E. Gamma, et al., Design Patterns: Elements of Reusable Object-Oriented Software. Boston, MA: Addison-Wesley Longman Publishing Co., Inc., 2000.</cite></li>
     </ol>
   </div>
 </section>
