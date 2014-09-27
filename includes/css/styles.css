@@ -82,7 +82,22 @@ ul.unstyled {
     width: 25px;
   }
 
-/* Media queries */
+@media (min-width: 768px) {
+  .footericon {
+    margin: 10px;
+    height: 40px;
+    width: 40px;
+  }
+}
+
+@media (min-width: 992px) {
+  .footericon {
+    margin: 10px;
+    height: 60px;
+    width: 60px;
+  }
+}
+
 @media (min-width: 1200px) {
   .footericon {
     margin: 10px;

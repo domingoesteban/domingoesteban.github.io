@@ -2,91 +2,263 @@
     Custom Tutorials Block
     ----------------------------------- */
 
-/* Padding */
+/* Padding
+  ========= */
+
+/* Extra small devices (phones, less than 768px) */
 .custom-tutorials-block {
-  padding: 150px 0;
-}
-@media(max-width: 450px){
-    .custom-tutorials-block {
-        padding: 100px 0;
-    }
+  padding-top: 80px;
+  padding-bottom: 20px;
 }
 
-/* Text */
-.custom-tutorials-block h1 {
-  font-family: proxima-nova, 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  color: #1b1f23;
-  text-align: center;
-  font-size: 40px;
-  line-height: 54px;
-  margin: 0 0 73px 0;
-  letter-spacing: -0.05em;
-}
-@media(max-width: 450px){
-    .custom-tutorials-block h1{
-        font-size: 35px;
-        margin: 0 0 43px 0;
-    }
-}
-
-.custom-tutorials-block .text-block {
-  padding-bottom: 40px;
-}
-
-.custom-tutorials-block p {
-  font-size: 20px;
-  line-height: 36px;
-  margin: 0 0 35px 0;
-  color: #676767;
-}
-
-
-.custom-tutorials-block .items {
-  text-align: center;
-}
-.custom-tutorials-block .items .item {
-  margin-bottom: 60px;
-}
-@media (min-width: 991px) {
-/*   .custom-tutorials-block .items .item {
-width: 300px;
-padding-left: 0;
-padding-right: 0;
-margin-right: 20px;
-} */
-  .custom-tutorials-block .items .item:last-child,
-  .custom-tutorials-block .items .item.no-margin {
-    margin-right: 0;
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) { 
+  .custom-tutorials-block {
+  padding-top: 100px;
+  padding-bottom: 20px;
   }
 }
 
-@media (max-width: 480px) {
-  .custom-tutorials-block .items .item {
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) { 
+  .custom-tutorials-block {
+  padding-top: 100px;
+  padding-bottom: 20px;
+  }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .custom-tutorials-block {
+  padding-top: 100px;
+  padding-bottom: 20px;
+  }
+}
+
+
+
+/* Text
+  ====== */
+
+/* Extra small devices (phones, less than 768px) */
+  .custom-tutorials-block h1 {
+    font-family: proxima-nova, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #1b1f23;
+    text-align: center;
+    font-size: 35px;
+    line-height: 35px;
+    margin: 0 0 25px 0;
+    letter-spacing: -0.05em;
+
+    color: yellow;
+  }
+
+  .custom-tutorials-block .text-block {
+    /* padding-bottom: 40px; */
+  }
+
+  .custom-tutorials-block p {
+    text-align: justify;
+    font-size: 20px;
+    line-height: 35px;
+    margin: 0 0 25px 0;
+    color: #676767;
+  }
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) { 
+  .custom-tutorials-block h1 {
+    font-size: 45px;
+    line-height: 55px;
+    margin: 0 0 30px 0;
+    letter-spacing: -0.05em;
+
+    color: blue;
+  }
+
+  .custom-tutorials-block .text-block {
+    padding-bottom: 40px;
+  }
+
+  .custom-tutorials-block p {
+    font-size: 23px;
+    line-height: 40px;
+    margin: 0 0 30px 0;
+  }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) { 
+  .custom-tutorials-block h1 {
+    font-size: 45px;
+    line-height: 55px;
+    margin: 0 0 30px 0;
+    letter-spacing: -0.05em;
+
+    color: green;
+  }
+
+  .custom-tutorials-block .text-block {
+    padding-bottom: 40px;
+  }
+
+  .custom-tutorials-block p {
+    font-size: 23px;
+    line-height: 40px;
+    margin: 0 0 30px 0;
+  }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .custom-tutorials-block h1 {
+    font-size: 45px;
+    line-height: 55px;
+    margin: 0 0 30px 0;
+    letter-spacing: -0.05em;
+
+    color: red;
+  }
+
+  .custom-tutorials-block .text-block {
+    padding-bottom: 40px;
+  }
+
+  .custom-tutorials-block p {
+    font-size: 23px;
+    line-height: 40px;
+    margin: 0 0 30px 0;
+  }
+}
+
+
+
+
+
+
+
+
+/* Tutorial Items
+  ================ */
+
+/* Extra small devices (phones, less than 768px) */
+  .custom-tutorials-block .items {
+    text-align: center;
+  }
+
+  .custom-tutorials-block .items .tutorial-info {
+    font-size: 16px;
+    line-height: 27px;
+    /* margin-top: 30px; */
+    text-align: center;
+    color: #676767;
+    margin-bottom: 20px;
+  }
+
+  .custom-tutorials-block .items .tutorial-info .name {
+    margin-top: 10px;
+    font-size: 25px;
+    line-height: 32px;
+    color: #1b1f23;
+    min-height: 40px;
+  }
+   
+  .custom-tutorials-block .items .tutorial-item .item-hover .item-info,
+  .custom-tutorials-block .items .tutorial-item .item-img
+   {
+    width: 240px;
+    height: 128px;
+  }
+
+  .custom-tutorials-block .items .tutorial-item {
+      width: 240px;
+      height: 128px;
+      position: relative;
+  }
+
+  .custom-tutorials-block .items .tutorial-item .item-hover,
+  .custom-tutorials-block .items .tutorial-item .item-img
+   {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+  }
+
+  .custom-tutorials-block .items .tutorial-item .item-img {
+    background-color:#7a548f;
+  }
+
+  .custom-tutorials-block .items .tutorial-item .item-img img {
+    height: 100%;
     width: 100%;
   }
-}
-.custom-tutorials-block .items .item > * {
-  width: 100%;
-}
-.custom-tutorials-block .items .item .tutorial-image img {
-  width: 100%;
-}
-.custom-tutorials-block .items .item .info {
-  font-size: 16px;
-  line-height: 27px;
-  margin-top: 30px;
-  text-align: center;
-  color: #676767;
-}
-.custom-tutorials-block .items .item .name {
-  font-size: 25px;
-  line-height: 32px;
-  color: #1b1f23;
-  min-height: 40px;
-}
 
 
-/* Show-more */
+  .custom-tutorials-block .items .tutorial-item .item-hover { 
+    z-index: 10;  
+    -webkit-transition: all 300ms ease-out;
+    -moz-transition: all 300ms ease-out;
+    -o-transition: all 300ms ease-out;
+    transition: all 300ms ease-out; 
+    opacity:0;
+    cursor:pointer;           
+    display:block;
+    text-decoration:none;
+    text-align:center;
+  }
+
+  .custom-tutorials-block .items .tutorial-item .item-hover:hover {
+    opacity:1;
+  }
+
+  .item-hover .item-info {
+    color:#ffffff;
+    display:table-cell;
+    vertical-align:middle;
+    position:relative;
+    z-index:5;                  
+  }
+
+
+  .item-hover .item-info .headline {
+    font-size:20px;         
+  }
+  
+  .item-hover .item-info .line {
+     height:1px;
+     width:0%;
+     margin:15px auto;
+     background-color:#ffffff;
+    -webkit-transition: all 500ms ease-out;
+    -moz-transition: all 500ms ease-out;
+    -o-transition: all 500ms ease-out;
+    transition: all 500ms ease-out;
+  }
+  
+  .item-hover:hover .item-info  .line {
+    width:40%;
+  }
+
+  .item-hover .item-info .abstract {
+    font-size:12px;
+  }
+
+  .custom-tutorials-block .items .tutorial-item .item-hover .mask {
+    width: 100%;
+    height: 100%;
+    position:absolute;
+    top:0;
+    left:0; 
+    background-color:#000;
+    filter: alpha(opacity=50);
+    opacity:0.5;
+  }
+
+
+
+/*   Show-more  */
 .custom-tutorials-block .show_more {
   font-size: 25px;
   line-height: 32px;
@@ -107,4 +279,29 @@ margin-right: 20px;
 
 .custom-tutorials-block .hidden-box {
   display: none;
+}
+
+
+
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) { 
+/*   .custom-tutorials-block .items .item {
+  margin-bottom: 20px;
+  position: relative;
+} */
+}
+
+
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) { 
+
+}
+
+
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+
 }
