@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Domingo Esteban - Home</title>
-  <meta name="keywords" content="Domingo, Esteban, Cabala, Robotics, Peru, Spain, Madrid, Arequipa">
-  <meta name="description" content="Personal webpage of Domingo Esteban">
+  <title>Design Patterns Tutorial - Domingo Esteban</title>
+  <meta name="keywords" content="Domingo, Esteban, Cabala, Robotics, Peru, Spain, Madrid, Arequipa, Design, Patterns, GoF">
+  <meta name="description" content="Design Patterns Tutorial - Domingo Esteban">
   <meta name="author" content="Domingo Esteban">
 
   <!-- Mobile viewport optimized -->
@@ -12,139 +12,183 @@
   <!--meta name="viewport" content="width=device-width, initial-scale=1"-->
 
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="../../framework/css/bootstrap.css"/>
+  <!-- <link rel="stylesheet" href="../framework/css/bootstrap.css"> -->
+<link href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' rel='stylesheet'/>
+<link href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css' rel='stylesheet'/>
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="../../includes/css/styles.css"/>
+  <link rel="stylesheet" href="../../includes/css/tutorials-styles.css"/>
 
   <!-- Including Modernizr (Before any other Javascript) -->
 
   <!-- Favicon -->
-  <link href="../../images/icons/robot-favicon.ico" rel="icon" type="image/x-icon" />
+  <link href="../images/icons/robot-favicon.ico" rel="icon" type="image/x-icon" />
 
 </head>
 
-
 <body>
 
-<div class="container" id="main">
 
-  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="mainnavigationbar">
-    <div class="container-fluid">
-      
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainnavbar-responsive">
-          <span class="sr-only"> Toggle Navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a href="index.html" class="navbar-brand">Domingo Esteban</a>
-      </div>
-
-
-      <div class="collapse navbar-collapse" id="mainnavbar-responsive">
-        <ul class="nav navbar-nav pull-left" >
-          <li class="active"><a href="#"><span class="glyphicon glyphicon-home"></span> Home </a></li>
-
-          <li><a href="robotics.html"><span class="glyphicon glyphicon-hdd"></span> Robotics </a></li>
-
-          <li><a href="cv.html" class="mytooltip" title="Curriculum Vitae" data-placement="bottom"><span class="glyphicon glyphicon-list-alt"></span> CV </a></li>
-
-          <li><a href="//blog.domingoesteban.com"><span class="glyphicon glyphicon-pencil"></span> Blog </a></li>
-
-          <li><a href="bio.html"><span class="glyphicon glyphicon-fire"></span> Bio </a></li>
-
-          <li><a href="#contactModal" data-toggle="modal" data-target="#contactModal"><span class="glyphicon glyphicon-user"></span> Contact </a></li>
-
-          <!--li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Desplegar <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Link 1</a></li>
-              <li><a href="#">Link 2</a></li>
-              <li><a href="#">Link 3</a></li>
-              <li><a href="#footer">Link 4</a></li>
-              <li><a href="#figura">Link 5</a></li>
-            </ul>
-          </li-->
-        </ul>
- <!--        <ul class="nav navbar-nav pull-right">
-          <li><a href="#" class="mytooltip" title="Search" data-placement="bottom"><span class="glyphicon glyphicon-search"></span></a>
-         </li>
-       </ul> -->
-      </div>
-
-    </div>
-  </nav> <!-- end #mainnavigationbar -->
-</div> <!-- end #main container -->
-
-
-<div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content" id="contactModalContent">
-      <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-          <h4 class="modal-title text-center" id="contactModalLabel">Contact info</h4>
-      </div>
-      <div class="modal-body">
-        <ul class="unstyled text-center">
-          <li> <b><span class="glyphicon glyphicon-phone"></span> Mobile / Cell phone: </b><br/> +34 602 58 27 80</li>
-          <hr style="width:20px"/>
-          <li> <img class="contactModalIcon" src="images/icons/skype-circle-logo-white-128.png" alt="Skype"/> <b>Skype ID:</b><br/> domingoesteban</li>
-        </ul>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="jumbotron" id="jumboIndexRobotics">
+<section class="tutorial-block-intro" style="background-color:#F9F7EB;">
   <div class="container">
-    <div class="col-sm-6 hidden-xs">
-      <img id="jumboIndexRoboticsImage" src="images/index/domingo-principal2.jpg" alt="DomingoEsteban"/>  
-    </div>
-    <div id="jumboIndexRoboticsText" class="col-xs-12 col-sm-6">
-      <h1 class="text-center">My work in Robotics</h1>
-      <p> I'm an MSc in Robotics and Automation. My research topics are: motion planning, robot simulation, robot learning, autonomous mobile robots, humanoid robots, ... </p>
-      <p class="text-right"><a href="robotics.html" class="btn btn-success btn-lg" role="button">View more</a></p>
-    </div>
-  </div>
-</div>
+    <h1 align="center">Design Patterns (Gang of Four)</h1>
 
+    <article>
+
+      <h1>Introduction</h1>
+
+      <ul>
+      <li>A pattern has 4 essential elements:</li>
+        <ul>
+          <li><b>Pattern Name:</b> a handle we can use to describe a design problem, its solutions, and consequences in a word or two.</li>
+          <li><b>Problem:</b> the problem describes when to apply the pattern.</li>
+          <li><b>Solution:</b> Describes the elements that make up (maquillar) the design, their relationships, responsibilities, and collaborations.</li>
+          <li><b>Consequences:</b> The results and trade-offs (balance, compromiso entre dos caracteristicas deseables pero incompatibles) of applying the pattern. It includes: space, time trade-offs, language-implementation, system's flexibilidy, extensibility and portability.</li>
+        </ul> 
+
+      <br/>
+      <li> The design patters (in the book) are descriptions of communicating objects and classes that are customized to solve a general design problem in a particular context. </li>
+      
+      <br/>
+      <li>The Model/View/Controller (MVC) triad (triada) of classes is used to build user interfaces in Smalltalk-80. MVC consists of 3 kinds of objects:</li>
+        <ul>
+          <li>The Model is the application object</li>
+          <li>The View is its screen presentation</li>
+          <li>The Controller defines the way the user interface reacts to user input.</li>
+        </ul>
+      <li>The MVC pattern uses some GoF patterns.</li>
+
+      <br/>
+      <li>The design patterns in the GoF book are described in a format with these sections: Pattern name and classification, Intent(intención), Also known as, Motivation, Applicability, Structure, Participants, Collaborations, Consequences, Implementation, Sample code, Known uses, Related patterns.</li>
+
+      <br/>
+      <li>Design patterns classification: 2 criteria -> Purpose and Scope (Ver tabla en fichero design_patterns_classification.xml)</li>
+        <ul>
+          <b>Purpose:</b> reflects what a pattern does
+            <ul>
+              <li><b>Creational p.:</b> concern the process of object creation.</li>
+              <li><b>Structural p.:</b> deal with the composition of classes or objects.</li>
+              <li><b>Behavioral p.:</b> characterize the ways in which classes or objects interact and distribute responsability.</li>
+            </ul>
+
+          <b>Scope:</b> specifies whether the pattern applies primarily to classes or objects.
+            <ul>
+              <li><b>Class p.:</b> deal with relationships between classes and their subclasses. These relationshups are stablished through inheritance, so they are static-fixed at compile-time.</li>
+              <li><b>Object p.:</b> deal with object relationships, which can be changed at run-time an are more dynamic.</li>
+            </ul>
+        </ul>
+
+        <br/>
+        <table class="table table-bordered text-center">
+          <tr>
+            <th></th>
+            <th>Creational</th>
+            <th>Structural</th>    
+            <th>Behavioral</th>
+          </tr>
+          <tr>
+            <th>
+              Class
+            </th>
+            <td>
+              <p>Factory method (121)</p>
+            </td>
+            <td>
+              <p>Adapter (157)</p>
+            </td>
+            <td>
+              <p>Interpreter (274)</p>
+              <p>Template method (360)</p>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Object
+            </th>
+            <td>
+              <p>Abstract factory (99)</p>
+              <p>Builder (110)</p>
+              <p>Prototype (133)</p>
+              <p>Singleton (144)</p>
+            </td>
+            <td>
+              <p>Adapter (127)</p>
+              <p>Bridge (171)</p>
+              <p>Composite (183)</p>
+              <p>Decorator (196)</p>
+              <p>Facade (208)</p>
+              <p>Flyweight (218)</p>
+              <p>Proxy (233)</p>
+            </td>
+            <td>
+              <p>Chain of responsability (251)</p>
+              <p>Command (263)</p>
+              <p>Iterator (289)</p>
+              <p>Mediator (305)</p>
+              <p>Memento (316)</p>
+              <p>Observer (326)</p>
+              <p>State (338)</p>
+              <p>Strategy (349)</p>
+              <p>Visitor (366)</p>
+            </td>
+          </tr>
+        </table>
+
+
+      <br/>
+      <li>The structural class patterns use inheritance to compose classes, while the structural object patterns describe ways to assemble objects.</li>
+      <li>The behavioral class patterns use inheritance to describe algorithms and flow of control, whereas the behavioral object patterns describe how a group of objects cooperate to perform a task that no single object can carry out alone.</li>
+
+      <br/>
+      <li>There are other ways to organize the patterns. Some patterns are often used together. Some patterns are alternatives. Some patterns result in similar designs even though the patterns have different intents. How they reference each other in their "related patterns" sections.</li> 
+
+      </ul>
+    </article>
+  </div>
+</section>
+
+
+<section class="tutorial-block-intro" style="background-color:#F9F7EB;">
+  <div class="container">
+    <h2>Reference List</h2>
+
+    <ol>
+      <li><cite id="refWikipediaLinux"> Wikipedia. “Linux”, Wikipedia.org. [Online]. Available  <a href="http://en.wikipedia.org/wiki/Linux" target="_blank">http://en.wikipedia.org/wiki/Linux</a> [Last Modified: 26 September 2014 at 03:01].</cite></li>
+
+      <li><cite id="refKuppensXenomai"> H. Kuppens (2011, Aug. 22). “Real-time Linux (Xenomai). Exercise #1: The Basics of Real-Time Linux”. BBC News [Online]. Available: <a href="http://www.cs.ru.nl/lab/xenomai/exercises/ex01/Exercise-1.html" target="_blank">http://www.cs.ru.nl/lab/xenomai/exercises/ex01/Exercise-1.html</a> [Accessed: Sep. 26, 2014].</cite></li>
+    </ol>
+  </div>
+</section>
 
 <footer id="footerSocialMedia">
   <div class="container">
     <div class="row center-block">
-      <div class="col-xs-1 col-xs-push-1 text-center" >
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
         <a target="_blank" href="https://www.linkedin.com/in/domingoesteban"><img class="footericon" src="../../images/icons/linkedin2-circle-logo-128.png" alt="Linkedin"/></a>
       </div>
-      <div class="col-xs-1 col-xs-push-1 text-center" >
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
         <a target="_blank" href="https://github.com/domingoesteban"><img class="footericon" src="../../images/icons/github2-circle-logo-128.png" alt="Github"/></a>
       </div>
-      <!--div class="col-xs-1 text-center" >
-        <a target="_blank" href="https://www.researchgate.net/profile/Domingo_Esteban"><img class="footericon" src="images/icons/researchgate-circle-logo-128.png" alt="ResearchGate"/></a>
-      </div-->
-      <div class="col-xs-1 col-xs-push-1 text-center center-block">
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
         <a target="_blank" href="https://twitter.com/domingoesteban"><img class="footericon" src="../../images/icons/twitter2-circle-logo-128.png" alt="Twitter"/></a>
       </div>
-      <div class="col-xs-1 col-xs-push-1 text-center">
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
         <a target="_blank" href="https://google.com/+DomingoEsteban"><img class="footericon" src="../../images/icons/googleplus2-circle-logo-128.png" alt="Google Plus"/></a>
       </div>
-      <div class="col-xs-1 col-xs-push-1 text-center">
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
         <a target="_blank" href="https://www.youtube.com/user/domingoestebanc"><img class="footericon" src="../../images/icons/youtube2-circle-logo-128.png" alt="Youtube"/></a>
       </div>
-      <div class="col-xs-1 col-xs-push-1 text-center center-block">
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
         <a target="_blank" href="https://www.facebook.com/domingoesteban"><img class="footericon" src="../../images/icons/facebook2-circle-logo-128.png" alt="Facebook"/></a>
       </div>
-      <div class="col-xs-1 col-xs-push-1 text-center" >
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
         <a target="_blank" href="https://instagram.com/domingoesteban"><img class="footericon" src="../../images/icons/instagram2-circle-logo-128.png" alt="Instagram"/></a>
       </div>
-      <div class="col-xs-1 col-xs-push-1 text-center" >
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
         <a target="_blank" href="https://vine.co/domingoesteban"><img class="footericon" src="../../images/icons/vine-circle-logo-128.png" alt="Vine"/></a>
       </div>
-      <div class="col-xs-1 col-xs-push-1 text-center" >
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
         <a target="_blank" href="https://vimeo.com/domingoesteban"><img class="footericon" src="../../images/icons/vimeo-circle-logo-128.png" alt="Vimeo"/></a>
       </div>
     </div>
@@ -168,11 +212,13 @@
 <!--script src="includes/js/jquery.js"> </script--> <!-- If no online access 2 -->
 
 <!-- Bootstrap JS -->
-<script src="../../framework/js/bootstrap.js"> </script>
+<script src="../framework/js/bootstrap.js"> </script>
 
 <!-- Custom JS -->
-<script src="../../includes/js/scripts.js"></script>
+<script src="../includes/js/scripts.js"></script>
 
 </body>
 
-</html>
+<!-- PAGINA PARA FORMATO DE REFERENCIAS: http://www.york.ac.uk/integrity/ieee.html -->
+
+</html> 
