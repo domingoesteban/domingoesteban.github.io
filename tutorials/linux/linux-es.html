@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Linux - Domingo Esteban</title>
+  <title>Tutorial de Linux - Domingo Esteban</title>
   <meta name="keywords" content="Domingo, Esteban, Cabala, Robotics, Peru, España, Madrid, Arequipa, Linux, Networks, TCP-IP, Apache">
   <meta name="description" content="Tutorial de Linux - Domingo Esteban">
   <meta name="author" content="Domingo Esteban">
@@ -23,7 +23,7 @@
   <!-- Including Modernizr (Before any other Javascript) -->
 
   <!-- Favicon -->
-  <link href="../images/icons/robot-favicon.ico" rel="icon" type="image/x-icon" />
+  <link href="../../images/icons/robot-favicon.ico" rel="icon" type="image/x-icon" />
 
 </head>
 
@@ -93,6 +93,253 @@
             El proceso de instalación de fedora se compone de dos partes: arranque desde el CD-ROM y arranque de Fedora.
           </p>
 
+        <h2>El proceso de arranque</h2>
+          <p>
+            Cuando la BIOS termina sus chequeos y comprobaciones, empieza a buscar dónde hay software para ser ejecutado. Para este fin primero analiza la unidad de arranque por defecto (CD-ROM o disco duro), y si no se encuentra la unidad o su contenido no tiene software de arranque, pasa a la siguiente unidad.
+          </p>
+
+          <p>
+            El <b>registro de arranque principal o maestro</b> (Master Boot Record - MBR), es el primer sector ("sector cero") de un disco duro. Es aquí donde, usualmente, se encuentra el <b>gestor de arranque</b> (bootloader). La principal función del este programa es posibilitar la elección del sistema operativo que continuará con el arranque del sistema. Los gestores de arranque más habituales en las distribuciones Linux son: LILO y GRUB.
+          </p>
+
+          <p>
+            Con estos gestores de arranque se puede utilizar más de un sistema operativo. Para la distribución Fedora, el gestor de arranque que se utiliza es GRUB.
+          </p>
+
+          <p>
+            Cuando el kernel ya ha montado el sistema de archivos, comenzarán a iniciarse algunos procesos. La mayoría de estos corresponden a los <b>demonios</b>, que van a realizar y controlar determinadas tareas durante la sesión. Estos demonios pueden configurarse, deternerse, pausarse, reiniciarse, por el usuario.
+          </p>
+
+        <h2>Software adicional para GNU/Linux</h2>
+          <p>
+            Conviertiendo una aplicación en un paquete que además de todos sus archivos comprimidos contiene metainformación acerca de la propia aplicación. Con esto se consigue que un programa interno pueda ofrecer una interfaz de administración sencilla apra agregar nuevos programas y quitar otros ya instalados. El propio sistema Linux opera en forma de paquetes, consiguiendo una actualización y mantenimiento más sencillo.
+          </p>
+
+          <p>
+            El software para Linux se puede encontrar en dos maneras: en un paquete binario o en un paquete con su código fuente.
+          </p>
+          <p>
+            Al haber distintas distribuciones, que a su vez, están preparadas para distintas versiones de procesadores, existen varios tipos de paquetes binarios. Varias de las distribuciones comparten el sistema de paquetes que utilizan, los más comunes son: 
+            <ul>
+              <li><b>Paquetes RPM:</b> Usados por las distribuciones Redhat, Caldera, Mandrake/Mandriva, Suse, Turbolinux y Fedora. Su instalación se realiza a través de RPM o Yum.</li>
+            </ul>
+          </p>
+
+          <p>
+            Los paquetes en código fuente se instalan a través del proceso de:
+              <ol>
+                <li>Descompresión</li>
+                <li>Configuración. Proceso para adaptarlo a la distribución o versión de Linux.</li>
+                <li>Pre-compilación. Proceso para adaptar el paquete a las necesidades del sistema, a través del comando <b><code>make</code></b></li>
+                <li>Instalación. Proceso para compilar todo y proceder a la instalación definitiva. Usualmente se realiza a través del comando <b><code>make install</code></b></li>
+              </ol>
+          </p>
+          <p>
+            El principal problema de instalar un programa con código fuente reside en su desinstalación, debido a que suele compartir librerías con otros programas.
+          </p>
+
+        <h2>Yum</h2>
+          <p>
+            Yum es un programa que automatiza la instalación y desinstalación de los paquetes RPM del sistema. Así mismo, obtiene automáticamente las dependencias de software y previene al sistema sobre lo que será encesario disponer para instalar correctamente los paquetes.
+          </p>
+
+          <p>
+            Antes de utilizar yum por primera vez, hay que actualizar las fuentes con <b><code>yum check-update</code></b>
+          </p>
+
+          <p>
+            Para instalar un paquete nuevo, se utiliza el argumento install, <b><code>yum install</code></b>
+          </p>
+
+        <h2>Estructura del sistema de archivos de Linux</h2>
+
+          <p>
+            Las particiones FAT32 o NTFS, son subestructuras asociadas a las particiones del disco del disco duro, que configura la forma y lugar con las que el sistema operativo ubica los registros. Para este fin, se utiliza todo tipo de apuntadores, tablas de asignación, índices, etc., a modo de base de datos.
+          </p>
+
+          <p>
+            El símbolo de la base del sistema de archivos de Linux, es la barra inclinada (/) y, partiendo de ella, se montan el resto de los directorios.
+          </p>
+
+          <p>
+            El directorio home es un directorio creado especialmente para los usuarios distintos del superusuario o root. El superusuario puede "ver" al resto de usuarios, controlarlos, auditarlos o autorizarlos, y al que sólo tiene acceso él mismo.
+          </p>
+          <p>
+            Todos los archivos de Linux tienen un nombre que debe cumplir unas ciertas reglas:
+            <ul>
+              <li>El nombre debe tener entre 1 y 255 caracteres</li>
+              <li>Se puede utilizar cualquier carácter excepto la barra inclinada /, sin embargo, se recomienda no emplear los caracteres con significado especial para Linux: = ^ ~ ' " ` * ; - ? [ ] ( ) ! &amp; &lt; &gt; </li>
+              <li>Para emplear ficheros con estos caracteres o espacios hay que introducir el nombre del fichero entre comillas</li>
+              <li>Las letas mayúsculas y minúsculas se consideran diferentes caracteres (case-sensitivity).</li>
+            </ul>
+          </p>
+          <p>
+            Linux sólo distingue tres tipos de archivos:
+            <ul>
+              <li>Archivos o ficheros ordinarios</li>
+              <li>Directorios o carpetas</li>
+              <li>Archivos especiales</li>
+            </ul>
+          </p>
+
+        <h2>Árbol de directorios típicos de Linux</h2>
+          <p>
+            La barra indica el punto de montaje que, como en todos los sistemas de archivos de UNIX, representa un orígen único raíz. El resto de los directorios se organizan de la siguiente manera:
+            <ul>
+              <li><b>bin</b> - Almacena programas esenciales del sistema, como las órdenes y comandos, así como todos los archivos ejecutables.</li>
+              <li><b>boot</b></li>
+              <li><b>dev</b> - contiene los diferentes controladores de los dispositivos.</li>
+              <li><b>etc</b> - Agrupa los archivos que hacen referencia a la configuración del sistema.</li>
+              <li><b>home</b></li>
+              <li><b>lib</b> - Guarda imágenes de las librerías compartidas, es decir, archivos con códigos que comparten varios programas.</li>
+              <li><b>proc</b> - Se trata de un sistema de archivos virtual. Los archivos que contiene residen en la memoria, no en un disco, y generalmente. sólo se puede obtener información sobre ellos.</li>
+              <li><b>root</b></li>
+              <li><b>sbin</b> - Contiene programas que son únicamente accesibles por el superusuario.</li>
+              <li><b>tmp</b> - Almacena archivos con información temporal necesaria para la ejecución de algunos programas.</li>
+              <li><b>usr</b> - Agrupa un conjunto de subdirectorios donde se agrupan programas y archivos de configuración de los usuarios.</li>
+              <li><b>var</b></li>
+            </ul>
+          </p>
+
+          <p>
+            El comando <b><code>cd</code></b> permite cambiar el directorio de trabajo o directorio actual. Es la abreviatura de <i>change directory</i>. Por ejemplo para cambiarse al directorio home, se utilizaría el comando <code>cd /home</code>
+          </p>
+
+          <p>
+            Para cambiar a un directorio o subdirectorio que está ubicado de forma paralela al punto donde se está actualmente, basta con hacer referencia a la nueva ubicación desde su punto inicial de montaje.  
+          </p>
+
+        <h2>Usuarios de Linux</h2>
+
+          <p>
+            En Linux, el acceso al sistema se realiza imponiendo un registro que identifica al usuario que está actuando sobre la máquina. Existen dos grupos de usuarios bien diferenciados: los usuarios normales y el super usuario root.
+          </p>
+
+          <p>
+            El comando <b><code>su</code></b> hace referencia al <b>login</b> del sistema y a los permisos, es decir, al modo de acceso al sistema por parte de los usuarios. La principal utilidad de este comando es el cambio de usuario dentro del sistema mediante su login, o nombre de usuario, y una contraseña. Esto incluye el cambio de sesión a root.
+          </p>
+
+          <p>
+            El acceso al sistema como root habilita una serie de permisos y privilegios que posibilita cambiar la totalidad de configuraciones del sistema, con el el riesgo que supone. Por lo que lo más recomendable es trabajar como usuario normal y actuar como super usuario sólo en los casos en que sea necesario.
+          </p>
+
+          <p> 
+            Para cambiar de usuario se realiza el comando:
+          </p>  
+            <pre>
+              <code>$ su nombreusuario</code>
+            </pre>
+          
+
+          <p>
+            La invocación del comando su, sin indicar el login, se utiliza para acceder directamente al super usuario.
+          </p>
+
+          <p>
+            Para salir del usuario al que se ha cambiado, y regresar al usuario normal se introduce el comando <b><code>exit</code></b>
+          </p>
+
+          <p>
+            Para determinar la identidad del usuario con el que se está trabajando, se utiliza el comando <b><code>whoami</code></b>. Así mismo, para saber si el usuario actual es normal o es root, se debe de mirar el símbolo que aparece en el raíz del terminal: será un <b>$</b> para uno normal y <b>#</b> para el super usuario.
+          </p>
+
+        <h2>Acceso a Linux</h2>
+          <p>
+            Existen 3 formas de acceder a un sistema Linux:
+          </p>  
+            <ul>
+              <li>Desde una <b>consola de texto:</b> El usuario se conecta directamente al ordenador que tiene instalado Linux y accede mediante un sistema no gráfico que suele llamarse terminal virtual o ventana de comandos.</li>
+              <li>Desde un <b>gestor de sesiones gráfico X window:</b> El usuario accede mediante un entorno gráfico</li>
+              <li>Desde una <b>computadora remota:</b> El acceso se realiza através de telnet o secure shell (ssh)</li>
+            </ul>
+          
+          <p>
+            El cambio de modo gráfico a texto se realiza a través de las teclas <b><i>Ctrl + Alt + F1-F6</i></b> para cambiar a cada uno de los 6 terminales virtuales que pueden trabajar simultáneamente. Para pasar de un terminal virtual al modo gráfico se utiliza <b><i>Ctrl + Alt + F7</i></b>
+          </p>
+
+          <p>
+            El modo texto se basa en la ejecución de una serie de comandos que son interpretados por un programa o shell. Linux dispone de varios de estos programas, pero el más habitual es <b>bash</b>.
+          </p>
+
+        <h2>Scripts de inicio del sistema. Runlevels</h2>
+          <p>
+            La mayoría de las distribuciones de Linux se rigen por el <b>System V init</b> para gestionar los scripts de arranque. Aunque hay pequeñas diferencias entre distribuciones, principalemente hacen referencia a en qué directorio están ubicados determinados ficheros.
+          </p>
+
+          <p>
+            Otras distribuciones, como Gentoo o Slackware, tienen un método distinto (Gentoo usa un System V modificado y Slackware usa el sistema BSD init)
+          </p>
+
+          <p>
+            Los runlevels o niveles de ejecución son un concepto importante en los sistemas UNIX y Linux. Habitualmente se dispone de 7 niveles, del 0 al 6, aunque pueden existir más en algunas distribuciones.
+          </p>
+
+          <p>
+            Si la máquina sólo va a funcionar como servidor, se configura para usar el runlevel correspondiente, que sólo carga al inicio los demonios y herramientas necesarias para los servidores y no cargaría, por ejemplo, el servidor gráfico de ventas X-window. Por el contrario, si va a funcionar como una PC de escritorio, se configura para usar otro runlevel y así se evita detener los demonios que no se necesita.
+          </p>
+
+          <p>
+            El runlevel 0 es para apagar la máquina, y el runlevel 6 para reiniciarla. Es obvio, que no se debe de poner estos runlevel por defecto a ninguno de estos dos; de hacerlo, el sistema no llegaría a arrancar.
+          </p>
+
+          <p>
+            El runlevel 1 queda reservado para el modo monousuario que servirá para administrar la máquina. Normalmente este modo no dispone de red y solicita el password de root antes de permitir ejecutar algún comando.
+          </p>
+
+          <p>
+            En la ruta <i>/etc/init.d</i> residen unos scripts, uno por cada servicio, que aceptan siempre un primer argumento, start o stop, para arrancar o detener el servicio. En cada runlevel se puede decidir cuáles de estos scripts se ejecutarán y cuáles no. Para hacer esto, cada runlevel tiene un directorio asociado, <b><code>/etc/rcN.d</code></b> o bien <b><code>/etc/rc.d/rcN.d</code></b>, dependiendo de la distribución de Linux, donde <i>N</i> indica el número de runlevel correspondiente.
+          </p>
+
+          <p>
+            Dentro de cada uno de estos directorios, hay una serie de enlaces simbólicos que apuntan hacia los scripts de los servicios en <b><code>/etc/init.d</code></b>. Para un runlevel determinado, sólo habrá enlaces para los servicios que se queiran ejecutar en ese runlevel.
+          </p>
+
+          <p>
+            El nombre genérico de estos enlaces son <i>ANNservicio</i>, donde <i>A</i> es una letra, y <i>NN</i> es un número. El objectivo de esta forma de nombrarlos es que en cada runlevel, los scripts se ejecuten en orden alfabético. Así, para la misma letra, un número bajo indica que será ejecutado antes que uno alto.
+          </p>
+
+          <p>
+            Inmediatamente después que el kernel se cargue en memoria, inicialice el hardware adecuadamente, y monte el sistema de ficheros, el comando <b><code>/sbin/init</code></b> da lugar al primer proceso del sistema, <b>init</b>, qe es el padre de todos los procesos y el encargado de gestionar la configuración de los runlevels para iniciar los servicios adecuados. init lee el fichero <b><code>/etc/inittab</code></b> para determinar cuál es el runlevel por defecto, y algunas opciones de configuración.
+          </p>
+
+          <p>
+            Antes de iniciar el runlevel correspondiente, lo más común es que se ejecute un script (independientemente de número de runlevel). El nombre y la ubicación de este script se especifican también en <i>/etc/inittab</i>. Su misión es realizar tareas imprescindibles como inicializar el teclado, los puertos serie, resolver dependencias de los módulos, sincronizar el reloj del sistema con el reloj del hardware, definir el nombre del host, etc.
+          </p>
+
+          <p>
+            A continuación, <i>init</i> recurre a los enlaces simbólicos de <i>/etc/rcN.d</i> (o equivalente) para ejecutar cada unod e ellos con su primer argumento, en este caso, start. Esto arranca los servicios correspondientes del runlevel creando los nuevos procesos correspondientes. Seguidamente, ejecutará los terminales que se mantendrán a la espera del login de los usuarios. A partir de este momento, el sistema ya ha arrancado completamente y es utilizable.
+          </p>
+
+        <h2>Arrancar y parar servicios por separado</h2>
+          <p>
+            Con el sistema iniciado en un runlevel determinado, puede surgir la necesidad de activar o desactivar un sólo servicio. Se puede cambiar el runlevel, pero no es aconsejable si se quiere detener la totalidad de servicios del mismo.
+          </p>
+          <p>
+            Desde la consola, con una sesión de administrador, se puede ejecutar el comando <b><code>kill</code></b> para terminar un servicio refiriendose a su proceso. También se puede situar el demonio que se quiera iniciar y hacer que se ejecute en segundo plano.
+          </p>
+
+          <p>
+            Para iniciar la ejecución del servicio Apache 2 (servidor web):
+          </p>
+            <pre>
+              <code><br/>$ su <br/># /etc/init.d/apache2 start</code>
+            </pre>
+
+          <p>
+            Para recargar la configuración del servicio Apache2
+          </p>
+            <pre>
+              <code><br/>$ su <br/># /etc/init.d/apache2 reload</code>
+            </pre>
+
+          <p>
+            Para detener la ejecución del servicio Apache2
+          </p>
+            <pre>
+              <code><br/>$ su <br/># /etc/init.d/apache2 stop</code>
+            </pre>
+
+
       <h1>Redes en Linux</h1>
 
         <h2>TCP/IP en Linux </h2>
@@ -125,7 +372,7 @@
             En el caso de Fedora, se puede utizar la herramienta <b>redhat-config-services</b> que permite activar o desactivar estos servicios.
           </p>
           <p>
-            Para poder activar y desactivar estos servicios, se puede utilizar el comando <b><code>chkconfig</code></b>. Utilizando el argumento -list, es decir <b><code>chklist -list</code></b>, se obtiene na lista de los servicios y si están iniciados o detenidos para cada nivel de ejecución. Al final de la lista, se enumeran los servicios manejados por xinetd.
+            Para poder activar y desactivar estos servicios, se puede utilizar el comando <b><code>chkconfig</code></b>. Utilizando el argumento -list, es decir <b><code>chklist -list</code></b>, se obtiene una lista de los servicios y si están iniciados o detenidos para cada nivel de ejecución. Al final de la lista, se enumeran los servicios manejados por xinetd.
           </p>
 
     </article>
