@@ -32,6 +32,9 @@
   <div class="container">
     <h1 align="center">XENOMAI</h1>
 
+    <p> This tutorial is based in the Xenomai documentation of the Computing Science Department of Radboud University Nijmegen. So I want to acknowledge their authorship. For more information, please visit <a href="http://www.cs.ru.nl/lab/xenomai/" target="_blank">Xenomai General</a>.
+    </p>
+
     <article>
 
       <h1>Real-Time Linux</h1>
@@ -44,8 +47,151 @@
           The Linux scheduler is designed for best average response, however, it doesn't guarantee that any particular task will always run by a given deadline. A task may be suspended for an arbitrarily long time, for example while a Linux device driver services a disk interrupt. <a href="#refKuppensXenomai"><cite>[2]</cite></a>
         </p>
     
+        <p>
+          On the other hand, a real-time operating systems (RTOSes), such as QNX, LynxOS or VxWorks, is an operating system (OS) intended to serve real-time application requests because it offers scheduling guarantees. Reason why are typically used for control or communications applications.
+        </p>
+
+        <p>
+          <b>Real-time Linux</b> (<b>RT Linux</b>) is an adaptation of Linux for real-time support. There are numerous versions, free or commercial, of RT Linux such as <a href="https://www.rtai.org/" target="_blank">RTAI</a> or <a href="http://xenomai.org/" target="_blank">Xenomai</a>.
+        </p>
+
+        <p>
+          These RT Linux systems are patches to the basic Linux kernel source code. The building of an RT Linux involves setting up the basic Linux system, getting the latest <a href="https://www.kernel.org/" target="_blank">Linux kernel source</a> , patching it, and compiling the patched kernel.
+        </p>
+
+        <p>
+          The general idea of RT Linux is that a small real-time kernel runs beneath Linux, meaning that the real-time kernel has a higher priority than the Linux kernel. Real-time tasks are executed by the real-time kernel, and normal Linux programs are allowed to run when no real-time tasks have to be executed. Linux can be considered as the idle task of the real-time scheduler. When this idle task runs, it executes its own scheduler and schedules the normal Linux processes.  Since the real-time kernel has a higher priority, a normal Linux process is preempted when a real-time task becomes ready to run and the real-time task is executed immediately. <a href="#refKuppensXenomai"><cite>[2]</cite></a>
+        </p>
+
+        <p>
+          An operating sustem is driven by interrupts. All programas running in an OS are scheduled by a scheduler which is driven by tymer interrups of a clock to reschedule at certain times. An executing program can block or voluntary give up the CPU in which case the scheduler is informed by means of a software interrupt (<b>system call</b>). Hardware can generate interrupts to interrupt the normal scheduled work of the OS for fast handling of hardware.
+        </p>
+
+        <p>
+          RT Linux uses the flow of interrupts to give the real-time kernel a higher priority than the Linux kernel: 
+        </p>
+          <ul>
+            <li>When an interrupt arrives, it is first given to the real-time kernel, and not to the Linux kernel. But interrupts are stored to give them later to Linux when the real-time kernel is done.</li>
+            <li>As first in row, the real-time kernel can run its real-time tasks driven by these interrupts.</li>
+            <li>Only when the real-time kernel is not running anything, the interrupts which were stored are passed on to the Linux kernel.</li>
+            <li>As second in row, Linux can schedule its own processes driven by these interrupt.</li>
+          </ul>
+
+        <p>
+          Hence, when a normal Linux program runs a new interrupt arrives:
+        </p>
+          <ul>
+            <li>It is first handled by an interrupt handler set by the real-time kernel;</li>
+            <li>the code in the interrupt handler awakes a real-time task;</li>
+            <li>immediately after the interrupt handler, the real-time scheduler is called ;</li>
+            <li>the real-time scheduler observes that another real-time task is ready to run, so it puts the Linux kernel to sleep, and awakes the real-time task.</li>
+            <li>Hence, to the real-time kernel and Linux kernel coexist on a single machine a special way of passing of the interrupts between real-time kernel and the Linux kernel is needed. Each flavor of RT Linux does this is in its own way. Xenomai uses an interrupt pipeline from the <a href="http://home.gna.org/adeos/" target="_blank">Adeos project</a>. For more information, see also <a href="http://www.xenomai.org/documentation/xenomai-2.3/pdf/Life-with-Adeos-rev-B.pdf" target="_blank">Life with Adeos.</a></li>
+          </ul>
+
+        <p>
+          There is an additional consideration: RT Linux Tasks are not Linux Programs
+        </p>
+          <ul>
+            <li>In real-time Linux we can make a real-time program by programming real-time threads. None-real-time programs in real-time Linux just use the conventional Linux threads.</li>
+            <li>A real-time task can be executed in kernel space using a kernel module, but it can also be executed in user space using a normal C program.</li>
+            <li>Running in user space instead of in kernel space gives a little extra overhead, but with the following advantages :</li>
+            <ul>
+              <li>A bug in a kernel module can crash the whole system, however a bug in a user space program can only crash the program.</li>
+              <li>In a kernel model one can only use the real-time API and the limited kernel API, but in a real-time user space program the real-time API and the whole Linux API can be used! However when using the Linux API in user space, the program cannot be scheduled by the real-time scheduler (HARD real-time) but must be scheduled by the Linux scheduler (SOFT real-time). So calling a Linux API call from a real-time user space task will degrade its performance from HARD to SOFT real-time. After the call the task will return to the real-time scheduler.</li>
+            </ul>
+          </ul>
+    </article>
+
+    <article>
+      <h1>Xenomai</h1>
+
+      <p>
+        The Xenomai project was launched in August 2001.
+      </p>
+
+      <p>
+        Xenomai is based on an abstract RTOS core, usable for building any kind of real-time interfaces, over a nucleus which exports a set of generic RTOS services. Any number of RTOS personalities called <b>“skins”</b> can then be built over the nucleus, providing their own specific interface to the applications, by using the services of a single generic core to implement it. Some common skis implemented on the geric core are: POSIX, pSOS+, VxWorks, VRTX, ulTRON, RTAI.
+      </p>
+      
+      <p>
+        Xenomai allows to run real-time threads either strictly in kernel space, or within the address space of a Linux process. A real-time task in user space still has the benefit of memory protection, but is scheduled by Xenomai directly, and no longer by the Linux kernel. The worst case scheduling latency of such kind of task is always near to the hardware limits and predictable, since Xenomai is not bound to synchronizing with the Linux kernel activity in such a context, and can preempt any regular Linux activity with no delay. Hence, the preferred execution environment for Xenomai applications is user space context.
+      </p>
+      
+      <p>
+        There are few cases where running some of the real-time code embodied into kernel modules is required, especially with legacy systems or very low-end platforms with under-performing MMU hardware. For this reason, Xenomai's native API provides the same set of real-time services in a seamless manner to applications, regardless of their execution space. Additionally, some applications may need real-time activities in both spaces to cooperate, therefore special care has been taken to allow the latter to work on the exact same set of API objects.
+      </p>
+      
+      <p>
+        A Xenomai task is referred to a real-time task in user space, i.e., within the address space of a Linux process, not a regular Linux task/thread.
+      </p>
+
+      <h2>Xenomai API</h2>
+
+        <p>
+          The <a href="http://xenomai.org/api-reference/" target="_blank">Native Xenomai API</a> is flexible and well documented.
+        </p>
+
+        <p>
+          The most important characteristics of the Xenomai API are :
+        </p>
+          <ul>
+            <li><b>Context independence:</b> Xenomai's native API provides the same set of real-time services in a seamless manner to application regardless of their execution mode is user or kernel mode. </li>
+            <li><b>Seamless topology:</b> Xenomai objects (eg. a semaphore, task, etc..) are always reachable even when the location of the object is another execution space than were the task using it is running. e.g. user space task running in user space can use a semaphore which is stored in kernel space. To this end, each category of services in Xenomai's native API defines a uniform descriptor type to represent the objects it manages. For instance, a task will always be represented by a RT_TASK descriptor, a message queue by a RT_QUEUE descriptor, and a semaphore by a RT_SEM descriptor, regardless of the execution space from which they are used. Xenomai uses a unified registry, to index each object descriptor under a symbolic name given by the user. By doing this, Xenomai enables you to retrieve any descriptor associated with a registered object in any location of your application.</li>
+          </ul>
+
+      <h2>Creating a task</h2>
+
+        <p>
+          To create a real-time task in Xenomai the RT_TASK structure is used as the descriptor to refer to this task.
+        </p>
+
+        <p>
+          An RT_TASK data structure is used to hold all the information about a task:
+        </p>
+          <ul>
+            <li>the task function to be executed by the real-time task,</li>
+            <li>any initial argument passed to it,</li>
+            <li>the size of the stack allocated for its variables,</li>
+            <li>its priority,</li>
+            <li>whether or not it uses floating-point math,</li>
+            <li>and a "signal handler" that will be called when the task becomes active.</li>
+          </ul>
+
+        <p>
+          A task is created by calling:
+        </p>
+        <code>int <a href="http://www.xenomai.org/documentation/trunk/html/api/group__task.html" target="_blank">rt_task_create</a> (RT_TASK *task, const char *name, int stack_size, int priority, int mode)</code>
+
+        <ul>
+          <li>'task' is a pointer to an RT_TASK type structure which must have been declared before and whose structure is filled.</li>
+          <li>'name'  is an  ASCII string standing for the symbolic name of the task. This symbolic name you can use to retrieve the task structure anywhere else in your code by calling the rt_task_bind() function.</li>
+          <li>'stack_size' is the size of the stack to be used by the new task.</li>
+          <li>'priority' is the priority to be given the task. The highest priority is 99, while the lowest is 1.</li>
+          <li>'mode' is a set of flags which affect the task :</li>
+            <ul>
+              <li>T_FPU allows the task to use the FPU (Floating Point Unit) whenever available on the platform. This flag is forced for user-space tasks.</li>
+              <li>T_SUSP causes the task to start in suspended mode. In such a case, the thread will have to be explicitly resumed using the rt_task_resume() service for its execution to actually begin.</li>
+              <li>T_CPU(cpuid) specifies that the new task runs on the CPU with number cpuid. CPU identifiers range from 0 to RTHAL_NR_CPUS - 1 (inclusive).</li>
+              <li>T_JOINABLE (user-space only) allows another task to wait on the termination of the new task. This implies that rt_task_join() is actually called for this task to clean up any user-space located resources after its termination.</li>
+            </ul>
+        </ul>
+
+      <h2>Starting a task</h2>
+
+        <p>A task can be started by calling :</p>
+        <code>int <a href="http://www.xenomai.org/documentation/trunk/html/api/group__task.html" target="_blank">rt_task_start</a> (RT_TASK *task, void(*task_func)(void *arg), void *arg)</code>
+
+        <ul>
+          <li>'task' is a pointer to an RT_TASK type structure which must be already initialized by a call to rt_task_create().</li>
+          <li>'task_function' is the the task function to be executed by this real-time task.</li>
+          <li>'arg' is the void pointer argument given to the task function.</li>
+        </ul>
+        <p>
+          If you did specify T_SUSP as a mode flag to rt_task_create(), the task will be started in a suspended mode. In that case you  have to explicitly resume the task with  rt_task_resume(). Otherwise, the real time task is ready to execute immediately.
+        </p>
 
     </article>
+
   </div>
 </section>
 
