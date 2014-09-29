@@ -35,20 +35,6 @@ body {
   height: 100%;
 }
 
-#footerSocialMedia {
-  background: #333;
-  font-size: 15px;
-  color: #eee;
-  /*padding: 20px;*/
-  /*padding: 0;*/
-}
-
-#footerCopyright {
-  background: #2A2A2A;
-  /*background: blue;*/
-  font-size: 15px;
-  color: #eee;
-}
 
 /*  -----------------------------------
     Typography
@@ -76,6 +62,21 @@ ul.unstyled {
     Footer
     ----------------------------------- */
 
+#footerSocialMedia {
+  background: #333;
+  font-size: 15px;
+  color: #eee;
+  /*padding: 20px;*/
+  /*padding: 0;*/
+}
+
+#footerCopyright {
+  background: #2A2A2A;
+  /*background: blue;*/
+  font-size: 15px;
+  color: #eee;
+}
+
   .footericon {
     margin: 10px;
     height: 35px;
@@ -93,16 +94,20 @@ ul.unstyled {
 @media (min-width: 992px) {
   .footericon {
     margin: 10px;
-    height: 60px;
-    width: 60px;
+/*     height: 60px;
+width: 60px; */
+    height: 40px;
+    width: 40px;
   }
 }
 
 @media (min-width: 1200px) {
   .footericon {
     margin: 10px;
-    height: 66px;
-    width: 66px;
+/*    height: 66px;
+    width: 66px;*/
+    height: 40px;
+    width: 40px;
   }
 }
 
