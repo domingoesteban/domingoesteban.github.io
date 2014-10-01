@@ -520,3 +520,102 @@ width: 60px; */
     vertical-align: middle;
     float: none;
 }
+
+.circle-image img{
+  width: 300px;
+  height: 300px;
+  margin: 0px 0 0 0px;
+}
+
+
+
+
+
+
+#masthead {
+  min-height:270px;
+  background-color:#1D0C9E;
+  color:#CBCFFA;
+  padding-top:40px;
+}
+
+#masthead .well {
+  margin-top:8%;
+  background-color:#262841;
+  border-color:#1A1B29;
+}
+
+#masthead h1 {
+  margin-top:8%;
+  font-size: 100px;
+}
+
+#masthead strong {
+  font-size: 25px;
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) { 
+  #masthead h1 {
+    font-size: 100px;
+  }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) { 
+  #masthead h1 {
+    font-size: 100px;
+  }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  #masthead h1 {
+    font-size: 120px;
+  }
+}
+
+#masthead a, #masthead .lead {
+  color:#A9B0FB;
+  /* color:#8F95D7; */
+}
+
+#masthead a {
+  color:#E3E4EB;
+}
+
+#masthead a img {
+  width: 20px;
+}
+
+.navbar-bright a {
+    color:#aaccaa;
+}
+
+.navbar-bright li > a:hover {
+    background-color:#003300;
+}
+
+@media (min-width: 979px) {
+  #mynav.affix-top {
+    position: static;
+    margin-top:30px;
+    width:228px;
+  }
+  
+  #mynav.affix {
+    position: fixed;
+    top:70px;
+    width:228px;
+  }
+}
+
+#mynav li.active a {background-color:red;}
+
+
+/* @media screen and (min-width: 768px) {
+  #masthead h1 {
+    font-size: 100px;
+  }
+} */
+

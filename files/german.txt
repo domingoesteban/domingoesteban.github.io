@@ -1,0 +1,59 @@
+NOTA: la r suena como la r francesa, asi la escriba en español como r.
+
+Personalpronomen (pesonalpronomen)
+==================================
+
+ich (ij) --> Yo
+du (du) --> Tú (formal)
+er (ea) --> Él
+sie (entre si-zi)--> Ella
+es (es)--> It
+wir (via) --> Nosotros
+ihr (entre ia-io) --> Vosotros
+sie (entre si-zi) --> Ellos
+Sie (entre si-zi) --> Usted/Ustedes (formal), con mayúscula la primera
+
+regelmäßige Verben (regelmisiga veagben) - verbos regulares
+=====================================
+
+          | -en  -n  | -den -ten
+--------------------------------------------- 
+ich       | -e       | -e  
+du        | -st      | -est  
+er/sie/es | -t       | -et
+wir       | -en  -n  | -en
+ihr       | -t       | -et
+sie/Sie   | -en  -n  | -en
+
+
+example: lieben (liben) - amar
+ich       liebe   (libe)
+du        liebst  (libst)
+er/sie/es liebt   (libt)
+wir       lieben  (liben)
+ihr       liebt   (libt)
+sie/Sie   lieben  (liben)
+
+example: tun (tun) - hacer
+ich       tue   (tuoa)
+du        tust  (tust)
+ea/sie/es tut   (tut)
+wir       tun   (tun)
+ihr       tut   (tut)  
+sie/Sie   tun   (tun)
+
+example: reden (riden) - hablar
+ich       rede    (ride)
+du        redest  (ridest)
+er/sie/es ridet   (ridet)
+wir       riden   (riden)
+ihr       ridet   (ridet)
+sie/Sie   riden   (riden)
+
+example: arbeite (abaiton) - trabajar
+ich          
+du        
+er/sie/es  
+wir       
+ihr       
+sie/Sie   
