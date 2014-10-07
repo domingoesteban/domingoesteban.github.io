@@ -596,6 +596,24 @@ width: 60px; */
     background-color:#003300;
 }
 
+
+#c1, #c2, #c3,
+#c4, #c5, #c6,
+#c7, #c8, #c9 {
+  margin-top: 50px;
+}
+
+#mycontent div h2{
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+#mycontent div h3 {
+  font-weight: bold;
+}
+
+
 @media (min-width: 979px) {
   #mynav.affix-top {
     position: static;
@@ -610,7 +628,22 @@ width: 60px; */
   }
 }
 
-#mynav li.active a {background-color:red;}
+#mynav li.active a {
+  background-color:#262841;
+  border-color:#CBCFFA;
+  color:#CBCFFA;
+  font-weight: bold;
+}
+
+#mynav li a {
+  background-color:#E0E0FF;
+  border-color:#262841;
+  color:#262841;
+}
+
+
+
+
 
 
 /* @media screen and (min-width: 768px) {
