@@ -375,6 +375,288 @@
             Para poder activar y desactivar estos servicios, se puede utilizar el comando <b><code>chkconfig</code></b>. Utilizando el argumento -list, es decir <b><code>chklist -list</code></b>, se obtiene una lista de los servicios y si están iniciados o detenidos para cada nivel de ejecución. Al final de la lista, se enumeran los servicios manejados por xinetd.
           </p>
 
+
+        <h2>Redes y servidores</h2>
+          <p> 
+            Internet está compuesto por varios equipos heterogéneos interconectados, cada uno de estos equipos se denomina host.
+          </p>
+          <p>
+            El protocolo HTTP funciona siguiendo el modelo cliente-servidor. El cliente es una aplicación que ejecuta peticiones en el protocolo de aplicación y las envía a través de la red. El servidor permanece "escuchando" a través de un puerto, por el que se reciben las peticiones del cliente, y posteriormente ejecuta el código correspondiente para servirlas. Se responde al cliente con los resultados.
+          </p>
+          <p>
+            En Internet se distinguen tres tipos de host:
+          </p>
+            <ul>
+              <li>Máquinas de usuarios que actúan como clientes y se conectan a proveedores secundarios.</li>
+              <li>Máquinas de proveedores de servicios de Internet que se conectan a proveedores primarios.</li>
+              <li>Máquinas de proveedores primarios de Internet, que se conectan a backbones.</li>
+            </ul>
+
+          <h3>Modelo cliente-servidor</h3>
+            <p>
+              Arquitectura de software que describe el procesamiento entre dos o más programas: una aplicación y un servicio soporte. El modelo soporta un medio ambiente distribuido, en el cual los requerimientos de servicio hechos por estaciones de trabajo inteligentes o clientes, resultan en un trabajo realizado por otras computadores llamados servidores.
+            </p>
+            <p>
+              Los elementos de la arquitectura Cliente-servidor son:
+            </p>
+              <ul>
+                <li>El <b>puesto de trabajo</b> o <b>Cliente</b>: Es el PC del usuario, que le permite acceder y gestionar una serie de recursos, el cual se perfila como un puesto de trabajo universal.</li>
+                <li>Los <b>Servidores</b> o <b>Back-end</b>: Son las máquinas que suministran una serie de servicios como bases de datos, archivos, comunicaciones, etc.</li>
+              </ul>
+            <p>
+              Los servidores, según la especialización y los requimientos de los servicios que deben suministrar, pueden ser: mainframes, minicomputadoras especializadas o dedicadas, etc.
+            </p>
+
+          <h3>HTTP</h3>
+            <p>
+              La Web utiliza direcciones de recursos (documentos) que se denominan <b>URL</b> (Uniform Resource Locator). Estos URL permiten especificar: el protocolo que se utiliza para obtener el documento, el nombre del host que lo contiene, el puerto TCP/IP en el qu está escuchando el servidor que contiene el documento y el documento en sí. Sin embargo, en la mayoría de URL no se especifica el puerto del servidor al que se debe conectar porque para cada servidor   existe un puerto predefinido que es el que se tiende a utilizar.
+            </p>
+            
+            <p>
+              El protocolo <b>HTTP</b> (Hypertext Transfer Protocol) es un protocolo que funciona sobre los servicios del TCP/IP y se usa para el intercambio de información entre los clientes (navegadores) y los servidores HTTP (Apache, Internet Information Server, etc.)
+            </p>
+
+            <p>
+              El hipertexto es el contenido de las páginas Web, y el protocolo de transferencia es el sistema mediante el cual se envían las peticiones de acceso a una página Web, la respuesta del servidor para remitirla y envíar información adicional en ambos sentidos de la comunicación.
+            </p>
+
+            <p>
+              HTTP es un protocolo sin estado, por lo que no se almacena ningún tipo de información sobre conexiones anteriores. Al finalizar la transacción todo se pierde. Por este motivo se usan pequeños archivos que se guardan en los equipos para proporcionar la información necesaria al sitio Web y establecer la conexión, como es el caso de los login de una cuenta de correo.
+            </p>
+
+            <p>
+              En el protocolo HTTP, los clientes envían sus peticiones y mensajes a su puerto 80 usando TCP/IP. Tras procesar la operación, el servidor responde con otro mensaje que puede incluir estados, datos o código de error, según el resultado de la operación solicitada.
+            </p>
+
+            <p>
+              Todas las operaciones pueden ejecutar un objeto o recurso sobre el que actúan: cada objeto Web se identifica por su URL. El servidor y los clientes saben que hacer porque usan descripciones <b>MIME</b> (Multipurpose Internet Mail Extensions), que describen el tipo de documento que se ha transferido, con el fin de intercambiar a través de internet todo tipo de archivos de forma transparente para el usuario.
+            </p>
+
+            <p>
+              MIME adjunta un archivo de cabecera a cada archivo, especificando el tipo y el subtipo del contenido del archivo principal. Con esta inforación tanto el navegador como el servidor, pueden manejar y presentar correctamente los datos.
+            </p>
+
+            <p>
+              Los mandatos básicos del protocolo HTTP, son los siguientes:
+            </p>
+              <ul>
+                <li><b>GET</b>: Solicita leer una página web u otro objeto.</li>
+                <li><b>HEAD</b>: Solicita leer la cabecera de una página web.</li>
+                <li><b>PUT</b>: Solicita almacenar una página web u otro objeto.</li>
+                <li><b>POST</b>: Envía datos a una aplicación web.</li>
+                <li><b>DELETE</b>: Borra una página web u otro objeto.</li>
+                <li><b>LINK</b>: Conecta a dos recursos existentes.</li>
+                <li><b>UNLINK</b>: Rompe una conexión existente entre dos recursos.</li>
+              </ul>
+
+        <h2>Proxy</h2>
+          <p>
+            Un <b>proxy</b> es un dispositivo o sistema intermediario que hace de pasarela entre el tráfico que recibe o envía y la red.
+          </p>
+
+          <p>
+            Los proxys "cache para Web" se utilizan para auditar y guardar las peticiones que se han hecho una página Web.
+          </p>
+
+          <p>
+            El <b>Proxy Caché Web Squid</b>, permiter hacer el cacheo de las páginas que se visitan en una red, así como la definición de un determinado control de acceso. Con esto, se limita el acceso al proxy para que sólo determinadas máquinas puedan usarlo.
+          </p>
+          
+          <p>
+            Otro aspecto primordial del proxy es el aislamiento del acceso a Internet, de forma que únicamente se pueda acceder a través del proxy. En el caso de Squid, al ser únicamente un "proxy caché Web", sólo hace de intermedio de los protocolos HTTP y HTTPS.
+          </p>
+
+          <h3>Instalación del Proxy</h3>
+            <p>En una distribución Fedora, y utilizando yum, la instaiacón del servicio de Squid se realiza:</p>
+            <pre>
+              <code># yum install squid</code>
+            </pre>
+
+            <p>
+              Para arrancar el servicio se utiliza el comando:
+            </p>
+            <pre>
+              <code># service squid start</code>
+            </pre>
+
+            <p>
+              Si el servicio ya está arrancado, se devuelve un error. En este caso, es recomendable reiniciar el servicio. Para hacerlo se utiliza el comando:
+            </p>
+              <pre>
+                <code># service squid restart</code>
+              </pre>
+
+            <p>
+              Por defecto, Squid funciona en el puerto 3128.
+            </p>
+
+          <h3>Configuración de Squid</h3>
+            <p>
+              La configuración de Squid se realiza modificando el fichero <code>/etc/squid/squid.conf</code>
+            </p>
+
+            <p>
+              Squid permite definir las <b>conexiones anónimas</b>, mediante la modificación de las cabeceras del protocolo http, para que se desconozca información del cliente.
+            </p>
+
+            <p>
+              Las cabeceras <b>header_access</b> y <b>header_replace</b> permiten definir reglas de acceso para determinados clientes.
+            </p>
+
+            <p>
+              Para poder cachear los contenidos, se debe activar la opción <code>cache_mem N MB</code>, donde N MB es el tamaño de caché para guardar todas las páginas que se visite. Esto permite controlar las peticiones que se haga a diferentes servidores externos, guardando las visitas en caché con un tamaño máximo correspondiente al asignado.
+            </p>
+
+            <p>
+              Para habilitar el uso de la caché, se debe de ejecutar squid con la opción -z. Ejecutando el comando:
+            </p>
+              <pre>
+                <code># /usr/bin/squid -z</code>
+              </pre>
+
+            <p>
+              Es posible que también sea necesario configurar un <b>proxy reverso</b> o <b>acelerador Web</b>. Es decir, configurarlo para que las respuestas a los clientes también se guarden en la memoria caché.
+            </p>
+
+            <p>
+              Suponiendo que se cuenta con un servidor llamado "miservidor.com" y que "misquid.com" es un servidor caché acelerador. La primera vez que se visite "miservidor.com" se guardará la caché en "misquid.com".
+            </p>
+
+            <p>
+              Para configurar la aceleración, el fichero de configuración debe tener las siguientes directivas:
+            </p>
+            <pre>
+                <code><br/>http_port 80 <br/>httpd_accel_host 172.16.1.115 <br/>httpd_accel_port 80 <br/>httpd_accel_single_host on <br/>httpd_accel_with_proxy on <br/>httpd_accel_uses_host_header off</code>
+            </pre>
+
+            <p>
+              La configuración anterior indica que el puerto del proxy es el 80, que la IP de "miservidor.com" es la 172.16.1.115 que se corresponde también con el puerto 80. Además se activa los servicios de aceleración. Con esto, se tiene configurado correctamente un accelerador Web para un servidor.
+            </p>
+
+            <p>
+              El funcionamiento de la caché y de la aceleración es sencillo: en las siguientes consultas que se haga en la red se guardará una copia de las peticiones para que, en los proximos accesos se libre a la máquina de infinidad de tareas y tráfico de archivos.
+            </p>
+
+          <h3>Control de Acceso en Squid</h3>
+            <p>
+              Para definir <b>reglas de acceso</b> o <b>ACL</b>s para Squid, se debe editr el fichero de configuración de squid y establecer la política de acceso, a través de la directiva <code>http_access</code>.
+            </p>
+
+            <p>
+              Si por ejemplo se quiere denegar el acceso a localhost, y permitir el rango de red de la 192.168.1.0 y la 192.168.2.0. Es decir, las dos redes privadas que se tiene en la red de oficina o casa, el fichero /etc/squid/squid.conf contendrá:
+            </p>
+
+            <pre>
+              <code><br/># relaxed_header_parser on <br/>http_access deny to_localhost <br/>acl our networks src 192.168.1.0/24 192.168.2.0/24 <br/>gttp access allow our_networks</code>
+            </pre>
+
+            <p>
+              La aplicación <b>SquidGuard</b> utiliza listas de acceso basada en contenidos. Por ejemplo, tiene definidas listas para contenidos adultos, páginas de hacking, de pago, etc.
+            </p>
+
+          <h3>Configuración de los clientes</h3>
+            <p>
+              Por ejemplo, para comprobar que la configuración de Squid del punto anterior es la correcta, see abre un navegador en una máquina de la red 192.168.1.0, y en configuración de conexión se coloca la IP de la máquina que contiene el Squid y su puerto (por defecto, 3128).
+            </p>
+            <p>
+              Finalmente, se realiza una petición de una Web para comprobar si funciona la salida a Internet a través del proxy
+            </p>
+
+
+        <h2>Firewall</h2>
+          <p>
+            Un <b>firewall</b> es un sistema de protección que se encarga de definir reglas de aceptación o denegación de tráfico de red.
+          </p>
+
+          <p>
+            Mediante el uso del firewall, se puede definir accesos y bloqueos desde el nivel 2 al nivel 5 de las diferentes capas de red.
+          </p>
+
+          <p>
+            La configuración de un firewall dependerá del sistema de conexión que se tenga. Las reglas de bloqueo serán más exigentes para un router que para un ordenador de casa.
+          </p>
+
+          <h3>Firewall en Linux</h3>
+            <p>
+              El firewall en Linux se conoce como <b>iptables</b>. Linux define cinco cadenas que se encargan de definir el tipo de tráfico: INPUT, OUTPUT, FORWARD, POSTROUTING y PREROUTING.
+            </p>
+
+            <p>
+              Por ejemplo, la cadena INPUT indica tráfico de entrada, es decir, el tráfico de red que lelga a nuestra máquina. Por lo que si alguien se conecta por SSH, se tiene que aceptar por la cadena de entrada el tráfico de red del puerto 22, el correspondiente a SSH.
+            </p>
+
+            <p>
+              Si se quiere conectar a ver una página Web, el firewall tiene que aceptar paquetes de salida de la capa OUTPUT.
+            </p>
+
+          <h3>Políticas de un firewall</h3>
+            <p>
+              A la hora de configurar un firewall se puede definir dos tipos de políticas: aceptación o denegación. Estas políticas se realizan sobre una cadena específica de la configuración del firewall.
+            </p>
+
+            <p>
+              Para listar las reglas de todas las cadenas:
+            </p>
+              <pre><code># iptables -L</code></pre>
+
+            <p>
+              Para pasar a DROP las conexiones de entrada y salida:
+            </p>
+              <pre><code># iptables -P INPUT DROP<br/># iptables -P OUTPUT DROP</code></pre>              
+
+            <p>
+              Para pasar a ACCEPT las conexiones de entrada y salida:
+            </p>
+              <pre><code># iptables -P INPUT ACCEPT<br/># iptables -P OUTPUT ACCEPT</code></pre>
+
+
+          <h3>Configuración de iptables</h3>  
+            <p>
+              La sintaxis para habilitar puertos es:
+            </p>
+              <ul>
+                <li><b>-A</b> añade a una cadena una regla, ya sea INPUT u OUTPUT, para el tráfico de entrada o salida respectivamente</li>
+                <li><b>-p</b> especifica el tipo de protocolo, tcp, udp</li>
+                <li><b>--dport</b> especifica el puerto destino de cada protocolo</li>
+                <li><b>-j</b> especifica que hacer con esta regla, ACCEPT para aceptar el tráfica, o DROP o REJECT para denegarlo</li>
+              </ul>
+
+            <p>
+              Supongamos que se precisa de un firewall para nuestro sistema. Si se cuenta con varios servicios, entre estos con SSH para el acceso remoto y con un servicio FTP., se impone las reglas input para el puerto 22 SSH tcp y para el puerto 21 FTP tcp.
+            </p>
+              <pre><code># iptables -A INPUT -p tcp --dport 22 -j ACCEPT<br/># iptables -A INPUT -p tcp --dport 21 -j ACCEPT</code></pre>
+
+            <p>
+              En el caso del acceso al exterior. Si se busca tener acceso web (HTTP), puerto 80, y acceso a resolución de nombres DNS, puerto 53:
+            </p>
+              <pre><code># iptables -A OUTPUT -p tcp --dport 80 -j ACCEPT<br/># iptables -A INPUT -p tcp --dport 53 -j ACCEPT<br/># iptables -A INPUT -p udp --dport 53 -j ACCEPT</code></pre>
+
+            <p>
+              Por ejemplo si se quiere denegar todo el tráfico ICMP, evitando que usen la herramienta ping, se utiliza el comando:
+            </p>
+              <pre><code># /sbin/iptables -A INPUT -p icmp -s <b>IPNUMBER</b> -j DROP</code></pre>
+
+            <p>
+              Con esto, se establece una regla que indica que todo lo que provenga de IPNUMBER por el protocolo iCMP, realice un DROP de la conexión, es decir, que no la permita. Con esto la máquina IPNUMBEr no podrá hacer ping.
+            </p>
+
+          <h3>Borrado de reglas</h3>
+            <p>
+              Para borrar las reglas o desactivar el firewall, primero se recomienda poner las políticas a ACCEPT:
+            </p>
+              <pre><code># iptables -P INPUT ACCEPT<br/># iptables -P OUTPUT ACCEPT</code></pre>
+
+            <p>
+              Finalmente, se realiza un vaciado de las reglas:
+            </p>
+              <pre><code># iptables -F INPUT<br/># iptables -F OUTPUT</code></pre>
+
+            <p>
+              Para eliminar una regla específica se utiliza el comando:
+            </p>
+              <pre><code># iptables -D chain rulenum</code></pre>
+            
+
     </article>
   </div>
 </section>
