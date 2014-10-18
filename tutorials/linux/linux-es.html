@@ -36,7 +36,7 @@
 
     <article>
 
-      <h1>Introduccion</h1>
+      <h1>Introducción</h1>
         <p>
           <b>Linux</b>, hace referencia a un sistema operativo propiamente dicho y al nombre de un núcleo de una gran cantidad de colección de sistemas.
         </p>
@@ -437,7 +437,7 @@
             </p>
 
             <p>
-              Los mandatos básicos del protocolo HTTP, son los siguientes:
+              Los mandatos básicos del protocolo HTTP (páginas web u otro tipo de archivos), son los siguientes:
             </p>
               <ul>
                 <li><b>GET</b>: Solicita leer una página web u otro objeto.</li>
@@ -448,6 +448,582 @@
                 <li><b>LINK</b>: Conecta a dos recursos existentes.</li>
                 <li><b>UNLINK</b>: Rompe una conexión existente entre dos recursos.</li>
               </ul>
+
+
+          <h3>Etapas de una Transacción HTTP</h3>
+
+            <p>
+              Cada vez que un cliente realiza una petición a un servidor, se ejecutan los siguientes pasos:
+            </p>
+
+              <ul>
+                <li>El usuario accede a una URL, seleccionando un enlace de un documento HTML o introduciéndola directamente en la barra de dirección del cliente web.</li>
+                <li>El cliente decodifica la URL, separando sus diferentes partes: protocolo de acceso, la dirección DNS o IP del servidor, el posible puerto opcional (el valor por defecto es 80) y el objeto que se está solicitando al servidor.</li>
+                <li>Se abre una conexión TCP-IP con el servidor, llamando al puerto TCP correspondiente.</li>
+                <li>Se realiza la petición enviando el comando necesario (GET, POST, HEAD, etc.), la dirección del objeto requerido (el contenido de la URL que sigue a la dirección del servidor), la versión del protocolo HTTP empleada (usualmente HTTP/1.0) y un conjunto variable de información que incluye datos sobre las capacidades del explorador y datos opcionales para el servidor.</li>
+                <li>El servidor devuelve la respuesta al cliente, que contiene un código de estado y el tipo de dato MIME de la información de retorno, seguido de la propia información.</li>
+                <li>Finalmente, se cierra la conexión TCP.</li>
+              </ul>
+
+          <h3>Servidores Web</h3>
+            <p>
+              El protocolo HTTP no se ejecuta por sí mismo, sino que se implementa mediante los servidores Web, que son los responsables de establecer las distintas negociaciones.
+            </p>
+
+            <p>
+              Es importante diferenciar HTTP de HTML. HTML es un formato de archivos no ejecutable generado mediante código de marcación o etiquetas, mientras que HTTP es un protocolo de comunicación.
+            </p>
+
+            <p>
+              Un <b>servidor Web</b> se encarga de mantenerse a la espera de peticiones HTTP llevadas a cabo por un cliente (navegador). El navegador realiza la petición al servidor y éste le responde con el contenido que el cliente solicita.
+            </p>
+
+            <p>
+              Cuando un usuario teclea el nombre de una página web en el navegador, éste realiza una petición HTTP al servidor de dicha dirección. El servidor responde al cliente enviando el código HTML de la página; al recibir el código, el cliente lo interpreta y lo muestra en pantalla.
+            </p>
+
+            <p>
+              Por lo tanto, el cliente se encarga de solicitar e interpretar el código HTML, mientras que el servidor se limita a transferir el código de la página sin llevar a cabo ninguna interpretación del mismo.
+            </p>
+
+            <p>
+              Las <b>aplicaciones Web</b> son fragmentos de código que se ejecutan cuando se realizan ciertas peticiones o respuestas HTTP. Existen 2 tipos:
+            </p>
+              <ul>
+                <li><b>Aplicaciones en el lado del cliente:</b> El cliente Web es el encargado de ejecutar la aplicación en el equipo del usuario. El servidor proporciona el código de las aplicaciones o <b>scripts</b>, y es el cliente, mediante el navegador, que las ejecuta. Los navegadores permiten ejecutar aplicaciones escritas en lenguajes Javascript y Java, aunque pueden añadirse más lenguajes mediante el uso de "plugins".</li>
+
+                <li><b>Aplicaciones en el lado del servidor:</b> El servidor Web es quien ejecuta la aplicación. Una vez ejecutada, genera cierto código HTML que envía al cliente por medio del protocolo http.</li>
+              </ul>
+
+          <h3>Domain Name Service (DNS)</h3>
+            <p>
+              El <b>DNS</b> es una base de datos distribuida y jerárquica que almacena información asociada con los nombres de los dominios en redes como Internet.
+            </p>
+
+            <p>
+              Aunque el DNS puede asociar distintos tipos de información a cada nombre, los usos más comunes son: la asignación de nombres de dominio a direcciones IP y la localización de los servidores de correo electrónico de cada uno de ellos.
+            </p>
+
+            <p>
+              El sistema de nombres de dominios en Internet es un sistema distribuido, jerárquico, replicado y tolerante a fallos. El sistema se basa en una estructura de árbol que define una jerarquía entre los dominios y los subdominios.
+            </p>
+
+            <p>
+              En un nombre de dominio, la jerarquía se lee de derecha a izquierda. Por ejemplo, www.domain.com, el dominio más alto es com. Por otra parte, la raíz del árbol está representada por un "punto" al final del nombre (aunque no se escribe), todos los dominios están bajo ésta raíz.
+            </p>
+
+            <p>
+              Cada componente del dominio (y también la raíz) tiene un servidor primario y varios servidores secundarios. Todos estos servidores tienen la misma autoridad para responder por el dominio, pero el primario es el único con derecho para hacer modificaciones en él. Por este motivo, el servidor primario tiene la copia maestra y los secundarios copian la información desde él.
+            </p>
+
+            <p>
+              El <b>servidor de nombres</b> es un programa que suele ser una versión de BIND (Berkeley Internet Name Daemon). Es recomendable siempre utilizar la última versión desde Internet (<a href="http://www.isc.org">www.isc.org</a>)
+            </p>
+
+            <p>
+              La raíz del sistema de dominios es proporcionada por algunos servidores "bien conocidos". Todo servidor de nombres debe ser configurado con la lista de los servidores raíz "bien conocidos" (que usualmente vienen de fábrica). Estos servidores indican que dominios de primer nivel existen y cuáles son sus servidores de nombres. Estos servidores de dominio, a su vez, indican que subdominios existen y cuáles son sus servidores.
+            </p>
+
+
+          <h3>Consideraciones sobre los servidores Web</h3>
+            <p>
+              Una configuración adecuada de un servidor Web, debe asegurar: seguridad, servicios, rápidez, compatibilidad, escalabilidad, rendimiento y eficacia.
+            </p>
+
+          <h3>Instalación de Apache 2</h3>
+            <p>
+              El servidor <b>Apache HTTP</b> es un servidor Web de tecnología Open Source sólido, de uso comercial y que está desarrollado por la Apache Software Foundation Red Hat Linux. Incluye el servidor Apache HTTP versión 2.0 así como también una serie de módulos de servidor diseñados para mejorar la funcionalidad.
+            </p>
+
+            <p>
+              Apache se ejecuta en entornos multitarea, se instala en un directorio del sistema operativo, típicamente en <code>/usr/local/httpd</code>, entre otros. Este directorio se denomina <b>directorio base</b> y contiene tres subdirectorios:
+            </p>
+              <ul>
+                <li><b>Conf</b>: contiene los archivos de configuración de Apache.</li>
+                <li><b>Htdocs</b>: contiene las páginas HTML que componen el sitio Web.</li>
+                <li><b>Logs</b>: contiene los archivos de log, tanto de los accesos correctos como los errores.</li>
+              </ul>
+
+            <p>
+              El archivo ejecutable que contiene el servidor se llama <code>httpd</code>, a este ejecutable se le pueden proporcionar varios parámetros:
+            </p>
+              <ul style="list-style: none;">
+                <li><b>-v</b>, muestra la versión del programa.</li>
+                <li><b>-h</b>, muestra las diferentes directivas de la configuración disponibles.</li>
+                <li><b>-d</b>, define el directorio base del servidor apache.</li>
+              </ul>
+
+            <p>
+              Una vez instalado Apache 2.0, para verificar el buen funcionamiento del servidor, se puede utilizar el siguiente comando:
+            </p>
+            <pre><br><code># cd /etc/httpd</code><br><code># /bin/apachectl start</code>
+            </pre>
+            <p>
+              Para arrancar el servidor también se puede utilizar:
+            </p>
+            <pre><br><code># httpd -k start</code>
+            </pre>
+
+            <p>
+              Posteriormente, se abre un navegador de archivos y se coloca la dirección: <i>http://localhost</i>. Se debe de ver en el navegador una página de testeo de la aplicación.
+            </p>
+
+            <p>
+              Para detener Apache, se utilizan los siguientes comandos:
+            </p>
+            <pre><br><code># cd /etc/httpd</code><br><code># /bin/apachectl stop</code>
+            </pre>
+            <p>
+              Adicionalmente, para detener el servidor se puede utilizar:
+            </p>
+            <pre><br><code># httpd -k stop</code>
+            </pre>
+
+          <h3>Arquitectura en Módulo de Apache</h3>
+            <p>
+              Apache está estructurado en módulos. La configuración de cada módulo se hace mediante la configuración de las directivas que están contenidas dentro del módulo. Los módulos pueden clasificarse en 3 categorías:
+            </p>
+              <ul>
+                <li><b>Módulos base</b>: Contiene las funciones básicas de Apache.</li>
+                <li><b>Módulos Multiproceso</b>: Responsables de la unión con los puertos de la máquina, lo que permite aceptar las peticiones.</li>
+                <li><p>Módulos Adicionales</p>: Cualquier otro módulo que añada alguna funcionalidad extra al servidor.</li>
+              </ul>
+            <p>
+              Para añadir un conjunto de utilidades al servidor, simplemente hay que añadirle un módulo.
+            </p>
+
+            <p>
+              Los módulos base y multiproceso más importantes son:
+            </p>
+              <ul>
+                <li><b>core</b>: Funciones básicas de Apache que están disponibles.</li>
+                <li><b>mpm_common</b>: Colección de directivas que se implementan en más de un módulo multiproceso.</li>
+                <li><b>beos</b>: Módulo de multiproceso optimizado para BeOS.</li>
+                <li><b>leader</b>: Variable experimental de MPM.</li>
+                <li><b>mpm_netware</b>: Módulo de multiproceso que implementa un servidor web optimizado para Novell NetWare.</li>
+                <li><b>mpmt_os2</b>: MPM híbrido, multiproceso y multihilo para OS/2.</li>
+                <li><b>perchild</b>: Módulo multiproceso que permite a los procesos demonio servir las peticiones que se asignan a distintos ID de usuario.</li>
+                <li><b>prefork</b>: Implementa un servidor sin hilos.</li>
+                <li><b>threadpool</b>: Variante experimental del módulo estándar de MPM.</li>
+                <li><b>mpm_winnt</b>: Módulo multiproceso optimizado para Windows NT.</li>
+                <li><b>worker</b>: Módulo multiproceso que implementa un híbrido multihilos y multiprocesos de servidor Web.</li>
+              </ul>
+
+            <p>
+              Los módulos adicionales más destacables son los siguientes:
+            </p>
+              <ul>
+                <li><b>mod_access</b>: proporciona control de acceso basándose en el nombre del host del cliente, su dirección IP u otras características de la petición del cliente.</li>
+                <li><b>mod_actions</b>: se utiliza para ejecutar scripts CGI, basándose en el tipo de medio o el método de petición.</li>
+                <li><b>mod_alias</b>: permite mapear diferentes partes del sistema de ficheros del servidor en el árbol de documentos del servidor, y para redirección de URLs.</li>
+                <li><b>mod_asis</b>: Envío de ficheros que tienen sus propias cabeceras http.</li>
+                <li><b>mod_auth</b>: Autentificación de usuario utilizando ficheros de texto.</li>
+                <li><b>mod_auth_anon</b>: Permite a usuarios anónimos acceder a áreas autentificadas.</li>
+                <li><b>mod_auth_dbm</b>: Autentificación utilizando ficheros DBM.</li>
+                <li><b>mod_auth_digest</b>: Autentificación de usuario utilizando MD5.</li>
+                <li><b>mod_auth_ldap</b>: Permite la utilización de un directorio LDAP para almacenar la base de datos de autentificación.</li>
+                <li><b>mod_autoindex</b>: muestra los contenidos de un directorio automáticamente, paracido al comando <code>ls</code> de Unix.</li>
+                <li><b>mod_cache</b>: Cache de contenidos indexados por URIs.</li>
+                <li><b>mod_cern_meta</b>: Semántica de etiquetas meta del CERN.</li>
+                <li><b>mod_cgi</b>: Ejecución de Scripts CGI.</li>
+                <li><b>mod_cgid</b>: Ejecución de scripts CGI utilizando un demonio CGI externo.</li>
+                <li><b>mod_charset_lite</b>: Para la especificación del juego de caracteres de las traducciones.</li>
+                <li><b>mod_deflate</b>: comprime el contenido antes de ser enviado al cliente.</li>
+                <li><b>mod_dir</b>: Proporcionado para redirecciones y para servir los ficheros de listado de directorios.</li>
+                <li><b>mod_disk_cache</b>: Cache para almacenar contenidos indentificados por URI.</li>
+                <li><b>mod_echo</b>: Servidor simple de echo para ilustrar los módulos del protocolo.</li>
+                <li><b>mod_env</b>: Modificación del entorno que se envía a los scripts CGI y a las páginas SSI.</li>
+                <li><b>mod_expires</b>: Generación de las cabeceras HTTP Expires, de acuerdo a los criterios especificados por el usuario.</li>
+                <li><b>mod_ext_filter</b>: Pasa el cuerpo de la respuesta a través de un programa antes de enviársela al cliente.</li>
+                <li><b>mod_file_cache</b>: Cachea una lista estática de ficheros en memoria.</li>
+                <li><b>mod_headers</b>: Personalización de las peticiones HTTP y las cabeceras de las respuestas.</li>
+                <li><b>mod_imap</b>: Proceso de imágenes en el lado del servidor.</li>
+                <li><b>mod_include</b>: Documentos HTML generados por el servidor (Server Side includes)</li>
+                <li><b>mod_info</b>: Proporciona una visión comprensiva de la configuración del servidor.</li>
+                <li><b>mod_isapi</b>: Extensiones ISAPI en Apache para Windows.</li>
+                <li><b>mod_idap</b>: pool de conexiones LDAP y cacheo de resultados para la utilización de otros módulos LDAP.</li>
+                <li><b>mod_log_config</b>: Registro de las peticiones hechas al servidor.</li>
+                <li><b>mod_logio</b>: Registro del número de bytes recibidos y enviados en cada respuesta.</li>
+                <li><b>mod_mem_cache</b>: Cache de contenidos identificados por URI.</li>
+                <li><b>mod_mime</b>: Asocia las extensiones de peticiones de los ficheros con el comportamiento del fichero (manejadores y filtros) y contenido (tipos mime, idioma, juego de caracteres y codificación)</li>
+                <li><b>mod_mime_magic</b>: Determina el tipo MIME de un fichero mirando unos pocos bytes del contenido.</li>
+                <li><b>mod_negotiation</b>: Se proporciona para la negociación del contenido.</li>
+                <li><b>mod_proxy</b>: Servidor HTTP/1.1 proxy/gateway</li>
+                <li><b>mod_proxy_connect</b>: Extensión de mod_proxy para la gestión de las peticiones CONNECT.</li>
+                <li><b>mod_proxy_ftp</b>: Soporte FTP para mod_proxy</li>
+                <li><b>mod_proxy_http</b>: Siporte HTTP para el módulo mod_proxy</li>
+                <li><b>mod_rewrite</b>: Proporciona un motor de reescritura basado en reglas que rescribe las peticiones de URLs al vuelo.</li>
+                <li><b>mod_setenvif</b>: Permite la configuración de las variables de entorno basándose en las características de la petición.</li>
+                <li><b>mod_so</b>: Carga el código ejecutable y los módulos al iniciar o reiniciar el servidor.</li>
+                <li><b>mod_speling</b>: Intenta corregir las URL mal puestas por los usuarios, ignorando las mayúsculas y permitiendo hasta una falta.</li>
+                <li><b>mod_ssl</b>: Criptografía avanzada utilizando los protocolos Secure Sockets Layer y Transport Layer Security.</li>
+                <li><b>mod_status</b>: Proporciona información en la actividad y rendimiento del servidor.</li>
+                <li><b>mod_suexec</b>: Permite a los scripts CGI ejecutarse con un nombre y grupo específico.</li>
+                <li><b>mod_unique_id</b>: Proporciona variables de entorno y un identificador único para cada petición.</li>
+                <li><b>mod_userdir</b>: Directorios específicos para usuarios.</li>
+                <li><b>mod_usertrack</b>: Registro de actividades de un usuario en el sitio.</li>
+                <li><b>mod_vhost_alias</b>: Proporcionado para configurar muchos servidores virtuales dinámicamente.</li>
+              </ul>
+
+          <h3>Páginas dinámicas</h3>
+            <p>
+              HTML no es un lenguaje de programación, es sólo un lenguaje descriptivo que tiene como objeto dar formato al texto y las imágenes que se pretenda visualizar en un navegador.
+            </p>
+            <p>
+              Sin embargo, existen lenguajes que son capaces de responder de manera inteligente a las demandas del navegador y que permiten la automatización de tareas tediosas e intermediables como peuden ser las actualizaciones, el acceso a base de datos, etc. Estos lenguajes permiten desarrollar <b>páginas dinámicas</b>.
+            </p>
+
+            <p>
+              Los lenguajes de lado servidor más ampliamente utilizados para el desarrollo de páginas dinámicas son el ASP, PHP y PERL. ASP es un lenguaje derivado del Visual Basic desarrollado por Microsoft, por lo que son adecuados para plataformas bajo sistema Windows NT. El PHP es un lenguaje análogo a ASP, pero utilizado en plataformas UNIX y Linux. PERL es un lenguaje más rápido y potente.
+            </p>
+
+            <p>
+              El uso de páginas estáticas o dinámicas dependerá de la funcionalidad que se desee tener. Una página relativamente pequeña, que no necesite estar al día contínuamente ya que sus contenidos son fijos y no se tiene previsto pagar por mantenerla, puede desarrollarse en HTML. Sin embargo, si el sitio web es extenso y sus contenidos van a ir cambiando rápidamente, será necesario automatizar en la medida de lo posible todas las tareas.
+            </p>
+
+          <h3>PHP</h3>
+            <p>
+              PHP es el lenguaje más utilizado en la Web para la realización de páginas avanzadas por ser potente y estable. Una de sus características, es que permite una programación orientada a objetos.
+            </p>
+
+            <p>
+              <b>PHP</b> es un lenguaje interpretado similar a JavaScript que se ejecuta en el lado del servidor y permite la creación de documentos y páginas Web con contenido dinámico.
+            </p>
+
+            <p>
+              Al estar, el código PHP empotrado dentro de un documento HTML, cuando un usuario desde su navegador hace clic sobre un enlace correspondiente a un documento HTML que incluye código PHP, el navegador realiza la solicitud al servidor Web correspondiente, el servidor localiza el documento, detecta que se trata de una página PHP y pone en funcionamiento el intérprete que tiene del lenguaje que ejecuta el código PHP.
+            </p>
+
+            <p>
+              La forma más habitual de introducir código PHP en un documento HTML, es con la cadena de inicio y final:
+            </p>
+
+            <pre><br><code>&lt;?php ... ?&gt;</code><br>   <code>&lt;? ... ?&gt;</code>
+            </pre>
+
+            <p>
+              Para instalar los módulos para soporte de PHP5 en Apache, primero hay que detener Apache, después se edita el archivo <code>httpd.conf</code>. La ruta del lado derecho de la sentencia <code>LoadModule</code> debe indicar dónde está el módulo de PHP en el sistema. Estas series deben de estar seguidas unas de otras.
+            </p>
+
+            <pre><br><code>LoadModule [apache_route]</code>
+            </pre>
+
+            <p>
+              Para hacer que Apache responda a las extensiones de archivo PHP, en el mismo archivo se incluye la siguiente línea de comando:
+            </p>
+
+            <pre><br><code>AddType application/x-httpd-php .php .phtml</code>
+            </pre>
+
+            <p>
+              Finalmente se arranca Apache con el procedimiento normal.
+            </p>
+
+            <p>
+              Para hacer una prueba de funcionamiento con un editor de texto el código: <code>&lt;?php phpinfo(); ?&gt;</code> y se guarda el archivo con el nombre <code>prueba.php</code> en el directorio <code>/var/www/html</code> o en la carpeta <code>htdocs</code>. Finalmente se realiza la prueba introduciendo la siguiente dirección en el navegador: <i>http://localhost/prueba.php</i>, con esto se debería visualizar una página de prueba.
+            </p>
+
+          <h3>Configuración Básica de Apache</h3>
+            <p>
+              La configuración de Apacha se realiza mediante la modificación del archivo <code>httpd.conf</code>. La estructura de este fichero se compone de tres bloques fundamentales, aunque las directivas de cada uno de ellos puedan aparecer desordenadas o mezcladas. Estos bloques son:
+            </p>
+              <ul>
+                <li>Parámetros globales.</li>
+                <li>Directivas de funcionamiento.</li>
+                <li>Host virtuales.</li>
+              </ul>
+
+            <p>
+              Algunos parámetros son de propósito general y otros son configurables de forma independiente para cada conjunto de directorios o archivos, e incluso para un servidor virtual específico. Estos parámetros se encuentran dentro de desecciones en las que se indica el contexto de aplicación de dicho parámetro. Algunas secciones son:
+            </p>
+              <ul style="list-style: none;">
+                <li><b>&lt;Directory&gt;</b>: Los parámetros que se encuentran dentro de esta sección sólo se aplican al directorio indicado y sus subdirectorios.</li>
+                <li><b>&lt;Files&gt;</b>: Los parámetros de configuración facilitan el control de acceso a los archivos mediante su nombre.</li>
+                <li><b>&lt;VirtualHost&gt;</b>: Los parámetros sólo se aplican a aquellas peticiones dirigidas a este host (nombre de servidor, dirección IP o puerto TCP)</li>
+              </ul>
+            <p>
+              En cuanto a &lt;VirtualHost&gt;, estas directivas se aplican después de las directivas generales. De este modo, un VirtualHost puede modificar la configuración por defecto.
+            </p>
+
+            <p>
+              Algunas directivas de configuración nunca se aplcian a las secciones como directorio, sino que afectan al conjunto del servidor Web. Las más destacables son:
+            </p>
+              <ul>
+                <li><b>ServerRoot</b>: especifica la localización del directorio raíz en el que se encuentra instalado el servidor.</li>
+                <li><b>Listen</b>: especifica el puerto en que se deben utilizar conexiones persistentes. Por defecto el servidor "escucha" en el puerto 80 de TCP.</li>
+              </ul>
+
+            <p>
+              En el momento de la configuración hay una serie de directivas que generalmente no suelen aparecer en las secciones mencionadas, sino que se encuentran en la sección principal. Estas directivas son:
+            </p>
+              <ul>
+                <li>ServerAdmin</li>
+                <li>ServerName</li>
+                <li>DocumentRoot</li>
+                <li>mod_access</li>
+                <li>Allow</li>
+                <li>Deny</li>
+                <li>Order</li>
+              </ul>
+
+          <h3>Archivos de configuración principales</h3>
+            <p>
+              Como ya se indicó, la configuración de Apache se realiza a través del archivo de configuración principal <code>httpd.conf</code>
+            </p>
+
+            <p>
+              Por otro lado, se pueden añadir otros archivos de configuración utilizando la directiva <code>include</code>. En estos archivos de configuración se podrá incluir cualquier directiva. Los cambios en los archivos principales de configuración son reconocidos solamente cuando Apache es arrancado y reiniciado.
+            </p>
+
+            <p>
+              Apache también lee un archivo que contiene los tipos mime de documentos. El nombre del archivo es puesto por la directiva <code>TypesConfig</code> y su nombre por defecto es <code>mime_types</code>
+            </p>
+
+            <p>
+              Los archivos <b>.htaccess</b> es un archivo de texto que Apache usa para disponer de una serie de directivas. Las directivas que se pongan dentro de estos ficheros se aplicarán unicamente al directorio donde esté ubicado y a todos sus subdirectorios. El contenido de este tipo de ficheros habilita al servidor a comportarse de una determinada manera, como por ejemplo optimizar una URL ocultando las variables pasadas por la misma, el bloqueo de usuarios, el control de tráfico de una Web, definir una página de inicio diferente, crear un mensaje de error personalizado, etc.
+            </p>
+
+            <p>
+              Las secciones de configuración más utilizadas son aquellas que cambian la configuración de lugares particulares en el sistema de archivos o el espacio Web. Este punto hace referencia a la transacción que se efectúa desde la interpretación de los datos por parte del servidor ahsta su interpretación Web por parte del usuario.
+            </p>
+
+            <p>
+              El <b>sistema de archivos</b> es la vista de los discos tal cual los ve el sistema operativo, por ejemplo la instalación por defecto de Apache está en <code>/usr/local/apache2</code>.
+            </p>
+
+            <p>
+              El <b>espacio Web</b> (WebSpace) es la vista de nuestro sitio mostrada por el servidor Web y cómo es visto por el cliente.
+            </p>
+
+            <p>
+              Por lo tanto la ruta de acceso <code>/dir/</code> en el espacio Web corresponde a la ruta de acceso <code>/usr/local/apache2/htdocs/dir/</code> en el sistema de archivos de una instalación por defecto de Apache.
+            </p>
+
+            <p>
+              Las directivas &lt;Directory&gt; y &lt;Files&gt; se aplican a partes del sistema de archivos. Las directivas encerradas en una sección <code>&lt;Directory&gt;</code> se aplican en el mismo directorio del sistema de archivos nombrado y a todos los subdirectorios del mismo. El mismo efecto puede ser obtenido usando los archivos <code>.htaccess</code>.
+            </p>
+
+            <p>
+              Por ejemplo para que los índices del directorio sean activados para el sistema de archivos que se indica, así como también para sus subdirectorios, se escribe:
+            </p>
+
+            <pre><br/><code>&lt;Directory /var/web/dir1&gt;<br/>  Options +Indexes <br/>&lt;/Directory&gt;</code>
+            </pre>
+
+            <p>
+              Aquellas directivas encerradas en una sección <code>&lt;Files&gt;</code> se aplican a todo archivo con el nombre especificado sin importar en que directorio se encuentre.
+            </p>
+
+            <p>
+              Por ejemplo las siguientes directivas de configuración, cuando se coloquen en la sección principal de configuración, denegarán el acceso a cualquier archivo llamado privado.html sin importar donde se encuentre.
+            </p>
+
+            <pre><br/><code>&lt;Files privado.html&gt;<br/>  Order allow,deny <br/>  Deny from all <br/>&lt;/Files&gt;</code>
+            </pre>
+
+            <p>
+              Para dirigirse a archivos encontrados en un lugar particular del sistema de archivos, las secciones &lt;Files&gt; y &lt;Directory&gt; pueden combinarse. Por ejemplo la siguiente configuración denegará el acceso a cualquier instancia de privado.html encontrada bajo el directorio indicado.
+            </p>
+
+            <pre><br/><code>&lt;Directory /var/web/dir1&gt; <br/>&lt;Files privado.html&gt;<br/>  Order allow,deny <br/>  Deny from all <br/>&lt;/Files&gt;&lt;/Directory&gt;</code>
+            </pre>
+
+            <p>
+              La directiva <code>Location</code>, por un lado es una regex y por otro cambia la configuración del contenido del espacio Web. Las <b>regex</b> o <b>expresiones regulares</b> son una forma de describir un modelo de texto, por ejemplo "todas las plabras que empiezen con la letra 'R'", y que permiten generar filtros para expresiones de todo tipo. Las expresiones regulares son útiles en Apache porque permiten aplicar ciertos atributos a colecciones de ficheros o recursos de una forma flexible.
+            </p>
+
+            <p>
+              Por ejemplo todos los archivos <i>.gif</i> y <i>.jpg</i> que estén en un directorio "imagenes" pueden ser escritos con la expresión regular: <code>/imagenes/.*(jpg|gif)$</code>
+            </p>
+
+            <p>
+              Para elegir entre contenedores de sistemas de archivos y espacios Web, es importante considerar: Cuando se aplican directivas a objetos que residen en el sistema de archivos siempre se usan <code>Directory</code> o <code>Files</code> y cuando las directivas se aplican a objetos que no residen en el sistema de archivos, como páginas Web generadas por base de dados, se usa <code>Location</code>.
+            </p>
+
+            <p>
+              Es importante que se use <code>Location</code> cuando se trata de restringir el acceso a objetos que residen en el sistema de archivos. Esto se debe a que muchas localizaciones diferentes del Webspace (URLs) pueden dirigirse (map) al mismo lugar del sistema de archivos, permitiendo que las restricciones sean evitadas. Como en el ejemplo siguiente:
+            </p>
+
+            <pre><br/><code>&lt;Location /private&gt; <br/>  Order allow,deny <br/>  Deny from all <br/>&lt;/Location&gt;</code>
+            </pre>
+
+          <h3>Servidores virtuales</h3>
+            <p>
+              Un <b>servidor virtual</b> es aquel que permite mantener distintos trabajos a la vez y, dentro de estos, facilitar su acceso mediante un nombre de dominio en lugar de por su ruta habitual. Por ejemplo se podría acceder al lugar Web <i>/localhost/proyectos</i> o acceder por su nombre de domio, es decir: <i>www.proyectos.com</i> directamente. Es importante distinguir entre dos tipos de servidores virtuales: los servidores de nombres y los servidores de IP.
+            </p>
+
+            <p>
+              La configuración para host virtuales se adapta dependiendo de lo que se necesite. Si se configura Apache para soportar servidores por dirección de nombres entonces se pasa como parámetro el número de IP correspondiente: <code>&lt;VirtualHost 168.264.1.3&gt;</code>.
+            </p>
+
+            <p>
+              Si lo que se prefiere es un servidor de nombres entonces se pasa como parámetro el puerto 80 de la máquina para liberarlo completamente y que atienda cualquier tipo de solicitudes provenientes de distintos clientes: <code>&lt;VirtualHost *:80&gt;</code>. Al colocar el asterisco (*), no habrá restricciones a las máquinas que hagan solicitudes por nombre, pero si se utiliza una dirección IP concreta, en su lugar se puede asignar ésta por nombre y otras por IP.
+            </p>
+
+            <p>
+              Los servidores virtuales que distinguen en función del nombre son perfectamente transparantes para el cliente. El hosting virtual basado en nombres necesita de la configuración del servidor de DNS para que localice las direcciones IP correctas. Después será necesario configurar Apache para que reconozca diferentes nombres de host.
+            </p>
+
+          <h3>Configuración de Apache para soporte de virtualhost</h3>
+            <p>
+              El servidor se configura para el trabajo con virtualhosts con la adición de algunas líneas de comando al archivo <code>httpd.conf</code>, son las siguientes:
+            </p>
+              <ul>
+                <li><b>&lt;VirtualHost&gt;</b> Especifica dónde y en qué puerto se va a levantar el nuevo dominio o subdominio</li>
+                <li><b>ServerAdmin</b>: Corresponda al e-mail de la persona de contacto para este dominio. Es vital cuando tenemos un ISP o administramos una gran cantidad de dominios para los cuales se da la dirección de contacto de la persona responsable.</li>
+                <li><b>DocumentRoot</b>: Es la raíz donde se deben ubicar los índices del nuevo sitio.</li>
+                <li><b>ScriptAlias</b>: En este directorio especificado por un alias será donde se ejecuten los Scripts, por ejemplo archivos PERL.</li>
+                <li><b>ServerName</b>: Es donde se decreta el nombre real del dominio. Es el mismo que se utiliza en el DNS como cname.</li>
+              </ul>
+
+            <p>
+              Los parámetros anteriores pueden utilizarse en el archivo de configuración, como en el siguiente ejemplo:
+            </p>
+      
+
+              <ul>
+                <li>NameVirtualHost *:80 seguido de la dirección IP para usar hosting virtual basado en nombres.</li>
+                <li>&lt;VirtualHost&gt;, la etiqueta VirtualHost seguida del nombre que se acaba de especificar</li>
+                <li>ServerName www.prueba.com seguido del nombre de host y número de puerto que el servidor usa para indentificarse.</li>
+                <li>ServerAlias prueba.com *.prueba.com seguido de los nombres alternativos usados para un host cuando se intentan encontrar equivalencias a hosts virtuales basados en el nombre.</li>
+                <li>DocumentRoot /www/domain seguido de la ruta de acceso a los proyectos (htdocs o html)</li>
+              </ul>
+
+            <pre><br/><code>NameVirtualHost *:80 <br/>&lt;VirtualHost *:80&gt; <br/>  ServerName www.prueba.com *.prueba.com <br/>  DocumentRoot /www/domain <br/> &lt;/VirtualHost&gt;</code>
+            </pre>
+
+            <p>
+              Para verificar si la configuración es correcta, se abre un navegador y en lugar de colocar la ruta de acceso al sitio (http://localhost/prueba) se escribe el nombre del dominio (http://www.prueba.com). Con esto se deberá ver el contenido de la carpeta htdocs o html, dependiendo del caso.
+            </p>
+
+          <h3>Usuarios y grupos</h3>
+            <p>
+              La creación de usuarios y grupos surgen de la necesidad de que las páginas Web puedan ser leídas por gran cantidad de visitantes, pero que no puedan tener acceso a su configuración, diseño o a la modificación del contenido.
+            </p>
+
+            <p>
+              El control de usuarios también tiene sentido si se desea proporcionar un servicio de hosting de pago. En estos casos el panel de control Web, debe permitir subir, eliminar, crear base de datos, etc, pero no debe de estar abierto al público. Este problema se soluciona mediante un sistema de login que identifique al usuario que accede al servicio y una password que lo valide. Por lo general, el envío de esta información se realiza mediante un encriptado que garantiza la integridad de los datos.
+            </p>
+
+            <p>
+              El sistema de encriptado no se puede ver ya que es totalmente transparente a los usuarios. Por otra parte, la gran mayoría de los servicios como el e-mail, utilizan algún método de seguridad. El más común de los protocolos de transferencia segura es el simple mail o SMTP.
+            </p>
+
+            <p>
+              Una ventaja del servidor Apache consiste en que, con total independencia del sistema operativo, es capaz de crear y modificar la lista de usuarios que tendrán acceso a una página determinada. Para este fin, se debe de indicar en que archivo se debe buscar los usuarios y cuál va a ser la raíz del directorio protegido en <code>httpd.conf</code>:
+            </p>
+
+            <pre><br/><code>&lt;Directory /usr/local/apache2/htdocs/protectsite&gt; <br/>  AllowOverride None <br/>  AuthName "Attack ADM Page" <br/>  AuthType Basic <br/>  AuthUserFile /usr/local/apache2/conf/.htpasswd <br/>  require valid-user <br/>&lt;/Directory&gt;</code>
+            </pre>
+
+          <h3>Autentificación</h3>
+            <p>
+              Al implementar la gestión de usuarios, el servidor lleva a cabo acciones con el fin de autentificar el usuario, y una vez se confirme su identidad, sirve la petición y permite el acceso. Estas acciones para verificar la validez del usuario o de la aplicación que quiere acceder pueden clasificarse en: autenticación, autorización y control de acceso. Estas configuraciones requieren de la directiva <code>AllowOverride</code> con el valor <code>AuthConfig</code>
+            </p>
+
+            <p>
+              Para configurar el servidor apache y que sea capaz de autentificar a los usuarios y verificar la autorización del mismo al recurso solicitado, es necesario realizar las siguientes acciones:
+            </p>
+              <ol>
+                <li>Crear un archivo de usuarios.</li>
+                <li>Crear un archivo de grupos (si es necesario).</li>
+                <li>Definir las directivas en el fichero de configuración o mediante un fichero .htaccess</li>
+              </ol>
+
+            <p>
+              Estos archivos se generan automáticamente después de añadir las directivas necesarias y reiniciar Apache. Si no es necesario, se tiene que buscar y configurar manualmente.
+            </p>
+
+            <p>
+              Sólo el superusuario o root debe estar autorizado para llevar a cabo las modificaciones de los archivos contenedores de usuarios y grupos.
+            </p>
+
+            <p>
+              Las directivas de <code>mod_auth</code> necesarias para configurar la autentificación y autorización son las siguientes:
+            </p>
+              <ul>
+                <li><b>AuthUserFile</b>: sirve para especificar la ruta donde se almacenará el fichero de usuarios.</li>
+                <li><b>AuthGroupFile</b>: sirve para especificar la ruta donde se almacenará el fichero de grupos.</li>
+              </ul>
+
+            <p>
+              Existen dos métodos que permite Apache para acceder a cierto directorio a través de un usuario y clave:
+            </p>
+              <ul>
+                <li><b>Basic</b>: cuando el cliente introduce el usuario y clave, estos datos viajan al servidor sin cifrar. Es recomendable para archivos de poca importancia, cuyo acceso sólo se restringe para mantener el control sobre los usuarios que los modifican y así evitar conflictos.</li>
+                <li><b>Digest</b>: el usuario y la clave van cifrados del cliente al servidor. Esto brinda mayor seguridad, debido a que si la clave es capturada por algún usuario no autorizado, ésta será ininteligible.</li>
+              </ul>
+
+            <p>
+              Los métodos sólo sirven para autentificar a un usuario cuando intenta acceder a un determinado recurso, una vez que se identifica un usuario válido se deja acceder al recurso, pero los datos que posteriormente se envian del cliente al servidor, o viceversa, no tienen ningún tipo de cifrado. Por lo tanto, estos métodos sólo sirven para controlar el acceso, no para proteger los datos una vez se ha comprobado que el acceso es válido.
+            </p>
+
+            <p>
+              Para configurar la autontificación, se modifica el archivo <code>httpd.conf</code>
+            </p>
+
+            <pre><br/><code>&lt;Directory "var/www/html/private"&gt; <br/>  AuthName "privatefiles" <br/>  AuthType Basic <br/>  AuthUser File /etc/httpd/conf/passwd_basic <br/>  Require valid-user <br/>&lt;/Directory&gt;</code>
+            </pre>
+
+            <ul>
+              <li><b>&lt;Directory "ruta_de_directorio"&gt;</b>, se indica la ruta del directorio que se va a proteger. Suele ser una buena idea generar una carpeta /private. Todas las directivas que se escriben a continuación afectarán a este directorio.</li>
+              <li><b>AuthName "privatefiles"</b> seguido del nombre de autentificación. También es el texto que aparece en la ventana que solicitará el usuario y clave.</li>
+              <li><b>AuthType Basic</b> seguido del tipo de autentificación.</li>
+              <li><b>AuthUser File /etc/httpd/conf/passwd_basic</b> seguido del nombre del archivo donde están los usuarios y las claves.</li>
+              <li><b>Require valid-user</b>, con esta directiva se indica que usuarios tienen acceso.</li>
+            </ul>
+
+            <p>
+              Parar crear los usuarios con el método de autenticación Basic, se usa la aplicación <code>htpasswd</code>. Si el archivo no existe (porque es la primera vez que se crea un usuario), es necesario lanzar el comando con la opción <code>-c</code>
+            </p>
+
+            <pre><br/><code># ./htpasswd -c /etc/httpd/conf/passwd_basic usuario</code>
+            </pre>
+
+            <p>
+              Para especificar la clave en la línea de comandos se utiliza la opción <code>-b</code>:
+            </p>
+
+            <pre><br/><code># ./htpasswd -b /etc/httpd/conf/passwd_basic usuario clave</code>
+            </pre>
+
+            <p>
+              Para especificar gurpos de usuario que serán autentificados, basta con crear un archivo de texto con el siguiente formato para cada línea: <code>nombreGrupo: user1 user2 user3 ...</code>. Después se utiliza la directiva <code>AuthGroupFile</code> para indicar la ruta completa donde se encuentra el fichero que se ha creado con la definición de grupos. Cada usuario del grupo se añade al fichero de claves como se detalló anteriormente.
+            </p>
+
+          <h3>Ejemplo de Host Virtual y credencial de acceso</h3>
+            <p>
+              Si se quiere crear un host virtual para Apache y establecer una credencial de acceso para acceder al directorio Web, con las siguientes características:
+            </p>
+              <ul>
+                <li>Dominio a alojar en el host virtual: www.dominiovirtual.com</li>
+                <li>Directorio de la Web del host virtual: /var/www/dominiovirtual.com</li>
+                <li>Correo de contacto del WebMaster: webmaster@dominiovirtual.com</li>
+                <li>Usuario para acceder a la Web: admin</li>
+                <li>Contraseña para acceder a la Web: unaclave</li>
+                <li>Archivo donde se almacenará las credenciales de acceso: /etc/apache2/conf/dominiovirtual.com-passwd</li>
+                <li>Mensaje que aparecerá al solicitar la credencial para acceder: "Mensaje de acceso a dominiovirtual.org"</li>
+              </ul>
+
+            <p>
+              En primer lugar se tiene que crear el host virtual, modificando el archivo de configuración de Apache 2:
+            </p>
+
+            <pre><br/><code>NameVirtualHost *:80 <br/>&lt;VirtualHost *:80&gt; <br/>  ServerName www.dominiovirtual.com <br/>  ServerAdmin webmaster@dominiovirtual.com <br/>  DocumentRoot /var/www/dominiovirtual.com <br/>  AuthName "Mensaje de acceso a dominiovirtual.org" <br/>  AuthType Basic <br/> AuthUserFile /etc/apache2/conf.d/dominiovirtual.com-passwd <br/>  AuthGroupFile /dev/null <br/>  Require user admin <br/>&lt;/VirtualHost&gt;</code>
+            </pre>
+
+            <p>
+              Posteriormente se debe validar el nombre de dominio especificado en ServerName.
+            </p>
+
+            <p>
+              A continuación se procede a crear un archivo de usuarios, y debido a que se realiza por primera vez se utiliza el parámetro -c.
+            </p>
+
+            <pre><br/><code># htpasswd -c /etc/httpd/conf/passwd_basic usuario <br/>New password: <br/>Re-type new password: <br/>Adding password for user admin</code>
+            </pre>
+
+
 
         <h2>Proxy</h2>
           <p>
