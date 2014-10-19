@@ -34,9 +34,16 @@
   <div class="container">
     <h1 align="center">Design Patterns (Gang of Four)</h1>
 
+    <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#creational_patterns">Creational Patterns</a></li>
+      <ul>
+        <li><a href="#abstract_factory">Abstract Factory</a></li>
+      </ul>
+    </ul>
     <article>
 
-      <h1>Introduction</h1>
+      <h1 id="introduction">Introduction</h1>
 
       <ul>
       <li>A pattern has 4 essential elements:</li>
@@ -173,6 +180,82 @@
           <li>A type is a name used to denote a particular interface. An object may have many types, and widely diferent objects can share a type.</li>
         </ul>
     </article>
+
+    <article>
+      <h1 id="creational_patterns">Creational Patterns</h1>
+        <p>
+          Creational design patterns abstract the instantiation process.
+        </p>
+
+      <h1 id="abstract_factory">Abstract Factory</h1>
+        <p>
+          The <b>Abstract Factory</b> or <b>Kit</b> pattern provides an interface for creating families of related or dependent objects without specifying their concrete classes.
+        </p>
+
+        <p>
+          The Abstract Factory should be used when:
+        </p>
+          <ul>
+            <li>A system should be independent of how its products are created, composed and represented.</li>
+            <li>A system should be configured with one of multiple families of products.</li>
+            <li>A family of related product objects is designed to be used together, and we want to enforce this constraint.</li>
+            <li>We want to provide a class library of products, and we want to reveal just the interfaces, no their implementations.</li>
+          </ul>
+
+        <h2>Structure</h2>
+        <p>
+          The next figure shows the <i>structure</i> of this pattern:
+        </p>
+
+        <center><img class="centered" src="../../images/tutorials/designpatterns/creational_patterns/abstract_factory.jpg" width="80%" alt=""></center>
+
+        <h2>Participants and Collaborations</h2>
+        <p>
+          The <i>participants</i> of the previous figure are:
+        </p>
+          <ul>
+            <li><b>AbstractFactory</b>: Declares an interface for operations that create abstract product objects.</li>
+            <li><b>ConcreteFactory</b>: Implements the operations to create product objects.</li>
+            <li><b>AbstractProduct</b>: Declares an interface for a type of product object.</li>
+            <li><b>ConcreteProduct</b>: Defines a product object to be created by the corresponding concrete factory. Implements the AbstractProduct interface.</li>
+            <li><b>Client</b>: Uses only interfaces declared by AbstractFactory and AbstractProduct classes.</li>
+          </ul>
+
+          <p>
+            Usually a single instance of a ConcreteFactory class is created at run-time. This ConcreteFactory creates product objects having a particular implementation. To create different product objects, clients should use a different concrete factory.
+           </p>
+
+          <p>
+            AbstractFactory defers creation of product objects to its ConcreteFactory subclass.
+          </p>
+
+
+        <h2>Consequences</h2>
+          <p>
+            The Abstract Factory pattern has the following consequences:
+          </p>
+            <ul>
+              <li>It isolates concrete classes. This pattern helps to control the classes of objects that an application creates because the client only manipulates instances through their abstract interfaces, encapsulating the responsability and the process of creating product objects.</li>
+
+              <li>It makes exchanging product families easy. The client can use different product configurations simply by changing the concrete factory. The whole product family changes at once because the abstract factory creates a complete family of products.</li>
+
+              <li>It promotes consistency among products. The pattern makes easy to enforce that an application uses objects from only one family at a time.</li>
+
+              <li>Supporting new kinds of products is difficult. Supporting new kinds of products requires extending the factory interface, which involves changin the AbstractFactory class and all of its subclasses.</li>
+            </ul>
+
+        <h2>Implementation</h2>
+          <p>
+            Some useful techniques for implementing the Abstract Factory pattern are:
+          </p>
+            <ul>
+              <li><i>Factories as singletons</i>. An application ussually needs only one instance of a ConcreteFactory per product family, so it is best implemented as a Singleton (144).</li>
+              <li><i>Creating the products</i>. The pattern only declares an interface for creating products. The ConcreteProduct subclasses have to create them. The most common way to do this is to define a Factory Method (121) for each product. If many product families are possible, the concrete factory can be implemented using the Prototype (193) pattern.</li>
+            </ul>
+
+
+    </article>
+
   </div>
 </section>
 
