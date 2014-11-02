@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tutorial UML - Domingo Esteban</title>
+  <meta name="keywords" content="Domingo, Esteban, Cabala, Robotics, Peru, Spain, Madrid, Arequipa, Unified, Modelling, Language, UML">
+  <meta name="description" content="Tutorial UML- Domingo Esteban">
+  <meta name="author" content="Domingo Esteban">
+
+  <!-- Mobile viewport optimized -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+  <!--meta name="viewport" content="width=device-width, initial-scale=1"-->
+
+  <!-- Bootstrap CSS -->
+  <!-- <link rel="stylesheet" href="../framework/css/bootstrap.css"> -->
+<link href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' rel='stylesheet'/>
+<link href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css' rel='stylesheet'/>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../../includes/css/styles.css"/>
+  <link rel="stylesheet" href="../../includes/css/tutorials-styles.css"/>
+
+  <!-- Including Modernizr (Before any other Javascript) -->
+
+  <!-- Favicon -->
+  <link href="../../images/icons/robot-favicon.ico" rel="icon" type="image/x-icon" />
+
+</head>
+
+<body>
+
+
+<section class="tutorial-block-intro" style="background-color:#F9F7EB;">
+  <div class="container">
+    <h1 align="center">UML</h1>
+
+    <ul>
+    <li><a href="#introduccion">Introducción</a></li>
+    <li><a href="#creational_patterns">Diagramas de estructura estática</a></li>
+    <li><a href="#creational_patterns">Diagramas de interacción</a></li>
+    <li><a href="#creational_patterns">Diagramas de estado y actividades</a></li>
+    <li><a href="#creational_patterns">Modelado físico de un sistema</a></li>
+    <li><a href="#creational_patterns">UML 2.0</a></li>
+    </ul>
+    <article>
+    
+    <h1 id="introduccion">Introducción</h1>
+    
+    <p>
+      UML (Unified Modelling Language) consiste en un lenguaje que permite documentar, modelar y establecer cualquiera de los elementos que conforman un sistema orientado a objetos.
+    </p>
+
+    <p>
+      Antes de la existencia de UML, existían distintos métodos y técnicas de orientación a objetos, enfoques variados, muchos problemas de aprendiza y uso de herramientas, y se carecía de estándares únicos.
+    </p>
+
+    <p>
+      Combina las metodologías de orientación a objetos de Booch, Rumbaugh y Jacobson.
+    </p>
+
+    <p>
+      En enero de 1997, se crea la primera versión adoptada como un estándar por el OMG (Object Management Group). Posteriormente, se desarrollaron diversas versiones, y en la actualidad se sigue revisando el estándar.
+    </p>
+    
+    <p>
+      Según el <a href="http://www.omg.org">OMG</a>: <b>Unified Modelling Language</b> (<b>UML</b>) es un lenguaje para específicar, visualizar, construir y documentar los elementos de los sistemas software, así como los modelos de negocio y otros sistemas no software.
+    </p>
+
+    <p>
+      UML cubre las áreas principales que existen a la hora de crear una aplicación orientada a objetos, porque aglutina los principales enfoques de orientación a objetos.
+    </p>
+
+    <p>
+      Un problema de UML es su falta de integración con otras técnicas como los patrones de diseño o las interfaces de usuario.
+      Además, es importante destacar que UML es un lenguaje y no una metodología, por lo que necesita de un proceso de desarrollo, como puede ser <b>RUP</b> (<b>Rational Unified Process</b>) que combina los diagramas de UML con una serie de fases para su realización de un desarrollo software.
+    </p>
+
+    <p>
+      El éxito de UML, y su aceptación por un amplio procentaje de la industria, se debe a tres motivos principales:
+    </p>
+      <ul>
+        <li>El prestigio de sus tres creadores (Rumbaugh, Jacobson y Booch)</li>
+        <li>La lista de potentes empresas que han respaldado UML desde sus inicios.</li>
+        <li>La incorpación en ún único modelo de las principales ventajas de tres metodologías: OMT, Booch y OOSE.</li>
+      </ul>
+
+      <h2>Metodologías orientadas a objetos</h2>
+
+      <p>
+        Dentro del campo de la Ingeniería de Software, una metodología esta relacione con un proceso lógico y ordenado que permite producir un programa o software informático.
+      </p>
+
+      <p>
+        Cada metodología incluye sus propias reglas, técnicas y notaciones predefinidas. Por lo general aportan un algoritmo (conjunto de pasos ordenados) que debe completarse de forma secuencial para conseguir los objetivos. Los ciclos de vida marcan esta secuencialidad.
+      </p>
+
+      <p>
+        Dentro de los diversos paradigmas del mundo de la informática, el paradigma orientado a objetos consiste en una serie de normas para abordar los problemas. Su base es el mundo real y el concepto es el objeto, que combina estructura de datos y comportamiento en una sola entidad.
+      </p>
+
+      <h3>Object Modelling Technique</h3>
+      <p>
+        OMT o Técnica de Modelado de Objetos consiste en una metodología de Ingeniería de Software para el desarrollo de aplicaciones tomando como paradigm de partida la orientación a objetos. James Rumbaugh es uno de sus autores principales y destaca tres modelos:
+      </p>
+        <ul>
+          <li><b>Modelo de objetos</b>: Contempla aspectos estáticos y proporciona información sobre la estructura de los objetos. Especifíca <i>"a qué le sucede"</i>. Consiste en un diagrama de objetos más un diccionario de datos. El diagrama de objetos muestra las clases y sus relaciones (generalización, agregación, asociación e instancia), mientras que el diccionario de datos representa el detalla de las clases en el diagrama de objetos.</li>
+          <li><b>Modelo dinámico</b>: Conjunto de diagramas de estado más un diagrama de flujo de eventos global. Especifíca <i>"cuando sucede"</i>.</li>
+          <li><b>Modelo funcional</b>: Es un diagrama de flujo con restricciones. Especifíca <i>"lo que sucede"</i></li>
+        </ul>
+
+      <p>
+        Dentro de esta metodología existen tres fases:
+      </p>
+        <ul>
+          <li><b>Análisis</b>: En esta fase se obtiene un modelo preciso, conciso, comprensivo y correcto del mundo real; es decir, se comprende el sistema, se elabora un modelo de resolución y se determina el dominio. En esta fase se obtiene la captura de requisitos. La fase está marcada por tres aspectos: los objetos y sus relaciones, el flujo dinámico de control y las transformaciones funcionales.</li>
+          <li><b>Diseño del sistema</b>: Pretende mostrar la arquitectura del sistema: división del sistema en subsistemas, cuncurrencia, comunicación de subsistemas y almacenamiento de datos.</li>
+          <li><b>Diseño de objetos</b>: Pretende refinar y detallar el modelo de análisis, de forma que se pueda construir un modelo que sea cercano a la máquina. El resultado final de esta fase es el documento de diseño, el cual contiene versiones más detalladas de los modelos construidos en el análisis.</li>
+        </ul>
+
+      <h3>Object Oriented Design Booch</h3>
+      <p>
+        El método Booch destaca por sus diagramas, que se utilizan para describir las decisiones de análisis y diseño durante la creación de un sistema orientado a objetos.
+      </p>
+
+      <ul>
+        <li><b>Diagrama de Clases:</b> Consisten en un conjuntod e clases y relaciones entre ellas. Puede contener clases, utilidades, clases paramétricas y metaclases. Los tipos de relaciones son asociaciones, herencia, instancia, contenencia, uso y metaclase.</li>
+        <li><b>Especificación de Clases:</b> Usado para capturar toda la información importante acerca de una clase en formato texto.</li>
+        <li><b>Diagrama de Categorías:</b> Clases agrupadas de forma lógica bajo diversas categorías.</li>
+        <li><b>Diagrama de Transición de Estados:</b> Muestra el comportamiento dinámico del sistema.</li>
+        <li><b>Diagrama de Objetos:</b> Muestra objetos en el sistema y su relación lógica. Pueden ser diagramas de escenario, en los cuales se manifiesta la colaboración entre objetos, o diagramas de instancia, que muestran la existencia de los objetos y sus relaciones estructurales entre ellos.</li>
+        <li><b>Diagrama de Tiempo:</b> Aumenta el diagrama de objetos con información acerca de eventos externos y tiempod e llegada de los mensajes.</li>
+        <li><b>Diagrama de Módulos:</b> Muestra la localización de objetos y clases en los módulos del diseño físico de un sistema. Representa parte o la totalidad de la arquitectura de módulos del sistema.</li>
+        <li><b>Subsistemas:</b> Un subsistema es una agrupación de módulos. Es útil en modelos de gran escala.</li>
+        <li><b>Diagrama de Procesos:</b> Muestra la localización de los procesos en los distintos procesos de un ambiente distribuido.</li>
+      </ul>
+
+      <p>
+        Dentro de esta metodología se encuentran tres fases:
+      </p>
+        <ul>
+          <li><b>Análisis de requerimientos</b>: Involucra las funciones primarias del sistema: principales entradas y salidas del sistema, referencias a políticas, sistemas existentes o procedimientos, etc. Además de los mecanismos claves que el sistema debe proveer: estado de entrada, estado de salida y estados esperados.</li>
+          <li>Análisis de dominio.</li>
+          <li>Diseño.</li>
+        </ul>
+
+    </article>
+
+  </div>
+</section>
+
+
+<section class="tutorial-block-intro" style="background-color:#F9F7EB;">
+  <div class="container">
+    <h2>Reference List</h2>
+    <ol>
+      <!--li><cite id="refGoFBook"> E. Gamma, et al., Design Patterns: Elements of Reusable Object-Oriented Software. Boston, MA: Addison-Wesley Longman Publishing Co., Inc., 2000.</cite></li-->
+    </ol>
+  </div>
+</section>
+
+<footer id="footerSocialMedia">
+  <div class="container">
+    <div class="row center-block">
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
+        <a target="_blank" href="https://www.linkedin.com/in/domingoesteban"><img class="footericon" src="../../images/icons/linkedin2-circle-logo-128.png" alt="Linkedin"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
+        <a target="_blank" href="https://github.com/domingoesteban"><img class="footericon" src="../../images/icons/github2-circle-logo-128.png" alt="Github"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
+        <a target="_blank" href="https://twitter.com/domingoesteban"><img class="footericon" src="../../images/icons/twitter2-circle-logo-128.png" alt="Twitter"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
+        <a target="_blank" href="https://google.com/+DomingoEsteban"><img class="footericon" src="../../images/icons/googleplus2-circle-logo-128.png" alt="Google Plus"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
+        <a target="_blank" href="https://www.youtube.com/user/domingoestebanc"><img class="footericon" src="../../images/icons/youtube2-circle-logo-128.png" alt="Youtube"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
+        <a target="_blank" href="https://www.facebook.com/domingoesteban"><img class="footericon" src="../../images/icons/facebook2-circle-logo-128.png" alt="Facebook"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
+        <a target="_blank" href="https://instagram.com/domingoesteban"><img class="footericon" src="../../images/icons/instagram2-circle-logo-128.png" alt="Instagram"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
+        <a target="_blank" href="https://vine.co/domingoesteban"><img class="footericon" src="../../images/icons/vine-circle-logo-128.png" alt="Vine"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
+        <a target="_blank" href="https://vimeo.com/domingoesteban"><img class="footericon" src="../../images/icons/vimeo-circle-logo-128.png" alt="Vimeo"/></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-12" id="footerCopyright">
+    <h6 class="text-center">Copyright © 2014 Domingo Esteban</h6>
+    <!-- <p class="text-center"><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> </p> -->
+  </div>
+
+</footer>
+
+<!-- JAVASCRIPT (At the bottom for faster page loading)-->
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery.js"></script> <!-- Online version 1 -->
+<!--script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script--> <!-- Online version 2 -->
+
+<!-- ARREGLAR!!!! -->
+<!--script>window.jQuery || document.write('<script src="includes/js/jquery.js"></script>')</script--> <!-- If no online access 1 -->
+<!--script src="includes/js/jquery.js"> </script--> <!-- If no online access 2 -->
+
+<!-- Bootstrap JS -->
+<script src="../framework/js/bootstrap.js"> </script>
+
+<!-- Custom JS -->
+<script src="../includes/js/scripts.js"></script>
+
+</body>
+
+<!-- PAGINA PARA FORMATO DE REFERENCIAS: http://www.york.ac.uk/integrity/ieee.html -->
+
+</html> 
