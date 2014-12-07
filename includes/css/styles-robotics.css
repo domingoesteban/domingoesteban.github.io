@@ -1,0 +1,206 @@
+.roboticsBigCol { 
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+/* Landscape phone to portrait tablet */
+@media (max-width: 768px) {
+.roboticsBigCol { 
+  margin-top: 20px;
+  margin-bottom: 20px;
+}  
+}
+
+.jumboRobotics {
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+/*ROBOTICS THUMBNAILS*/
+#roboticsSoftwareThumbnail h3{
+  font-weight: bold;
+  text-align: center;
+}
+
+#roboticsSoftwareThumbnail .thumbnailButton{
+  font-weight: bold;
+  text-align: center;
+}
+
+
+/* ROBOTICS DIVISIONS */
+.roboticsDivision1 {
+    /*height: 300px;*/
+    /*width: 300px;*/
+    background: #f00 url(../../images/robotics/teo-foto1-less3.jpg);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    border-top: 10px solid;
+    border-bottom: 10px solid;
+    background-attachment: fixed;
+}
+
+/* ROBOTICS JUMBOTRON */
+#jumboRoboticsIntro {
+  margin-top: 40px;
+  padding-top: 0px;
+  margin-bottom: 30px;
+}
+#jumboRoboticsResearch {
+  margin-top: 30px;
+  padding-top: 0px;
+  margin-bottom: 30px;
+}
+#jumboRoboticsPublications {
+  margin-top: 30px;
+  padding-top: 0px;
+  margin-bottom: 30px;
+}
+#jumboRoboticsRobots {
+  margin-top: 30px;
+  padding-top: 0px;
+  margin-bottom: 30px;
+}
+#jumboRoboticsSoftware {
+  margin-top: 30px;
+  padding-top: 0px;
+  margin-bottom: 30px;
+}
+@media (max-width: 768px) {
+  #jumboRoboticsIntro {
+    margin-top: 40px;
+    padding-top: 0px;
+    margin-bottom: 80px;
+  }
+  #jumboRoboticsResearch {
+    margin-top: 80px;
+    padding-top: 0px;
+    margin-bottom: 80px;
+  }
+  #jumboRoboticsPublications {
+    margin-top: 80px;
+    padding-top: 0px;
+    margin-bottom: 80px;
+  }
+  #jumboRoboticsRobots {
+    margin-top: 80px;
+    padding-top: 0px;
+    margin-bottom: 80px;
+  }
+  #jumboRoboticsSoftware {
+    margin-top: 80px;
+    padding-top: 0px;
+    margin-bottom: 80px;
+  }
+}
+@media (min-width: 1200px) {
+  #jumboRoboticsIntro {
+    margin-top: 40px;
+    padding-top: 0px;
+    margin-bottom: 100px;
+  }
+  #jumboRoboticsIntro h1{
+    font-size: 100px;
+  }
+  
+  #jumboRoboticsResearch {
+    margin-top: 100px;
+    padding-top: 0px;
+    margin-bottom: 100px;
+  }
+  #jumboRoboticsPublications {
+    margin-top: 100px;
+    padding-top: 0px;
+    margin-bottom: 100px;
+  }
+  #jumboRoboticsRobots {
+    margin-top: 100px;
+    padding-top: 0px;
+    margin-bottom: 100px;
+  }  
+  #jumboRoboticsSoftware {
+    margin-top: 50px;
+    padding-top: 0px;
+    margin-bottom: 50px;
+  } 
+}
+
+
+
+/* ROBOTICS CAROUSEL */
+
+/*#robotsCarousel { 
+  margin-top: 60px;
+}*/
+
+#robotsCarousel .item{ height: 310px;}
+
+#robotsCarouselSlide1 {
+  /*background: url('../../images/robotics/TEO-fondoAzul.jpg') top center no-repeat;*/
+  background: url('../../images/robotics/teo-foto1-mid.jpg') top center no-repeat;
+}
+
+#robotsCarouselSlide2 {
+  background: url('../../images/robotics/darwin-op.jpg') top center no-repeat;
+}
+
+#robotsCarouselSlide3 {
+  background: url('../../images/robotics/summit-xl.jpg') center no-repeat;
+}
+
+#robotsCarouselSlide4 {
+  background: url('../../images/robotics/ABB-IRB-1600.jpg') center no-repeat;
+}
+
+/* Media queries */
+/* Portrait and landscape phone */
+@media (max-width: 480px) {
+
+}
+/* Landscape phone to portrait tablet */
+@media (max-width: 768px) {
+
+#robotsCarousel .item{ height: 310px;}
+
+#robotsCarouselSlide1 {
+  /*background: url('../../images/robotics/TEO-fondoAzul.jpg') top center no-repeat;*/
+  background: url('../../images/robotics/teo-foto1-mid.jpg') top center no-repeat;
+}
+
+#robotsCarouselSlide2 {
+  background: url('../../images/robotics/darwin-op.jpg') top center no-repeat;
+}
+
+#robotsCarouselSlide3 {
+  background: url('../../images/robotics/summit-xl.jpg') center no-repeat;
+}
+
+#robotsCarouselSlide4 {
+  background: url('../../images/robotics/ABB-IRB-1600.jpg') center no-repeat;
+}
+
+}
+/* Large desktop */
+@media (min-width: 1200px) {
+
+#robotsCarousel .item{ height: 310px;}
+
+#robotsCarouselSlide1 {
+  /*background: url('../../images/robotics/TEO-fondoAzul.jpg') top center no-repeat;*/
+  background: url('../../images/robotics/teo-foto1-mid-nobg.jpg') top center no-repeat;
+}
+
+#robotsCarouselSlide2 {
+  background: url('../../images/robotics/darwin-op.jpg') top center no-repeat;
+}
+
+#robotsCarouselSlide3 {
+  background: url('../../images/robotics/summit-xl.jpg') center no-repeat;
+}
+
+#robotsCarouselSlide4 {
+  background: url('../../images/robotics/ABB-IRB-1600.jpg') top center no-repeat;
+}
+
+}
