@@ -66,7 +66,8 @@
 }
 #jumboRoboticsPublications {
   margin-top: 30px;
-  padding-top: 0px;
+  padding-top: 2%;
+  padding-bottom: 3%;
   margin-bottom: 30px;
   border-bottom: thin solid #101010;
   border-top: thin solid #101010;
@@ -107,7 +108,8 @@
   }
   #jumboRoboticsPublications {
     margin-top: 80px;
-    padding-top: 0px;
+    padding-top: 2%;
+    padding-bottom: 3%;
     margin-bottom: 80px;
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
@@ -147,7 +149,8 @@
   }
   #jumboRoboticsPublications {
     margin-top: 100px;
-    padding-top: 0px;
+    padding-top: 2%;
+    padding-bottom: 3%;
     margin-bottom: 100px;
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
@@ -162,6 +165,8 @@
   #jumboRoboticsSoftware {
     margin-top: 50px;
     padding-top: 0px;
+    padding-top: 2%;
+    padding-bottom: 2%;
     margin-bottom: 50px;
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
