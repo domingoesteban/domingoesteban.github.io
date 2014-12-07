@@ -16,6 +16,7 @@
 
   <!-- Custom CSS -->
 	<link rel="stylesheet" href="includes/css/styles.css">
+  <link rel="stylesheet" href="includes/css/styles-robotics.css">
 
   <!-- Including Modernizr (Before any other Javascript) -->
 
@@ -26,9 +27,6 @@
 
 
 <body>
-
-<div class="container" id="main">
-
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="mainnavigationbar">
 		<div class="container-fluid">
 			
@@ -51,14 +49,37 @@
 
       		<li><a href="cv.html" class="mytooltip" title="Curriculum Vitae" data-placement="bottom"><span class="glyphicon glyphicon-list-alt"></span> CV </a></li>
 
-			<li><a href="//blog.domingoesteban.com"><span class="glyphicon glyphicon-pencil"></span> Blog </a></li>
+          <li><a href="//blog.domingoesteban.com"><span class="glyphicon glyphicon-pencil"></span> Blog </a>   </li>
 
           <li><a href="tutorials/tutorials.html"><span class="glyphicon glyphicon-book"></span> Tutorials </a></li>
 
       		<li><a href="bio.html"><span class="glyphicon glyphicon-fire"></span> Bio </a></li>
 
       		<li><a href="#contactModal" data-toggle="modal" data-target="#contactModal"><span class="glyphicon glyphicon-user"></span> Contact </a></li>
+
+          <li class="dropdown visible-xs">
+            <a id="dropLanguage" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+              <img src="images/cv/uk-flag.jpg" height="18" width="27" alt=""> EN
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropLanguage" style="background:#101010;">
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#" style="color: #777;"><img src="images/cv/spain-flag.jpg" height="18" width="27" alt=""> Castellano </a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#" style="color: #777;"><img src="images/cv/france-flag.jpg" height="18" width="27" alt=""> Français </a></li>
+            </ul>
+          </li>
       	</ul>
+        <ul class="nav navbar-nav navbar-right hidden-xs">
+          <li class="dropdown">
+            <a id="dropLanguage" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+              <img src="images/cv/uk-flag.jpg" height="18" width="27" alt=""> EN
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropLanguage" style="background:#101010;">
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#" style="color: #777;"><img src="images/cv/spain-flag.jpg" height="18" width="27" alt=""> Castellano </a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#" style="color: #777;"><img src="images/cv/france-flag.jpg" height="18" width="27" alt=""> Français </a></li>
+            </ul>
+          </li>
+       </ul>
 <!--         <ul class="nav navbar-nav pull-right">
           <li><a href="#" class="mytooltip" title="Search" data-placement="bottom"><span class="glyphicon glyphicon-search"></span></a>
          </li>
@@ -91,49 +112,155 @@
 </div>
 
 
-<div class="carousel slide" id="roboticsCarousel">
+<div class="roboticsDivision1">
 
-  <!-- Indicators -->
-  <ol class="carousel-indicators">
-    <li data-target="#roboticsCarousel" data-slide-to="0" class="active"></li>
-    <li data-target="#roboticsCarousel" data-slide-to="1"></li>
-    <li data-target="#roboticsCarousel" data-slide-to="2"></li>
-  </ol>
+  <div class="jumbotron jumboRobotics sectionHead" id="jumboRoboticsIntro">
+    <div class="container">
+      <div class="col-xs-6 col-xs-offset-6 text-right">
+        <h1 class="text-right"><b>Robotics</b></h1>
+        <p>Research, Interests &amp; Experience</p>
+      </div>
+    </div>
+  </div>
 
-  <!-- Wrapper for slides -->
-  <div class="carousel-inner">
-    <div class="item active" id="roboticsCarouselSlide1">
-      <div class="carousel-caption">
-        <h4>Whole-body trajectory generation in TEO</h4>
-        <p>Whole-body trajectory generation in the humanoid robot developed by UC3M.</p>
-        <a href="robotics/whole-body-movement-humanoid.html" class="btn btn-default btn-success">More info</a>
-      </div> <!-- end carousel-caption -->
-    </div> <!-- end item -->
-    <div class="item" id="roboticsCarouselSlide2">
-      <div class="carousel-caption">
-        <h4>Github</h4>
-        <p>See my github projects</p>
-        <a target="_blank" href="https://github.com/domingoesteban" class="btn btn-default btn-default">More info</a>
-      </div> <!-- end carousel-caption -->s
-    </div> <!-- end item -->
-    <div class="item" id="roboticsCarouselSlide3">
-      <div class="carousel-caption">
-        <h4>ROS Indigo Igloo Released</h4>
-        <p>The first LTS release of ROS was officially released in July 22, 2014. </p>
-        <a target="_blank" href="http://www.ros.org/news/2014/07/ros-indigo-igloo-released.html" class="btn btn-default btn-warning">More info</a>
-      </div> <!-- end carousel-caption -->
-    </div> <!-- end item -->
-  </div> <!-- end carousel-inner -->
 
-  <!-- Controls -->
-  <a class="left carousel-control" href="#roboticsCarousel" role="button" data-slide="prev">
-    <span class="glyphicon glyphicon-chevron-left"></span>
-  </a>
-  <a class="right carousel-control" href="#roboticsCarousel" role="button" data-slide="next">
-    <span class="glyphicon glyphicon-chevron-right"></span>
-  </a>
+
+  <div class="jumbotron jumboRobotics" id="jumboRoboticsResearch">
+    <div class="container">
+      <h1 class="text-center"><b>Research</b></h1>
+      <p>My research interests include:</p>
+      <ul>
+        <li>Motion planning</li>
+        <li>Humanoid robots</li>
+        <li>Autonomous mobile robots</li>
+        <li>Probabilistic robotics</li>
+        <li>Robot simulation</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="jumbotron jumboRobotics" id="jumboRoboticsPublications">
+    <div class="container">
+      <h1 class="text-center"><b>Publications</b></h1>
+      <ul>
+        <li>
+            Martínez, Santiago; Esteban, Domingo; Jardón Huete, Alberto; Balaguer, Carlos <b>"Anticipative Humanoid Postural Control System for Locomotive Tasks"</b>, In Proc. IEEE Intl Conf. on Humanoid Robots (Humanoids 2014), Madrid, Spain, 2014. 
+        </li>
+        <br/>
+        <li>
+            Esteban, Domingo <b>"Whole-body trajectory generation for a humanoid robot"</b>, Msc thesis, Universidad Carlos III de Madrid, Spain, 2014. 
+        </li>
+      </ul>
+    </div>
+  </div>
   
-</div>  <!-- end #roboticsCarousel -->
+  <div class="jumbotron jumboRobotics" id="jumboRoboticsRobots">
+
+    <div class="container">
+
+      <div class="col-xs-12 col-sm-6 roboticsBigCol">
+        <h1 class="text-center"><b>Robots</b></h1>
+        <p class="text-justify"> Until now I've worked on these robots: </p>
+        <ul>
+          <li>TEO</li>
+          <li>DARwIn-OP</li>
+          <li>Summit-XL</li>
+          <li>IRB 1600</li>
+        </ul>
+      </div>
+
+      <div class="carousel slide col-xs-12 col-sm-6 roboticsBigCol" id="robotsCarousel">
+
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+          <li data-target="#robotsCarousel" data-slide-to="0" class="active"></li>
+          <li data-target="#robotsCarousel" data-slide-to="1"></li>
+          <li data-target="#robotsCarousel" data-slide-to="2"></li>
+          <li data-target="#robotsCarousel" data-slide-to="3"></li>
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+          <div class="item active" id="robotsCarouselSlide1">
+            <div class="carousel-caption">
+              <h4>TEO</h4>
+              <p>Humanoid robot developed by UC3M.</p>
+  <!--             <a href="robotics/whole-body-movement-humanoid.html" class="btn btn-default btn-success">More info</a> -->
+            </div> <!-- end carousel-caption -->
+          </div> <!-- end item -->
+          <div class="item" id="robotsCarouselSlide2">
+            <div class="carousel-caption">
+              <h4>DARwIN-OP</h4>
+              <p>Miniature-humanoid-robot manufactured by ROBOTIS.</p>
+  <!--             <a target="_blank" href="https://github.com/domingoesteban" class="btn btn-default btn-default">More info</a> -->
+            </div> <!-- end carousel-caption -->
+          </div> <!-- end item -->
+          <div class="item" id="robotsCarouselSlide3">
+            <div class="carousel-caption">
+              <h4>Summit-XL</h4>
+              <p>Ground mobile robot developed by Robotnik. </p>
+  <!--             <a target="_blank" href="http://www.ros.org/news/2014/07/ros-indigo-igloo-released.html" class="btn btn-default btn-warning">More info</a> -->
+            </div> <!-- end carousel-caption -->
+          </div> <!-- end item -->
+          <div class="item" id="robotsCarouselSlide4">
+            <div class="carousel-caption">
+              <h4>IRB 1600</h4>
+              <p>Industrial robot developed by ABB. </p>
+  <!--             <a target="_blank" href="http://www.ros.org/news/2014/07/ros-indigo-igloo-released.html" class="btn btn-default btn-warning">More info</a> -->
+            </div> <!-- end carousel-caption -->
+          </div> <!-- end item -->
+        </div> <!-- end carousel-inner -->
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#robotsCarousel" role="button" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="right carousel-control" href="#robotsCarousel" role="button" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+        
+      </div>  <!-- end #robotsCarousel -->
+    </div>  <!-- end Container -->
+  </div>  <!-- end #jumboRoboticsRobots -->
+
+  <div class="jumbotron jumboRobotics" id="jumboRoboticsSoftware">
+    <div class="container">
+      <h1 class="text-center"><b>Software</b></h1>
+
+    <div class="row">
+      <div class="col-xs-3 col-xs-offset-2">
+        <div class="thumbnail" id="roboticsSoftwareThumbnail">
+          <img src="images/robotics/teotragen-1.jpg" alt="TEOTraGen">
+          <div class="caption">
+            <h3>TEOTraGen</h3>
+            <p>MATLAB® GUI that allows Whole-body trajectory generation for TEO humanoid robot. </p>
+            <p class="thumbnailButton">
+              <a href="#" class="btn btn-primary" role="button">+Info</a>
+              <a href="https://github.com/roboticslab-uc3m/TEOTraGen" class="btn btn-default" role="button" target="_blank">Source</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-3 col-xs-offset-1">
+        <div class="thumbnail" id="roboticsSoftwareThumbnail">
+          <img src="images/robotics/teo_robot-ros-metapackage.jpg" alt="teo_robot">
+          <div class="caption">
+            <h3>TEO ROS metapackage</h3>
+            <p>ROS packages for TEO humanoid robot. </p>
+            <p class="thumbnailButton">
+              <a href="#" class="btn btn-primary" role="button">+Info</a>
+              <a href="https://github.com/roboticslab-uc3m/teo_robot" class="btn btn-default" role="button" target="_blank">Source</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    </div>
+  </div>
+
+</div>
 
 <footer id="footerSocialMedia">
   <div class="container">

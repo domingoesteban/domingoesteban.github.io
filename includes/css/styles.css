@@ -187,9 +187,9 @@ width: 60px; */
 
 /* ROBOTICS CAROUSEL */
 
-#roboticsCarousel { 
+/*#roboticsCarousel { 
   margin-top: 60px;
-}
+}*/
 
 #roboticsCarousel .item{ height: 400px;}
 
@@ -264,7 +264,8 @@ width: 60px; */
 
 #contactModalContent {
   color: #eee;
-  background-color: #080808;
+  /*background-color: #080808;*/
+  background-color: #101010;
   padding: 0;
  }
 
@@ -530,7 +531,10 @@ width: 60px; */
 
 
 
-
+.sectionHead {
+  background-color:#1D0C9E;
+  color:#CBCFFA;  
+}
 
 #masthead {
   min-height:270px;
