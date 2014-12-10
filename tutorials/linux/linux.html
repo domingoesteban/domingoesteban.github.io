@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Design Patterns Tutorial - Domingo Esteban</title>
+  <meta name="keywords" content="Domingo, Esteban, Cabala, Robotics, Peru, Spain, Madrid, Arequipa, Linux">
+  <meta name="description" content="Linux Tutorial - Domingo Esteban">
+  <meta name="author" content="Domingo Esteban">
+
+  <!-- Mobile viewport optimized -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+  <!--meta name="viewport" content="width=device-width, initial-scale=1"-->
+
+  <!-- Bootstrap CSS -->
+  <!-- <link rel="stylesheet" href="../framework/css/bootstrap.css"> -->
+<link href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' rel='stylesheet'/>
+<link href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css' rel='stylesheet'/>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../../includes/css/styles.css"/>
+  <link rel="stylesheet" href="../../includes/css/tutorials-styles.css"/>
+
+  <!-- Including Modernizr (Before any other Javascript) -->
+
+  <!-- Favicon -->
+  <link href="../../images/icons/robot-favicon.ico" rel="icon" type="image/x-icon" />
+
+</head>
+
+<body>
+
+
+<section class="tutorial-block-intro" style="background-color:#F9F7EB;">
+  <div class="container">
+    <h1 align="center">LINUX</h1>
+
+    <ul>
+      <li><a href="#linuxProgramming">Linux Programming</a></li>
+      <ul>
+        <li><a href="#gcc">GCC</a></li>
+        <li><a href="#make">Make</a></li>
+      </ul>
+      <li><a href="#others">Others</a></li>
+      <ul>
+        <li><a href="#manPages">Man Pages</a></li>
+        <li><a href="#info">Info</a></li>
+
+      </ul>
+    </ul>
+
+    <div class="page-header">
+      <h1>Linux Programming <small>(GCC, Make, GDB)</small></h1>
+    </div>
+
+    <article>
+    <article>
+
+    <div class="page-header">
+      <h1>Others <small>(Man, Info)</small></h1>
+    </div>
+
+    <article id="manPages">
+      <h1>Man Pages</h1>
+      <p>The man pages are divided into numbered sections; for programmers, the most important are:</p>
+      <ul style="list-style-type:none">
+        <li><b>(1)</b> User commands</li>
+        <li><b>(2)</b> System calls</li>
+        <li><b>(3)</b> Standard library functions</li>
+        <li><b>(8)</b> System/administrative commands</li>
+      </ul>
+      <p>To look up a man page of a "name" command or function: </p>
+        <pre><code>man <var>name</var></code></pre>
+      
+      <p>For example, to get the man page for the sleep command (in section 1 of the Linux man pages): <code>man sleep</code>. To see the man page for the sleep library function, use the command: <code>man 3 sleep</code></p>
+
+      <p>Displays all man pages (in all sections) for a command or function matching "name":</p>
+        <pre><code>whatis <var>name</var></code></pre>
+
+      <p>Perform a keyword search on the summary lines:</p>
+        <pre><code>man -k <variable>keyword</variable></code></pre>
+    </article>
+
+    <article id="info">
+      <h1>Info</h1>
+      <p>
+        The Info documentation system contains more detailed documentation for many core components of the GNU/Linux system, plus several other programs. Info pages are hypertext documents.
+      </p>
+
+      <p>
+        To launch the text-based Info browser, just type <code>info</code> in a shell window.
+      </p>
+
+      <p> 
+        To display the keys for navigating an Info document:  <kbd><kbd>ctrl</kbd> <kbd>+</kbd> <kbd>H</kbd></kbd> 
+      </p>
+
+      <p>
+        To jump directly to a particular Info document by specifying the page name on the command line: <code>info <var>pageName</var></code>
+      </p>
+
+      <p>
+        <i>In Emacs, you can access the built-in Info browser by typing <kbd>M-x</kbd> info or <kbd><kbd>C-h</kbd> i</kbd></i>
+      </p>
+
+    </article>
+
+  </div>
+</section>
+
+
+<section class="tutorial-block-intro" style="background-color:#F9F7EB;">
+  <div class="container">
+    <h2>Reference List</h2>
+    <ol>
+      <li><cite id="refGoFBook"> CodeSourcery LLC, Advanced Linux Programming. http://www.advancedlinuxprogramming.com/</cite></li>
+    </ol>
+  </div>
+</section>
+
+<footer id="footerSocialMedia">
+  <div class="container">
+    <div class="row center-block">
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
+        <a target="_blank" href="https://www.linkedin.com/in/domingoesteban"><img class="footericon" src="../../images/icons/linkedin2-circle-logo-128.png" alt="Linkedin"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
+        <a target="_blank" href="https://github.com/domingoesteban"><img class="footericon" src="../../images/icons/github2-circle-logo-128.png" alt="Github"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
+        <a target="_blank" href="https://twitter.com/domingoesteban"><img class="footericon" src="../../images/icons/twitter2-circle-logo-128.png" alt="Twitter"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
+        <a target="_blank" href="https://google.com/+DomingoEsteban"><img class="footericon" src="../../images/icons/googleplus2-circle-logo-128.png" alt="Google Plus"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
+        <a target="_blank" href="https://www.youtube.com/user/domingoestebanc"><img class="footericon" src="../../images/icons/youtube2-circle-logo-128.png" alt="Youtube"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
+        <a target="_blank" href="https://www.facebook.com/domingoesteban"><img class="footericon" src="../../images/icons/facebook2-circle-logo-128.png" alt="Facebook"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
+        <a target="_blank" href="https://instagram.com/domingoesteban"><img class="footericon" src="../../images/icons/instagram2-circle-logo-128.png" alt="Instagram"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
+        <a target="_blank" href="https://vine.co/domingoesteban"><img class="footericon" src="../../images/icons/vine-circle-logo-128.png" alt="Vine"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
+        <a target="_blank" href="https://vimeo.com/domingoesteban"><img class="footericon" src="../../images/icons/vimeo-circle-logo-128.png" alt="Vimeo"/></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-12" id="footerCopyright">
+    <h6 class="text-center">Copyright © 2014 Domingo Esteban</h6>
+    <!-- <p class="text-center"><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> </p> -->
+  </div>
+
+</footer>
+
+<!-- JAVASCRIPT (At the bottom for faster page loading)-->
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery.js"></script> <!-- Online version 1 -->
+<!--script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script--> <!-- Online version 2 -->
+
+<!-- ARREGLAR!!!! -->
+<!--script>window.jQuery || document.write('<script src="includes/js/jquery.js"></script>')</script--> <!-- If no online access 1 -->
+<!--script src="includes/js/jquery.js"> </script--> <!-- If no online access 2 -->
+
+<!-- Bootstrap JS -->
+<script src="../framework/js/bootstrap.js"> </script>
+
+<!-- Custom JS -->
+<script src="../includes/js/scripts.js"></script>
+
+</body>
+
+<!-- PAGINA PARA FORMATO DE REFERENCIAS: http://www.york.ac.uk/integrity/ieee.html -->
+
+</html> 
