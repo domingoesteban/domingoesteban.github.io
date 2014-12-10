@@ -200,7 +200,11 @@
 }
 
 #robotsCarouselSlide4 {
-  background: url('../../images/robotics/ABB-IRB-1600.jpg') center no-repeat;
+  background: url('../../images/robotics/kobuki.png') center no-repeat;
+}
+
+#robotsCarouselSlide5 {
+  background: url('../../images/robotics/ABB-IRB-1600.jpg') top no-repeat;
 }
 
 /* Media queries */
@@ -227,7 +231,11 @@
 }
 
 #robotsCarouselSlide4 {
-  background: url('../../images/robotics/ABB-IRB-1600.jpg') center no-repeat;
+  background: url('../../images/robotics/kobuki.png') center no-repeat;
+}
+
+#robotsCarouselSlide5 {
+  background: url('../../images/robotics/ABB-IRB-1600.jpg') top no-repeat;
 }
 
 }
@@ -250,7 +258,11 @@
 }
 
 #robotsCarouselSlide4 {
-  background: url('../../images/robotics/ABB-IRB-1600.jpg') top center no-repeat;
+  background: url('../../images/robotics/kobuki.jpg') center no-repeat;
+}
+
+#robotsCarouselSlide5 {
+  background: url('../../images/robotics/ABB-IRB-1600.jpg') top no-repeat;
 }
 
 }
