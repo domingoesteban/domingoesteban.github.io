@@ -1079,7 +1079,7 @@
         <li>Nombre del estado (que sea significativo)</li>
         <li>Acciones ejecutadas al realizar una operación relacionada con el estado (acceder, salir o permanecer)</li>
       </ul>
-      <img src="" alt="$$$ Imagen clase con dos acciones $$$">
+      <img src="" alt="$$$ Imagen estado con dos acciones $$$">
 
     <h2>Diagramas de estados</h2>
 
@@ -1090,30 +1090,366 @@
         El diagrama de estados se representa con un grafo cíclico. Cada uno de los nodos es uno de los estados posibles y los arcos son transiciones dirigidas. Las flechas indican la interacción entre los dos estados.
       </p>
 
-    <h2>Transiciones, acciones y subestados</h2>
+      <p>
+        Cada uno de los diagramas de estado se corresponde con un método o una clase. Se usan para describir el comportamiento de un objeto a través de diferentes casos de uso y es muy útil combinarlo con otros modelos como, por ejemplo, los diagramas de actividades.
+      </p>
+      <p>
+        En un diagrama de estados se incluye un estado inicial (creación) y un estado final (destrucción), pese a que estos estados no son utilizables ya que un objeto no puede estar en uno de ellos pero hace el diagrama más legible. Para representarlos se emplea un circulo sólido de color negro para el estado inicial y un círculo con un punto negro para el estado final.
+      </p>
+      <img src="" alt="$$$ Imagen diagrama de estados $$$">
+
+    <h2>Transiciones y acciones</h2>
+
+      <h3>Transiciones</h3>
+      <p>
+        Una <b>transición</b> es la respuesta que ofrece un objeto (mientras se encuentra en un estado concreto) al producirse un evento. Normalmente una transición puede llevar asociada una transformación de estado para el objeto. La transición entre estados es instantánea y se debe a los eventos que se van sucediendo.
+      </p>
+      <p>
+        Estos eventos pueden ser de distintos tipos: recepción de un mensaje, un periodo de tiempo que se termina, una condición que toma o cambia su valor verdadero/falso, una señal a otro de los objetos del diagrama, etc.
+      </p>
+      <img src="" alt="$$$ Imagen diagrama de estados con transiciones $$$">
+
+      <p>
+        A una transición se le puede añadir una etiqueta que señale la condici
+        on que debe cumplirse para pasar de un estado a otro y la acción correspondiente en caso de que esto ocurra. La etiqueta que se emplea tiene la siguiente sintaxis: Evento [condición] | Acción. El evento lanza un posible cambio de estado. Si se cumple la condición indicada (si su valor es TRUE), se ejecutará la acción que viene a continuación. Cada uno de los datos es opcional. Por ejemplo, si no se indica la condición significa que ante ese evento siempre se ejecuta la acción.
+      </p>
+      <img src="" alt="$$$ Imagen diagrama de estados con transiciones-condiciones $$$">
+
+      <h3>Acciones</h3>
+      <p>
+        Las <b>acciones</b> son los comportamientos provocados cuando un evento afecta a un determinado estado. Las acciones incluidas en cada estado pueden ser de tres tipos:
+      </p>
+      <ul>
+        <li><b>Acciones de entrada:</b> se ejecutan cada vez que se accede al estado.</li>
+        <li><b>Acciones de salida:</b> cada vez que se sale del estado a través de una transición se ejecuta esta acción.</li>
+        <li><b>Acciones internas:</b> estas acciones se efectúan cuando se recibe algún tipo de evento que no provoca un cambio de estado. No hay transición.</li>
+      </ul>
+      <img src="" alt="$$$ Imagen diagrama de estados con varias acciones del estado $$$">
+
     <h2>Subestados y superestados</h2>
+
+      <p>
+        En los Diagramas de Estado, un estado puede dividirse a su vez en varios subestados. Entre ellos hay que incluir las transiciones correspondientes para que se comuniquen y algún tipo de conexión para que se comuniquen con los estados superiores (los estados continentes se denomina <b>superestados</b> y los estados anidados se denominan <b>subestados</b>). Se utilizan para refinar el aspecto de un estado y describirlo de forma más concreta.
+      </p>
+      <img src="" alt="$$$ Imagen de superestado y subestados $$$">
+
+      <p>
+        Así como los estados pueden dividirse, también pueden ejecutarse de forma concurrente. Aunque cada una de las secuencias es un conjunto de subestados secuenciales, ambas son concurrentes entre sí. Se representa con un diagrama dividido en dos partes mediante una línea discontínua entre las secuencias concurrentes.
+      </p>
+
+      <p>
+        En el siguiente ejemplo, se verifica que el cliente tuviese crédito suficiente y en caso de ser válido, autorizarlo; y en caso de surgir problemas cancelar el proceso. Por ese motivo se han añadido una serie de estados finales ["entregado" y "rechazado"] a los cuales se accede una vez realizadas las correspondientes secuencias.
+      </p>
+      <img src="" alt="$$$ Imagen diagrama de estados de un pedido $$$">
+
     <h2>Diagramas de Actividades</h2>
+      <p>
+        Los <b>diagramas de actividades</b> son extensiones de los diagramas de estados, sólo que en los diagramas de actividades los estados son de acción. En los diagramas de estados se muestran los estados de un objeto y muestra las actividades como flechas entre estado y estado. Estas actividades, son las que se desarrollan en los diagramas de actividades.
+      </p>
+      <p>
+        Son parecidos a los clásicos diagramas de flujo, pero UML utiliza una adaptación con más posibilidades, como por ejemplo la concurrencia, aunque no deja de ser un organigrama: actividades, bifurcaciones y decisiones.
+      </p>
+      <p>
+        Para representar el diagrama de actividades, se muestran las actividades encerradas entre rectángulos con los bordes redondeados. Se procesa la actividad y se pasa a la siguiente utilizando flechas para indicar las transiciones.
+      </p>
+      <img src="" alt="$$$ Imagen diagrama de actividades $$$">
+
     <h2>Estructura de los diagramas de actividades</h2>
+
+      <h3>Condicionales</h3>
+      <p>
+        Las bifurcaciones pueden representarse de dos formas:
+      </p>
+      <ul>
+        <li>Mostrando todas las rutas posibles.</li>
+        <li>Indicando con un rombo la condición.</li>
+      </ul>
+      <p>
+        Además, hay que señalar la condición entre corchetes. Todas las ramas que aparecen son exclusivas, es decir, si se accede a una de ellas no se puede encaminar por ninguna de las otras.
+      </p>
+      <img src="" alt="$$$ Imagen diagrama de actividades con condicionales $$$">
+
+      <h3>Concurrentes</h3>
+      <p>
+        Consiste en separar una transición en dos rutas para que ambas se ejecuten en paralelo. Se representa mediante una línea gruesa que sea perpendicular a la transición que se haya partido. Las distintas divisiones toman esta línea como punto de partida.
+      </p>
+      <p>
+        El reencuentro entre las rutas concurrentes se produce cuando desembocan a otra línea gruesa tal y como se observa en el gráfico adjunto.
+      </p>
+      <img src="" alt="$$$ Imagen diagrama de actividades con concurrentes $$$">
+
+      <h3>Indicaciones o Señales</h3>
+      <p>
+        Las indicaciones son avisos enviados entre actividades para que se ejecute la actividad a la cual le llega el mensaje.
+      </p>
+      <p>
+        Gráficamente el envío se representa mediante un pentágono convexo y la recepción mediante un pentágono cóncavo.
+      </p>
+      <img src="" alt="$$$ Imagen diagrama de actividades con indicaciones/señales $$$">
+
     <h2>Marcos de responsabilidad ("swim lanes)</h2>
+      <p>
+        Una de las posibilidades de los diagramas de actividades, es mostrar las responsabilidades embebidas dentro de cada actividad (ya que siempre debe existir un responsable de cada una). Para representarlas se emplea un diagrama con tantas bandas o particiones verticales (<b>swim lanes</b>) como roles existan en el problema. A estos segmentos se les conoce como <b>marcos de responsabilidad</b>.
+      </p>
+      <p>
+        En cada banda se indica en la parte superior el nombre del rol o responsable de actividad. Se adapta y moldea el diagrama para que cada actividad caiga en la banda correspondiente. Las transciciones son las responsables de saltar de un marco a otro.
+      </p>
+      <img src="" alt="$$$ Imagen diagrama de marcos de responsabilidad $$$">
+
     </article>
 
     <article>
     <h1 id="modelado_fisico">Modelado físico de un sistema</h1>  
     <h2>Paquetes</h2>
+    <p>
+      Un <b>paquete</b> es un mecanismo que permite organizar elementos del modelo en grupos. Los paquetes también pueden agruparse en otros paquetes como si de una estructura jerárquica se tratara. Cada uno de los paquetes se subdividiría a su vez en otros subpaquetes. Los paquetes se corresponden con los namespaces de .NET (las clases existentes deben tener un nombre único) o los packages de Java. Por este motivo, estas técnicas son útiles cuando los sistemas son extensos ya que tienen una correspondencia directa con los lengaujes de programación más utilizados.
+    </p>
+    <p>
+      Para representarse de forma gráfica, UML emplea un rectángulo con una lengueta en la parte superior izquierda. Hay tres formas de representarlos:
+    </p>
+    <ul>
+      <li>El paquete lleva el nombre en el interior.</li>
+      <li>Las clases aparecen listadas en el interior.</li>
+      <li>Las clases aparecen de forma gráfica en el interior.</li>
+    </ul>
+    <img src="" alt="$$$ Imagen de paquetes $$$">
+    <p>
+      En general un paquete puede agrupar cualquier elemento de UML, pero sobre todo, suele utilizarse con clases. Cada elemento pertenece a (o está definido en) un paquete. Los paquetes pueden tener dependencias entre ellos. Estos conjuntos de asociaciones deben tener una estructura armoniosa y bien balanceada (es fácil reconocerlos porque normalmente el sentido de las dependencias fluye en una misma dirección).
+    </p>
+    <p>
+      La relación de dependencia se indica con una línea punteada terminada en flecha. Si la flecha va desde un paquete A a un paquete B, significa que el paquete A depende del paquete B. Conviene que no existan ciclos entre los distintos paquetes. Los elementos pertenecen al paquete, pero suelen ser referenciados desde otros paquetes. Para hacerlo hay que anteponer el nombre del elemento, el nombre del paquete en el que se ha definido seguido de <code>::</code>.
+    </p>
+    <img src="" alt="$$$ Imagen de paquetes con estructura UML $$$">
+
     <h2>Componentes e interfaces</h2>
-    <h2>Diagrama de despliegue</h2>
+      <p>
+        Los diagramas vistos hasta el momento se centran en los conceptos: muestro las clases o abstracciones del mundo real, muestro los mensajes, muestro los estados por los que pasa un objeto, etc. Sin embargo, los componentes representan una parte física de un sistema (un fuente, un binario, un ejecutable)
+      </p>
+      <img src="" alt="$$$ Imagen de componentes e interfaz gráfica $$$">
+
+      <p>
+        Existen tres tipos de componentes:
+      </p>
+      <ul>
+        <li><b>Componentes de despliegue o distribución</b>: son los que se necesitan para formar un sistema ejecutable (las DLLs, los ActiveX, etc.)</li>
+        <li><b>Componentes de producción</b>: de estos se conforman los componentes de distribución (el código fuente, archivos de bases de datos, etc.)</li>
+        <li><b>Componentes de ejecución</b>: creados a partir de un sistema en ejecución.</li>
+      </ul>
+      <p>Se representan mediante un rectángulo con dos rectángulos insertos en su parte izquierda. En la notación UML 2.0 la representación es diferente.</p>
+
+    <h2>Diagrama de componentes (despliegue?)</h2>
+      <p>
+        Los componentes utilizan interfaces para comunicarse. Una interface es un conjunto de operaciones que especifican los servicios que ofrece ese componente. Es la cara del componente.
+      </p>
+      <p>
+        Las interfaces pueden ser de dos tipos:
+      </p>
+      <ul>
+        <li><b>Interfaz de exportación</b>: el componente provee esa interfaz.</li>
+        <li><b>Interfaz de importación</b>: el componente requiere esa interfaz para poder trabajar.</li>
+      </ul>
+      <p>
+        Además los componentes puede relacionarse entre sí. Un <b>diagrama de componentes</b>, es el conjunto de componentes, interfaces y sus relaciones.
+      </p>
+      <p>
+        Los componentes pueden intercambiarse en un diagrama. Basta con que mantengan las mismas interfaces y se modifique el componente. De hecho, uno de los factores más importantes de los componentes es que pueden reutilizarse. Se representan como un gráfico de componentes software unidos por medio de relaciones de dependencia
+      </p>
+      <img src="" alt="$$$ Imagen de diagrama de componentes $$$">
+
+
     <h2>De UML a los lenguajes de programación</h2>
+    <p>
+      Java y VB.NET son dos de los lenguajes más utilizados para el trabajo con UML, debido, sobre todo, a su clara orientación hacia el mundo de los objetos. Sin embargo existe una gran diferencia entre ellos. VB .NET es un entorno de trabajo y proporciona herramientas para trabajar de forma directa. Java es un lenguaje y existen numerosos compiladores. Para trabajar con Java deben utilizarse plugins como Borland Together u Omondo, ambos para Eclipse.
+    </p>
+    <p>
+      Al proceso consistente en generar código, tomando como referencia una serie de modelos, se le conoce como <b>ingeniería directa</b>.
+    </p>
+
+    <h3>Diagramas de clases</h3>
+      <p>El diagramad e clases mostraba las calses y los elementos de las mismas, sus atributos y sus métodos. El diagrama mostraba la relación existente entre clases. Java usa precisamente el concepto de clase que tiene implementado.</p>
+      <pre><code>
+        class Punto {
+          protected int posX;
+          protected int posY;s
+
+          public Punto (int nuevoX, int nuevoY) {
+          posX = nuevoX;
+          posY = nuevoY;
+          }
+        }
+
+        public int darPosX() {
+          return posX;
+        }
+
+        public int darPosY() {
+          return posY;
+        }
+      </code></pre>
+      
+      <p>
+        Otro aspecto importante del diagrama de clases lo constituyen las relaciones entre clases:
+      </p>
+      <ul>
+        <li><i>Asociación:</i> relación semántica entre dos clases. Se representa con una flecha de cabeza rellena. Hay dos tipos de asociaciones</li>
+        <ul>
+          <li><i>Unidireccional:</i> relación que indica la navegación en un sentido, es decir, de la clase A a la clase B pero no viceversa. Para representarla, la clase a la que se dirige la asociación, se convierte en variable de instancia de la clase origen</li>
+          <li><i>Bidireccional:</i> relación con navegación en ambos sentidos. Son dos relaciones unidireccionales.</li>
+        </ul>
+        <li><i>Dependencia:</i> es un tipo de relación particular, en la que una clase instanciada va a depender de otra calse. Se representa con una flecha punteada.</li>
+        <img src="" alt="$$$ Insertar imagen de asociacion y dependencia $$$">
+        <li><i>Herencia:</i> establece vinculos padre-hijo entre clases. Posibilita que una clase sea padre de otra, con lo que la clase hija comparte sus atributos, servicios, etc. Se representa con una línea terminada en un triángulo hueco. En Java emplea la palabra extends.</li>
+        <li><i>Agregación:</i> implica a un objeto que está compuesto de otros objetos. También se le conoce como relación parte_de. Se representa con un rombo. Equivale en código a una asociación unidireccional.</li>
+        <li><i>Composición:</i> es una relación de agregación más fuerte. Se representa mediante un rombo negro. Equivale en código a una asociación unidireccional.</li>
+        <img src="" alt="$$$ Insertar imagen de herencia, agregación y composición $$$">
+      </ul>
+      
+    <h3>Diagramas de interacción</h3>
+      <p>
+        Existen dos diagramas de interacción: los diagramas de Secuencia y los Diagramas de Colaboración (que en UML 2.0 pasan a llamarse Diagrams de Comunicacionese). En código se representan de la misma forma.
+      </p>
+      <ul>
+        <li><i>Diagramas de Secuencia:</i> muestran los objetos existentes en el escenario y los mensajes que en función del tiempo, se transmiten de uno a otro.</li>
+        <li><i>Diagramas de Colaboración:</i> este tipo de diagrama se centra en los objetos. Muestra los roles de cada uno de los objetos y constituye una de las mejores herramientas para identificarlos.</li>
+      </ul>
+      <img src="" alt="$$$ Insertar imagen de diagramas de interacción $$$">
+
+    <h3>Diagramas de Estado</h3>
+      <p>
+        Un diagrama de sstado muestra los distintos estados de los que dispone un objeto durante su vida, como se relacionan entre ellos y como responden a determinados eventos. La información que presenten los diagramas de esstado debe reflejarse en los métodos de la clase. Para implementar un evento con condición se utiliza una sentencia IF dentro del evento.
+      </p>  
+      <img src="" alt="$$$ Insertar imagen de diagrama de estado IF$$$">
+      <p>
+        Si se quiere implementar la transición entre estados con el mismo evento, se utiliza la sentencia SWITCH CASE.
+      </p>
+      <img src="" alt="$$$ Insertar imagen de diagrama de estado SWITCH CASE $$$">
+
     </article>
 
     <article>
     <h1 id="uml_2">UML 2.0</h1> 
     <h2>Las versiones de UML</h2> 
+
+      <p>
+        La primera versión de UML apareció en enero de 1997, y a lo largo de decenas de meses fue variando (la versión 1.1 a finales de ese mismo año a la versión 1.2 en 1998) hasta llegar a una versión con una revisión hecha en profundidad como fue la versión 1.3. Esta versión junto con la 1.4 son las que suelen emplear para realizar diagramas en UML, ya que el paso a la versión 1.5 sólo se incluyeron acciones semánticas que permitieron a UML reconvertirse en un lenguaje de programación?. Y así fue hasta que llegó la versión 2.0 que supuso un acmbio estructural con respecto a las versiones 1.x
+      </p>
+      <img src="" alt="$$$ Insertar imagen de versiones de UML $$$">
+
     <h2>Objetivos de UML 2.0</h2>
+
+      <p>
+        Las sucesivas revisiones que se le hicieron a UML cometieron el error de permitir que este lenguaje perdiera su identidad. Se agregaron técnicas, se incorporaron diagramas, se hicieron cambios pero lo que realmente ocurrió es que UML se fue convirtiendo en una grupación de técnicas de modelado. Faltaba la coherencia conceptual a la hora de abordar un proyecto.
+      </p>
+      <p>
+        Esta es una de las tareas que intentó abordar la OMG (Object Management Group) una asociación sin ánimo de lucro formada por gigantes de la informática como Sun, IBM, HP o Apple. El mantenimiento de estánderres como CORBA o UML es tarea suya.
+      </p>
+      <p>
+        A la hora de realizar la versión 2.0 se tomaron dos apuntos en consideración:
+      </p>
+      <ul>
+        <li>Los modelos de UML 2.0 deben poder validarse y ejecutarse.</li>
+        <li>El lenguaje de modelado debería ser más extensible.</li>
+      </ul>
+      <p>
+        Esto supone una ruptura con respecto a versiones anteriores. En las versiones previas se remarcaba la idea de que UML no era un lenguaje de programación. En UML 2.0 se modificó el lenguaje para que permitiera más compotamiento.
+      </p>
+
     <h2>Reestructuración de UML 2.0</h2>
-    <h2>En su sitio</h2>
+
+      <p>Una de las características más interesantes de la versión 2.0 son las cuatro especificaciones en las que se dividió:</p>
+      <ul>
+        <li>Superestructura</li>
+        <li>Infraestructura</li>
+        <li>OCL</li>
+        <li>XMI</li>
+      </ul>
+      <p>
+        Como UML 2.0 permite definirse a sí mismo, estas cuatro estructuras y su relación pueden modelarse siguiendo el estándar 2.0 tal y como se observa en la siguiente figura:
+      </p>
+      <img src="" alt="$$$ Insertar imagen de especificaciones UML 2.0 $$$">
+
+      <p>
+        Aquí se definen los conceptos de bajo nivel. Esta infraestructura consiste en un meta-modelo empleado para modelar el resto de elementos de UML. De esta extraña definición se desprende que la infraestructura no la utilizan los usuarios finales de UML, los cuales emplean la superestructura, pero proporciona las bases para definirla.
+      </p>
+      <p>
+        En el apartado anterior se comentó que una de las "peticiones" al nuevo lenguaje consistía en su adaptabilidad y extensibilidad. La infraestructura permite que UML sea un lenguaje configurable y parametrizable.
+      </p>
+
+      <h3>OCL. Lenguaje de Restricción</h3>
+      <p>
+        <b>OCL</b> son las siglas de "Lenguaje de Restricción de Objetos" ("Object Constraint Language"). Como indica su nombre, este lenguaje permitirá indicar restricciones sobre los distintos elementos del modelo. Esto es frecuente que ocurra en un dominio concreto ya que los objetos, a veces, sólo pueden tomar unos valores determinados. El lenguaje OCL posibilita la definición de los elementos del modelo de poscondiciones, precondiciones, invariantes, restricciones, etc.
+      </p>
+
+      <h3>XMI. Intercambio de Diagramas</h3>
+      <p>
+        Existen en el mercado multitud de herramientas para modelar UML, pero, en muchos casos, los modelos creados no son compatibles entre ellas. Por este motivo, se utiliza la especificación para el intercambio de diagramas o <b>XMI</b> ("XML Metadata Interchange").
+      </p>
+      <p>
+        En las versiones anteriores existía un formato para compartir datos. Se empleaba un Schema XML que permitía recoger los elementos empleados en el diagrama. Sin embargo este Schema no decía nada sobre el gráfico del modelo. Para solucionarlo XMI emplea un nuevo Schema que utiliza "SVG" ("Scalable Vector Graphics"), un formato de gráficos vectoriales que describe imágenes como formas, trazados, texto y efectos de filtro.
+      </p>
+
+      <h3>Superestructura</h3>
+      <p>
+        Es la definición formal de los elementos UML. Es el conjunto de todos los diagramas que emplean habitualmente los desarrolladores. La estructura de los diagramas de UML y su relación entre ellos se muestran en el siguiente gráfico:
+      </p>
+      <img src="" alt="$$$ Insertar imagen de superestructura de los diagramas de UML $$$">
+      <p>
+        Los diagramas se agrupan en tres categorías:
+      </p>
+      <ul>
+        <li><b>Diagramas Estructurales:</b> Diagramas de Clases, Diagramas de Objetos, Diagramas de Pquetes, Diagramas de Componentes, Diagramas de Despliegue y Diagramas de Estructura Compuesta.</li>
+        <li><b>Diagramas de Comportamiento:</b> Diagramas de Casos de Uso, Diagramas de Actividades y Diagramas de Estado.</li>
+        <li><b>Diagramas de Interacción:</b> Diagramas de Tiempo, Diagramas de Vista de la Interacción, Diagramas de Comunicaciones y Diagramas de Secuencia</li>
+      </ul>
+
     <h2>Diagramas Estructurales</h2>
+      <p>
+        Focalizan su atención en los elemntos que deben existir en el modelado. Son un total de 6 diagramas:
+      </p>
+      <ul>
+        <li><b>Diagramas de Clases:</b> El principal cambio en este diagrama es la notación lollipop y ball-and-socket. las clases pueden proveer interfaces o necesitarlas (una interfaz especifica las operaciones visibles de forma externa que tiene una clase, componente o paquete). Una clase provee un interfaz si es sustituible por ella (y utiliza un icono en forma de circulo para representarlo). Una clase requiere una interfaz si necesita una instancia de una interfaz para funcionar (y utiliza un ícono en forma de semi-circunferencia)</li>
+        <img src="" alt="$$$ Insertar imagen de diagrama de clases UML 2.0 $$$">
+        <li><b>Diagramas de Objetos:</b> </li>
+        <li><b>Diagramas de Paquetes:</b> </li>
+        <li><b>Diagramas de Componentes:</b> El cambio principal es la notación de los componentes. En vez de los dos rectángulos que figuraban a la izquierda se emplea un estereotipo. Además, se emplea el mismo artificio visto en los Diagramas de calses para representar las interfaces requeridas o provistas.</li>
+        <li><b>Diagramas de Despliegue:</b> Este diagrama muestra la arquitectura ejecutable del sistema. Los nodos contienen artefactos (artifacts) que son conectados por medio de caminos para crear redes de sistema. En 2.0 se puede, además, representar cualquier elemento empaquetable (como por ejemplo los .jar, .dll, etc.) y añadirles atributos. También se pueden añadir especificaciones de despliegue incluyendo una serie de propiedades que especifiquen como el artefacto será desplegado.</li>
+        <li><b>Diagramas de Estructura Compuesta:</b> Una de las novedades más interesantes de la versión 2.0 es la posibilidad de descomponer de forma jerárquica una clase para obtener su estructura interna (incluyendo también los puntos de interacción con otras partes del sistema)</li>
+      </ul>
+      <p>
+        Para dibujarlos emplea tres nuevos elementos:
+      </p>
+      <ul>
+        <li><b>Partes:</b> es una propiedad contenida en un clasificador (como puede ser el caso de una clase). Esto es interesante porque relaciona de forma unívoca esa parte a la clase. Nadie más podrá utilizarla.</li>
+        <li><b>Conectores:</b> indican un enlace entre partes, es decir, señala que las partes pueden comunicarse.</li>
+        <li><b>Puertos:</b> es un punto de interacción de la clase. Puede tener una interfaz requerida o una interfaz provista.</li>
+      </ul>
+      <img src="" alt="$$$ Insertar imagen de nuevos elementos de diagramas estructurales? o de estructura compuesta? $$$">
+
     <h2>Diagramas de Comportamiento</h2>
+    <p>
+      Enfatizan en los aspectos que deben ocurrir en el sistema modelado.
+    </p>
+    <ul>
+      <li><b>Diagramas de Casos de Uso</b>: En 2.0 los casos de uso pueden representarse como si fueran clases (y para notarlo, debe dibujarse una elipse en la parte superior derecha). Otras dos modificaciones (un poco sosas) serían la posibilidad de incluir notas para describir las relaciones de tipo extends o la utilización de íconos gráficos para describir actores.</li>
+      <li><b>Diagramas de Actividades</b>: los cambios realizaros tomaron como idea la posibilidad de emplear una semántica similar a las redes de Petri y que los procesos de negocio tuvieran una representación más fiel. Elementos como las entradas, pin, interrupciones o parámetros se han incorporado a los Diagramas de Actividad. Es una de las áreas que más modificaciones ha sufrido. En UML 1.x los diagramas de actividad eran poco más que casos especiales de los Diagramas de Estado, pero provocaban numerosos problemas. En UML 2.0 se han solucionado y se ha convertido en una de las herramientas más interesantes para modelado de procesos y flujos de trabajo.</li>
+      <li><b>Diagramas de Estado</b> </li>
+    </ul>
+
     <h2>Diagramas de Interacción</h2>
+      <p>Es uno de los subtipos de los diagramas de comportamiento. Se centran en el flujo de datos y control de los elementos del sistema.</p>
+      <ul>
+        <li><b>Diagramas de Secuencia</b>: Por poertenecer a esta categoría de diagramas de interacción tienen dos características:</li>
+        <ul>
+          <li><b>Operadores de interacción</b>: permiten definir opciones, bifurcaciones, rupturas, ejecuciones en paralelo, bucles, etc.</li>
+          <li><b>Fragmentos combinados</b>: es una interacción reutilizable. Se le da un nombre al conjunto y posteriormente se puede reutilizar dibujando un rectángulo nombrado con el identificador escogido (tal y como puede observarse en la siguiente figura)</li>
+          <img src="" alt="$$$ Insertar imagen de fragmentos combinados $$$">
+        </ul>
+        <li><b>Diagramas de Tiempo</b>: Recuerdan a los clásicos cronogramas. Muestran los cambios producidos en el estado a lo largo del tiempo (se indican los eventos que se producen y cuando la recepción de una modifica el estado).</li>
+        <li><b>Diagramas de Vista de la Interacción</b>: Es uno de los diagramas nuevos de UML 2.0. Consiste en una mezcla de los diagramas de actividades y secuencia. Muestra como interectúan varios diagramas de interacciones.</li>
+        <li><b>Diagramas de Comunicaciones</b>: Igual a los diagramas de colaboración en UML 1.X</li>
+      </ul>
+
+
     </article>
 
   </div>
@@ -1124,6 +1460,7 @@
   <div class="container">
     <h2>Reference List</h2>
     <ol>
+      <li>German Escalante Corpas &amp; Carlos Maza Claver</li>
       <!--li><cite id="refGoFBook"> E. Gamma, et al., Design Patterns: Elements of Reusable Object-Oriented Software. Boston, MA: Addison-Wesley Longman Publishing Co., Inc., 2000.</cite></li-->
     </ol>
   </div>
