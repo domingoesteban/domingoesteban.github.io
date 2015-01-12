@@ -52,8 +52,30 @@
       <h1>Linux Programming <small>(GCC, Make, GDB)</small></h1>
     </div>
 
-    <article>
-    <article>
+    <article id="gcc">
+      <h1>GCC</h1>
+        <p>A <b>compiler</b> turns human-readable source code into machine-readable object code that can actually run.</p>
+        <p>The compilers of choice on Linux systems are all part of the <b>GNU Compiler Collection</b>, usually known as <a href="http://gcc.gnu.org">GCC</a>. GCC include compilers for C, C++, Java, Objective-C, Fortran, and Chill.</p>
+
+        <p>The name of the C compiler is <b>gcc</b> and the name of the C++ compiler is <b>g++</b>.</p>
+
+        <h2>Compiling a Single Source File</h2>
+          <p>To compile a C source file using gcc, the <code>-c</code> option is used:</p>
+          <code><pre>gcc -c main.c</pre></code>
+
+          <p>To compile a C++ source file using g++, the <code>-c</code> option is used:</p>
+          <code><pre>g++ -c main.c</pre></code>
+
+          <p>The <code>-c</code> option tells gcc and g++ to compile the program to an object file only; without it, gcc and g++ will attempt to link the program to produce an executable. So the result after previous commands is an object file called main.o.</p>
+
+          <p> By default, GCC searchs for header files in the current directory and in the directories where headers for the standard libraries are installed. To include header files from somewhere else, the <code>-I</code> option is needed:</p>
+          <code><pre>g++ -c -I ../include main.c</pre></code>
+
+
+
+        <h2>Linking Object Files</h2>
+
+    </article>
 
     <div class="page-header">
       <h1>Others <small>(Man, Info)</small></h1>
@@ -69,15 +91,15 @@
         <li><b>(8)</b> System/administrative commands</li>
       </ul>
       <p>To look up a man page of a "name" command or function: </p>
-        <pre><code>man <var>name</var></code></pre>
+        <code><pre>man <var>name</var></pre></code>
       
       <p>For example, to get the man page for the sleep command (in section 1 of the Linux man pages): <code>man sleep</code>. To see the man page for the sleep library function, use the command: <code>man 3 sleep</code></p>
 
       <p>Displays all man pages (in all sections) for a command or function matching "name":</p>
-        <pre><code>whatis <var>name</var></code></pre>
+        <code><pre>whatis <var>name</var></pre></code>
 
       <p>Perform a keyword search on the summary lines:</p>
-        <pre><code>man -k <variable>keyword</variable></code></pre>
+        <code><pre>man -k <variable>keyword</variable></pre></code>
     </article>
 
     <article id="info">
