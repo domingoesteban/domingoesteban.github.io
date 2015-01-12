@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My "Reinforcement Learning" Notes - Domingo Esteban</title>
+  <meta name="keywords" content="Domingo, Esteban, Cabala, Robotics, Peru, Spain, Madrid, Arequipa, Machine, Learning, Reinforcement">
+  <meta name="description" content="Reinforcement Learning Notes - Domingo Esteban">
+  <meta name="author" content="Domingo Esteban">
+
+  <!-- Mobile viewport optimized -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+  <!--meta name="viewport" content="width=device-width, initial-scale=1"-->
+
+  <!-- Bootstrap CSS -->
+  <!-- <link rel="stylesheet" href="../framework/css/bootstrap.css"> -->
+  <link href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' rel='stylesheet'/>
+  <link href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css' rel='stylesheet'/>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../../includes/css/styles.css"/>
+  <link rel="stylesheet" href="../../includes/css/tutorials-styles.css"/>
+
+  <!-- Including Modernizr (Before any other Javascript) -->
+
+  <!-- Favicon -->
+  <link href="../../images/icons/robot-favicon.ico" rel="icon" type="image/x-icon" />
+
+</head>
+
+<body>
+
+
+<section class="tutorial-block-intro" style="background-color:#F9F7EB;">
+  <div class="container">
+    <h1 align="center">Reinforcement Learning</h1>
+
+    <ul>
+      <li><a href="#markovDecisionProcesses">Markov Decision Processes</a></li>
+      <li><a href="#reinforcementLearning">Reinforcement Learning</a></li>
+      <li><a href="#gameTheory">Game Theory</a></li>
+    </ul>
+
+    <div class="page-header">
+      <h1 id="markovDecisionProcesses">Markov Decision Processes</h1>
+    </div>
+
+    <table class="table table-bordered">
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td bgcolor="#32cd32">+1</td>
+      </tr>
+      <tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td bgcolor="#000000">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td bgcolor="#ff0000">-1</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+    </table> 
+
+    <h2>Markov Decision Processes</h2>
+
+    <p>The Markovian property in simple words means that only the present matter.</p>
+    <p>The second property is that things are <i>stationary</i>. It means that rules don't change over time.</p>
+
+    <ul>
+      <li><b>States: S</b> &roarr; States are a set of tokens that represent every state that one could be in.</li>
+      <li><b>Model: T(s,a,s') ~ Pr(s'|s,a)</b> &roarr; Also called the <i>Transition Model</i> or <i>Transition Function</i>, it is a function of 3 variables: a state, an action and another state. The function produces the probability that the agent will end up transitioning the state <var>s'</var> given the state <var>s</var> and the action <var>a</var>.</li>
+      <li><b>Actions: A(s), A</b> &roarr; The things that an agent can do in a particular state.</li>
+      <li><b>Reward: R(s), R(s,a), R(s,a,s')</b> &roarr; It is a scalar value that you get for being in a state. There is also a notion of reward that you get for entering into a state and taking an action. And there is a reward that you get for being in a state, taking an action, and then ending in another state.</li>
+      <li><b>Policy: &pi;(s) &rarr; a</b> &roarr; A policy is a function that takes in a state and returns an action. In other words, for any given state it tells you the action that you should take.</li>
+    </ul>
+
+    <p>The states, the model, the actions and the reward, along with the Markov properties, defines what is called the <b>Markov Decission Process</b> or <b>MDP</b> </p>
+
+    <p>The solution to the Markov Decission Process is something called a Policy.</p>
+
+    <p>Thre is an special policy, <b>&pi;*</b> or <b>Optimal Policy</b>, that is the policy that maximizes your long-term expected reward.</p>
+
+    <p>If we want to learn a policy it is necessary a bunch of &lt;s,a&gt; examples. With these, we can learn a function, the policy, that maps states to actions.</p>
+
+    <p>But in the reinforcement world, int the MDP world, we see a sequence of states, actions and rewards &lt;s,a,r&gt;. In other words we have "if we are in the state <var>s</var>, and we take the action <var>a</var>, the reward that we see is <var>r</var>", and from that we need to find the optimal action.</p>
+
+    <p>A MDP, a policy dont tell you what sequence of actions (a plan) to take from a particular state, it tells you what action to take in a particular state. You will then end up in another state because of the transition model, the transition function. And then you are in that state you ask the policy what actions should I take now.</p>
+
+    <h2>Sequences of Rewards</h2>
+
+    <div class="page-header">
+      <h1 id="reinforcementLearning">Reinforcement Learning</h1>
+    </div>
+
+  </div>
+</section>
+
+
+<section class="tutorial-block-intro" style="background-color:#F9F7EB;">
+  <div class="container">
+    <h2>Reference List</h2>
+    <ol>
+      <li><cite id="refUdacity"> Machine Learning: Reinforcement Learning. <small>Conversations on Analyzing Data </small>. <a href="https://www.udacity.com/course/ud820"></a>   </cite></li>
+    </ol>
+  </div>
+</section>
+
+<footer id="footerSocialMedia">
+  <div class="container">
+    <div class="row center-block">
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
+        <a target="_blank" href="https://www.linkedin.com/in/domingoesteban"><img class="footericon" src="../../images/icons/linkedin2-circle-logo-128.png" alt="Linkedin"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
+        <a target="_blank" href="https://github.com/domingoesteban"><img class="footericon" src="../../images/icons/github2-circle-logo-128.png" alt="Github"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
+        <a target="_blank" href="https://twitter.com/domingoesteban"><img class="footericon" src="../../images/icons/twitter2-circle-logo-128.png" alt="Twitter"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
+        <a target="_blank" href="https://google.com/+DomingoEsteban"><img class="footericon" src="../../images/icons/googleplus2-circle-logo-128.png" alt="Google Plus"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
+        <a target="_blank" href="https://www.youtube.com/user/domingoestebanc"><img class="footericon" src="../../images/icons/youtube2-circle-logo-128.png" alt="Youtube"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
+        <a target="_blank" href="https://www.facebook.com/domingoesteban"><img class="footericon" src="../../images/icons/facebook2-circle-logo-128.png" alt="Facebook"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
+        <a target="_blank" href="https://instagram.com/domingoesteban"><img class="footericon" src="../../images/icons/instagram2-circle-logo-128.png" alt="Instagram"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
+        <a target="_blank" href="https://vine.co/domingoesteban"><img class="footericon" src="../../images/icons/vine-circle-logo-128.png" alt="Vine"/></a>
+      </div>
+      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
+        <a target="_blank" href="https://vimeo.com/domingoesteban"><img class="footericon" src="../../images/icons/vimeo-circle-logo-128.png" alt="Vimeo"/></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-12" id="footerCopyright">
+    <h6 class="text-center">Copyright © 2014 Domingo Esteban</h6>
+    <!-- <p class="text-center"><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> </p> -->
+  </div>
+
+</footer>
+
+<!-- JAVASCRIPT (At the bottom for faster page loading)-->
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery.js"></script> <!-- Online version 1 -->
+<!--script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script--> <!-- Online version 2 -->
+
+<!-- ARREGLAR!!!! -->
+<!--script>window.jQuery || document.write('<script src="includes/js/jquery.js"></script>')</script--> <!-- If no online access 1 -->
+<!--script src="includes/js/jquery.js"> </script--> <!-- If no online access 2 -->
+
+<!-- Bootstrap JS -->
+<script src="../framework/js/bootstrap.js"> </script>
+
+<!-- Custom JS -->
+<script src="../includes/js/scripts.js"></script>
+
+</body>
+
+<!-- PAGINA PARA FORMATO DE REFERENCIAS: http://www.york.ac.uk/integrity/ieee.html -->
+
+</html> 
