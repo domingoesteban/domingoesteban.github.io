@@ -136,9 +136,70 @@
 
     <p>If we take a look at (3,1) cell, it has a left arrow because the policy tries to avoid the (3,2) cell that is to the right of the -1. Remember the world is stochastic, so there is a chance of moving to the right and following into the -1.</p>
 
-    <p>So due the world has two assumptions: 1) delayed reward, and 2) minor changes matter, so if we have a slightly different reward, the decissions will be different</p>
+    <p>So due the world has two assumptions: 1) delayed reward, and 2) minor changes matter, so if we have a slightly different reward, the decissions will be different.</p>
+
+    <p>If we assume $R(s)=+2$, then we can expect the policy of the next figure. As the reward is possitive, the desired action doesn't want to finish so it tries to away from the terminating states. The ' $+$ ' symbol means that it can take any direction.</p>
+
+    <table class="table table-bordered text-center">
+      <tr>
+        <td>&larr;</td>
+        <td>&larr;</td>
+        <td>&rarr;</td>
+        <td bgcolor="#32cd32">+1</td>
+      </tr>
+      <tr>
+      <tr>
+        <td>&uarr;</td>
+        <td bgcolor="#000000">&nbsp;</td>
+        <td>&rarr;</td>
+        <td bgcolor="#ff0000">-1</td>
+      </tr>
+      <tr>
+        <td>&rarr;</td>
+        <td>&rarr;</td>
+        <td>&rarr;</td>
+        <td>&uarr;</td>
+      </tr>
+    </table> 
+
+    <p>On the other hand, if we assume $R(s)=-2$, then we can expect the policy of the next image. As it can be seen the actions tries to go to the terminate states.</p>
+
+    <table class="table table-bordered text-center">
+      <tr>
+        <td>&rarr;</td>
+        <td>&rarr;</td>
+        <td>&rarr;</td>
+        <td bgcolor="#32cd32">+1</td>
+      </tr>
+      <tr>
+      <tr>
+        <td>&uarr;</td>
+        <td bgcolor="#000000">&nbsp;</td>
+        <td>&uarr;</td>
+        <td bgcolor="#ff0000">-1</td>
+      </tr>
+      <tr>
+        <td>&uarr;</td>
+        <td>&larr;</td>
+        <td>&larr;</td>
+        <td>&larr;</td>
+      </tr>
+    </table> 
 
     <h2>Sequences of Rewards</h2>
+
+    <p>In the previous cases we assumed:</p>
+    <ul>
+      <li><b>Infinite horizons</b>. This means that we wanted to avoid going to the end as quickly as possible if I have rewards of a certain value, because the game didn't end until we got to an absorving state. This basically implied that we could live forever. Without this assumption: 1) the policy would have been different (With $R(s)=0.04$ maybe it could be better to take the risk of going near the -1 to arrive more quickly to the +1 cell). And, 2) the policy can change even though we were in the same state.</li>
+      <li><b>Utility of sequences</b>: This means that I prefer one sequence of states over another sequence of states today, then I prefer that sequence over the same sequence of states tomorrow. This is called <b>stationary references</b>
+    $$if\ U(s_0\ s_1\ s_2\ ...) > U(s_0\ s'_1\ s'_2\ ...)\\ then\ U(s_1\ s_2\ ...) > U(s'_1\ s'_2\ ...)$$
+      </li>
+    </ul>
+
+    <p>The second assumption can be expressed:</p>
+
+    <p>$$U(s_0\ s_1\ s_2\ ...) = \sum_{t=0}^{\infty}R(S_t)$$</p>
+     
 
     <h2>Assumptions</h2>
 
