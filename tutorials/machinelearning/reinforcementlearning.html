@@ -186,7 +186,7 @@
       </tr>
     </table> 
 
-    <h2>Sequences of Rewards</h2>
+    <h2>Sequences of Rewards and Assumptions</h2>
 
     <p>In the previous cases we assumed:</p>
     <ul>
@@ -199,11 +199,35 @@
     <p>The second assumption can be expressed:</p>
 
     <p>$$U(s_0\ s_1\ s_2\ ...) = \sum_{t=0}^{\infty}R(S_t)$$</p>
-     
+    
+    <p>If we have two sequences of rewards, $R1(s)=\{+1\ +1\ +1\ +1\ +1\ \ +1...\}$ and $R2(s)=\{+1\ +1\ +2\ +1\ +2\ \ +1...\}$, neither one is better than the other. The reason of this is that both have an utility equal to infinity. <i>"if we're always going to be able to get positive rewards no matter what we do, then it doesn't matter what we do",</i> this is the existencial dilemma of being inmortal. $U(s_0\ s_1\ s_2\ ...) = \sum_{t=0}^{\infty}R(S_t) = \infty$</p>
 
-    <h2>Assumptions</h2>
+    <p>If now we consider the next equation:</p>
+
+    <p>$$U(s_0\ s_1\ s_2\ ...) = \sum_{t=0}^{\infty} \gamma^t R(S_t),\ 0 \le \gamma < 1$$</p>
+
+    <p>then the utility it exponencially implodes, and now it becames a geometric series, with:</p>
+
+    <p>$$U(s_0\ s_1\ s_2\ ...) \le \sum_{t=0}^{\infty} \gamma^t R_{max} = \frac{R_{max}}{1-\gamma} $$</p>
+
+    <p>This is called <b>discounted rewards</b> or <b>discounted series</b> or <b>discounted sums</b>, and it allows us to go an infinite distance in finite time. So if we're discounted in this way, then that gives us a geometric series, that allows us to add an infinite number of numbers and gives us a finite number.</p>
+
+    <p>If $\gamma$ is closed to 0, we are getting just one reward in the beginning and then everything falls off to nothing after all, but if $\gamma$ is really close to 1 we have a big reward, but not infinity.</p>
+
+    <p>Despite $\gamma$, it is still consistent with our infinite horizons and our stationary over references. So with discounted rewards we are still consistent with the assumptions.  </p>
+
 
     <h2>Policies</h2>
+
+    <p>The optimal policy is the one that maximizes our long-term expected reward:</p>
+
+    <p>$$\pi^* = argmax_{\pi}\ \mathbb{E}\ \left[\sum_{t=0}^{\infty} \gamma^t R(S_t)\ |\ \pi \right]$$</p>
+
+    <p>And the utility of a particular state is going to depend upon the policy that is following, and it is is going to be the expected set of states that it is going to see from that point on given that it has followed the policy:</p>
+
+    <p>$$U^{\pi}(s)= \mathbb{E} \left[\sum_{t=0}^{\infty} \gamma^t R(S_t)\ |\ \pi,\ s_0=s\right]$$</p>
+
+    <p>It is important to remember that the reward for entering a state is not the same than the utility for that state, $R(s) \neq U^{\pi}(s)$. The reward fives us immediate gratification or immediate feedback, but the utility gives us long term feedback.</p>
 
     <h2>Finding Policies</h2>
 
