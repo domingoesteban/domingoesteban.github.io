@@ -221,19 +221,135 @@
 
     <p>The optimal policy is the one that maximizes our long-term expected reward:</p>
 
-    <p>$$\pi^* = argmax_{\pi}\ \mathbb{E}\ \left[\sum_{t=0}^{\infty} \gamma^t R(S_t)\ |\ \pi \right]$$</p>
+    <p>$$\pi^* = \underset{\pi}{argmax}\ \mathbb{E}\ \left[\sum_{t=0}^{\infty} \gamma^t R(S_t)\ |\ \pi \right]$$</p>
 
     <p>And the utility of a particular state is going to depend upon the policy that is following, and it is is going to be the expected set of states that it is going to see from that point on given that it has followed the policy:</p>
 
     <p>$$U^{\pi}(s)= \mathbb{E} \left[\sum_{t=0}^{\infty} \gamma^t R(S_t)\ |\ \pi,\ s_0=s\right]$$</p>
 
-    <p>It is important to remember that the reward for entering a state is not the same than the utility for that state, $R(s) \neq U^{\pi}(s)$. The reward fives us immediate gratification or immediate feedback, but the utility gives us long term feedback.</p>
+    <p>It is important to remember that the reward for entering a state is not the same than the utility for that state, $R(s) \neq U^{\pi}(s)$. The reward gives us immediate gratification or immediate feedback, but the utility gives us long term feedback.</p>
+
+    <p> The optimal policy ais the one that for every state returns the action that maximizes my expected utility:</p>
+
+    <p>$$\pi^*(s) = \underset{a}{argmax} \ \sum_{s'} T(s,a,s')U(s')$$</p>
+
+    <p>Henceforth, The utility overstate is the utility of the state if I follow the optimal policy: $U(s)\equiv U^{\pi^*}$. This is called the true utility overstate.</p>
+
+    <p>The <b>true utility overstate</b> is the reward that I get for being in that state plus a discount of the reward I'm goint to get from that point on. This relation is known as the <b>Bellman Equation</b>:</p>
+
+    <p>$$U(s)=R(s)+\gamma \underset{a}{max} \sum_{s'} T(s,a,s')U(s')$$</p>
 
     <h2>Finding Policies</h2>
+
+    <p>Considering Bellman equation $U(s)=R(s)+\gamma \underset{a}{max} \sum_{s'} T(s,a,s')U(s')$. If there are $n$ states, then there are $n$ bellman equations $n$ unknowns. Bellman equation is not linear due the $\max operation.$</p>
+
+    <p>The <b>Value Iteration</b> algorithm is:</p>
+    <ul>
+      <li>Start with arbitrary utilities</li>
+      <li>Update utilities based on neighbours</li>
+      <li>Repeat until convergence</li>
+    </ul>
+
+    <p>The utilities are updated with:</p>
+
+    <p>$$\hat{U}(s)_{t+1}=R(s)+\gamma \underset{a}{max} \sum_{s'} T(s,a,s')\hat{U}_t(s')$$</p>
+
+    <p>The actual reward $R(s)$ is a true value, and these reward will be propagated to all of the states that I'm going to see, until it converge.</p>
+
+    <p>Let's see an example, trying to calculate $U_1(x)$ and $U_1(x)$ for the cell with the letter X. Considering $\gamma=1/2$, $R(s)=-0.04$. And that the initial arbitrary utilities are zero for all cells, except by the two absorving states +1 and -1 cells, $U_0(s)=0 . Don't forget the transition probabilities: 0.8 of going in the desired direction, and 0.1 of going in each of the directions at 90-degrees. 
+</p>
+
+    <table class="table table-bordered text-center">
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>X</td>
+        <td bgcolor="#32cd32">+1</td>
+      </tr>
+      <tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td bgcolor="#000000">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td bgcolor="#ff0000">-1</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+    </table> 
+
+    <p>Considering these, in $t=1$, between the 4 possible actions, it is obviously that go to right is the best action, so it is the most likely be the $max_a$. For this reason, with this action: $U_1(x)=-0.04+0.5(0.1*0+0.1*0+0.8*1)=0.36$</p>
+
+    <p>In $t=2$, we have to calculate the same for the action of goint to right. But in this case it is also important to consider the value of $U_1$ for the cell bellow <var>x</var> (3,3). In this cell, the best option (so probably with most $\max_a$) is try to go to the left (that is not possible) here, $U_1(cell_{(2,3)})=-0.04+0.5(0.1*0+0.1*0+0.8*0)=-0.04$</p>.
+
+    <p>Considering the above, in $t=2$, $U_2(x)=R(x) + \gamma (T(x,{right},cell_{(2,3)})*U_1(cell_{(2,3)}) +  T(x,{right},x)*U_1(x) + T(x,{right},cell_{4,3})*U_1(cell_{4,3}))$, $U_2(x)=-0.04+0.5(0.1*-0.04+0.1*0.36+0.8*1)=0.376$. Note that second term in the sum is $0.1*0.36$, the 0.36 value is because due it is not possible move upwards the next state $x'$ is the same than $x$.</p>
+
+    <p>A policy is a mapping from state to action, it is not a mapping from states to utilities, so if we have <var>U</var>, we can figure out <var>&pi;</var>, but <var>U</var> is much more information than we need to figure out <var>&pi;</var>. If we have a <var>U</var> that is not the correct utility, but has the ordering of the actions correct, then we're actually doing pretty well. It doesn't matter we have the wrong utilities.</p>
+
+
+
+    <p>Below the Algorithm <b>Policy Iteration</b> is presented:</p>
+
+    <ul>
+      <li>Start with an arbitrary $\pi_0$</li>
+      <li><u>Evaluate</u>: given $\pi_t$ calculate its utility following that policy, $U_t=U^{\pi_t}$</li>
+      <li><u>Improve</u>: $\pi_{t+1}=\underset{a}{argmax}\ \sum T(s,a,s')U_t(s')$</li>
+    </ul>
+
+    <p>The utility at time <var>t</var> is:</p>
+
+    <p>$$U_t(s)=R(s)+\gamma \sum T(s,\pi_t(s),s')U_t(s')$$</p>
+
+    <p>Due there is not the max in the equation above, it is a linear equation. So in a problem there are <var>n</var> linear equations in <var>n</var> unknowns.</p>
+
+    <p>Because the algorithm is evaluated in policies space and not in value space, there are bigger jumps.</p>
+
+    <h2>Summary</h2>
+    <ul>
+      <li>Markov Decision Processes (MDPs) are processes that consist of states, rewards, actions and transitions. With a discount parameter. In some sense, the states, the actions and the transitions represent the physical word and the discount represent the kind of task description.</li>
+      <li>Policies</li>
+      <li>Value functions (utilities). While the utilities factor is in long term aspect, and the rewards are at the moment.</li>
+      <li>Discounting allow us to deal with infinite sequences, but threat them as if their value is finite.</li>
+      <li>Stationary</li>
+      <li>The Bellman equation can be implemented in value iteration and in policy iteration.</li>
+
+    </ul>
 
     <div class="page-header">
       <h1 id="reinforcementLearning">Reinforcement Learning</h1>
     </div>
+    
+    <p>Thinking about a reinforcement learning "API", like application programmer interface. </p>
+
+    <p>The idea of being able to take a model of an MDP, whick consists of a transition function, T, and a reward function R. If it goues trough some code and a policy comes out. This activity is called <b>Planning</b>.</p>
+
+    <img src="../../images/tutorials/machinelearning/reinforcementlearning/reinforcementlearning-udacity/planner-API.png" height="96" width="469" alt="Planner-API">
+
+    <p>If the API takes a bunch of samples of being in some state, taking some action, observing a reward and observing the state at the end of the transition, and the output is a policy, then this activity is a <b>Reinforcement Learning</b>.</p>
+
+    <img src="../../images/tutorials/machinelearning/reinforcementlearning/reinforcementlearning-udacity/learner-API.png" height="96" width="469" alt="Learner-API">
+
+
+    <h2>Rat Dinosaurs</h2>
+    
+    <p>If you put a rat in a box and give it choices of looking in place A and place B, with the doors closed and with a cheese in one of them. If we consistently turn on a red light whenever the cheese is in the A place, and a blue light whenever the cheese is in the B place, if you do...</p>
+
+    <h2>API</h2>
+
+    <h2>Three Approaches to RL</h2>
+
+    <h2>A New Kind of Value Function</h2>
+
+    <h2>Estimating Q from Transitions</h2>
+
+    <h2>Q Learning Convergence</h2>
+
+    <h2>Greedy Expoloration</h2>
+
+
 
   </div>
 </section>
