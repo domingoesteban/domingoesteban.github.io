@@ -414,16 +414,6 @@ margin-bottom: 30px; */
 
 /* ANIMATIONS */
 
-.robotLoader {
-  position: fixed;
-  left: 0px;
-  top: 0px;
-  width: 100%;
-  height: 100%;
-  z-index: 9999;
-  background: url('../../images/robotics/robotHeadAnimated.svg') 50% 50% no-repeat rgb(77,77,77);
-}
-
 .index-list {
   text-align: center;
 }
