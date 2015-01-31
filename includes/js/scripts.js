@@ -132,5 +132,6 @@ function scrollToTop() {
 
 
 $(window).load(function() {
-  $(".robotLoader").fadeOut("slow");
+  /*$(".robotLoader").fadeOut("slow");*/
+  $(".robotLoader").fadeOut(1500);
 })
