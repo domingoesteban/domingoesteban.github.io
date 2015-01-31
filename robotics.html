@@ -13,6 +13,7 @@
 
   <!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="framework/css/bootstrap.css">
+  <link rel="stylesheet" href="framework/css/bootstrap-theme.css">
 
   <!-- Custom CSS -->
 	<link rel="stylesheet" href="includes/css/styles.css">
@@ -27,6 +28,8 @@
 
 
 <body>
+  <div class="robotLoader"></div>
+
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="mainnavigationbar">
 		<div class="container-fluid">
 			
@@ -75,7 +78,7 @@
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dropLanguage" style="background:#101010;">
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="robotics-es.html" style="color: #777;"><img src="images/cv/spain-flag.jpg" height="18" width="27" alt=""> Castellano </a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="robotics.html" style="color: #777;"><img src="images/cv/spain-flag.jpg" height="18" width="27" alt=""> Castellano </a></li>
               <!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="#" style="color: #777;"><img src="images/cv/france-flag.jpg" height="18" width="27" alt=""> Français </a></li> -->
             </ul>
           </li>
@@ -111,19 +114,83 @@
   </div>
 </div>
 
+<div class="scroll-top-wrapper">
+  <span class="glyphicon glyphicon-arrow-up"></span>
+</div>
 
 <div class="roboticsDivision1">
 
   <div class="jumbotron jumboRobotics sectionHead" id="jumboRoboticsIntro">
     <div class="container">
       <div class="col-sm-6 col-sm-offset-6 text-right col-xs-12">
-        <h1 class="text-right"><b>Robotics</b></h1>
+        <h1 class="text-right"><u><b>Robotics</b></u></h1>
         <p>Research, Interests &amp; Experience</p>
       </div>
     </div>
   </div>
 
+  <div class="jumbotron jumboRobotics" id="jumboRoboticsIndex">
+    <div class="container">
+      <div class="col-xs-12 visible-xs center-block">
+        <img id="roboticsRobotioImage" class="center-block img-rounded" src="images/robotics/robotioChestAnimated.svg" alt="roboticsRobotio"/>
+      </div>
+      <div class="row visible-xs center-block vertical-align2">
+        <a href="#jumboRoboticsResearch" class="col-xs-5 index-square">
+          <p class="text-center name">Research</p>
+        </a><!--
+        -->
+        <a href="#jumboRoboticsHumanoidRobots" class="col-xs-5 col-xs-offset-1 index-square">
+          <p class="text-center name">Humanoid Robots</p>
+        </a>
+      </div>
+      <div class="row visible-xs center-block vertical-align2">
+        <a href="#jumboRoboticsPublications" class="col-xs-5 index-square">
+          <p class="text-center name">Publications</p>
+        </a><!--
+        -->
+        <a href="#jumboRoboticsRobots" class="col-xs-5 col-xs-offset-1 index-square">
+          <p class="text-center name">Robots</p>
+        </a>
+      </div>
+      <div class="row visible-xs center-block vertical-align2">
+        <a href="#jumboRoboticsSoftware" class="col-xs-5 col-xs-offset-3 index-square">
+          <p class="text-center name">Software</p>
+        </a>
+      </div>
+      <div class="row hidden-xs vertical-align">
+        <div class="col-sm-3">
+          <img id="roboticsRobotioImage" class="center-block img-rounded" src="images/robotics/robotioChestAnimated.svg" alt="roboticsRobotio"/>
+        </div><!--
+        -->
+        <div class="col-sm-9">
+          <div class="row center-block vertical-align2">
+            <a href="#jumboRoboticsResearch" class="col-sm-3 index-square">
+              <p class="text-center name">Research</p>
+            </a><!--
+            -->
+            <a href="#jumboRoboticsHumanoidRobots" class="col-sm-3 col-sm-offset-1 index-square">
+              <p class="text-center name">Humanoid Robots</p>
+            </a><!--
+            -->
+            <a href="#jumboRoboticsPublications" class="col-sm-3 col-sm-offset-1 index-square">
+              <p class="text-center name">Publications</p>
+            </a>
+          </div>
+          <br></br>
+          <div class="row center-block vertical-align2">
+            <a href="#jumboRoboticsRobots" class="col-sm-3 col-sm-offset-2 index-square">
+              <p class="text-center name">Robots</p>
+            </a><!--
+            -->
+            <a href="#jumboRoboticsSoftware" class="col-sm-3 col-sm-offset-1 index-square">
+              <p class="text-center name">Software</p>
+            </a>
+          </div> <!-- col-sm-9 -->
+        </div>
 
+      </div>
+    </div>
+  </div>
 
   <div class="jumbotron jumboRobotics" id="jumboRoboticsResearch">
     <div class="container">
@@ -138,6 +205,55 @@
         <li>Probabilistic robotics</li>
         <li>Robot simulation</li>
       </ul>
+    </div>
+  </div>
+
+  <div class="jumbotron jumboRobotics" id="jumboRoboticsHumanoidRobots">
+    <div class="container text-justify-not-xs text-left-xs">
+      <h1 class="text-center"><b>Humanoid Robots</b></h1>
+      <hr/>
+
+      <div class="row vertical-align">
+        <div class="hidden-xs col-sm-4">
+          <img id="roboticsAsimoImage" class="center-block img-rounded" src="images/robotics/honda-asimo.jpg"alt="roboticsAsimo"/>
+        </div>
+        <div class="col-xs-12 col-sm-8">
+          <p class="text-responsive01">A humanoid robot or humanoid is an electro-mechanical machine with anthropomorphic form guided by a computer program or electronic circuitry in order to emulate some subset of the physical, cognitive and social dimensions of the human body and experience <a href="#refWikipediaRobot"><cite>[1]</cite></a> <a href="#refINLaboratory"><cite>[2]</cite></a>.</p>
+
+          <p class="text-responsive01">In recent years, there has been a strong impetus to research on humanoid robots, developing robots with high workability, interaction and mobility. This impetus is motivated by the many advantages of humanoid robots against other kind of robots. Among these, the most important is that humanoid robots can operate directly on the same human environment without any modification.</p>
+        </div>
+      </div>
+      <div class="col-xs-12 visible-xs center-block">
+        <img id="roboticsAsimoImage" class="center-block img-rounded" src="images/robotics/honda-asimo.jpg" alt="roboticsAsimo"/>
+      </div>
+
+      <p class="text-responsive01">Nevertheless, there are many challenges to overcome. Humanoid Robotics has many unresolved challenges and the research is focused in the stability and mobility of the robot under different environmental conditions, complex control systems to coordinate the whole body motion, motion planning, as well as the development of fast intelligent sensors and light energy-saving actuators. The research in humanoid robots also has many challenges with the autonomy, manipulation, locomotion and human-robot interaction.</p>
+
+      <p class="text-responsive01">As the robotics, the humanoid robotics field is an interdisciplinary science that integrates the knowledge of many disciplines. However, a fully-fledged humanoid robot will incorporate work from each of the areas below <a href="#refINLaboratory"><cite>[2]</cite></a>:</p>
+       <ul class="text-responsive01 text-left">
+         <li>Perception</li>
+         <li>Human-robot interaction</li>
+         <li>Learning and adaptive behaviour</li>
+         <li>Legged locomotion</li>
+         <li>Arm control and dexterous manipulation</li>
+       </ul>
+
+      <p class="text-responsive01">Within the movement of humanoid robots, motion planning by trajectory generation in operational (task or cartesian) space is a very used method by the possibility to define the movement in the real environment where the robot will perform the task. But the planning of trajectories considering only analytical techniques, can generate unnatural movements. For this reason, other sources of movement should be considered. The use of captured human motion data is a valuable source of examples to simplify the process of programming or learning complex robot motions. It is important to know the possibly existing natural restrictions imposed by the human way of doing the things rather than by the physical constraints.</p>
+
+    <div class="row vertical-align">
+      <div class="col-xs-12 col-sm-8">
+        <p class="text-responsive01">The mass concentrated models have been very effective methods in the generation of whole-body movement for many years, however, current humanoids possess more complex dynamics than previous generation of robots. Therefore, it is no longer appropriate to use over-simplified models of humanoid dynamics and new approaches have to be considered. Robot learning, the research field at the intersection of machine learning and robotics, is one of these possibilities. The use of learning algorithms to control humanoids and the use of learned dynamics rather than engineered dynamics models are good alternatives to progress in the field of whole-body planning and control.</p>
+      </div><!--
+      -->
+      <div class="hidden-xs col-sm-4">
+        <img id="roboticsICubImage" class="center-block img-rounded" src="images/robotics/icub-ball.jpg" alt="roboticsICub"/>
+      </div>
+    </div>
+    <div class="col-xs-12 visible-xs center-block">
+      <img id="roboticsICubImage" class="center-block img-rounded" src="images/robotics/icub-ball.jpg" alt="roboticsICub"/>
+    </div>
+
+
     </div>
   </div>
 
@@ -284,6 +400,18 @@
     </div>
   </div>  
  -->
+
+<div class="jumbotron jumboRobotics" id="References">
+  <div class="container">
+    <h2>Reference List</h2>
+    <ol>
+      <li><cite id="refWikipediaRobot"> <b>Wikipedia</b>. “Robot”, Wikipedia.org. [Online]. Available  <a href="http://en.wikipedia.org/wiki/Robot" target="_blank">http://en.wikipedia.org/wiki/Robot</a> [Last Modified: 29 January 2015, at 00:44].</cite></li>
+      
+      <li><cite id="refINLaboratory"> <b>I. N. Laboratory.</b> Humanoid Robotics. What is a humanoid robot?. [Online]. Available  <a href="https://inlportal.inl.gov/portal/server.pt/community/what_is_a_humanoid_robot_/539" target="_blank">https://inlportal.inl.gov/portal/server.pt/community/what_is_a_humanoid_robot_/539</a>. Accessed: 2014-06-22</cite></li>
+    </ol>
+  </div>
+</div>
+
 </div>
 
 <div>

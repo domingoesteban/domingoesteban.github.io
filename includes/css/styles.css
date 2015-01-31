@@ -668,7 +668,7 @@ width: 60px; */
 }
 
 .text-responsive01 {
-  font-size: 14px !important;
+  font-size: 16px !important;
 }
 
 @media (max-width: 767px) {
@@ -688,7 +688,7 @@ width: 60px; */
         text-align: justify;
     }
     .text-responsive01 {
-      font-size: 14px !important;
+      font-size: 16px !important;
     }
 }
 @media (min-width: 768px) and (max-width: 991px) {
@@ -708,7 +708,7 @@ width: 60px; */
         text-align: justify;
     }
     .text-responsive01 {
-      font-size: 16px !important;
+      font-size: 18px !important;
     }
 }
 @media (min-width: 992px) and (max-width: 1199px) {
@@ -728,7 +728,7 @@ width: 60px; */
         text-align: justify;
     }
     .text-responsive01 {
-      font-size: 18px !important;
+      font-size: 20px !important;
     }
 }
 @media (min-width: 1200px) {
@@ -758,13 +758,18 @@ width: 60px; */
   align-items: center;
 }
 
-/* .vertical-align > [class^="col-"],
-.vertical-align > [class*=" col-"] {
+.vertical-align2 {
   display: flex;
-  align-items: center;     Align the flex-items vertically
-  justify-content: center; Optional, to align inner flex-items 
-                              horizontally within the column
-} */
+  flex-direction: row;
+}
+
+.vertical-align2 > [class^="col-"],
+.vertical-align2 > [class*=" col-"] {
+  display: flex;
+  align-items: center;     /* Align the flex-items vertically */
+  justify-content: center; /* Optional, to align inner flex-items 
+                              horizontally within the column */
+} 
 
 
 
@@ -796,6 +801,22 @@ width: 60px; */
   -o-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
 }
+@media (max-width: 767px) {
+  .scroll-top-wrapper {
+    width: 30px;
+    height: 28px;
+    font-size: 12px;
+    line-height: 24px;
+    right: 15px;
+    bottom: 15px;
+    padding-top: 2px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+  }  
+}
+
 .scroll-top-wrapper:hover {
   background-color: #888888;
 }

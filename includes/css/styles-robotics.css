@@ -270,6 +270,19 @@
    width: 160px;
   }
 }
+/* roboticsAsimoImage --> original size: height="1280" width="960" */
+#roboticsAsimoImage {
+    display: block;
+    height: auto;
+    max-width: 70%;
+    padding-bottom: 10px;
+}
+@media (max-width: 767px) {
+  #roboticsAsimoImage {
+   height: 128px;
+   width: 96px;
+  }
+}
 
 #roboticsRobotioImage {
     display: block;
@@ -386,4 +399,67 @@
   height: 100%;
   z-index: 9999;
   background: url('../../images/robotics/robotHeadAnimated.svg') 50% 50% no-repeat rgb(77,77,77);
+}
+
+.index-list {
+  text-align: center;
+}
+
+.index-square .name {
+  margin-top: 10px;
+  font-size: 25px;
+  text-decoration: none;
+  color: #F2F2F2;
+  width: 100%;
+    /* position: absolute; */
+    /* top: 0; */
+    /* left: 0; */
+}
+
+.index-square{
+  background-color:#1a1a1a;
+  border: thin solid #101010;
+  min-height: 85px;
+}
+
+@media (max-width: 767px) {
+  .index-square .name {
+    font-size: 18px;
+    text-decoration: none;
+    color: #F2F2F2;
+    width: 100%;
+      /* position: absolute; */
+      /* top: 0; */
+      /* left: 0; */
+  }
+
+  .index-square{
+    margin-top: 10px;
+    background-color:#1a1a1a;
+    border: thin solid #101010;
+    min-height: 60px;
+  }
+
+}
+
+
+.index-square:hover {
+  z-index: 10;
+  -webkit-transition: all 0.05s ease-out;
+  -moz-transition: all 0.05s ease-out;
+  -o-transition: all 0.05s ease-out;
+  transition: all 0.05s ease-out;
+  cursor:pointer;           
+  /* display:block; */
+  text-decoration:none;
+  text-align:center;
+  background-color: #424242;
+  color: black !important;
+  border-color:#151515;
+  border-style:dotted;
+  border-width:medium;
+}
+
+.index-square:hover a{
+  color:#151515;
 }
