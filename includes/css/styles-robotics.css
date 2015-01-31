@@ -113,6 +113,19 @@
   background-color:#2F4F4F;
   color:#FFFFF0;
 }
+#jumboRoboticsReferences {
+/*   margin-top: 30px;
+padding-top: 0px;
+margin-bottom: 30px; */
+  padding: 0px;
+  border-bottom: thin solid #101010;
+  border-top: thin solid #101010;
+  background-color:#BDBDBD;
+  color:black;
+}
+#jumboRoboticsReferences a{
+  color:black;
+}
 #jumboRoboticsPresentations {
   margin-top: 30px;
   padding-top: 0px;
@@ -252,7 +265,17 @@
     margin-bottom: 50px;
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
+  }
+  #jumboRoboticsReferences {
+    /* margin-top: 50px; */
+    /* margin-bottom: 50px; */
+    border-bottom: thin solid #101010;
+    border-top: thin solid #101010;
   } 
+}
+
+.noise-background {
+  background: url('../../images/background/noise-1.png') center;
 }
 
 
