@@ -130,6 +130,7 @@ function scrollToTop() {
   $('html, body').animate({scrollTop: offsetTop}, 500, 'linear');
 }
 
+
 $(window).load(function() {
   $(".robotLoader").fadeOut("slow");
 })

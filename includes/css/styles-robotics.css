@@ -40,7 +40,7 @@
 .roboticsDivision1 {
     /*height: 300px;*/
     /*width: 300px;*/
-    background: #f00 url(../../images/robotics/teo-foto1-mid.jpg);
+    background: url(../../images/robotics/teo-foto1-mid.jpg);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     border-top: 10px solid;
@@ -114,10 +114,9 @@
   color:#FFFFF0;
 }
 #jumboRoboticsReferences {
-/*   margin-top: 30px;
-padding-top: 0px;
-margin-bottom: 30px; */
   padding: 0px;
+  margin-top: 30px;
+  margin-bottom: 0px;
   border-bottom: thin solid #101010;
   border-top: thin solid #101010;
   background-color:#BDBDBD;
@@ -185,6 +184,11 @@ margin-bottom: 30px; */
     margin-top: 80px;
     padding-top: 0px;
     margin-bottom: 80px;
+    border-bottom: thin solid #101010;
+    border-top: thin solid #101010;
+  }
+  #jumboRoboticsReferences {
+    margin-top: 80px;
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
   }
@@ -256,6 +260,11 @@ margin-bottom: 30px; */
     margin-bottom: 50px;
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
+  }
+  #jumboRoboticsReferences { 
+    margin-top: 50px;
+    border-bottom: thin solid #101010;
+    border-top: thin solid #101010;
   } 
   #jumboRoboticsPresentations {
     margin-top: 50px;
@@ -266,12 +275,6 @@ margin-bottom: 30px; */
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
   }
-  #jumboRoboticsReferences {
-    /* margin-top: 50px; */
-    /* margin-bottom: 50px; */
-    border-bottom: thin solid #101010;
-    border-top: thin solid #101010;
-  } 
 }
 
 .noise-background {
