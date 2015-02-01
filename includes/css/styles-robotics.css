@@ -267,6 +267,7 @@
     padding-bottom: 3%;
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
+    background-repeat: repeat-y;
   }
   #jumboRoboticsReferences {
     margin-top: 0px;
