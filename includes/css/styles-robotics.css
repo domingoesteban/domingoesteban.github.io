@@ -17,6 +17,10 @@
   padding-right: 10px;
 }
 
+.jumboRobotics cite {
+  color: #FFFF00;
+}
+
 /*ROBOTICS THUMBNAILS*/
 
 .roboticsSoftwareThumbnail {
@@ -38,14 +42,53 @@
 
 /* ROBOTICS DIVISIONS */
 .roboticsDivision1 {
+  /* original size--> height="427" width="640" */
+  /* height="3298" width="4947" */
     /*height: 300px;*/
     /*width: 300px;*/
-    background: url(../../images/robotics/teo-foto1-mid.jpg);
+    background: url(../../images/robotics/teo-foto1-less3.jpg);
     background-size: 100% 100%;
+    background-repeat: no-repeat;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    background-attachment: fixed;
+}
+@media (max-width: 768px) {
+  .roboticsDivision1 {
+    background-position: center top;
+    /* background-size: 200px 160px; */
+  }
+}
+@media (min-width: 1200px) {
+  .roboticsDivision1 {
+    background-position: center top;
+    /* background-size: 100% 100%; */
+  }
+}
+
+.roboticsDivision2 {
+    /*height: 300px;*/
+    /*width: 300px;*/
+    background: url(../../images/robotics/robotHeadAnimatedSlow.svg);
+    background-color: white;
+    background-position: center 30px;
+    background-size: 300px 240px;
     background-repeat: no-repeat;
     border-top: 10px solid;
     border-bottom: 10px solid;
-    background-attachment: fixed;
+    background-attachment: scroll;
+}
+@media (max-width: 768px) {
+  .roboticsDivision2 {
+    background-position: center 20px;
+    background-size: 200px 160px;
+  }
+}
+@media (min-width: 1200px) {
+  .roboticsDivision2 {
+    background-position: center 40px;
+    background-size: 400px 320px;
+  }
 }
 
 /* ROBOTICS JUMBOTRON */
@@ -56,7 +99,8 @@
   border-bottom: medium solid #101010;
 }
 #jumboRoboticsIndex {
-  /* margin-top: 30px; */
+  margin-top: 0px;
+  margin-bottom: 0px;
   padding-top: 2%;
   padding-bottom: 3%;
   margin-bottom: 30px;
@@ -66,13 +110,13 @@
   color:#FFFFF0;
 }
 #jumboRoboticsResearch {
-  margin-top: 30px;
+  margin-top: 338px;
+  margin-bottom: 0px;
   padding-top: 2%;
   padding-bottom: 3%;
-  margin-bottom: 30px;
   border-bottom: thin solid #101010;
   border-top: thin solid #101010;
-  background-color:#2F4F4F;
+  background-color:#2F2E34;
   color:#FFFFF0;
 }
 #jumboRoboticsHumanoidRobots {
@@ -87,46 +131,56 @@
 }
 #jumboRoboticsRobotLearning {
   margin-top: 30px;
-  padding-top: 2%;
+  padding-top: 3%;
   padding-bottom: 3%;
   margin-bottom: 30px;
   border-bottom: thin solid #101010;
   border-top: thin solid #101010;
-  background-color:#2F4F4F;
+  background-color:#2F2E34;
   color:#FFFFF0;
 }
 #jumboRoboticsPublications {
-  margin-top: 30px;
+  margin-top: 0px;
+  margin-bottom: 0px;
   padding-top: 2%;
   padding-bottom: 3%;
-  margin-bottom: 30px;
   border-bottom: thin solid #101010;
   border-top: thin solid #101010;
   background-color:#2F4F4F;
   color:#FFFFF0;
 }
 #jumboRoboticsRobots {
-  margin-top: 30px;
-  padding-top: 0px;
-  margin-bottom: 30px;
+  margin-top: 180px;
+  margin-bottom: 0px;
+  padding-top: 3%;
+  padding-bottom: 3%;
   border-bottom: thin solid #101010;
   border-top: thin solid #101010;
-  background-color:#2F4F4F;
+  background-color:#2F2E34;
   color:#FFFFF0;
 }
 #jumboRoboticsSoftware {
-  margin-top: 30px;
-  padding-top: 0px;
-  margin-bottom: 30px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 3%;
+  padding-bottom: 3%;
   border-bottom: thin solid #101010;
   border-top: thin solid #101010;
-  background-color:#2F4F4F;
   color:#FFFFF0;
+  background-color:#00248F;
+  background: url('../../images/background/binary-wallpaper.jpg') center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  border-top: 10px solid;
+  border-bottom: 10px solid;
+  background-attachment: fixed;
 }
 #jumboRoboticsReferences {
-  padding: 0px;
-  margin-top: 30px;
+  /* padding: 0px; */
+  margin-top: 0px;
   margin-bottom: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
   border-bottom: thin solid #101010;
   border-top: thin solid #101010;
   background-color:#BDBDBD;
@@ -134,6 +188,13 @@
 }
 #jumboRoboticsReferences a{
   color:black;
+}
+#jumboRoboticsReferences div{
+  /* padding: 0px; */
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 1%;
+  padding-bottom: 1%;
 }
 #jumboRoboticsPresentations {
   margin-top: 30px;
@@ -152,61 +213,63 @@
     border-bottom: 8px solid #101010;
   }
   #jumboRoboticsIndex {
-    /* margin-top: 80px; */
+    margin-top: 0px;
+    margin-bottom: 0px;
     padding-top: 2%;
     padding-bottom: 3%;
-    margin-bottom: 80px;
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
   }
   #jumboRoboticsResearch {
-    margin-top: 80px;
+    margin-top: 225px;
+    margin-bottom: 0px;
     padding-top: 2%;
     padding-bottom: 3%;
-    margin-bottom: 80px;
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
   }
   #jumboRoboticsHumanoidRobots {
-    margin-top: 80px;
-    padding-top: 2%;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 3%;
     padding-bottom: 3%;
-    margin-bottom: 80px;
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
   }
   #jumboRoboticsRobotLearning {
-    margin-top: 80px;
-    padding-top: 2%;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 3%;
     padding-bottom: 3%;
-    margin-bottom: 80px;
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
   }
   #jumboRoboticsPublications {
-    margin-top: 80px;
-    padding-top: 2%;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 3%;
     padding-bottom: 3%;
-    margin-bottom: 80px;
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
   }
   #jumboRoboticsRobots {
-    margin-top: 80px;
-    padding-top: 0px;
-    margin-bottom: 80px;
+    margin-top: 120px;
+    margin-bottom: 0px;
+    padding-top: 3%;
+    padding-bottom: 3%;
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
   }
   #jumboRoboticsSoftware {
-    margin-top: 80px;
-    padding-top: 0px;
-    margin-bottom: 80px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 3%;
+    padding-bottom: 3%;
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
   }
   #jumboRoboticsReferences {
-    margin-top: 80px;
+    margin-top: 0px;
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
   }
@@ -231,63 +294,66 @@
   }
   
   #jumboRoboticsIndex {
-    /* margin-top: 100px; */
+    margin-top: 0px;
+    margin-bottom: 0px;
     padding-top: 2%;
     padding-bottom: 3%;
-    margin-bottom: 100px;
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
   }
   #jumboRoboticsResearch {
-    margin-top: 100px;
+    margin-top: 450px;
+    margin-bottom: 0px;
     padding-top: 2%;
     padding-bottom: 3%;
-    margin-bottom: 100px;
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
   }
   #jumboRoboticsHumanoidRobots {
-    margin-top: 100px;
-    padding-top: 2%;
-    padding-bottom: 3%;
-    margin-bottom: 100px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 4%;
+    padding-bottom: 4%;
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
   }
   #jumboRoboticsRobotLearning {
-    margin-top: 100px;
-    padding-top: 2%;
-    padding-bottom: 3%;
-    margin-bottom: 100px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 4%;
+    padding-bottom: 4%;
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
   }
   #jumboRoboticsPublications {
-    margin-top: 100px;
-    padding-top: 2%;
-    padding-bottom: 3%;
-    margin-bottom: 100px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 4%;
+    padding-bottom: 4%;
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
   }
+  #jumboRoboticsPublications h1{
+    color: #ffe9e5;
+  }
   #jumboRoboticsRobots {
-    margin-top: 100px;
-    padding-top: 0px;
-    margin-bottom: 100px;
+    margin-top: 240px;
+    margin-bottom: 0px;
+    padding-top: 4%;
+    padding-bottom: 4%;
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
   }  
   #jumboRoboticsSoftware {
-    margin-top: 50px;
-    padding-top: 0px;
-    padding-top: 2%;
-    padding-bottom: 2%;
-    margin-bottom: 50px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 4%;
+    padding-bottom: 4%;
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
   }
   #jumboRoboticsReferences { 
-    margin-top: 50px;
+    margin-top: 0px;
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
   } 
