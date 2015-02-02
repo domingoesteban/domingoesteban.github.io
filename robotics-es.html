@@ -13,6 +13,7 @@
 
   <!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="framework/css/bootstrap.css">
+  <link rel="stylesheet" href="framework/css/bootstrap-theme.css">
 
   <!-- Custom CSS -->
 	<link rel="stylesheet" href="includes/css/styles.css">
@@ -51,9 +52,9 @@
 
       		<li><a href="cv-es.html" class="mytooltip" title="Curriculum Vitae" data-placement="bottom"><span class="glyphicon glyphicon-list-alt"></span> CV </a></li>
 
-          <li><a href="//blog.domingoesteban.com"><span class="glyphicon glyphicon-pencil"></span> Blog </a>   </li>
+          <!-- <li><a href="//blog.domingoesteban.com"><span class="glyphicon glyphicon-pencil"></span> Blog </a>   </li> -->
 
-          <li><a href="tutorials/tutorials.html"><span class="glyphicon glyphicon-book"></span> Tutoriales </a></li>
+          <!-- <li><a href="tutorials/tutorials.html"><span class="glyphicon glyphicon-book"></span> Tutoriales </a></li> -->
 
       		<li><a href="bio-es.html"><span class="glyphicon glyphicon-fire"></span> Bio </a></li>
 
@@ -114,168 +115,339 @@
 </div>
 
 
-<div class="roboticsDivision1">
+<div class="scroll-top-wrapper">
+  <span class="glyphicon glyphicon-arrow-up"></span>
+</div>
 
   <div class="jumbotron jumboRobotics sectionHead" id="jumboRoboticsIntro">
     <div class="container">
       <div class="col-sm-6 col-sm-offset-6 text-right col-xs-12">
-        <h1 class="text-right"><b>Robótica</b></h1>
+        <h1 class="text-right"><u><b>Robótica</b></u></h1>
         <p>Investigación, Intereses &amp; Experiencia</p>
       </div>
     </div>
   </div>
 
-
-
-  <div class="jumbotron jumboRobotics" id="jumboRoboticsResearch">
+  <div class="jumbotron jumboRobotics" id="jumboRoboticsIndex">
     <div class="container">
-      <h1 class="text-center"><b>Investigación</b></h1>
-      <hr/>
-      <p>Mis intereses de investigación incluyen:</p>
-      <ul>
-        <li>Planificación de movimiento</li>
-        <li>Robots Humanoides</li>
-        <li>Robots Autónomos Móviles</li>
-        <li>Robot Learning</li>
-        <li>Robótica probabilistica</li>
-        <li>Robot simulation</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="jumbotron jumboRobotics" id="jumboRoboticsPublications">
-    <div class="container">
-      <h1 class="text-center"><b>Publicaciones</b></h1>
-      <hr/>
-      <ul>
-        <li>
-            Martínez, Santiago; Esteban, Domingo; Jardón Huete, Alberto; Balaguer, Carlos <b>"Anticipative Humanoid Postural Control System for Locomotive Tasks"</b>, In Proc. IEEE Intl Conf. on Humanoid Robots (Humanoids 2014), Madrid, Spain, 2014. 
-        </li>
-        <br/>
-        <li>
-            Esteban, Domingo <b>"Whole-body trajectory generation for a humanoid robot"</b>, Msc thesis, Universidad Carlos III de Madrid, Spain, 2014. 
-        </li>
-      </ul>
-    </div>
-  </div>
-  
-  <div class="jumbotron jumboRobotics" id="jumboRoboticsRobots">
-
-    <div class="container">
-
-      <div class="col-xs-12 col-sm-6 roboticsBigCol">
-        <h1 class="text-center"><b>Robots</b></h1>
-        <hr/>
-        <p class="text-justify"> Hasta el momento he trabajado con estos robots: </p>
-        <ul>
-          <li>TEO</li>
-          <li>DARwIn-OP</li>
-          <li>Summit-XL</li>
-          <li>Kobuki</li>
-          <li>IRB 1600</li>
-        </ul>
+      <div class="col-xs-12 visible-xs center-block">
+        <img id="roboticsRobotioImage" class="center-block img-rounded" src="images/robotics/robotioChestAnimated.svg" alt="roboticsRobotio"/>
+      </div>
+      <div class="row visible-xs center-block vertical-align2">
+        <a href="#jumboRoboticsResearch" class="col-xs-5 index-square">
+          <p class="text-center name">Research</p>
+        </a><!--
+        -->
+        <a href="#jumboRoboticsHumanoidRobots" class="col-xs-5 col-xs-offset-1 index-square">
+          <p class="text-center name">Humanoid Robots</p>
+        </a>
+      </div>
+      <div class="row visible-xs center-block vertical-align2">
+        <a href="#jumboRoboticsRobotLearning" class="col-xs-5 index-square">
+          <p class="text-center name">Robot Learning</p>
+        </a><!--
+        -->
+        <a href="#jumboRoboticsPublications" class="col-xs-5 col-xs-offset-1 index-square">
+          <p class="text-center name">Publications</p>
+        </a>
+      </div>
+      <div class="row visible-xs center-block vertical-align2">
+        <a href="#jumboRoboticsRobots" class="col-xs-5 index-square">
+          <p class="text-center name">Robots</p>
+        </a><!--
+        -->
+        <a href="#jumboRoboticsSoftware" class="col-xs-5 col-xs-offset-1 index-square">
+          <p class="text-center name">Software</p>
+        </a>
       </div>
 
-      <div class="carousel slide col-xs-12 col-sm-6 roboticsBigCol" id="robotsCarousel">
+      <div class="row hidden-xs vertical-align">
+        <div class="col-sm-3">
+          <img id="roboticsRobotioImage" class="center-block img-rounded" src="images/robotics/robotioChestAnimated.svg" alt="roboticsRobotio"/>
+        </div><!--
+        -->
+        <div class="col-sm-9">
+          <div class="row center-block vertical-align2">
+            <a href="#jumboRoboticsResearch" class="col-sm-3 index-square">
+              <p class="text-center name">Research</p>
+            </a><!--
+            -->
+            <a href="#jumboRoboticsHumanoidRobots" class="col-sm-3 col-sm-offset-1 index-square">
+              <p class="text-center name">Humanoid Robots</p>
+            </a><!--
+            -->
+            <a href="#jumboRoboticsRobotLearning" class="col-sm-3 col-sm-offset-1 index-square">
+              <p class="text-center name">Robot Learning</p>
+            </a>
+          </div>
+          <br></br>
+          <div class="row center-block vertical-align2">
+            <a href="#jumboRoboticsPublications" class="col-sm-3 index-square">
+              <p class="text-center name">Publications</p>
+            </a><!--
+            -->
+            <a href="#jumboRoboticsRobots" class="col-sm-3 col-sm-offset-1 index-square">
+              <p class="text-center name">Robots</p>
+            </a><!--
+            -->
+            <a href="#jumboRoboticsSoftware" class="col-sm-3 col-sm-offset-1 index-square">
+              <p class="text-center name">Software</p>
+            </a>
+          </div> <!-- col-sm-9 -->
+        </div>
 
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-          <li data-target="#robotsCarousel" data-slide-to="0" class="active"></li>
-          <li data-target="#robotsCarousel" data-slide-to="1"></li>
-          <li data-target="#robotsCarousel" data-slide-to="2"></li>
-          <li data-target="#robotsCarousel" data-slide-to="3"></li>
-          <li data-target="#robotsCarousel" data-slide-to="4"></li>
-        </ol>
+      </div>
+    </div>
+  </div>
 
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner">
-          <div class="item active" id="robotsCarouselSlide1">
-            <div class="carousel-caption">
-              <h4>TEO</h4>
-              <p>Robot humanoide desarrollado por la UC3M.</p>
-  <!--             <a href="robotics/whole-body-movement-humanoid.html" class="btn btn-default btn-success">More info</a> -->
-            </div> <!-- end carousel-caption -->
-          </div> <!-- end item -->
-          <div class="item" id="robotsCarouselSlide2">
-            <div class="carousel-caption">
-              <h4>DARwIN-OP</h4>
-              <p>Robot-humanoide-miniatura manufacturado por ROBOTIS.</p>
-  <!--             <a target="_blank" href="https://github.com/domingoesteban" class="btn btn-default btn-default">More info</a> -->
-            </div> <!-- end carousel-caption -->
-          </div> <!-- end item -->
-          <div class="item" id="robotsCarouselSlide3">
-            <div class="carousel-caption">
-              <h4>Summit-XL</h4>
-              <p>Robot móvil terrestre desarrollado por Robotnik. </p>
-  <!--             <a target="_blank" href="http://www.ros.org/news/2014/07/ros-indigo-igloo-released.html" class="btn btn-default btn-warning">More info</a> -->
-            </div> <!-- end carousel-caption -->
-          </div> <!-- end item -->
-          <div class="item" id="robotsCarouselSlide4">
-            <div class="carousel-caption">
-              <h4>Kobuki</h4>
-              <p>Ground mobile robot developed by Yujin Robot. </p>
-  <!--             <a target="_blank" href="http://www.ros.org/news/2014/07/ros-indigo-igloo-released.html" class="btn btn-default btn-warning">More info</a> -->
-            </div> <!-- end carousel-caption -->
-          </div> <!-- end item -->
-          <div class="item" id="robotsCarouselSlide5">
-            <div class="carousel-caption">
-              <h4>IRB 1600</h4>
-              <p>Industrial robot developed by ABB. </p>
-  <!--             <a target="_blank" href="http://www.ros.org/news/2014/07/ros-indigo-igloo-released.html" class="btn btn-default btn-warning">More info</a> -->
-            </div> <!-- end carousel-caption -->
-          </div> <!-- end item -->
-        </div> <!-- end carousel-inner -->
+  <div class="roboticsDivision1">
+    <div class="jumbotron jumboRobotics" id="jumboRoboticsResearch">
+      <div class="container">
+        <h1 class="text-center"><b>Research</b></h1>
+        <hr/>
+        <p>My research interests include:</p>
+        <ul>
+          <li>Motion planning</li>
+          <li>Humanoid robots</li>
+          <li>Autonomous mobile robots</li>
+          <li>Robot Learning</li>
+          <li>Probabilistic robotics</li>
+          <li>Robot simulation</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
-        <!-- Controls -->
-        <a class="left carousel-control" href="#robotsCarousel" role="button" data-slide="prev">
-          <span class="glyphicon glyphicon-chevron-left"></span>
-        </a>
-        <a class="right carousel-control" href="#robotsCarousel" role="button" data-slide="next">
-          <span class="glyphicon glyphicon-chevron-right"></span>
-        </a>
-        
-      </div>  <!-- end #robotsCarousel -->
-    </div>  <!-- end Container -->
-  </div>  <!-- end #jumboRoboticsRobots -->
+    <div class="jumbotron jumboRobotics" id="jumboRoboticsHumanoidRobots">
+      <div class="container text-justify-not-xs text-left-xs">
+        <h1 class="text-center"><b>Humanoid Robots</b></h1>
+        <hr/>
+
+        <div class="row vertical-align">
+          <div class="hidden-xs col-sm-4">
+            <img id="roboticsAsimoImage" class="center-block img-rounded" src="images/robotics/honda-asimo.jpg"alt="roboticsAsimo"/>
+          </div>
+          <div class="col-xs-12 col-sm-8">
+            <p class="text-responsive01">A humanoid robot or humanoid is an electro-mechanical machine with anthropomorphic form guided by a computer program or electronic circuitry in order to emulate some subset of the physical, cognitive and social dimensions of the human body and experience <a href="#refWikipediaRobot"><cite>[1]</cite></a> <a href="#refINLaboratory"><cite>[2]</cite></a>.</p>
+
+            <p class="text-responsive01">In recent years, there has been a strong impetus to research on humanoid robots, developing robots with high workability, interaction and mobility. This impetus is motivated by the many advantages of humanoid robots against other kind of robots. Among these, the most important is that humanoid robots can operate directly on the same human environment without any modification.</p>
+          </div>
+        </div>
+        <div class="col-xs-12 visible-xs center-block">
+          <img id="roboticsAsimoImage" class="center-block img-rounded" src="images/robotics/honda-asimo.jpg" alt="roboticsAsimo"/>
+        </div>
+
+        <p class="text-responsive01">Nevertheless, there are many challenges to overcome. Humanoid robotics research is focused in the stability and mobility of the robot under different environmental conditions, complex control systems to coordinate the whole body motion, motion planning, as well as the development of fast intelligent sensors and light energy-saving actuators. The research in humanoid robots also has many challenges with the autonomy, manipulation, locomotion and human-robot interaction.</p>
+
+        <p class="text-responsive01">As the robotics, the humanoid robotics field is an interdisciplinary science that integrates the knowledge of many disciplines. However, a fully-fledged humanoid robot will incorporate work from each of the areas below <a href="#refINLaboratory"><cite>[2]</cite></a>:</p>
+         <ul class="text-responsive01 text-left">
+           <li>Perception</li>
+           <li>Human-robot interaction</li>
+           <li>Learning and adaptive behaviour</li>
+           <li>Legged locomotion</li>
+           <li>Arm control and dexterous manipulation</li>
+         </ul>
+
+        <p class="text-responsive01">Within the movement of humanoid robots, motion planning by trajectory generation in operational (task or cartesian) space is a very used method by the possibility to define the movement in the real environment where the robot will perform the task. But the planning of trajectories considering only analytical techniques, can generate unnatural movements. For this reason, other sources of movement should be considered. The use of captured human motion data is a valuable source of examples to simplify the process of programming or learning complex robot motions. It is important to know the possibly existing natural restrictions imposed by the human way of doing the things rather than by the physical constraints.</p>
+
+      <div class="row vertical-align">
+        <div class="col-xs-12 col-sm-8">
+          <p class="text-responsive01">The mass concentrated models have been very effective methods in the generation of whole-body movement for many years, however, current humanoids possess more complex dynamics than previous generation of robots. Therefore, it is no longer appropriate to use over-simplified models of humanoid dynamics and new approaches have to be considered. Robot learning, the research field at the intersection of machine learning and robotics, is one of these possibilities. The use of learning algorithms to control humanoids and the use of learned dynamics rather than engineered dynamics models are good alternatives to progress in the field of whole-body planning and control.</p>
+        </div><!--
+        -->
+        <div class="hidden-xs col-sm-4">
+          <img id="roboticsICubImage" class="center-block img-rounded" src="images/robotics/icub-ball.jpg" alt="roboticsICub"/>
+        </div>
+      </div>
+      <div class="col-xs-12 visible-xs center-block">
+        <img id="roboticsICubImage" class="center-block img-rounded" src="images/robotics/icub-ball.jpg" alt="roboticsICub"/>
+      </div>
+
+
+      </div>
+    </div>
+
+    <div class="jumbotron jumboRobotics" id="jumboRoboticsRobotLearning">
+      <div class="container text-justify-not-xs text-left-xs">
+        <h1 class="text-center"><b>Robot Learning</b></h1>
+        <hr/>
+        <p>
+          The robot hardware is progressively becoming more complex, which leads to growing interest in applying machine learning and statistics approaches within the robotics community. At the same time, there has been a growth within the machine learning community in using robots as motivating applications for new algorithms and formalisms <a href="#refTCRLIEEE"><cite>[3]</cite></a>.
+        </p>
+
+        <p>
+          However, unlike other fields, robotics requires the consideration of some aspects that requires changing the way it has been working until now. The challenges that reinforcement learning has to face are: the curse of dimensionality, the curse of real-world samples, the curse of under-modeling and model uncertainty, and the curse of goal specification <a href="#refKoberRLInRobotics"><cite>[4]</cite></a>.
+        </p>
+
+        <p>
+          In recent years research in robot learning has mainly focused on: learning models of robots, task or environments, learning deep hierarchies or levels of representations from sensor and motor representations to task abstractions, learning of plans and control policies by imitation and reinforcement learning, integrating learning with control architectures, methods for probabilistic inference from multi-modal sensory information (e.g., proprioceptive, tactile, vison), and structured spatio-temporal representations designed for robot learning such as low-dimensional embedding of movements <a href="#refTCRLIEEE"><cite>[3]</cite></a>.
+        </p>
+      </div>
+    </div>
+
+
+    <div class="jumbotron jumboRobotics" id="jumboRoboticsPublications">
+      <div class="container">
+        <h1 class="text-center"><b>Publications</b></h1>
+        <hr/>
+        <ul>
+          <li>
+              Martínez, Santiago; Esteban, Domingo; Jardón Huete, Alberto; Balaguer, Carlos <b>"Anticipative Humanoid Postural Control System for Locomotive Tasks"</b>, In Proc. IEEE Intl Conf. on Humanoid Robots (Humanoids 2014), Madrid, Spain, 2014. 
+          </li>
+          <br/>
+          <li>
+              Esteban, Domingo <b>"Whole-body trajectory generation for a humanoid robot"</b>, Msc thesis, Universidad Carlos III de Madrid, Spain, 2014. 
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  <div class="roboticsDivision2">
+    <div class="jumbotron jumboRobotics" id="jumboRoboticsRobots">
+
+      <div class="container">
+
+        <div class="col-xs-12 col-sm-6 roboticsBigCol">
+          <h1 class="text-center"><b>Robots</b></h1>
+          <hr/>
+          <p class="text-justify"> Some robots whom I have worked with: </p>
+          <ul>
+            <li>TEO</li>
+            <li>DARwIn-OP</li>
+            <li>Summit-XL</li>
+            <li>Kobuki</li>
+            <li>IRB 1600</li>
+          </ul>
+        </div>
+
+        <div class="carousel slide col-xs-12 col-sm-6 roboticsBigCol" id="robotsCarousel">
+
+          <!-- Indicators -->
+          <ol class="carousel-indicators">
+            <li data-target="#robotsCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#robotsCarousel" data-slide-to="1"></li>
+            <li data-target="#robotsCarousel" data-slide-to="2"></li>
+            <li data-target="#robotsCarousel" data-slide-to="3"></li>
+            <li data-target="#robotsCarousel" data-slide-to="4"></li>
+          </ol>
+
+          <!-- Wrapper for slides -->
+          <div class="carousel-inner">
+            <div class="item active" id="robotsCarouselSlide1">
+              <div class="carousel-caption">
+                <h4>TEO</h4>
+                <p>Humanoid robot developed by UC3M.</p>
+    <!--             <a href="robotics/whole-body-movement-humanoid.html" class="btn btn-default btn-success">More info</a> -->
+              </div> <!-- end carousel-caption -->
+            </div> <!-- end item -->
+            <div class="item" id="robotsCarouselSlide2">
+              <div class="carousel-caption">
+                <h4>DARwIN-OP</h4>
+                <p>Miniature-humanoid-robot manufactured by ROBOTIS.</p>
+    <!--             <a target="_blank" href="https://github.com/domingoesteban" class="btn btn-default btn-default">More info</a> -->
+              </div> <!-- end carousel-caption -->
+            </div> <!-- end item -->
+            <div class="item" id="robotsCarouselSlide3">
+              <div class="carousel-caption">
+                <h4>Summit-XL</h4>
+                <p>Ground mobile robot developed by Robotnik. </p>
+    <!--             <a target="_blank" href="http://www.ros.org/news/2014/07/ros-indigo-igloo-released.html" class="btn btn-default btn-warning">More info</a> -->
+              </div> <!-- end carousel-caption -->
+            </div> <!-- end item -->
+            <div class="item" id="robotsCarouselSlide4">
+              <div class="carousel-caption">
+                <h4>Kobuki</h4>
+                <p>Ground mobile robot developed by Yujin Robot. </p>
+    <!--             <a target="_blank" href="http://www.ros.org/news/2014/07/ros-indigo-igloo-released.html" class="btn btn-default btn-warning">More info</a> -->
+              </div> <!-- end carousel-caption -->
+            </div> <!-- end item -->
+            <div class="item" id="robotsCarouselSlide5">
+              <div class="carousel-caption">
+                <h4>IRB 1600</h4>
+                <p>Industrial robot developed by ABB. </p>
+    <!--             <a target="_blank" href="http://www.ros.org/news/2014/07/ros-indigo-igloo-released.html" class="btn btn-default btn-warning">More info</a> -->
+              </div> <!-- end carousel-caption -->
+            </div> <!-- end item -->
+          </div> <!-- end carousel-inner -->
+
+          <!-- Controls -->
+          <a class="left carousel-control" href="#robotsCarousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+          </a>
+          <a class="right carousel-control" href="#robotsCarousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+          </a>
+          
+        </div>  <!-- end #robotsCarousel -->
+      </div>  <!-- end Container -->
+    </div>  <!-- end #jumboRoboticsRobots -->
+
+  <div class="roboticsDivision2">
 
   <div class="jumbotron jumboRobotics" id="jumboRoboticsSoftware">
     <div class="container">
       <h1 class="text-center"><b>Software</b></h1>
       <hr/>
-    <div class="row">
-      <div class="col-sm-3 col-sm-offset-2 col-xs-12">
-        <div class="thumbnail roboticsSoftwareThumbnail">
-          <img src="images/robotics/teotragen-1.jpg" alt="TEOTraGen">
-          <div class="caption">
-            <h3>TEOTraGen</h3>
-            <p>MATLAB® GUI que permite la generación de trayectorias whole-body para el robot humanoide TEO. </p>
-            <p class="thumbnailButton">
-              <a href="https://github.com/roboticslab-uc3m/TEOTraGen" class="btn btn-primary" role="button">+Info</a>
-              <a href="https://github.com/roboticslab-uc3m/TEOTraGen" class="btn btn-default" role="button" target="_blank">Source</a>
-            </p>
+      <div class="row">
+        <div class="col-sm-3 col-sm-offset-2 col-xs-12">
+          <div class="thumbnail roboticsSoftwareThumbnail">
+            <img src="images/robotics/teotragen-1.jpg" alt="TEOTraGen">
+            <div class="caption">
+              <h3>TEOTraGen</h3>
+              <p>MATLAB® GUI that allows Whole-body trajectory generation for TEO humanoid robot. </p>
+              <p class="thumbnailButton">
+                <a href="https://github.com/roboticslab-uc3m/TEOTraGen" class="btn btn-primary" role="button">+Info</a>
+                <a href="https://github.com/roboticslab-uc3m/TEOTraGen" class="btn btn-default" role="button" target="_blank">Source</a>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 col-xs-12">
+          <div class="thumbnail roboticsSoftwareThumbnail">
+            <img src="images/robotics/teo_robot-ros-metapackage.jpg" alt="teo_robot">
+            <div class="caption">
+              <h3>TEO ROS metapackage</h3>
+              <p>ROS packages for TEO humanoid robot. </p>
+              <p class="thumbnailButton">
+                <a href="https://github.com/roboticslab-uc3m/teo_robot" class="btn btn-primary" role="button">+Info</a>
+                <a href="https://github.com/roboticslab-uc3m/teo_robot" class="btn btn-default" role="button" target="_blank">Source</a>
+              </p>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-sm-3 col-sm-offset-1 col-xs-12">
-        <div class="thumbnail roboticsSoftwareThumbnail">
-          <img src="images/robotics/teo_robot-ros-metapackage.jpg" alt="teo_robot">
-          <div class="caption">
-            <h3>TEO ROS metapackage</h3>
-            <p>Paquetes de ROS para el robot humanoide TEO. </p>
-            <p class="thumbnailButton">
-              <a href="https://github.com/roboticslab-uc3m/teo_robot" class="btn btn-primary" role="button">+Info</a>
-              <a href="https://github.com/roboticslab-uc3m/teo_robot" class="btn btn-default" role="button" target="_blank">Source</a>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
     </div>
   </div>
 
-</div>
+<!--   <div class="jumbotron jumboRobotics" id="jumboRoboticsPresentations">
+    <div class="container">
+      <h1 class="text-center"><b>Presentations</b></h1>
+      <hr/>
+      <div class="row">
+        <div class="col-xs-12">
+        <h3>Whole-body Trajectory Generation for a Humanoid Robot</h3>
+          <iframe src="http://prezi.com/embed/mzszw1pzleyn/?bgcolor=ffffff&amp;lock_to_path=0&amp;autoplay=0&amp;autohide_ctrls=0&amp;features=undefined&amp;token=undefined&amp;disabled_features=undefined" width="550" height="400" frameBorder="0" webkitAllowFullScreen mozAllowFullscreen allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="jumbotron" id="jumboRoboticsReferences">
+    <div class="noise-background">
+      <div class="container">
+        <h2><u>Reference List</u></h2>
+        <ol>
+          <li><cite id="refWikipediaRobot"> <b>Wikipedia</b>. “Robot”, Wikipedia.org. [Online]. Available  <a href="http://en.wikipedia.org/wiki/Robot" target="_blank">http://en.wikipedia.org/wiki/Robot</a> [Last Modified: 29 January 2015, at 00:44].</cite></li>
+          
+          <li><cite id="refINLaboratory"> <b>I. N. Laboratory.</b> Humanoid Robotics. What is a humanoid robot?. [Online]. Available  <a href="https://inlportal.inl.gov/portal/server.pt/community/what_is_a_humanoid_robot_/539" target="_blank">https://inlportal.inl.gov/portal/server.pt/community/what_is_a_humanoid_robot_/539</a>. Accessed: 2014-06-22</cite></li>
+
+          <li><cite id="refTCRLIEEE"> <b>Technical Committee on Robot Learning</b>. IEEE RAS Technical Committee on Robot Learning (official IEEE website). <a href="http://www.ieee-ras.org/robot-learning" target="_blank">http://www.ieee-ras.org/robot-learning</a>. Accessed: 2015-01-31</cite></li>
+
+          <li><cite id="refKoberRLInRobotics"> <b>Kober, J. and Bagnell, J. A. and Peters, J.</b>"Reinforcement learning in robotics: A survey". The International Journal of Robotics Research, vol. 32, pp. 1238-1274, Sept. 2013.</cite></li>
+        </ol>
+      </div> <!-- End .container -->
+    </div> <!-- End .noise-background -->
+  </div> <!-- End #jumboRoboticsReferences -->
 
 <footer id="footerSocialMedia">
   <div class="container">
@@ -314,7 +486,7 @@
   </div>
 
   <div class="col-xs-12" id="footerCopyright">
-    <h6 class="text-center">Copyright © 2014-15 Domingo Esteban</h6>
+    <h6 class="text-center">Copyright © 2014-2015 Domingo Esteban</h6>
     <!-- <p class="text-center"><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> </p> -->
   </div>
 
