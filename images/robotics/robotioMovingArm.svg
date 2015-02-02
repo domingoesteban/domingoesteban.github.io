@@ -122,21 +122,34 @@
        id="arm-right1"
        style="fill:#1a1a1a">
       <animateTransform attributeName="transform" type="rotate"
-           values="0 873 390; -150 873 390; 0 873 390"
-           begin="0s" dur="5s" fill="freeze"
-           repeatCount="indefinite" />
+          values="0 873 390; -85 873 390"
+           begin="1s; move5ar2.end+1" dur="2s" fill="freeze" />
+      <animateTransform id="move5ar2" attributeName="transform" type="rotate"
+        values="-85 873 390; 0 873 390"
+        begin="move4ar2.end" dur="2s" fill="freeze" />
     </rect>
     <rect
-       width="70"
-       height="25"
-       x="853"
-       y="486.86218"
-       id="arm-right2"
-       style="fill:#1a1a1a">
-      <animateTransform attributeName="transform" type="rotate"
-           values="0 873 390; -150 873 390; 0 873 390"
-           begin="0s" dur="5s" fill="freeze"
-           repeatCount="indefinite" />
+      width="70"
+      height="25"
+      x="853"
+      y="486.86218"
+      id="arm-right2"
+      style="fill:#1a1a1a">
+      <animateTransform id="move1ar2" attributeName="transform" type="rotate"
+        values="0 873 390; -85 873 390"
+        begin="1s; move5ar2.end+1" dur="2s" fill="freeze" />
+      <animateTransform id="move2ar2" attributeName="transform" type="rotate"
+        values="-85 873 390; -125 895 413"
+        begin="move1ar2.end" dur="1s" fill="freeze" />
+      <animateTransform id="move3ar2" attributeName="transform" type="rotate"
+        values="-125 895 413; -170 920 435; -125 895 413; -170 920 435; -125 895 413; -170 920 435; -125 895 413"
+        begin="move2ar2.end" dur="5s" fill="freeze" />
+      <animateTransform id="move4ar2" attributeName="transform" type="rotate"
+        values="-125 895 413; -85 873 390"
+        begin="move3ar2.end" dur="1s" fill="freeze" />
+      <animateTransform id="move5ar2" attributeName="transform" type="rotate"
+        values="-85 873 390; 0 873 390"
+        begin="move4ar2.end" dur="2s" fill="freeze" />
     </rect>
     <rect
        width="70"
@@ -145,10 +158,21 @@
        y="514.36218"
        id="arm-right3"
        style="fill:#1a1a1a">
-      <animateTransform attributeName="transform" type="rotate"
-           values="0 873 390; -150 873 390; 0 873 390"
-           begin="0s" dur="5s" fill="freeze"
-           repeatCount="indefinite" />
+      <animateTransform id="move1ar2" attributeName="transform" type="rotate"
+        values="0 873 390; -85 873 390"
+        begin="1s; move5ar2.end+1" dur="2s" fill="freeze" />
+      <animateTransform id="move2ar2" attributeName="transform" type="rotate"
+        values="-85 873 390; -125 895 413"
+        begin="move1ar2.end" dur="1s" fill="freeze" />
+      <animateTransform id="move3ar2" attributeName="transform" type="rotate"
+        values="-125 895 413; -170 920 435; -125 895 413; -170 920 435; -125 895 413; -170 920 435; -125 895 413"
+        begin="move2ar2.end" dur="5s" fill="freeze" />
+      <animateTransform id="move4ar2" attributeName="transform" type="rotate"
+        values="-125 895 413; -85 873 390"
+        begin="move3ar2.end" dur="1s" fill="freeze" />
+      <animateTransform id="move5ar2" attributeName="transform" type="rotate"
+        values="-85 873 390; 0 873 390"
+        begin="move4ar2.end" dur="2s" fill="freeze" />
     </rect>
     <rect
        width="80"
@@ -157,10 +181,21 @@
        y="601.86218"
        id="hand-right1"
        style="fill:#1a1a1a">
-      <animateTransform attributeName="transform" type="rotate"
-           values="0 873 390; -150 873 390; 0 873 390"
-           begin="0s" dur="5s" fill="freeze"
-           repeatCount="indefinite" />
+      <animateTransform id="move1ar2" attributeName="transform" type="rotate"
+        values="0 873 390; -85 873 390"
+        begin="1s; move5ar2.end+1" dur="2s" fill="freeze" />
+      <animateTransform id="move2ar2" attributeName="transform" type="rotate"
+        values="-85 873 390; -125 895 413"
+        begin="move1ar2.end" dur="1s" fill="freeze" />
+      <animateTransform id="move3ar2" attributeName="transform" type="rotate"
+        values="-125 895 413; -170 920 435; -125 895 413; -170 920 435; -125 895 413; -170 920 435; -125 895 413"
+        begin="move2ar2.end" dur="5s" fill="freeze" />
+      <animateTransform id="move4ar2" attributeName="transform" type="rotate"
+        values="-125 895 413; -85 873 390"
+        begin="move3ar2.end" dur="1s" fill="freeze" />
+      <animateTransform id="move5ar2" attributeName="transform" type="rotate"
+        values="-85 873 390; 0 873 390"
+        begin="move4ar2.end" dur="2s" fill="freeze" />
     </rect> 
     <rect
        width="25"
@@ -175,10 +210,21 @@
                 begin="0s" dur="4s"
                 repeatCount="indefinite"
                />
-      <animateTransform attributeName="transform" type="rotate"
-           values="0 873 390; -150 873 390; 0 873 390"
-           begin="0s" dur="5s" fill="freeze"
-           repeatCount="indefinite"/>
+      <animateTransform id="move1ar2" attributeName="transform" type="rotate"
+        values="0 873 390; -85 873 390"
+        begin="1s; move5ar2.end+1" dur="2s" fill="freeze" />
+      <animateTransform id="move2ar2" attributeName="transform" type="rotate"
+        values="-85 873 390; -125 895 413"
+        begin="move1ar2.end" dur="1s" fill="freeze" />
+      <animateTransform id="move3ar2" attributeName="transform" type="rotate"
+        values="-125 895 413; -170 920 435; -125 895 413; -170 920 435; -125 895 413; -170 920 435; -125 895 413"
+        begin="move2ar2.end" dur="5s" fill="freeze" />
+      <animateTransform id="move4ar2" attributeName="transform" type="rotate"
+        values="-125 895 413; -85 873 390"
+        begin="move3ar2.end" dur="1s" fill="freeze" />
+      <animateTransform id="move5ar2" attributeName="transform" type="rotate"
+        values="-85 873 390; 0 873 390"
+        begin="move4ar2.end" dur="2s" fill="freeze" />
     </rect>
     <rect
        width="25"
@@ -193,10 +239,21 @@
                 begin="0s" dur="4s"
                 repeatCount="indefinite"
                />
-      <animateTransform attributeName="transform" type="rotate"
-           values="0 873 390; -150 873 390; 0 873 390"
-           begin="0s" dur="5s" fill="freeze"
-           repeatCount="indefinite"/>
+      <animateTransform id="move1ar2" attributeName="transform" type="rotate"
+        values="0 873 390; -85 873 390"
+        begin="1s; move5ar2.end+1" dur="2s" fill="freeze" />
+      <animateTransform id="move2ar2" attributeName="transform" type="rotate"
+        values="-85 873 390; -125 895 413"
+        begin="move1ar2.end" dur="1s" fill="freeze" />
+      <animateTransform id="move3ar2" attributeName="transform" type="rotate"
+        values="-125 895 413; -170 920 435; -125 895 413; -170 920 435; -125 895 413; -170 920 435; -125 895 413"
+        begin="move2ar2.end" dur="5s" fill="freeze" />
+      <animateTransform id="move4ar2" attributeName="transform" type="rotate"
+        values="-125 895 413; -85 873 390"
+        begin="move3ar2.end" dur="1s" fill="freeze" />
+      <animateTransform id="move5ar2" attributeName="transform" type="rotate"
+        values="-85 873 390; 0 873 390"
+        begin="move4ar2.end" dur="2s" fill="freeze" />
     </rect>
     <rect
        width="90"
