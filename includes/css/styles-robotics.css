@@ -139,6 +139,16 @@
   background-color:#2F2E34;
   color:#FFFFF0;
 }
+#jumboRoboticsMobileRobots {
+  margin-top: 30px;
+  padding-top: 3%;
+  padding-bottom: 3%;
+  margin-bottom: 30px;
+  border-bottom: thin solid #101010;
+  border-top: thin solid #101010;
+  background-color:#2F4F4F;
+  color:#FFFFF0;
+}
 #jumboRoboticsPublications {
   margin-top: 0px;
   margin-bottom: 0px;
@@ -146,7 +156,7 @@
   padding-bottom: 3%;
   border-bottom: thin solid #101010;
   border-top: thin solid #101010;
-  background-color:#2F4F4F;
+  background-color:#2F2E34;
   color:#FFFFF0;
 }
 #jumboRoboticsRobots {
@@ -244,6 +254,14 @@
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
   }
+  #jumboRoboticsMobileRobots {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    border-bottom: thin solid #101010;
+    border-top: thin solid #101010;
+  }
   #jumboRoboticsPublications {
     margin-top: 0px;
     margin-bottom: 0px;
@@ -319,6 +337,14 @@
     border-top: thin solid #101010;
   }
   #jumboRoboticsRobotLearning {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 4%;
+    padding-bottom: 4%;
+    border-bottom: thin solid #101010;
+    border-top: thin solid #101010;
+  }
+  #jumboRoboticsMobileRobots {
     margin-top: 0px;
     margin-bottom: 0px;
     padding-top: 4%;

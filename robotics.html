@@ -284,6 +284,30 @@
       </div>
     </div>
 
+<!--     <div class="jumbotron jumboRobotics" id="jumboRoboticsMobileRobots">
+      <div class="container text-justify-not-xs text-left-xs">
+        <h1 class="text-center"><b>Mobile Robots</b></h1>
+        <hr/>
+        <p>
+          Navigation is one of the most challenging competences required of a mobile robot. Success in navigation requires success at the four building blocks of navigation: <i>perpection</i> (the robot must interpret its sensors to extract meaningful data), <i>localization</i> (the robot must determine its position in the environment), <i>cognition</i> (the robot must decide how to act to achieve its goals); and <i>motion control</i> (the robot must modulate its motor outputs to achieve the desired trajectory).<a href="#refSiegwartIntroAutoMobileRobots"><cite>[5]</cite></a>.
+        </p>
+
+        <p>
+          The robot's sensors and effectors play an integral role in all the forms of localization. It is because of the inaccuracy and incompleteness of these sensors and effectors that localization poses difficult challenges. Sensors are the fundamental robot input for the process of perception, <i>sensor noise</i> induces a limitation on the consistency of sensor readings in the same environmental state and, therefore, on the number of useful bits available form each sensor reading. The solution is to take multiple readings into account, employing temporal fusion or multisensor fusion to increase the overall information content of the robot's inputs. Additionally, the nonuniqueness of sensor readings, or <i>sensor aliasing</i>, is another problem. Even with noise-free sensors, the amount of information is generally insufficient to identify the robot's position form a single-percept reading. For this reason, the robot's localization have to be based on a series of readings and, thus, sufficient information to recover the robot's position over time.
+        </p>
+
+        <p>
+          Mobile robot effectors also introduce uncertainty about future state. Therefore, the simple act of moving tends to increase the uncertainty of a mobile robot. This error in motion is viewed as an error in odometry, or the robot's inability to estimate its own position over time using knowledge of its kinematics and dynamics. The true source of error generally lies in an incomplete model of the environment. In odometry (wheel sensors only) and dead reckoning (also heading sensors) the position update is based on <i>proprioceptive</i> sensors. The movement of the robot, sensed with wheel encoders and/or heading sensors is integrated to compute position and for this reason the position error accumulates over time. Some of the errors might be deterministic (systematic); thus, they can be eliminated by proper calibration of the system. However, there are still a number of nondeterministic (random) errors that remain, leading to uncertainties in position estimation over time. These errors, from a geometric point of view, can be classify into:
+        </p>
+        <ul>
+          <li>Range error: integrated path length (distance) of the robot's movement. -> sum of the wheel movements</li>
+          <li>Turn error: similar to range error, but for turns. -> difference of the wheel motions</li>
+          <li>Drift error: difference in the error of the wheels leads to an error in the robot's angular orientation.</li>
+        </ul>
+        <p></p>
+      </div>
+    </div> -->
+
 
     <div class="jumbotron jumboRobotics" id="jumboRoboticsPublications">
       <div class="container">
@@ -443,6 +467,8 @@
           <li><cite id="refTCRLIEEE"> <b>Technical Committee on Robot Learning</b>. IEEE RAS Technical Committee on Robot Learning (official IEEE website). <a href="http://www.ieee-ras.org/robot-learning" target="_blank">http://www.ieee-ras.org/robot-learning</a>. Accessed: 2015-01-31</cite></li>
 
           <li><cite id="refKoberRLInRobotics"> <b>Kober, J. and Bagnell, J. A. and Peters, J.</b>"Reinforcement learning in robotics: A survey". The International Journal of Robotics Research, vol. 32, pp. 1238-1274, Sept. 2013.</cite></li>
+
+<!--           <li><cite id="refSiegwartIntroAutoMobileRobots"> <b>Siegwart, R. and Nourbakhsh, I.R. and Scaramuzza, D.</b>"Introduction to Autonomous Mobile Robots". Intelligent robotics and autonomous agents, MIT Press, 2011.</cite></li> -->
         </ol>
       </div> <!-- End .container -->
     </div> <!-- End .noise-background -->
@@ -471,7 +497,7 @@
           <a target="_blank" href="https://www.youtube.com/user/domingoestebanc"><img class="footericon" src="images/icons/youtube2-circle-logo-128.png" alt="Youtube"/></a>
         </div>
         <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
-          <a target="_blank" href="https://www.facebook.com/domingoesteban"><img class="footericon" src="images/icons/facebook2-circle-logo-128.png" alt="Facebook"/></a>
+          <a target="_blank" href="https://www.facebook.com/pages/Domingo-Esteban/459055427596800"><img class="footericon" src="images/icons/facebook2-circle-logo-128.png" alt="Facebook"/></a>
         </div>
         <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
           <a target="_blank" href="https://instagram.com/domingoesteban"><img class="footericon" src="images/icons/instagram2-circle-logo-128.png" alt="Instagram"/></a>
