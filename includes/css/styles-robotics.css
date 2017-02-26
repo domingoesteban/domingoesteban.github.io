@@ -93,7 +93,7 @@
 
 /* ROBOTICS JUMBOTRON */
 #jumboRoboticsIntro {
-  margin-top: 40px;
+  margin-top: 0px;
   padding-top: 0px;
   /* margin-bottom: 30px; */
   border-bottom: medium solid #101010;
@@ -166,7 +166,7 @@
   padding-bottom: 3%;
   border-bottom: thin solid #101010;
   border-top: thin solid #101010;
-  background-color:#2F2E34;
+  background-color:#c92534;
   color:#FFFFF0;
 }
 #jumboRoboticsSoftware {
@@ -217,7 +217,7 @@
 }
 @media (max-width: 768px) {
   #jumboRoboticsIntro {
-    margin-top: 40px;
+    margin-top: 0px;
     padding-top: 0px;
     /* margin-bottom: 80px; */
     border-bottom: 8px solid #101010;
@@ -303,7 +303,7 @@
 
 @media (min-width: 1200px) {
   #jumboRoboticsIntro {
-    margin-top: 40px;
+    margin-top: 0px;
     padding-top: 0px;
     /* margin-bottom: 100px; */
     border-bottom: 10px solid #101010;
