@@ -26,122 +26,111 @@
 
 
 <body>
-<div class="robotLoader"></div>
+  <div class="robotLoader"></div>
 
-<div class="container" id="main">
-
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="mainnavigationbar">
-		<div class="container-fluid">
-			
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainnavbar-responsive">
+  <nav class="navbar navbar-blue" role="navigation" id="mainnavigationbar">
+    <div class="container-fluid">
+      
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainnavbar-responsive">
           <span class="sr-only"> Toggle Navigation</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
-				</button>
-				<a href="index.html" class="navbar-brand">Domingo Esteban</a>
-			</div>
+        </button>
+        <a href="index.html" class="navbar-brand">Domingo Esteban</a>
+      </div>
 
 
       <div class="collapse navbar-collapse" id="mainnavbar-responsive">
-      	<ul class="nav navbar-nav pull-left" >
-      		<li><a href="index-es.html"><span class="glyphicon glyphicon-home"></span> Home </a></li>
+        <ul class="nav navbar-nav pull-left" >
+        <li><a href="index-es.html"><span class="glyphicon glyphicon-home"></span> Home </a></li>
 
-          <li><a href="robotics-es.html"><span class="glyphicon glyphicon-hdd"></span> Robótica </a></li>
+        <li><a href="robotics-es.html"><span class="glyphicon glyphicon-hdd"></span> Robótica </a></li>
 
-      		<li class="active"><a href="#" class="mytooltip" title="Curriculum Vitae" data-placement="bottom"><span class="glyphicon glyphicon-list-alt"></span> CV </a></li>
+        <li class="active"><a href="cv-es.html" class="mytooltip" title="Curriculum Vitae" data-placement="bottom"><span class="glyphicon glyphicon-list-alt"></span> CV </a></li>
 
-          <!-- <li><a href="//blog.domingoesteban.com"><span class="glyphicon glyphicon-pencil"></span> Blog </a></li> -->
+        <li><a href="blog.html"><span class="glyphicon glyphicon-pencil"></span> Blog </a></li>
 
-          <!-- <li><a href="tutorials/tutorials.html"><span class="glyphicon glyphicon-book"></span> Tutoriales </a></li> -->
-
-      		<!--li><a href="bio-es.html"><span class="glyphicon glyphicon-fire"></span> Bio </a></li-->
-
-          <li><a href="#contactModal" data-toggle="modal" data-target="#contactModal"><span class="glyphicon glyphicon-user"></span> Contacto </a></li>
+        <li><a href="#contactModal" data-toggle="modal" data-target="#contactModal"><span class="glyphicon glyphicon-user"></span> Contacto </a></li>
 
           <li class="dropdown visible-xs">
             <a id="dropLanguage" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
               <img src="images/cv/spain-flag.jpg" height="18" width="27" alt=""> ES
               <span class="caret"></span>
             </a>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="dropLanguage" style="background:#101010;">
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="cv.html" style="color: #777;"><img src="images/cv/uk-flag.jpg" height="18" width="27" alt=""> English </a></li>
-              <!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="#" style="color: #777;"><img src="images/cv/france-flag.jpg" height="18" width="27" alt=""> Français </a></li> -->
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropLanguage" style="background:#104870;">
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="cv.html" style="color: #7ea8e8;"><img src="images/cv/uk-flag.jpg" height="18" width="27" alt=""> English </a></li>
             </ul>
           </li>
         </ul>
+
         <ul class="nav navbar-nav navbar-right hidden-xs">
           <li class="dropdown">
             <a id="dropLanguage" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
               <img src="images/cv/spain-flag.jpg" height="18" width="27" alt=""> ES
               <span class="caret"></span>
             </a>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="dropLanguage" style="background:#101010;">
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="cv.html" style="color: #777;"><img src="images/cv/uk-flag.jpg" height="18" width="27" alt=""> English </a></li>
-              <!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="#" style="color: #777;"><img src="images/cv/france-flag.jpg" height="18" width="27" alt=""> Français </a></li> -->
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropLanguage" style="background:#104870;">
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="cv.html" style="color: #7ea8e8;"><img src="images/cv/uk-flag.jpg" height="18" width="27" alt=""> English </a></li>
             </ul>
           </li>
-       </ul>
-<!--         <ul class="nav navbar-nav pull-right">
-          <li><a href="#" class="mytooltip" title="Search" data-placement="bottom"><span class="glyphicon glyphicon-search"></span></a>
-         </li>
-       </ul> -->
-      </div>
-
-		</div>
-	</nav> <!-- end #mainnavigationbar -->
-</div>
-
-<div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content" id="contactModalContent">
-      <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
-          <h4 class="modal-title text-center" id="contactModalLabel">Información de Contacto</h4>
-      </div>
-      <div class="modal-body">
-        <ul class="unstyled text-center">
-          <li> <b><span class="glyphicon glyphicon-phone"></span> Móvil / Celular: </b><br/> +39 391 165 43 70</li>
-          <hr style="width:20px"/>
-          <li> <img class="contactModalIcon" src="images/icons/skype-circle-logo-white-128.png" alt="Skype"/> <b>Skype ID:</b><br/> domingoesteban</li>
         </ul>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+    </div>
+  </nav>
+
+  <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content" id="contactModalContent">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title text-center" id="contactModalLabel">Información de Contacto</h4>
+        </div>
+        <div class="modal-body">
+          <ul class="unstyled text-center">
+            <li> <b><span class="glyphicon glyphicon-envelope"></span> Email: </b><br/> domingo.esteban(AT)iit.it</li>
+            <hr style="width:20px"/>
+            <li> <img class="contactModalIcon" src="images/icons/skype-circle-logo-white-128.png" alt="Skype"/> <b>Skype ID:</b><br/> domingoesteban</li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
+  <!-- CV Title -->
 
-<div id="masthead" class="">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-5">
-        <div class="well well-lg" id="cv-photo-container">
-          <div class="row">
-            <div class="col-sm-5">
-              <img src="images/cv/domingo-suit.jpg" class="img-responsive">
-            </div>
-            <div class="col-sm-7 text-center">
-              <strong class="strong">Domingo Esteban</strong>
-              <p class="">Ingeniero de Software <br/>-<br/> Investigador en Robótica</p>
-              <hr/>
-              <a href="files/cv-domingo-esteban.pdf" download="CV - Domingo Esteban.pdf">Descargar en PDF <small>(En Inglés)</small>&nbsp; <img src="images/icons/pdf-logo.png" alt="pdf-logo"></a>
+  <div id="masthead-white" class="">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5">
+          <div class="well well-lg" id="cv-photo-container">
+            <div class="row">
+              <div class="col-sm-5">
+                <img src="images/cv/domingo-suit.jpg" class="img-responsive">
+              </div>
+              <div class="col-sm-7 text-center">
+                <strong class="strong">Domingo Esteban</strong>
+                <p class="">Estudiante de Doctorado <br/>-<br/> Istituto Italiano di Tecnologia</p>
+                <hr/>
+                <a href="files/cv-domingo-esteban.pdf" download="CV - Domingo Esteban.pdf">Descargar en PDF <small>(En Inglés)</small>&nbsp; <img src="images/icons/pdf-logo.png" alt="pdf-logo"></a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-6 text-right">
-        <h1 class=""><u><b>CV</b></u>
-          <p class="lead">Curriculum Vitae</p>
-        </h1>
+        <div class="col-md-6 text-right">
+          <h1 class=""><u><b>CV</b></u>
+            <p class="lead">Curriculum Vitae</p>
+          </h1>
+        </div>
       </div>
     </div>
   </div>
-  <!-- /cont -->
-</div>
+
+
 
 <!-- Begin Body -->
 <div class="container" id="mycontentcon">
@@ -161,24 +150,20 @@
     </div>
 
     <div class="col-md-9" id="mycontent">
-
       <div id="c1" class="well well-lg">
         <h2 class="">Información Personal</h2>
         <div class="row">
           <div class="col-sm-9">
             <ul>
-              <li> <b> Dirección:</b> Via Morego, 30, 16163 <br/> Genova - Italy</li>
-              <li> <b> Móvil:</b>  +39 3911654370  </li>
-              <li> <b> Email:</b>   domingo.esteban@iit.it </li>
+              <li> <b> Dirección:</b> Via Morego, 30, 16163 Genova - Italia</li>
+              <li> <b> Email:</b>   domingo.esteban (AT) iit.it </li>
               <li> <b> Skype:</b>   domingoesteban </li>
-              <li> <b> Nacionalidad:</b>   Peruana y Española </li>
             </ul>
           </div>
           <div class="col-sm-3">
             <img src="images/cv/genova-map.jpg" height="100%" width="100%" alt="">
           </div>
         </div>
-        <!-- <hr class="col-md-12"> -->
       </div>
 
       <div id="c2" class="well well-lg">
@@ -555,7 +540,7 @@
   </div>
 
   <div class="col-xs-12" id="footerCopyright">
-    <h6 class="text-center">Copyright © 2014-2015 Domingo Esteban</h6>
+    <h6 class="text-center">Copyright © 2014-2017 Domingo Esteban</h6>
     <!-- <p class="text-center"><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> </p> -->
   </div>
 

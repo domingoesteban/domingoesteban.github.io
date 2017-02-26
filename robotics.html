@@ -31,101 +31,94 @@
 <body>
   <div class="robotLoader"></div>
 
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="mainnavigationbar">
-		<div class="container-fluid">
-			
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainnavbar-responsive">
-					<span class="sr-only"> Toggle Navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a href="index.html" class="navbar-brand">Domingo Esteban</a>
-			</div>
+  <nav class="navbar navbar-blue" role="navigation" id="mainnavigationbar">
+    <div class="container-fluid">
+      
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainnavbar-responsive">
+          <span class="sr-only"> Toggle Navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a href="index.html" class="navbar-brand">Domingo Esteban</a>
+      </div>
+
 
       <div class="collapse navbar-collapse" id="mainnavbar-responsive">
-      	<ul class="nav navbar-nav pull-left" >
-      		<li><a href="index.html"><span class="glyphicon glyphicon-home"></span> Home </a></li>
+        <ul class="nav navbar-nav pull-left" >
+        <li><a href="index.html"><span class="glyphicon glyphicon-home"></span> Home </a></li>
 
-          <li class="active"><a href="robotics.html"><span class="glyphicon glyphicon-hdd"></span> Robotics </a></li>
+        <li class="active"><a href="robotics.html"><span class="glyphicon glyphicon-hdd"></span> Robotics </a></li>
 
-      		<li><a href="cv.html" class="mytooltip" title="Curriculum Vitae" data-placement="bottom"><span class="glyphicon glyphicon-list-alt"></span> CV </a></li>
+        <li><a href="cv.html" class="mytooltip" title="Curriculum Vitae" data-placement="bottom"><span class="glyphicon glyphicon-list-alt"></span> CV </a></li>
 
-          <!-- <li><a href="//blog.domingoesteban.com"><span class="glyphicon glyphicon-pencil"></span> Blog </a>   </li> -->
+        <li><a href="blog.html"><span class="glyphicon glyphicon-pencil"></span> Blog </a></li>
 
-          <!-- <li><a href="tutorials/tutorials.html"><span class="glyphicon glyphicon-book"></span> Tutorials </a></li> -->
-
-      		<!--li><a href="bio.html"><span class="glyphicon glyphicon-fire"></span> Bio </a></li-->
-
-      		<li><a href="#contactModal" data-toggle="modal" data-target="#contactModal"><span class="glyphicon glyphicon-user"></span> Contact </a></li>
+        <li><a href="#contactModal" data-toggle="modal" data-target="#contactModal"><span class="glyphicon glyphicon-user"></span> Contact </a></li>
 
           <li class="dropdown visible-xs">
             <a id="dropLanguage" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
               <img src="images/cv/uk-flag.jpg" height="18" width="27" alt=""> EN
               <span class="caret"></span>
             </a>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="dropLanguage" style="background:#101010;">
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="robotics-es.html" style="color: #777;"><img src="images/cv/spain-flag.jpg" height="18" width="27" alt=""> Castellano </a></li>
-              <!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="#" style="color: #777;"><img src="images/cv/france-flag.jpg" height="18" width="27" alt=""> Français </a></li> -->
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropLanguage" style="background:#104870;">
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="robotics-es.html" style="color: #7ea8e8;"><img src="images/cv/spain-flag.jpg" height="18" width="27" alt=""> Castellano </a></li>
             </ul>
           </li>
-      	</ul>
+        </ul>
+
         <ul class="nav navbar-nav navbar-right hidden-xs">
           <li class="dropdown">
             <a id="dropLanguage" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
               <img src="images/cv/uk-flag.jpg" height="18" width="27" alt=""> EN
               <span class="caret"></span>
             </a>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="dropLanguage" style="background:#101010;">
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="robotics-es.html" style="color: #777;"><img src="images/cv/spain-flag.jpg" height="18" width="27" alt=""> Castellano </a></li>
-              <!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="#" style="color: #777;"><img src="images/cv/france-flag.jpg" height="18" width="27" alt=""> Français </a></li> -->
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropLanguage" style="background:#104870;">
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="robotics-es.html" style="color: #7ea8e8;"><img src="images/cv/spain-flag.jpg" height="18" width="27" alt=""> Castellano </a></li>
             </ul>
           </li>
-       </ul>
-<!--         <ul class="nav navbar-nav pull-right">
-          <li><a href="#" class="mytooltip" title="Search" data-placement="bottom"><span class="glyphicon glyphicon-search"></span></a>
-         </li>
-       </ul> -->
-      </div> <!-- end #mainnavbar-responsive -->
-
-		</div>
-	</nav> <!-- end #mainnavigationbar -->
-</div>
-
-<div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content" id="contactModalContent">
-      <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-          <h4 class="modal-title text-center" id="contactModalLabel">Contact info</h4>
-      </div>
-      <div class="modal-body">
-        <ul class="unstyled text-center">
-          <li> <b><span class="glyphicon glyphicon-phone"></span> Mobile / Cell phone: </b><br/> +39 391 165 43 70</li>
-          <hr style="width:20px"/>
-          <li> <img class="contactModalIcon" src="images/icons/skype-circle-logo-white-128.png" alt="Skype"/> <b>Skype ID:</b><br/> domingoesteban</li>
         </ul>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+  </nav>
+
+  <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content" id="contactModalContent">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title text-center" id="contactModalLabel">Contact info</h4>
+        </div>
+        <div class="modal-body">
+          <ul class="unstyled text-center">
+            <li> <b><span class="glyphicon glyphicon-envelope"></span> Email: </b><br/> domingo.esteban(AT)iit.it</li>
+            <hr style="width:20px"/>
+            <li> <img class="contactModalIcon" src="images/icons/skype-circle-logo-white-128.png" alt="Skype"/> <b>Skype ID:</b><br/> domingoesteban</li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="scroll-top-wrapper">
-  <span class="glyphicon glyphicon-arrow-up"></span>
-</div>
+  <div class="scroll-top-wrapper">
+    <span class="glyphicon glyphicon-arrow-up"></span>
+  </div>
 
-  <div class="jumbotron jumboRobotics sectionHead" id="jumboRoboticsIntro">
+
+  <div class="jumbotron jumboRobotics sectionHead-white" id="jumboRoboticsIntro">
     <div class="container">
       <div class="col-sm-6 col-sm-offset-6 text-right col-xs-12">
         <h1 class="text-right"><u><b>Robotics</b></u></h1>
-        <p>Research, Interests &amp; Experience</p>
+        <p>Research &amp; Experience</p>
       </div>
     </div>
   </div>
+
+
 
   <div class="jumbotron jumboRobotics" id="jumboRoboticsIndex">
     <div class="container">
@@ -317,11 +310,15 @@
         <hr/>
         <ul>
           <li>
-              Martínez, Santiago; Esteban, Domingo; Jardón Huete, Alberto; Balaguer, Carlos <b>"Anticipative Humanoid Postural Control System for Locomotive Tasks"</b>, In Proc. IEEE Intl Conf. on Humanoid Robots (Humanoids 2014), Madrid, Spain, 2014. 
+              Delhaisse, Brian*; <b>Esteban, Domingo*</b>; Rozo, Leonel; Caldwell, Darwin (2017) <b><i>"Transfer Learning of Shared Latent Spaces between Robots with Similar Kinematic Structure"</i></b>, IEEE International Joint Conference on Neural Networks (IJCNN) <b>[Accepted]</b>  <a target="_blank" href="files/papers/tl_sgplvm.pdf" style="color:yellow">[Paper]</a>
           </li>
           <br/>
           <li>
-              Esteban, Domingo <b>"Whole-body trajectory generation for a humanoid robot"</b>, Msc thesis, Universidad Carlos III de Madrid, Spain, 2014. 
+              Martínez, Santiago; <b>Esteban, Domingo</b>; Jardón Huete, Alberto; Balaguer, Carlos (2014) <b><i>"Anticipative Humanoid Postural Control System for Locomotive Tasks"</i></b>, In Proc. IEEE-RAS International Conference on Humanoid Robots (Humanoids)  <a target="_blank" href="http://ieeexplore.ieee.org/document/7041351/" style="color:yellow">[Paper]</a>
+           </li>
+          <br/>
+          <li>
+              Esteban, Domingo (2014) <b><i>"Whole-body trajectory generation for a humanoid robot"</i></b>, Msc thesis, Universidad Carlos III de Madrid, Spain. 
           </li>
         </ul>
       </div>
@@ -337,7 +334,7 @@
           <hr/>
           <p class="text-justify"> Some robots whom I have worked with: </p>
           <ul>
-            <li>TEO</li>
+            <li><a target="_blank" href="http://roboticslab.uc3m.es/roboticslab/robot/teo-humanoid" style="color:white">TEO</a></li>
             <li>DARwIn-OP</li>
             <li>Summit-XL</li>
             <li>Kobuki</li>
@@ -407,7 +404,7 @@
       </div>  <!-- end Container -->
     </div>  <!-- end #jumboRoboticsRobots -->
 
-  <div class="roboticsDivision2">
+
 
   <div class="jumbotron jumboRobotics" id="jumboRoboticsSoftware">
     <div class="container">
@@ -477,44 +474,40 @@
   </div> <!-- End #jumboRoboticsReferences -->
 
 
-  <footer id="footerSocialMedia">
-    <div class="container">
+  <footer id="footerSocialMedia-blue">
+    <div class="container-fluid">
       <div class="row center-block">
-        <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
-          <a target="_blank" href="https://www.linkedin.com/in/domingoesteban"><img class="footericon" src="images/icons/linkedin2-circle-logo-128.png" alt="Linkedin"/></a>
+        <div class="col-xs-12 text-center center-block">
+          <p><b>Follow me</b></p>
         </div>
-        <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
-          <a target="_blank" href="https://github.com/domingoesteban"><img class="footericon" src="images/icons/github2-circle-logo-128.png" alt="Github"/></a>
+      </div>
+      <div class="row center-block">
+        <div class="col-xs-4 col-sm-1 col-sm-push-2 text-center center-block footer-selection">
+          <a target="_blank" href="https://twitter.com/domingoesteban"><img class="footericon" src="images/icons/white-collection/twitter-logo-128.png" alt="Twitter"/></a>
         </div>
-        <!--div class="col-xs-1 text-center" >
-          <a target="_blank" href="https://www.researchgate.net/profile/Domingo_Esteban"><img class="footericon" src="images/icons/researchgate-circle-logo-128.png" alt="ResearchGate"/></a>
-        </div-->
-        <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
-          <a target="_blank" href="https://twitter.com/domingoesteban"><img class="footericon" src="images/icons/twitter2-circle-logo-128.png" alt="Twitter"/></a>
+        <div class="col-xs-4 col-sm-1 col-sm-push-2 text-center center-block footer-selection">
+          <a target="_blank" href="https://github.com/domingoesteban"><img class="footericon" src="images/icons/white-collection/github-logo-128.png" alt="Github"/></a>
         </div>
-        <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
-          <a target="_blank" href="https://google.com/+DomingoEsteban"><img class="footericon" src="images/icons/googleplus2-circle-logo-128.png" alt="Google Plus"/></a>
+        <div class="col-xs-4 col-sm-1 col-sm-push-2 text-center center-block footer-selection">
+          <a target="_blank" href="https://www.linkedin.com/in/domingoesteban"><img class="footericon" src="images/icons/white-collection/linkedin-logo-128.png" alt="Linkedin"/></a>
         </div>
-        <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
-          <a target="_blank" href="https://www.youtube.com/user/domingoestebanc"><img class="footericon" src="images/icons/youtube2-circle-logo-128.png" alt="Youtube"/></a>
+        <div class="col-xs-4 col-sm-1 col-sm-push-2 text-center center-block footer-selection">
+          <a target="_blank" href="https://google.com/+DomingoEsteban"><img class="footericon" src="images/icons/white-collection/google-plus-logo-128.png" alt="Google Plus"/></a>
         </div>
-        <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
-          <a target="_blank" href="https://www.facebook.com/pages/Domingo-Esteban/459055427596800"><img class="footericon" src="images/icons/facebook2-circle-logo-128.png" alt="Facebook"/></a>
+        <div class="col-xs-4 col-sm-1 col-sm-push-2 text-center center-block footer-selection">
+          <a target="_blank" href="https://www.youtube.com/user/domingoestebanc"><img class="footericon" src="images/icons/white-collection/youtube-logo-128.png" alt="Youtube"/></a>
         </div>
-        <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
-          <a target="_blank" href="https://instagram.com/domingoesteban"><img class="footericon" src="images/icons/instagram2-circle-logo-128.png" alt="Instagram"/></a>
+        <div class="col-xs-4 col-sm-1 col-sm-push-2 text-center center-block footer-selection">
+          <a target="_blank" href="https://www.facebook.com/pages/Domingo-Esteban/459055427596800"><img class="footericon" src="images/icons/white-collection/facebook-logo-128.png" alt="Facebook"/></a>
         </div>
-        <!--div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
-          <a target="_blank" href="https://vine.co/domingoesteban"><img class="footericon" src="images/icons/vine-circle-logo-128.png" alt="Vine"/></a>
-        </div-->
-        <!--div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
-          <a target="_blank" href="https://vimeo.com/domingoesteban"><img class="footericon" src="images/icons/vimeo-circle-logo-128.png" alt="Vimeo"/></a>
-        </div-->
+        <div class="col-xs-4 col-xs-push-4 col-sm-1 col-sm-push-2 text-center center-block footer-selection">
+          <a target="_blank" href="https://instagram.com/domingoesteban"><img class="footericon" src="images/icons/white-collection/instagram-logo-128.png" alt="Instagram"/></a>
+        </div>
       </div>
     </div>
 
-    <div class="col-xs-12" id="footerCopyright">
-      <h6 class="text-center">Copyright © 2014-2015 Domingo Esteban</h6>
+    <div class="col-xs-12" id="footerCopyright-blue">
+      <h6 class="text-center">Copyright © 2014-2017 Domingo Esteban</h6>
       <!-- <p class="text-center"><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> </p> -->
     </div>
 

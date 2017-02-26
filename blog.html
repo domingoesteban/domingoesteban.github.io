@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Domingo Esteban - Robotics</title>
+	<title>Domingo Esteban - Blog</title>
 	<meta name="keywords" content="Domingo, Esteban, Cabala, Robotics, Learning, Reinforcement, Peru, Spain, Madrid, Arequipa">
 	<meta name="description" content="Personal webpage of Domingo Esteban">
 	<meta name="author" content="Domingo Esteban">
@@ -13,7 +13,6 @@
 
   <!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="framework/css/bootstrap.css">
-  <!--link rel="stylesheet" href="framework/css/bootstrap-theme.css"-->
 
   <!-- Custom CSS -->
 	<link rel="stylesheet" href="includes/css/styles.css">
@@ -29,7 +28,7 @@
 
 
 <body>
-  <!--div class="robotLoader"></div-->
+  <div class="robotLoader"></div>
 
 	<nav class="navbar navbar-blue navbar-static-top" role="navigation" id="mainnavigationbar">
 		<div class="container-fluid">
@@ -66,6 +65,7 @@
             </ul>
           </li>
       	</ul>
+
         <ul class="nav navbar-nav navbar-right hidden-xs">
           <li class="dropdown">
             <a id="dropLanguage" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
@@ -73,12 +73,11 @@
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dropLanguage" style="background:#104870;">
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="blog.html" style="color: #7ea8e1;"><img src="images/cv/spain-flag.jpg" height="18" width="27" alt=""> Castellano </a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="blog.html" style="color: #7ea8e8;"><img src="images/cv/spain-flag.jpg" height="18" width="27" alt=""> Castellano </a></li>
             </ul>
           </li>
-       </ul>
+        </ul>
       </div>
-
 		</div>
 	</nav>
 
@@ -91,7 +90,7 @@
         </div>
         <div class="modal-body">
           <ul class="unstyled text-center">
-            <li> <b><span class="glyphicon glyphicon-phone"></span> Mobile / Cell phone: </b><br/> +39 391 165 43 70</li>
+            <li> <b><span class="glyphicon glyphicon-envelope"></span> Email: </b><br/> domingo.esteban(AT)iit.it</li>
             <hr style="width:20px"/>
             <li> <img class="contactModalIcon" src="images/icons/skype-circle-logo-white-128.png" alt="Skype"/> <b>Skype ID:</b><br/> domingoesteban</li>
           </ul>
@@ -104,114 +103,98 @@
   </div>
 
 
-  <div class="jumbotron jumboBlog" id="jumboBlogIntro">
+  <div class="jumbotron jumboBlog sectionHead-white" id="jumboBlogIntro">
     <div class="container">
-      <div class="col-xs-12">
-        <h1 class="text-center"><b>Blog</b></h1>
-        <p class="text-center">Research, Interests &amp; More</p>
+      <div class="col-sm-6 col-sm-offset-6 text-right col-xs-12">
+        <h1 class="text-right"><u><b>Blog</b></u></h1>
+        <p>Posts about my research, interests &amp; others</p>
       </div>
     </div>
   </div>
 
-  <div class="jumbotron jumboBlog" id="jumboBlogList">
-    <div class="container">
-      <div class="thumbnail">
-        <div class="row">
-          <div class="col-sm-6">
-            <img class="center-block" src="images/robotics/robotHead-squared.png" alt="...">
-          </div>
-          <div class="col-sm-6">
-            <div class="caption">
-              <h3 class="text-center"><b>Topic 1</b></h3>
-              <p>.Some text about it</p>
-              <p><a href="#" class="btn btn-primary" role="button">Read more...</a></p>
+  <div class="blogDivision">
+    <div class="jumbotron jumboBlog" id="jumboBlogList">
+      <div class="container">
+        <div class="thumbnail blogThumbnail">
+          <div class="row">
+            <div class="col-sm-4 col-sm-offset-1">
+              <img class="center-block img-responsive" src="images/robotics/honda-asimo.jpg" alt="...">
+            </div>
+            <div class="col-sm-6 col-sm-offset-1">
+              <div class="caption">
+                <h2 class="text-center background-green">Model-based Reinforcement Learning in Robotics</h2>
+                <h4>February, 2017</h4>
+                <p>Using a raw trial-and-error approach in real robots is impractical.</p>
+                <p><a href="#" class="btn btn-primary background-green" role="button">Read more...</a></p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="thumbnail">
-        <div class="row">
-          <div class="col-sm-6">
-            <div class="caption">
-              <h3 class="text-center"><b>Topic 2</b></h3>
-              <p>.Some text about it</p>
-              <p><a href="#" class="btn btn-primary" role="button">Read more...</a></p>
+        <div class="thumbnail blogThumbnail">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="caption">
+                <h2 class="text-center background-blue">Using Shared Latent Spaces for Transfer Learning</h2>
+                <h4>February, 2017</h4>
+                <p>Transfer previous knowledge to new problems is an open question both in Machine Learning and Robotics.</p>
+                <p><a href="#" class="btn btn-primary background-blue" role="button">Read more...</a></p>
+              </div>
             </div>
-          </div>
-          <div class="col-sm-6">
-            <img class="center-block" src="images/robotics/robotHead-squared.png" alt="...">
-          </div>
-        </div>
-      </div>
-      <div class="thumbnail">
-        <div class="row">
-          <div class="col-sm-6">
-            <img class="center-block" src="images/robotics/robotHead-squared.png" alt="...">
-          </div>
-          <div class="col-sm-6">
-            <div class="caption">
-              <h3 class="text-center"><b>Topic 3</b></h3>
-              <p>.Some text about it</p>
-              <p><a href="#" class="btn btn-primary" role="button">Read more...</a></p>
+            <div class="col-sm-4  col-sm-offset-1" style="margin-top: 5%">
+              <img class="center-block img-responsive vcenter" src="images/blog/tl_gplvm.png" alt="sing Shared Latent Spaces for Transfer Learning">
             </div>
           </div>
         </div>
-      </div>
-      <div class="thumbnail">
-        <div class="row">
-          <div class="col-sm-6">
-            <div class="caption">
-              <h3 class="text-center"><b>Topic 4</b></h3>
-              <p>.Some text about it</p>
-              <p><a href="#" class="btn btn-primary" role="button">Read more...</a></p>
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <img class="center-block" src="images/robotics/robotHead-squared.png" alt="...">
-          </div>
-        </div>
-      </div>
       </div>
     </div>
   </div>
+
+
+
+
 
   <div class="scroll-top-wrapper">
     <span class="glyphicon glyphicon-arrow-up"></span>
   </div>
 
 
-<footer id="footerSocialMedia-blue">
-  <div class="container">
-    <div class="row center-block">
-      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
-        <a target="_blank" href="https://www.linkedin.com/in/domingoesteban"><img class="footericon" src="images/icons/linkedin2-circle-logo-128.png" alt="Linkedin"/></a>
+  <footer id="footerSocialMedia-blue">
+    <div class="container-fluid">
+      <div class="row center-block">
+        <div class="col-xs-12 text-center center-block">
+          <p><b>Follow me</b></p>
+        </div>
       </div>
-      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
-        <a target="_blank" href="https://github.com/domingoesteban"><img class="footericon" src="images/icons/github2-circle-logo-128.png" alt="Github"/></a>
-      </div>
-      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
-        <a target="_blank" href="https://twitter.com/domingoesteban"><img class="footericon" src="images/icons/twitter2-circle-logo-128.png" alt="Twitter"/></a>
-      </div>
-      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
-        <a target="_blank" href="https://google.com/+DomingoEsteban"><img class="footericon" src="images/icons/googleplus2-circle-logo-128.png" alt="Google Plus"/></a>
-      </div>
-      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
-        <a target="_blank" href="https://www.youtube.com/user/domingoestebanc"><img class="footericon" src="images/icons/youtube2-circle-logo-128.png" alt="Youtube"/></a>
-      </div>
-      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block">
-        <a target="_blank" href="https://www.facebook.com/pages/Domingo-Esteban/459055427596800"><img class="footericon" src="images/icons/facebook2-circle-logo-128.png" alt="Facebook"/></a>
-      </div>
-      <div class="col-xs-4 col-sm-1 col-md-offset-1 text-center center-block" >
-        <a target="_blank" href="https://instagram.com/domingoesteban"><img class="footericon" src="images/icons/instagram2-circle-logo-128.png" alt="Instagram"/></a>
+      <div class="row center-block">
+        <div class="col-xs-4 col-sm-1 col-sm-push-2 text-center center-block footer-selection">
+          <a target="_blank" href="https://twitter.com/domingoesteban"><img class="footericon" src="images/icons/white-collection/twitter-logo-128.png" alt="Twitter"/></a>
+        </div>
+        <div class="col-xs-4 col-sm-1 col-sm-push-2 text-center center-block footer-selection">
+          <a target="_blank" href="https://github.com/domingoesteban"><img class="footericon" src="images/icons/white-collection/github-logo-128.png" alt="Github"/></a>
+        </div>
+        <div class="col-xs-4 col-sm-1 col-sm-push-2 text-center center-block footer-selection">
+          <a target="_blank" href="https://www.linkedin.com/in/domingoesteban"><img class="footericon" src="images/icons/white-collection/linkedin-logo-128.png" alt="Linkedin"/></a>
+        </div>
+        <div class="col-xs-4 col-sm-1 col-sm-push-2 text-center center-block footer-selection">
+          <a target="_blank" href="https://google.com/+DomingoEsteban"><img class="footericon" src="images/icons/white-collection/google-plus-logo-128.png" alt="Google Plus"/></a>
+        </div>
+        <div class="col-xs-4 col-sm-1 col-sm-push-2 text-center center-block footer-selection">
+          <a target="_blank" href="https://www.youtube.com/user/domingoestebanc"><img class="footericon" src="images/icons/white-collection/youtube-logo-128.png" alt="Youtube"/></a>
+        </div>
+        <div class="col-xs-4 col-sm-1 col-sm-push-2 text-center center-block footer-selection">
+          <a target="_blank" href="https://www.facebook.com/pages/Domingo-Esteban/459055427596800"><img class="footericon" src="images/icons/white-collection/facebook-logo-128.png" alt="Facebook"/></a>
+        </div>
+        <div class="col-xs-4 col-xs-push-4 col-sm-1 col-sm-push-2 text-center center-block footer-selection">
+          <a target="_blank" href="https://instagram.com/domingoesteban"><img class="footericon" src="images/icons/white-collection/instagram-logo-128.png" alt="Instagram"/></a>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="col-xs-12" id="footerCopyright-blue">
-    <h6 class="text-center">Copyright © 2014-2017 Domingo Esteban</h6>
-    <!-- <p class="text-center"><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> </p> -->
-  </div>
+    <div class="col-xs-12" id="footerCopyright-blue">
+      <h6 class="text-center">Copyright © 2014-2017 Domingo Esteban</h6>
+    </div>
 
+  </footer>
 
 
   <!--div class="scroll-top-wrapper">
