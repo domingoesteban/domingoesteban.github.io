@@ -1,15 +1,18 @@
 
+body {
+  background: #024188;
+}
+
 .blogDivision {
     /*height: 300px;*/
     /*width: 300px;*/
-    /*background: url(../../images/robotics/robotHeadAnimatedSlow.svg);*/
-    background: #265d9e;
-    background-position: center 30px;
-    background-size: 300px 240px;
+    /*background: #265d9e;*/
+    background: white;
+    background: url(../../images/robotics/robotHeadAnimatedSlow.svg) center;
+    background-size: 100% 100%;
     background-repeat: no-repeat;
-    /*border-top: 10px solid;
-    border-bottom: 10px solid;*/
-    background-attachment: scroll;
+    background-position: center 10px;
+    background-attachment: fixed;
 }
 @media (max-width: 768px) {
   .blogDivision {
@@ -42,6 +45,10 @@
 
 
 #jumboBlogList {
+  padding-bottom: 0px;
+  padding-top: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
   /*margin-top: 0px;
   margin-bottom: 0px;
   padding-top: 8%;
@@ -49,8 +56,8 @@
   /*border-bottom: thin solid #101010;
   border-top: thin solid #101010;*/
   color:#FFFFF0;
-  background-color:#265d9e;
-  background: url('../../images/robotics/robotHeadAnimatedSlow.svg') center;
+  /*background: rgb(26,175,170,0.7);*/
+  background: url('../../images/blog/transparent-blue.png') center;
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center 10px;
