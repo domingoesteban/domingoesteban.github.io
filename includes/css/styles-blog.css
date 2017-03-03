@@ -135,6 +135,7 @@
   /*background-color:rgb(38,93,158,0.7);*/
   /*color: black !important;*/
   border-color:#151515;
+  border-width: medium;
 }
 
 .blogThumbnail:hover .mask{
