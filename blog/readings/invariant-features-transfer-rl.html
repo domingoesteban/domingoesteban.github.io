@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Domingo Esteban - Blog: Model-based RL in robotics</title>
-	<meta name="keywords" content="Domingo, Esteban, Cabala, Robotics, Learning, Reinforcement, Peru, Spain, Madrid, Arequipa">
+	<title>Domingo Esteban - Blog: Invariant Feature Spaces to Transfer Skills with RL</title>
+	<meta name="keywords" content="Domingo, Esteban, Cabala, Robotics, Learning, Reinforcement, Invariant, Features, Transfer">
 	<meta name="description" content="Personal webpage of Domingo Esteban">
 	<meta name="author" content="Domingo Esteban">
 
@@ -12,17 +12,17 @@
 	<!--meta name="viewport" content="width=device-width, initial-scale=1"-->
 
   <!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="../framework/css/bootstrap.css">
+	<link rel="stylesheet" href="../../framework/css/bootstrap.css">
 
   <!-- Custom CSS -->
-	<link rel="stylesheet" href="../includes/css/styles.css">
-  <link rel="stylesheet" href="../includes/css/styles-blog.css">
+	<link rel="stylesheet" href="../../includes/css/styles.css">
+  <link rel="stylesheet" href="../../includes/css/styles-blog.css">
   <!-- 
-  <script src="includes/js/modernizr.custom.08318.js"></script>
+  <script src="../includes/js/modernizr.custom.08318.js"></script>
   -->
 
   <!-- Favicon -->
-  <link href="../images/icons/robotio-favicon.ico" rel="icon" type="image/x-icon" />
+  <link href="../../images/icons/robotio-favicon.ico" rel="icon" type="image/x-icon" />
 
 </head>
 
@@ -45,23 +45,23 @@
 
       <div class="collapse navbar-collapse" id="mainnavbar-responsive">
       	<ul class="nav navbar-nav pull-left" >
-      		<li><a href="../index.html"><span class="glyphicon glyphicon-home"></span> Home </a></li>
+      		<li><a href="../../index.html"><span class="glyphicon glyphicon-home"></span> Home </a></li>
 
-          <li><a href="../robotics.html"><span class="glyphicon glyphicon-hdd"></span> Robotics </a></li>
+          <li><a href="../../robotics.html"><span class="glyphicon glyphicon-hdd"></span> Robotics </a></li>
 
-      		<li><a href="../cv.html" class="mytooltip" title="Curriculum Vitae" data-placement="bottom"><span class="glyphicon glyphicon-list-alt"></span> CV </a></li>
+      		<li><a href="../../cv.html" class="mytooltip" title="Curriculum Vitae" data-placement="bottom"><span class="glyphicon glyphicon-list-alt"></span> CV </a></li>
 
-          <li><a href="../blog.html"><span class="glyphicon glyphicon-pencil"></span> Blog </a></li>
+          <li><a href="../../blog.html"><span class="glyphicon glyphicon-pencil"></span> Blog </a></li>
 
       		<li><a href="#contactModal" data-toggle="modal" data-target="#contactModal"><span class="glyphicon glyphicon-user"></span> Contact </a></li>
 
           <li class="dropdown visible-xs">
             <a id="dropLanguage" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-              <img src="../images/cv/uk-flag.jpg" height="18" width="27" alt=""> EN
+              <img src="../../images/cv/uk-flag.jpg" height="18" width="27" alt=""> EN
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dropLanguage" style="background:#104870;">
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="#" style="color: #7ea8e1;"><img src="../images/cv/spain-flag.jpg" height="18" width="27" alt=""> Castellano </a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#" style="color: #7ea8e1;"><img src="../../images/cv/spain-flag.jpg" height="18" width="27" alt=""> Castellano </a></li>
             </ul>
           </li>
       	</ul>
@@ -69,11 +69,11 @@
         <ul class="nav navbar-nav navbar-right hidden-xs">
           <li class="dropdown">
             <a id="dropLanguage" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-              <img src="../images/cv/uk-flag.jpg" height="18" width="27" alt=""> EN
+              <img src="../../images/cv/uk-flag.jpg" height="18" width="27" alt=""> EN
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dropLanguage" style="background:#104870;">
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="#" style="color: #7ea8e8;"><img src="../images/cv/spain-flag.jpg" height="18" width="27" alt=""> Castellano </a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#" style="color: #7ea8e8;"><img src="../../images/cv/spain-flag.jpg" height="18" width="27" alt=""> Castellano </a></li>
             </ul>
           </li>
         </ul>
@@ -92,7 +92,7 @@
           <ul class="unstyled text-center">
             <li> <b><span class="glyphicon glyphicon-envelope"></span> Email: </b><br/> domingo.esteban(AT)iit.it</li>
             <hr style="width:20px"/>
-            <li> <img class="contactModalIcon" src="../images/icons/skype-circle-logo-white-128.png" alt="Skype"/> <b>Skype ID:</b><br/> domingoesteban</li>
+            <li> <img class="contactModalIcon" src="../../images/icons/skype-circle-logo-white-128.png" alt="Skype"/> <b>Skype ID:</b><br/> domingoesteban</li>
           </ul>
         </div>
         <div class="modal-footer">
@@ -131,8 +131,9 @@
         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
         
         var disqus_config = function () {
-        this.page.url = 'domingoesteban.com/blog/reading-invariant-features-transfer-rl.html';  // Replace PAGE_URL with your page's canonical URL variable
-        this.page.identifier = '/blog/reading-invariant-features-transfer-rl/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        this.page.url = 'domingoesteban.com/blog/readings/invariant-features-transfer-rl.html';
+        this.page.identifier = '/blog/readings/invariant-features-transfer-rl/';
+        this.page.title = 'Invariant Feature Spaces to Transfer Skills with RL';
         };
         
         (function() { // DON'T EDIT BELOW THIS LINE
@@ -164,25 +165,25 @@
       </div>
       <div class="row center-block">
         <div class="col-xs-4 col-sm-1 col-sm-push-2 text-center center-block footer-selection">
-          <a target="_blank" href="https://twitter.com/domingoesteban"><img class="footericon" src="../images/icons/white-collection/twitter-logo-128.png" alt="Twitter"/></a>
+          <a target="_blank" href="https://twitter.com/domingoesteban"><img class="footericon" src="../../images/icons/white-collection/twitter-logo-128.png" alt="Twitter"/></a>
         </div>
         <div class="col-xs-4 col-sm-1 col-sm-push-2 text-center center-block footer-selection">
-          <a target="_blank" href="https://github.com/domingoesteban"><img class="footericon" src="../images/icons/white-collection/github-logo-128.png" alt="Github"/></a>
+          <a target="_blank" href="https://github.com/domingoesteban"><img class="footericon" src="../../images/icons/white-collection/github-logo-128.png" alt="Github"/></a>
         </div>
         <div class="col-xs-4 col-sm-1 col-sm-push-2 text-center center-block footer-selection">
-          <a target="_blank" href="https://www.linkedin.com/in/domingoesteban"><img class="footericon" src="../images/icons/white-collection/linkedin-logo-128.png" alt="Linkedin"/></a>
+          <a target="_blank" href="https://www.linkedin.com/in/domingoesteban"><img class="footericon" src="../../images/icons/white-collection/linkedin-logo-128.png" alt="Linkedin"/></a>
         </div>
         <div class="col-xs-4 col-sm-1 col-sm-push-2 text-center center-block footer-selection">
-          <a target="_blank" href="https://google.com/+DomingoEsteban"><img class="footericon" src="../images/icons/white-collection/google-plus-logo-128.png" alt="Google Plus"/></a>
+          <a target="_blank" href="https://google.com/+DomingoEsteban"><img class="footericon" src="../../images/icons/white-collection/google-plus-logo-128.png" alt="Google Plus"/></a>
         </div>
         <div class="col-xs-4 col-sm-1 col-sm-push-2 text-center center-block footer-selection">
-          <a target="_blank" href="https://www.youtube.com/user/domingoestebanc"><img class="footericon" src="../images/icons/white-collection/youtube-logo-128.png" alt="Youtube"/></a>
+          <a target="_blank" href="https://www.youtube.com/user/domingoestebanc"><img class="footericon" src="../../images/icons/white-collection/youtube-logo-128.png" alt="Youtube"/></a>
         </div>
         <div class="col-xs-4 col-sm-1 col-sm-push-2 text-center center-block footer-selection">
-          <a target="_blank" href="https://www.facebook.com/pages/Domingo-Esteban/459055427596800"><img class="footericon" src="../images/icons/white-collection/facebook-logo-128.png" alt="Facebook"/></a>
+          <a target="_blank" href="https://www.facebook.com/pages/Domingo-Esteban/459055427596800"><img class="footericon" src="../../images/icons/white-collection/facebook-logo-128.png" alt="Facebook"/></a>
         </div>
         <div class="col-xs-4 col-xs-push-4 col-sm-1 col-sm-push-2 text-center center-block footer-selection">
-          <a target="_blank" href="https://instagram.com/domingoesteban"><img class="footericon" src="../images/icons/white-collection/instagram-logo-128.png" alt="Instagram"/></a>
+          <a target="_blank" href="https://instagram.com/domingoesteban"><img class="footericon" src="../../images/icons/white-collection/instagram-logo-128.png" alt="Instagram"/></a>
         </div>
       </div>
     </div>
@@ -200,10 +201,10 @@
 
 
   <!-- Bootstrap JS -->
-  <script src="../framework/js/bootstrap.js"> </script>
+  <script src="../../framework/js/bootstrap.js"> </script>
 
   <!-- Custom JS -->
-  <script src="../includes/js/scripts.js"></script>
+  <script src="../../includes/js/scripts.js"></script>
 
   <!-- Disqus -->
   <script id="dsq-count-scr" src="//domingoesteban.disqus.com/count.js" async></script>
