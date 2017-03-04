@@ -907,7 +907,7 @@ width: 60px; */
   width: 100%;
   height: 100%;
   z-index: 9999;
-  background: url('../../images/robotics/robotHeadAnimated.svg') 50% 50% no-repeat rgb(38,93,154);
+  background: url('../../images/robotics/robotHeadAnimatedLoading.svg') 50% 50% no-repeat rgb(38,93,154);
   /*background: url('../../images/robotics/robotHeadAnimated.svg') 50% 50% no-repeat rgb(77,77,77);*/
 }
 
