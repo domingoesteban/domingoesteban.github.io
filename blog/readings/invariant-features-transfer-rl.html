@@ -123,13 +123,17 @@
             The paper that I want to briefly comment in this post is called <i>"Learning Invariant Feature Spaces to Transfer Skills with Reinforcement Learning"</i> and is written by Abhishek Gupta, Coline Devin, YuXuan Liu, Pieter Abbeel and Sergey Levine. <a href="https://openreview.net/pdf?id=Hyq4yhile" target="_blank"> [Paper]</a>
           </p>
           <p>
-            They propose to accelerate the acquisition of new skills using prior knowledge acquired by morphologically different agents in the same task. How do they obtain this? Fist, multiple skills (<i>proxy skills</i>) are learned by both source and target agents. Second, they use these learned skills to construct a mapping from the states of both agents into an invariant feature space. And finally, they project the execution of source robot's new skill (<i>target skill</i>) into the invariant space, and then, track the corresponding features through the target robot's actions.
+            They propose to accelerate the acquisition of new skills using prior knowledge acquired by morphologically different agents in the same task. How do they obtain this? First, multiple skills (<i>proxy skills</i>) are learned by both source and target agents. Second, they use these learned skills to construct a mapping from the states of both agents to an invariant feature space. And finally, they project the execution of source robot's new skill (<i>target skill</i>) into the invariant space, and then, track the corresponding features through the target robot's actions.
           </p>
           <p>
             As it was mentioned before, and also sugested by the title of the paper, the transfer learning process is carried out thanks to the assumption of the existence of a common feature space between both agents. In this feature space we have $p( f (s_S)) = p(g(s_T ))$ for $s_S \sim \pi_S$ and $s_T \sim \pi_T$, where $\pi_S$ and $\pi_T$ are the state distribution of the optimal policies in the source and target robots respectively.
           </p>
           <p>
-            The generation of this feature space, required to generate first a paring $P$ (the list of corresponding pairs of states in both agents). In the paper, these correspondences are obtained by time-based alignment or by <i>Dynamic Time Warping(DTW)</i>.
+            The generation of this feature space required to generate first a paring $P$ (the list of corresponding pairs of states in both agents). In the paper, these correspondences are obtained by time-based alignment or by <i>Dynamic Time Warping(DTW)</i>.
+          </p>
+          <p>
+            The learning process of the embedding functions $f$ and $g$ from a proxy task involves the optimization of:
+            $$ \min_{\theta_f, \theta_g, \theta_{\text{Dec}_S}, \theta_{\text{Dec}_T}} \sum_{(s_{S_p}, s_{T_p}) \in P} \mathcal{L}_{AE_S}(s_{S_{p,r}};\theta_f,\theta_{\text{Dec}_S}) + \mathcal{L}_{AE_T}(s_{S_{p,r}};\theta_g,\theta_{\text{Dec}_T}) + \mathcal{L}_{\text{sim}}(s_{S_{p,r}},s_{S_{p,r}};\theta_f,\theta_g)$$
           </p>
         </div>
       </div>
@@ -213,6 +217,7 @@
 
   <!-- Disqus -->
   <!--script id="dsq-count-scr" src="//domingoesteban.disqus.com/count.js" async></script-->
+
 
 </body>
 
