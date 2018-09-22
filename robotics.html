@@ -130,13 +130,14 @@
           <p class="text-center name">Research</p>
         </a><!--
         -->
-        <a href="#jumboRoboticsHumanoidRobots" class="col-xs-5 col-xs-offset-1 index-square">
-          <p class="text-center name">Humanoid Robots</p>
+        <a href="#jumboRoboticsRobotLearning" class="col-xs-5 index-square">
+          <p class="text-center name">Robot Learning</p>
         </a>
       </div>
       <div class="row visible-xs center-block vertical-align2">
-        <a href="#jumboRoboticsRobotLearning" class="col-xs-5 index-square">
-          <p class="text-center name">Robot Learning</p>
+
+        <a href="#jumboRoboticsHumanoidRobots" class="col-xs-5 col-xs-offset-1 index-square">
+          <p class="text-center name">Humanoid Robots</p>
         </a><!--
         -->
         <a href="#jumboRoboticsPublications" class="col-xs-5 col-xs-offset-1 index-square">
@@ -164,12 +165,12 @@
               <p class="text-center name">Research</p>
             </a><!--
             -->
-            <a href="#jumboRoboticsHumanoidRobots" class="col-sm-3 col-sm-offset-1 index-square">
-              <p class="text-center name">Humanoid Robots</p>
-            </a><!--
-            -->
             <a href="#jumboRoboticsRobotLearning" class="col-sm-3 col-sm-offset-1 index-square">
               <p class="text-center name">Robot Learning</p>
+            </a><!--
+            -->
+            <a href="#jumboRoboticsHumanoidRobots" class="col-sm-3 col-sm-offset-1 index-square">
+              <p class="text-center name">Humanoid Robots</p>
             </a>
           </div>
           <br></br>
@@ -199,7 +200,7 @@
         <hr/>
         <p>My research interests include:</p>
           <ul>
-            <li><b>Robot Reinforcement Learning</b>: Model-free and model-based algorithms that scale to robotics problems (high-dimensional, continuous states and actions)</li>
+            <li><b>Robot Reinforcement Learning</b>: Model-free and model-based algorithms that scale to robotics problems (high-dimensional, continuous states and actions, hierarchical and multi-task problems)</li>
             <li><b>Optimal Control</b>: Control with learned models, control with inaccurate models, Stochastic Optimal Control, Non-linear MPC</li>
             <li><b>Humanoids</b>: Whole-body motions with various tasks, multi-contact motion</li>
             <li><b>Imitation Learning</b>: Inverse reinforcement learning, shared human-robot representations</li>
@@ -207,6 +208,24 @@
       </div>
     </div>
   </div>
+
+    <div class="jumbotron jumboRobotics" id="jumboRoboticsRobotLearning">
+      <div class="container text-justify-not-xs text-left-xs">
+        <h1 class="text-center"><b>Robot Learning</b></h1>
+        <hr/>
+        <p>
+          The robot hardware is progressively becoming more complex, which leads to growing interest in applying machine learning and statistics approaches within the robotics community. At the same time, there has been a growth within the machine learning community in using robots as motivating applications for new algorithms and formalisms <a href="#refTCRLIEEE"><cite>[3]</cite></a>.
+        </p>
+
+        <p>
+          However, unlike other fields, robotics requires the consideration of some aspects that requires changing the way it has been working until now. The challenges that reinforcement learning has to face are: the curse of dimensionality, the curse of real-world samples, the curse of under-modeling and model uncertainty, and the curse of goal specification <a href="#refKoberRLInRobotics"><cite>[4]</cite></a>.
+        </p>
+
+        <p>
+          In recent years research in robot learning has mainly focused on: learning models of robots, task or environments, learning deep hierarchies or levels of representations from sensor and motor representations to task abstractions, learning of plans and control policies by imitation and reinforcement learning, integrating learning with control architectures, methods for probabilistic inference from multi-modal sensory information (e.g., proprioceptive, tactile, vison), and structured spatio-temporal representations designed for robot learning such as low-dimensional embedding of movements <a href="#refTCRLIEEE"><cite>[3]</cite></a>.
+        </p>
+      </div>
+    </div>
 
     <div class="jumbotron jumboRobotics" id="jumboRoboticsHumanoidRobots">
       <div class="container text-justify-not-xs text-left-xs">
@@ -257,24 +276,6 @@
       </div>
     </div>
 
-    <div class="jumbotron jumboRobotics" id="jumboRoboticsRobotLearning">
-      <div class="container text-justify-not-xs text-left-xs">
-        <h1 class="text-center"><b>Robot Learning</b></h1>
-        <hr/>
-        <p>
-          The robot hardware is progressively becoming more complex, which leads to growing interest in applying machine learning and statistics approaches within the robotics community. At the same time, there has been a growth within the machine learning community in using robots as motivating applications for new algorithms and formalisms <a href="#refTCRLIEEE"><cite>[3]</cite></a>.
-        </p>
-
-        <p>
-          However, unlike other fields, robotics requires the consideration of some aspects that requires changing the way it has been working until now. The challenges that reinforcement learning has to face are: the curse of dimensionality, the curse of real-world samples, the curse of under-modeling and model uncertainty, and the curse of goal specification <a href="#refKoberRLInRobotics"><cite>[4]</cite></a>.
-        </p>
-
-        <p>
-          In recent years research in robot learning has mainly focused on: learning models of robots, task or environments, learning deep hierarchies or levels of representations from sensor and motor representations to task abstractions, learning of plans and control policies by imitation and reinforcement learning, integrating learning with control architectures, methods for probabilistic inference from multi-modal sensory information (e.g., proprioceptive, tactile, vison), and structured spatio-temporal representations designed for robot learning such as low-dimensional embedding of movements <a href="#refTCRLIEEE"><cite>[3]</cite></a>.
-        </p>
-      </div>
-    </div>
-
 <!--     <div class="jumbotron jumboRobotics" id="jumboRoboticsMobileRobots">
       <div class="container text-justify-not-xs text-left-xs">
         <h1 class="text-center"><b>Mobile Robots</b></h1>
@@ -306,6 +307,10 @@
         <hr/>
         <ul>
           <li>
+              <b>Esteban, Domingo</b>; Rozo, Leonel; Caldwell, Darwin (2017) <b><i>"Learning Deep Robot Controllers by Exploiting Successful and Failed Executions"</i></b>, IEEE-RAS International Conference on Humanoid Robots (Humanoids)</a>
+          </li>
+          <br/>
+          <li>
               Delhaisse, Brian*; <b>Esteban, Domingo*</b>; Rozo, Leonel; Caldwell, Darwin (2017) <b><i>"Transfer Learning of Shared Latent Spaces between Robots with Similar Kinematic Structure"</i></b>, IEEE International Joint Conference on Neural Networks (IJCNN)  <a target="_blank" href="http://ieeexplore.ieee.org/abstract/document/7966379/" style="color:yellow">[Paper]</a>
           </li>
           <br/>
@@ -330,6 +335,7 @@
           <hr/>
           <p class="text-justify"> Some robots whom I have worked with: </p>
           <ul>
+            <li><a target="_blank" href="http://www.amarsi-project.eu/coman" style="color:white">COMAN</a></li>
             <li><a target="_blank" href="http://roboticslab.uc3m.es/roboticslab/robot/teo-humanoid" style="color:white">TEO</a></li>
             <li>DARwIn-OP</li>
             <li>Summit-XL</li>
@@ -347,39 +353,47 @@
             <li data-target="#robotsCarousel" data-slide-to="2"></li>
             <li data-target="#robotsCarousel" data-slide-to="3"></li>
             <li data-target="#robotsCarousel" data-slide-to="4"></li>
+            <li data-target="#robotsCarousel" data-slide-to="5"></li>
           </ol>
 
           <!-- Wrapper for slides -->
           <div class="carousel-inner">
             <div class="item active" id="robotsCarouselSlide1">
               <div class="carousel-caption">
+                <h4>COMAN</h4>
+                <p>Humanoid robot developed by IIT. </p>
+    <!--             <a target="_blank" href="http://www.ros.org/news/2014/07/ros-indigo-igloo-released.html" class="btn btn-default btn-warning">More info</a> -->
+              </div> <!-- end carousel-caption -->
+            </div> <!-- end item -->
+            <div class="item" id="robotsCarouselSlide2">
+              <div class="carousel-caption">
                 <h4>TEO</h4>
                 <p>Humanoid robot developed by UC3M.</p>
     <!--             <a href="robotics/whole-body-movement-humanoid.html" class="btn btn-default btn-success">More info</a> -->
               </div> <!-- end carousel-caption -->
             </div> <!-- end item -->
-            <div class="item" id="robotsCarouselSlide2">
+            <div class="item" id="robotsCarouselSlide3">
               <div class="carousel-caption">
                 <h4>DARwIN-OP</h4>
                 <p>Miniature-humanoid-robot manufactured by ROBOTIS.</p>
     <!--             <a target="_blank" href="https://github.com/domingoesteban" class="btn btn-default btn-default">More info</a> -->
               </div> <!-- end carousel-caption -->
             </div> <!-- end item -->
-            <div class="item" id="robotsCarouselSlide3">
+            <div class="item" id="robotsCarouselSlide4">
               <div class="carousel-caption">
                 <h4>Summit-XL</h4>
                 <p>Ground mobile robot developed by Robotnik. </p>
     <!--             <a target="_blank" href="http://www.ros.org/news/2014/07/ros-indigo-igloo-released.html" class="btn btn-default btn-warning">More info</a> -->
               </div> <!-- end carousel-caption -->
             </div> <!-- end item -->
-            <div class="item" id="robotsCarouselSlide4">
+            <div class="item" id="robotsCarouselSlide5">
               <div class="carousel-caption">
                 <h4>Kobuki</h4>
                 <p>Ground mobile robot developed by Yujin Robot. </p>
     <!--             <a target="_blank" href="http://www.ros.org/news/2014/07/ros-indigo-igloo-released.html" class="btn btn-default btn-warning">More info</a> -->
               </div> <!-- end carousel-caption -->
             </div> <!-- end item -->
-            <div class="item" id="robotsCarouselSlide5">
+            <div class="item" id="robotsCarouselSlide6">
               <div class="carousel-caption">
                 <h4>IRB 1600</h4>
                 <p>Industrial robot developed by ABB. </p>
@@ -407,7 +421,20 @@
       <h1 class="text-center"><b>Software</b></h1>
       <hr/>
       <div class="row">
-        <div class="col-sm-3 col-sm-offset-2 col-xs-12">
+        <div class="col-sm-3 col-xs-12">
+          <div class="thumbnail roboticsSoftwareThumbnail">
+            <img src="images/robotics/centauro_obstacle.png" alt="teo_robot">
+            <div class="caption">
+              <h3>Robolearn</h3>
+              <p>Python package for robot learning. </p>
+              <p class="thumbnailButton">
+                <a href="https://github.com/ADVRHumanoids/robolearn" class="btn btn-primary" role="button">+Info</a>
+                <a href="https://github.com/ADVRHumanoids/robolearn" class="btn btn-default" role="button" target="_blank">Source</a>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 col-xs-12">
           <div class="thumbnail roboticsSoftwareThumbnail">
             <img src="images/robotics/teotragen-1.jpg" alt="TEOTraGen">
             <div class="caption">

@@ -119,9 +119,9 @@
   background-color:#2F2E34;
   color:#FFFFF0;
 }
-#jumboRoboticsHumanoidRobots {
+#jumboRoboticsRobotLearning {
   margin-top: 30px;
-  padding-top: 2%;
+  padding-top: 3%;
   padding-bottom: 3%;
   margin-bottom: 30px;
   border-bottom: thin solid #101010;
@@ -129,9 +129,9 @@
   background-color:#2F4F4F;
   color:#FFFFF0;
 }
-#jumboRoboticsRobotLearning {
+#jumboRoboticsHumanoidRobots {
   margin-top: 30px;
-  padding-top: 3%;
+  padding-top: 2%;
   padding-bottom: 3%;
   margin-bottom: 30px;
   border-bottom: thin solid #101010;
@@ -156,7 +156,7 @@
   padding-bottom: 3%;
   border-bottom: thin solid #101010;
   border-top: thin solid #101010;
-  background-color:#2F2E34;
+  background-color:#2F4F4F;
   color:#FFFFF0;
 }
 #jumboRoboticsRobots {
@@ -238,7 +238,7 @@
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
   }
-  #jumboRoboticsHumanoidRobots {
+  #jumboRoboticsRobotLearning {
     margin-top: 0px;
     margin-bottom: 0px;
     padding-top: 3%;
@@ -246,7 +246,7 @@
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
   }
-  #jumboRoboticsRobotLearning {
+  #jumboRoboticsHumanoidRobots {
     margin-top: 0px;
     margin-bottom: 0px;
     padding-top: 3%;
@@ -328,7 +328,7 @@
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
   }
-  #jumboRoboticsHumanoidRobots {
+  #jumboRoboticsRobotLearning {
     margin-top: 0px;
     margin-bottom: 0px;
     padding-top: 4%;
@@ -336,7 +336,7 @@
     border-bottom: thin solid #101010;
     border-top: thin solid #101010;
   }
-  #jumboRoboticsRobotLearning {
+  #jumboRoboticsHumanoidRobots {
     margin-top: 0px;
     margin-bottom: 0px;
     padding-top: 4%;
@@ -451,23 +451,27 @@
 #robotsCarousel .item{ height: 310px;}
 
 #robotsCarouselSlide1 {
+  background: url('../../images/robotics/coman.jpg') top no-repeat;
+}
+
+#robotsCarouselSlide2 {
   /*background: url('../../images/robotics/TEO-fondoAzul.jpg') top center no-repeat;*/
   background: url('../../images/robotics/teo-foto1-mid.jpg') top center no-repeat;
 }
 
-#robotsCarouselSlide2 {
+#robotsCarouselSlide3 {
   background: url('../../images/robotics/darwin-op.jpg') top center no-repeat;
 }
 
-#robotsCarouselSlide3 {
+#robotsCarouselSlide4 {
   background: url('../../images/robotics/summit-xl.jpg') center no-repeat;
 }
 
-#robotsCarouselSlide4 {
+#robotsCarouselSlide5 {
   background: url('../../images/robotics/kobuki.png') center no-repeat;
 }
 
-#robotsCarouselSlide5 {
+#robotsCarouselSlide6 {
   background: url('../../images/robotics/ABB-IRB-1600.jpg') top no-repeat;
 }
 
@@ -482,23 +486,27 @@
 #robotsCarousel .item{ height: 310px;}
 
 #robotsCarouselSlide1 {
+  background: url('../../images/robotics/coman.jpg') top no-repeat;
+}
+
+#robotsCarouselSlide2 {
   /*background: url('../../images/robotics/TEO-fondoAzul.jpg') top center no-repeat;*/
   background: url('../../images/robotics/teo-foto1-mid.jpg') top center no-repeat;
 }
 
-#robotsCarouselSlide2 {
+#robotsCarouselSlide3 {
   background: url('../../images/robotics/darwin-op.jpg') top center no-repeat;
 }
 
-#robotsCarouselSlide3 {
+#robotsCarouselSlide4 {
   background: url('../../images/robotics/summit-xl.jpg') center no-repeat;
 }
 
-#robotsCarouselSlide4 {
+#robotsCarouselSlide5 {
   background: url('../../images/robotics/kobuki.png') center no-repeat;
 }
 
-#robotsCarouselSlide5 {
+#robotsCarouselSlide6 {
   background: url('../../images/robotics/ABB-IRB-1600.jpg') top no-repeat;
 }
 
@@ -510,22 +518,27 @@
 
 #robotsCarouselSlide1 {
   /*background: url('../../images/robotics/TEO-fondoAzul.jpg') top center no-repeat;*/
-  background: url('../../images/robotics/teo-foto1-mid-nobg.jpg') top center no-repeat;
+  background: url('../../images/robotics/coman.jpg') top no-repeat;
 }
 
 #robotsCarouselSlide2 {
-  background: url('../../images/robotics/darwin-op.jpg') top center no-repeat;
+  /*background: url('../../images/robotics/TEO-fondoAzul.jpg') top center no-repeat;*/
+  background: url('../../images/robotics/teo-foto1-mid-nobg.jpg') top center no-repeat;
 }
 
 #robotsCarouselSlide3 {
-  background: url('../../images/robotics/summit-xl.jpg') center no-repeat;
+  background: url('../../images/robotics/darwin-op.jpg') top center no-repeat;
 }
 
 #robotsCarouselSlide4 {
-  background: url('../../images/robotics/kobuki.jpg') center no-repeat;
+  background: url('../../images/robotics/summit-xl.jpg') center no-repeat;
 }
 
 #robotsCarouselSlide5 {
+  background: url('../../images/robotics/kobuki.jpg') center no-repeat;
+}
+
+#robotsCarouselSlide6 {
   background: url('../../images/robotics/ABB-IRB-1600.jpg') top no-repeat;
 }
 
