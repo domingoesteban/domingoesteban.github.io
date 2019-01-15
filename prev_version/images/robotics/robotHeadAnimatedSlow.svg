@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created by Domingo Esteban (http://www.domingoesteban.com/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   width="350"
+   height="265"
+   id="svg2">
+  <defs
+     id="defs4" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(-197.5,-29.362183)"
+     id="layer1"
+     style="display:inline">
+    <rect
+       width="255"
+       height="245"
+       x="245"
+       y="39.362183"
+       id="rect3076"
+       style="fill:#1a1a1a" />
+  </g>
+  <g
+     transform="translate(-197.5,-29.362183)"
+     id="g3139"
+     style="display:inline">
+    <path
+       d="m 402.85714,219.50504 a 60.714287,55.714287 0 1 1 -0.0316,-1.7975"
+       transform="matrix(0.72470588,0,0,0.78974358,62.45083,-59.412512)"
+       id="path3141"
+       style="fill:#000000" />
+    <path
+       d="m 531.42857,228.07646 a 46.42857,50 0 1 1 -0.0242,-1.61313"
+       transform="matrix(0.86153848,0,0,0.8,20.671891,-69.320987)"
+       id="path3143"
+       style="fill:#000000" />
+    <path
+       d="m 367.14287,220.21933 a 38.57143,37.857143 0 1 1 -0.0201,-1.22137"
+       transform="matrix(0.8,0,0,0.8,47.203772,-62.463844)"
+       id="path3147"
+       fill="#00ff00">
+       <animate
+          attributeName="fill"  
+          begin="0s"  
+          dur="20s"
+          values ="#00ff00; orange; yellow; green; red; blue; indigo; violet; #00ff00"
+          repeatCount="indefinite"   
+        /> 
+    </path>
+    <path
+       d="m 507.14285,222.36218 a 32.857143,34.285713 0 1 1 -0.0171,-1.10615"
+       transform="matrix(0.85217392,0,0,0.81666672,34.915807,-69.027037)"
+       id="path3145"
+       fill="#ff6600">
+       <animate
+        attributeName="fill"
+        begin="5s"  
+        dur="25s"
+        values ="#ff6600; orange; yellow; green; red; blue; indigo; violet; #ff6600"
+        repeatCount="indefinite"   
+        /> 
+    </path>
+    <rect
+      width="45"
+      height="84.99958"
+      x="285"
+      y="173.16919"
+      id="rect3149"
+      style="fill:#b3b3b3">
+     <animate
+      attributeName="fill"
+      begin="0s"  
+      dur="3s"
+      values ="#b3b3b3; yellow; #b3b3b3"
+      repeatCount="indefinite"   
+      /> 
+    </rect>   
+    <rect
+       width="45"
+       height="84.99958"
+       x="350"
+       y="173.1696"
+       id="rect3151"
+       style="fill:#b3b3b3">
+     <animate
+      attributeName="fill"
+      begin="0s"  
+      dur="3s"
+      values ="#b3b3b3; yellow; #b3b3b3"
+      repeatCount="indefinite"   
+      /> 
+    </rect>
+    <rect
+      width="45"
+      height="84.99958"
+      x="415.5"
+      y="173.16919"
+      id="rect3153"
+      style="fill:#b3b3b3">
+     <animate
+      attributeName="fill"
+      begin="0s"  
+      dur="3s"
+      values ="#b3b3b3; yellow; #b3b3b3"
+      repeatCount="indefinite"   
+      /> 
+    </rect>
+  </g>
+  <g
+     transform="translate(-197.5,-29.362183)"
+     id="layer4">
+    <rect
+       width="35"
+       height="150"
+       x="207.5"
+       y="84.362183"
+       id="rect3144"
+       style="fill:#1a1a1a" />
+    <rect
+       width="35"
+       height="150"
+       x="502.5"
+       y="84.362183"
+       id="rect3144-8"
+       style="fill:#1a1a1a" />
+  </g>
+</svg>
