@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   width="1400"
+   height="1052.3622"
+   id="svg2">
+  <defs
+     id="defs4" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     style="display:inline">
+    <rect
+       width="255"
+       height="245"
+       x="573"
+       y="39.362183"
+       id="rect3076"
+       style="fill:#1a1a1a" />
+  </g>
+  <g
+     id="layer3"
+     style="display:inline">
+    <path
+       d="m 402.85714,219.50504 a 60.714287,55.714287 0 1 1 -0.0316,-1.7975"
+       transform="matrix(0.72470588,0,0,0.78974358,390.45083,-59.412512)"
+       id="path3079"
+       style="fill:#000000" />
+    <path
+       d="m 531.42857,228.07646 a 46.42857,50 0 1 1 -0.0242,-1.61313"
+       transform="matrix(0.86153848,0,0,0.8,348.67189,-69.320987)"
+       id="path3081"
+       style="fill:#000000" />
+    <path
+       d="m 507.14285,222.36218 a 32.857143,34.285713 0 1 1 -0.0171,-1.10615"
+       transform="matrix(0.85217392,0,0,0.81666672,362.91581,-69.027037)"
+       id="path3083"
+       style="fill:#ff6600" />
+    <path
+       d="m 367.14287,220.21933 a 38.57143,37.857143 0 1 1 -0.0201,-1.22137"
+       transform="matrix(0.8,0,0,0.8,375.20377,-62.463844)"
+       id="path3085"
+       style="fill:#00ff00" />
+    <rect
+       width="45"
+       height="84.99958"
+       x="613"
+       y="173.16919"
+       id="rect3087"
+       style="fill:#b3b3b3" />
+    <rect
+       width="45"
+       height="84.99958"
+       x="678"
+       y="173.1696"
+       id="rect3087-7"
+       style="fill:#b3b3b3" />
+    <rect
+       width="45"
+       height="84.99958"
+       x="743.5"
+       y="173.16919"
+       id="rect3087-7-9"
+       style="fill:#b3b3b3" />
+  </g>
+  <g
+     id="layer4">
+    <rect
+       width="35"
+       height="150"
+       x="535.5"
+       y="84.362183"
+       id="rect3144"
+       style="fill:#1a1a1a" />
+    <rect
+       width="35"
+       height="150"
+       x="830.5"
+       y="84.362183"
+       id="rect3144-8"
+       style="fill:#1a1a1a" />
+  </g>
+  <g
+    id="body">
+    <rect
+       width="300"
+       height="190"
+       x="550.5"
+       y="319.36218"
+       id="chest"
+       style="fill:#1a1a1a" />
+    <rect
+       width="170"
+       height="40"
+       x="615.5"
+       y="511.86218"
+       id="waist"
+       style="fill:#1a1a1a" />
+    <rect
+       width="70"
+       height="165"
+       x="853"
+       y="319.36218"
+       id="arm-right1"
+       style="fill:#1a1a1a">
+      <animateTransform attributeName="transform" type="rotate"
+          values="0 873 390; -85 873 390"
+           begin="1s; move5ar2.end+1" dur="2s" fill="freeze" />
+      <animateTransform id="move5ar2" attributeName="transform" type="rotate"
+        values="-85 873 390; 0 873 390"
+        begin="move4ar2.end" dur="2s" fill="freeze" />
+    </rect>
+    <rect
+      width="70"
+      height="25"
+      x="853"
+      y="486.86218"
+      id="arm-right2"
+      style="fill:#1a1a1a">
+      <animateTransform id="move1ar2" attributeName="transform" type="rotate"
+        values="0 873 390; -85 873 390"
+        begin="1s; move5ar2.end+1" dur="2s" fill="freeze" />
+      <animateTransform id="move2ar2" attributeName="transform" type="rotate"
+        values="-85 873 390; -125 895 413"
+        begin="move1ar2.end" dur="1s" fill="freeze" />
+      <animateTransform id="move3ar2" attributeName="transform" type="rotate"
+        values="-125 895 413; -170 920 435; -125 895 413; -170 920 435; -125 895 413; -170 920 435; -125 895 413"
+        begin="move2ar2.end" dur="5s" fill="freeze" />
+      <animateTransform id="move4ar2" attributeName="transform" type="rotate"
+        values="-125 895 413; -85 873 390"
+        begin="move3ar2.end" dur="1s" fill="freeze" />
+      <animateTransform id="move5ar2" attributeName="transform" type="rotate"
+        values="-85 873 390; 0 873 390"
+        begin="move4ar2.end" dur="2s" fill="freeze" />
+    </rect>
+    <rect
+       width="70"
+       height="85"
+       x="853"
+       y="514.36218"
+       id="arm-right3"
+       style="fill:#1a1a1a">
+      <animateTransform id="move1ar2" attributeName="transform" type="rotate"
+        values="0 873 390; -85 873 390"
+        begin="1s; move5ar2.end+1" dur="2s" fill="freeze" />
+      <animateTransform id="move2ar2" attributeName="transform" type="rotate"
+        values="-85 873 390; -125 895 413"
+        begin="move1ar2.end" dur="1s" fill="freeze" />
+      <animateTransform id="move3ar2" attributeName="transform" type="rotate"
+        values="-125 895 413; -170 920 435; -125 895 413; -170 920 435; -125 895 413; -170 920 435; -125 895 413"
+        begin="move2ar2.end" dur="5s" fill="freeze" />
+      <animateTransform id="move4ar2" attributeName="transform" type="rotate"
+        values="-125 895 413; -85 873 390"
+        begin="move3ar2.end" dur="1s" fill="freeze" />
+      <animateTransform id="move5ar2" attributeName="transform" type="rotate"
+        values="-85 873 390; 0 873 390"
+        begin="move4ar2.end" dur="2s" fill="freeze" />
+    </rect>
+    <rect
+       width="80"
+       height="35"
+       x="848"
+       y="601.86218"
+       id="hand-right1"
+       style="fill:#1a1a1a">
+      <animateTransform id="move1ar2" attributeName="transform" type="rotate"
+        values="0 873 390; -85 873 390"
+        begin="1s; move5ar2.end+1" dur="2s" fill="freeze" />
+      <animateTransform id="move2ar2" attributeName="transform" type="rotate"
+        values="-85 873 390; -125 895 413"
+        begin="move1ar2.end" dur="1s" fill="freeze" />
+      <animateTransform id="move3ar2" attributeName="transform" type="rotate"
+        values="-125 895 413; -170 920 435; -125 895 413; -170 920 435; -125 895 413; -170 920 435; -125 895 413"
+        begin="move2ar2.end" dur="5s" fill="freeze" />
+      <animateTransform id="move4ar2" attributeName="transform" type="rotate"
+        values="-125 895 413; -85 873 390"
+        begin="move3ar2.end" dur="1s" fill="freeze" />
+      <animateTransform id="move5ar2" attributeName="transform" type="rotate"
+        values="-85 873 390; 0 873 390"
+        begin="move4ar2.end" dur="2s" fill="freeze" />
+    </rect> 
+    <rect
+       width="25"
+       height="40"
+       x="848"
+       y="639.86218"
+       id="finger-right1"
+       style="fill:#1a1a1a">
+       <animate attributeName="x"
+                attributeType="XML"
+                values="848; 863; 848"
+                begin="0s" dur="4s"
+                repeatCount="indefinite"
+               />
+      <animateTransform id="move1ar2" attributeName="transform" type="rotate"
+        values="0 873 390; -85 873 390"
+        begin="1s; move5ar2.end+1" dur="2s" fill="freeze" />
+      <animateTransform id="move2ar2" attributeName="transform" type="rotate"
+        values="-85 873 390; -125 895 413"
+        begin="move1ar2.end" dur="1s" fill="freeze" />
+      <animateTransform id="move3ar2" attributeName="transform" type="rotate"
+        values="-125 895 413; -170 920 435; -125 895 413; -170 920 435; -125 895 413; -170 920 435; -125 895 413"
+        begin="move2ar2.end" dur="5s" fill="freeze" />
+      <animateTransform id="move4ar2" attributeName="transform" type="rotate"
+        values="-125 895 413; -85 873 390"
+        begin="move3ar2.end" dur="1s" fill="freeze" />
+      <animateTransform id="move5ar2" attributeName="transform" type="rotate"
+        values="-85 873 390; 0 873 390"
+        begin="move4ar2.end" dur="2s" fill="freeze" />
+    </rect>
+    <rect
+       width="25"
+       height="40"
+       x="903"
+       y="639.86218"
+       id="finger-right2"
+       style="fill:#1a1a1a">
+       <animate attributeName="x"
+                attributeType="XML"
+                values="903; 888; 903"
+                begin="0s" dur="4s"
+                repeatCount="indefinite"
+               />
+      <animateTransform id="move1ar2" attributeName="transform" type="rotate"
+        values="0 873 390; -85 873 390"
+        begin="1s; move5ar2.end+1" dur="2s" fill="freeze" />
+      <animateTransform id="move2ar2" attributeName="transform" type="rotate"
+        values="-85 873 390; -125 895 413"
+        begin="move1ar2.end" dur="1s" fill="freeze" />
+      <animateTransform id="move3ar2" attributeName="transform" type="rotate"
+        values="-125 895 413; -170 920 435; -125 895 413; -170 920 435; -125 895 413; -170 920 435; -125 895 413"
+        begin="move2ar2.end" dur="5s" fill="freeze" />
+      <animateTransform id="move4ar2" attributeName="transform" type="rotate"
+        values="-125 895 413; -85 873 390"
+        begin="move3ar2.end" dur="1s" fill="freeze" />
+      <animateTransform id="move5ar2" attributeName="transform" type="rotate"
+        values="-85 873 390; 0 873 390"
+        begin="move4ar2.end" dur="2s" fill="freeze" />
+    </rect>
+    <rect
+       width="90"
+       height="180"
+       x="730.5"
+       y="607.36218"
+       id="leg-right1"
+       style="fill:#1a1a1a" />
+    <rect
+       width="240"
+       height="50"
+       x="580.5"
+       y="554.36218"
+       id="leg-right1"
+       style="fill:#1a1a1a" />
+    <rect
+       width="90"
+       height="30"
+       x="653"
+       y="286.86218"
+       id="neck"
+       style="fill:#1a1a1a" />
+    <rect
+       width="130"
+       height="40"
+       x="710.5"
+       y="984.86218"
+       id="foot-right"
+       style="fill:#1a1a1a" />
+    <rect
+       width="90"
+       height="130"
+       x="730.5"
+       y="852.36218"
+       id="leg-right3"
+       style="fill:#1a1a1a" />
+    <rect
+       width="90"
+       height="60"
+       x="730.5"
+       y="789.86218"
+       id="leg-right2"
+       style="fill:#1a1a1a" />
+    <rect
+       width="70"
+       height="165"
+       x="478"
+       y="319.36218"
+       id="arm-left1"
+       style="fill:#1a1a1a" />
+    <rect
+       width="70"
+       height="25"
+       x="478"
+       y="486.86218"
+       id="arm-left2"
+       style="fill:#1a1a1a" />
+    <rect
+       width="70"
+       height="85"
+       x="478"
+       y="514.36218"
+       id="arm-left3"
+       style="fill:#1a1a1a" />
+    <rect
+       width="80"
+       height="35"
+       x="473"
+       y="601.86218"
+       id="hand-left"
+       style="fill:#1a1a1a" />
+    <rect
+      width="25"
+      height="40"
+      x="473"
+      y="639.86218"
+      id="finger-left1"
+      style="fill:#1a1a1a">
+      <animate attributeName="x"
+              attributeType="XML"
+              values="473; 488; 473"
+              begin="0s" dur="3s"
+              repeatCount="indefinite"
+             />
+    </rect>
+    <rect
+      width="25"
+      height="40"
+      x="528"
+      y="639.86218"
+      id="finger-left2"
+      style="fill:#1a1a1a">
+      <animate attributeName="x"
+              attributeType="XML"
+              values="528; 513; 528"
+              begin="0s" dur="3s"
+              repeatCount="indefinite"
+             />
+    </rect>
+    <rect
+       width="90"
+       height="180"
+       x="580.5"
+       y="607.36218"
+       id="leg-left1"
+       style="fill:#1a1a1a" />
+    <rect
+       width="90"
+       height="60"
+       x="580.5"
+       y="789.86218"
+       id="leg-left2"
+       style="fill:#1a1a1a" />
+    <rect
+       width="90"
+       height="130"
+       x="580.5"
+       y="852.36218"
+       id="leg-left3"
+       style="fill:#1a1a1a" />
+    <rect
+       width="130"
+       height="40"
+       x="560.5"
+       y="984.86218"
+       id="foot-left"
+       style="fill:#1a1a1a" />
+  </g>
+  <g
+     id="layer6">
+    <rect
+       width="64.636345"
+       height="28.709078"
+       x="568"
+       y="372.36218"
+       id="rect3677"
+       style="fill:#ef2929" />
+    <path
+       d="m 100,302.36218 a 30,30 0 1 1 -0.01562,-0.96788"
+       transform="matrix(1.3333333,0,0,1.3333333,699.66667,-15.787383)"
+       id="path3679"
+       style="fill:#f9f9f9" />
+    <rect
+       width="64.636345"
+       height="28.709078"
+       x="648.36365"
+       y="373.65311"
+       id="rect3677-5"
+       style="fill:#ffff00" />
+    <path
+       d="m 100,302.36218 a 30,30 0 1 1 -0.01562,-0.96788"
+       transform="matrix(1.1666667,0,0,1.1666667,711.33333,34.606292)"
+       id="path3679-7"
+       style="fill:#000000" />
+    <rect
+       width="250"
+       height="40"
+       x="578"
+       y="447.36218"
+       id="rect3728"
+       style="fill:#008080" />
+    <path
+       d="m 100,302.36218 a 30,30 0 1 1 -0.01562,-0.96788"
+       transform="matrix(0.5,0,0,0.5,758,236.18109)"
+       id="path3679-7-1-7"
+       style="fill:#ff0000" />
+  </g>
+</svg>
