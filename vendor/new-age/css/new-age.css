@@ -328,9 +328,18 @@ CV section
 */
 
 section.cv {
+  /*
   position: relative;
   padding: 80px 0;
   background-image: url("../../../img/robotics/walkman.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  */
+
+  position: relative;
+  padding: 80px 0;
+  background-image: url("../../../img/robotics/hyqreal2.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
