@@ -1,0 +1,38 @@
+---
+import Layout from '@/layouts/BlogPost.astro';
+const tags = ['astro', 'react', 'svelte', 'vue', 'web-components'];
+const linkClass = "text-pdblue font-bold";
+const description = '';
+---
+
+<Layout
+	tags={tags}
+	title="Who I am"
+	description={description}
+	showAuthor={false}
+>
+	<div class="space-y-4">
+		<p>
+			I specialize in Robotics and AI, focusing on machine learning for intelligent robot motion and control.
+			My work centers on enabling robots to learn, adapt, and move autonomously in complex environments.
+		</p>
+
+		<p>
+			Currently, I'm a Senior AI &amp; Robotics Engineer at <a href="https://www.anybotics.com" class={linkClass} target="_blank">ANYbotics AG</a>, where I develop AI-driven motion control systems that enable ANYmal to navigate complex terrains.
+		</p>
+
+		<p>
+			Previously, I was a postdoctoral researcher at the <a href="https://dls.iit.it/" class={linkClass} target="_blank">Dynamic Legged Systems (DLS) Lab</a> at the <a href="https://www.iit.it/" class={linkClass} target="_blank">Istituto Italiano di Tecnologia (IIT)</a>, working on deep reinforcement learning and vision-based locomotion for legged robots.
+		</p>
+
+		<p>
+			Before that, I completed my PhD in the Learning and Interaction Group at IIT's Department of Advanced Robotics, under the supervision of <a href="https://www.iit.it/people-details/-/people/darwin-caldwell" class={linkClass} target="_blank">Prof. Darwin Caldwell</a> and <a href="https://leonelrozo.weebly.com/" class={linkClass} target="_blank">Dr. Leonel Rozo</a>.
+			My research focused on deep reinforcement learning for control, hierarchical reinforcement learning, and behavioral cloning for humanoid robots.
+		</p>
+
+		<p>
+			I'm passionate about bridging AI and robotics to create smarter, more capable machines.
+			If you're interested in robot learning, reinforcement learning, or AI-powered control systems, let's connect!
+		</p>
+	</div>
+</Layout>

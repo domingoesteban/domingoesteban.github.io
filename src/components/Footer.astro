@@ -1,0 +1,37 @@
+---
+const today = new Date();
+import { Icon } from "astro-icon/components";
+---
+
+<footer
+  class="flex flex-col items-center container mx-auto p-10 text-center gap-10 pb-40"
+>
+  <p class="text-lg font-semibold">Let's talk about <span class="bg-pblue text-black font-bold border-1 border-black px-1 rounded">AI</span> and <span class="bg-pgreen text-black font-bold border-1 border-black px-1 rounded">robotics</span>.</p>
+  <p class="text-md text-gray-700">Connect with me on:</p>
+  <div class="flex items-center gap-6 text-5xl">
+    <a
+      href="https://www.linkedin.com/in/domingoesteban/"
+      target="_blank"
+      class="border-1 p-1 border-black rounded-full bg-pblue shadow-card hover:shadow-hover transition"
+    >
+      <Icon name="linkedin" />
+    </a>
+    <a
+      href="https://github.com/domingoesteban"
+      target="_blank"
+      class="border-1 p-1 border-black rounded-full bg-ppink shadow-card hover:shadow-hover transition"
+    >
+      <Icon name="github" />
+    </a>
+    <a
+      href="https://x.com/domingoesteban"
+      target="_blank"
+      class="border-1 p-1 border-black rounded-full bg-pblack shadow-card hover:shadow-hover transition"
+    >
+      <Icon name="x" />
+    </a>
+  </div>
+  <p class="text-sm text-gray-600">
+    &copy; {today.getFullYear()} Domingo Esteban. All rights reserved.
+  </p>
+</footer>
