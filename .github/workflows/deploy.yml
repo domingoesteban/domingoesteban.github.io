@@ -1,7 +1,12 @@
+name: Deploy Astro to GitHub Pages
+
 on:
   push:
     branches:
-      - main
+      - main  # Runs on push to the main branch
+
+permissions:
+  contents: write
 
 jobs:
   deploy:
@@ -24,5 +29,5 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: gh-pages
-          folder: dist
+          branch: gh-pages  # The branch to deploy
+          folder: dist       # The output directory from Astro
