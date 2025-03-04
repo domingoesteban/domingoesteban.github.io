@@ -11,5 +11,6 @@ export default defineConfig({
   // output: 'server',
   output: 'static',
   site: 'https://domingoesteban.com',
+  base: "/",  // Always "/" for root domain
   integrations: [mdx(), sitemap(), tailwind(), icon()],
 });
