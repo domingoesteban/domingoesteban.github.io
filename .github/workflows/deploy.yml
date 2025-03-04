@@ -31,3 +31,7 @@ jobs:
         with:
           branch: gh-pages  # The branch to deploy
           folder: dist       # The output directory from Astro
+
+      - name: Show contents of dist/
+        run: ls -lah dist/
+        
