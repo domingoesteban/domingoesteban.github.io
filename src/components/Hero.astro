@@ -1,9 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
 import { Image } from "astro:assets";
-const images = import.meta.glob<{ default: ImageMetadata }>(
-  "/src/assets/*.{jpeg,jpg,png,gif,svg}"
-);
+import robotIllustration from "/src/assets/robotio_moving_arm_left_center.svg";
 ---
 
 <section class="py-20 flex md:flex-row flex-col px-4 md:px-0 gap-10 md:gap-0">
@@ -33,7 +31,8 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
         <div class="h-80 w-60 overflow-hidden relative rounded-2xl">
           <Image
             class="object-bottom absolute bottom-0 group-hover:scale-105 transition"
-            src={images["/src/assets/robotio_moving_arm_left_center.svg"]()}
+            src={robotIllustration}
+            loading="eager"
             alt="Robotio"
           />
         </div>
