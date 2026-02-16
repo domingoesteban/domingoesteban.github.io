@@ -59,8 +59,8 @@ const { title, description, image = "/screenshot.webp" } = Astro.props;
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
 <!-- Google tag (gtag.js) -->
-<script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}></script>
-<script define:vars={{ GA_TRACKING_ID }}>
+<script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}></script>
+<script is:inline define:vars={{ GA_TRACKING_ID }}>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
