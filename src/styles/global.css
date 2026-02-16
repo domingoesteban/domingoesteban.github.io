@@ -1,7 +1,40 @@
-/* The integration's default injected base.css file */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@plugin "@tailwindcss/typography";
+
+@theme {
+    --color-pblue: #96C7F2;
+    --color-pdblue: #1a5288;
+    --color-pgreen: #ADF296;
+    --color-ppink: #F396E5;
+    --color-pyellow: #F2CF96;
+    --color-ppurple: #9D859A;
+    --color-pblack: #4E6273;
+    --color-white: #F2F2F2;
+    --color-blackRad: rgba(0, 0, 0, 0.8);
+    --color-whiteRad: rgba(242, 242, 242, 0.8);
+
+    --shadow-card1: 2px 2px #000000;
+    --shadow-card: 4px 4px #000000;
+    --shadow-hover: 10px 10px #000000;
+    --shadow-pblue: 7px 7px #96C7F2;
+    --shadow-pdblue: 7px 7px #1a5288;
+    --shadow-pgreen: 7px 7px #ADF296;
+    --shadow-ppink: 7px 7px #F396E5;
+    --shadow-pblueHover: 10px 10px #96C7F2;
+    --shadow-pdblueHover: 10px 10px #1a5288;
+    --shadow-pgreenHover: 10px 10px #ADF296;
+    --shadow-ppinkHover: 10px 10px #F396E5;
+    --shadow-pyellow: 7px 7px #F2CF96;
+
+    --font-mono: Alexandria, monospace;
+    --font-sans: Alexandria, sans-serif;
+    --font-kablamo: Kablammo, serif;
+
+    --spacing-30: 7.3rem;
+    --border-width-1: 1px;
+    --border-width-3: 3px;
+}
 
 @font-face {
     font-family: 'Alexandria';

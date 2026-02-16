@@ -6,7 +6,9 @@ import Footer from "@/components/Footer.astro";
 import FormattedDate from "@/components/FormattedDate.astro";
 import { Icon } from "astro-icon/components";
 
-type Props = CollectionEntry<"blog">["data"] & {
+type Props = Partial<CollectionEntry<"blog">["data"]> & {
+  title: string;
+  description: string;
   showAuthor?: boolean;
 };
 
@@ -33,7 +35,7 @@ const bgClasses = [
 ];
 import type { ImageMetadata } from 'astro';
 import { Image } from 'astro:assets';
-const images = heroImage ? import.meta.glob<{ default: ImageMetadata }>('/src/assets/*.{jpeg,jpg,png,gif,svg}') : null;
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/*.{jpeg,jpg,png,gif,svg}');
 if (heroImage && !images[heroImage]) throw new Error(`"${heroImage}" does not exist in glob: "src/assets/*.{jpeg,jpg,png,gif,svg}"`);
 
 const getRandomClass = () => {
@@ -44,11 +46,6 @@ const getRandomClass = () => {
 <html lang="en">
   <head>
     <BaseHead title={title} description={description} />
-    <style>
-      h1 {
-        @apply first-letter:font-kablamo first-letter:text-pblue;
-      }
-    </style>
   </head>
   <body>
     <Header />
@@ -58,7 +55,7 @@ const getRandomClass = () => {
           <div class="relative mb-20 text-white" transition:animate="fade">
             <span class="bg-black bg-opacity-25 w-full h-full absolute"></span>
             <div class="absolute bottom-10 md:left-20 left-6">
-              <h1 class="text-4xl md:text-9xl font-semibold text-shadow">
+              <h1 class="text-4xl md:text-9xl font-semibold text-shadow first-letter:font-kablamo first-letter:text-pblue">
                 <span class="font-kablamo text-ppink">{title.charAt(0)}</span>{title.slice(1)}
               </h1>
               <p set:html={description} />
@@ -67,7 +64,7 @@ const getRandomClass = () => {
           </div>
         ) : (
           <div class="mb-10 pt-10 px-6 md:px-0">
-            <h1 class="text-4xl md:text-6xl font-semibold">
+            <h1 class="text-4xl md:text-6xl font-semibold first-letter:font-kablamo first-letter:text-pblue">
               <span class="font-kablamo text-pblue">{title.charAt(0)}</span>{title.slice(1)}
             </h1>
             {description && <p class="mt-4 text-pblack" set:html={description} />}
