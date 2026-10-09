@@ -10,6 +10,8 @@ import icon from "astro-icon";
 export default defineConfig({
   // output: 'server',
   output: 'static',
+  // Preserve Astro 6 spacing between inline elements after the v7 upgrade.
+  compressHTML: true,
   site: 'https://domingoesteban.com',
   base: "/",  // Always "/" for root domain
   integrations: [mdx(), sitemap(), icon()],

@@ -9,7 +9,7 @@ import "../styles/hamburgers.css";
   >
     <a class="flex items-center gap-2" href="/">
       <p class="font-kablamo text-pblue text-4xl md:text-5xl">DE</p>
-      <p class="pt-2 md:text-lg font-semibold flex">
+      <p class="pt-2 md:text-lg font-semibold flex gap-1">
         Domingo <span class="hidden md:block">Esteban</span>
       </p>
     </a>
@@ -19,7 +19,7 @@ import "../styles/hamburgers.css";
       <li><Link href="/blog" text="What I do" style="tertiary" /></li>
     </ul>
     <div class="md:hidden z-40">
-      <button class="hamburger hamburger--elastic" type="button">
+      <button class="hamburger hamburger--elastic relative z-50" type="button" aria-label="Toggle navigation" aria-controls="navigation" aria-expanded="false">
         <span class="hamburger-box">
           <span class="hamburger-inner"></span>
         </span>
@@ -40,11 +40,13 @@ import "../styles/hamburgers.css";
     const hamburger = document.querySelector(".hamburger");
     const menu = document.getElementById("navigation");
 
-    if (hamburger && menu) {
+    if (hamburger && menu && !hamburger.dataset.initialized) {
+      hamburger.dataset.initialized = "true";
       hamburger.addEventListener("click", () => {
         hamburger.classList.toggle("is-active");
         menu.classList.toggle("-translate-y-full");
         menu.classList.toggle("translate-y-0");
+        hamburger.setAttribute("aria-expanded", String(hamburger.classList.contains("is-active")));
       });
     }
   }
