@@ -1,13 +1,13 @@
 // Scroll-driven locomotion. The page position g is k at section k and k + s inside the transition band after it.
 // A damped follower chases g; the robot walks (or runs, if the reader scrolls fast) between sections, plays the
 // transition of each band (story.ts) and runs the task clock of the section it is parked at.
-import { blend, solve, type Frame, type Spec } from './rig';
+import { blend, type Frame, type Spec } from './rig';
 import { gaitSpec, standSpec, strideFor, dutyFor, jumpSpec, JUMP, jumpObstacle, mixSpec, place, type Prop } from './skills';
-import { TASK, LIE, stepMix, withBox, crate, type Scene } from './tasks';
+import { TASK, LIE, stepMix, withBox, crate, loose, solveScene, type Scene } from './tasks';
 import { SECTIONS, TRANSITIONS } from './story';
 import { HR, HL, P, folView, layout, type Rect } from './camera';
 import { drawFigure, drawProps, polyline } from './draw';
-import { arrow, caption, drawNet, groundLine, pulse, ring } from './overlay';
+import { arrow, caption, drawNet, groundLine, ring, stepNet } from './overlay';
 import { pal, col } from './palette';
 import { addv, clamp, follow, lerp, mod, smooth, stepSpring, toLocal, wrapA, type Spring } from './math';
 
@@ -31,32 +31,41 @@ export const secScene = (k: number, t: number): Scene => {
   const sc = own(t - I[k]);
   return { ...sc, spec: box(sc.spec) };
 };
-// Props of a section at its current clock, with a box that was put down drawn as a crate.
-export const secProps = (k: number) => {
-  const sc = secScene(k, clocks[k]);
-  return [...sc.props, ...(sc.spec.box && sc.spec.box[4] < 0.02 ? [crate(sc.spec.box)] : [])];
+// Tasks that move around (walk, carry, jump) take the robot away from its spot at the section and back; root gives
+// that offset [x, z, yaw] from where the loop starts, and the section's props: those that move with the robot, the
+// world ones, and a box that was put down (where the robot stood, so it stays) drawn as a crate. All in the section
+// frame, before turning it to the heading.
+const R0 = SECTIONS.map(s => TASK[s.task].scene(0).root ?? [0, 0, 0]);
+const atSection = (k: number, sc: Scene) => {
+  const [x0, z0, a0] = R0[k], [x, z, a] = sc.root ?? R0[k], d = toLocal(x - x0, z - z0, a0), w = toLocal(-x0, -z0, a0);
+  const props = [...place(LIE, sc.props, a - a0, d[0], d[2]).props, ...place(LIE, sc.world ?? [], -a0, w[0], w[2]).props];
+  return { root: [d[0], d[2], a - a0], props: loose(sc.spec.box) ? [...props, crate(sc.spec.box)] : props };
 };
-const norm = (k: number, t: number) => (t < I[k] ? max(0, t) : I[k] + mod(t - I[k], L[k]));
+// Props of a section at its current clock, turned to the section heading like the robot working there.
+export const secProps = (k: number) => place(LIE, atSection(k, secScene(k, clocks[k])).props, SECTIONS[k].heading, 0, 0).props;
+const norm = (k: number, t: number) => (I[k] > 0 && t < I[k] ? max(0, t) : I[k] + mod(t - I[k], L[k]));
 
-// Moves a clock toward an exit state: forward through the loop (or back a little), rewinding an intro.
-const steer = (k: number, t: number, T: number | null, dt: number) => {
-  const i = I[k], l = L[k];
+// Moves a clock toward an exit state at `rate` times real time, forward through the loop or backward (playing at
+// most the section's `rewind` seconds of clip in reverse), whichever arrives sooner. Rewinds an intro.
+const steer = (k: number, t: number, T: number | null, dt: number, rate: number) => {
+  const i = I[k], l = L[k], back = rate * 0.85;
   if (T === null) return norm(k, t + dt);
   if (T >= i) {
-    if (t < i) return t + dt * 4;
-    const d = mod(T - t, l);
-    if (d < 0.04 || l - d < 0.04) return T;
-    if (l - d < 1.2) return norm(k, t - min(l - d, dt * 2));
-    return norm(k, t + min(d, dt * 4));
+    if (t < i) return t + dt * rate;
+    const d = mod(T - t, l), b = l - d;
+    if (d < 0.04 || b < 0.04) return T;
+    if (b <= (SECTIONS[k].rewind ?? 1.2) && b / back < d / rate) return norm(k, t - min(b, dt * back));
+    return norm(k, t + min(d, dt * rate));
   }
-  if (t >= i) { const d = mod(i - t, l); return d < 0.04 ? i - 0.001 : norm(k, t + min(d, dt * 4)); }
-  return t > T ? max(T, t - dt * 3) : min(T, t + dt * 3);
+  if (t >= i) { const d = mod(i - t, l); return d < 0.04 ? i - 0.001 : norm(k, t + min(d, dt * rate)); }
+  return t > T ? max(T, t - dt * back) : min(T, t + dt * back);
 };
+const LAG = 0.3; // how far (in bands) the robot may trail the scroll
 
 // Follower state.
 export const F = {
   g: 0, gv: 0, theta: SECTIONS[0].heading, phase: 0, run: 0, amp: 0, stride: 0.5, wTask: 1, task: 0, dir: 1, v: 0,
-  lastX: 0, lastSeg: '', lastS: 0, jumpDir: 0, jw: 0, pz: 0, pv: 0, pushT: -9, pushA: 0, offL: 0, offR: 0,
+  lastX: 0, lastSeg: '', lastS: 0, jumpDir: 0, jw: 0, pz: 0, pv: 0, pushT: -9, pushA: 0, offL: 0, offR: 0, out: 1, late: false,
   sp: { x: 0, z: 0, vx: 0, vz: 0 } as Spring, snapFrom: null as Frame | null, snapT: 9, frame: LIE,
 };
 // What render draws: the robot at x (m), props of nearby sections, the caption, and band k at progress s.
@@ -100,7 +109,13 @@ export function update(dt: number, time: number, c: number) {
     const om = 8.5;
     F.gv += (om * om * (target - F.g) - 2 * om * F.gv) * dt;
     F.gv = clamp(F.gv, -cap, cap);
-    F.g = clamp(F.g + F.gv * dt, max(0, target - 0.3), min(LAST, target + 0.3));
+    // After waiting at a section the robot may trail by more than the lag bound until it has caught up.
+    if (abs(target - F.g) < LAG) F.late = false;
+    F.g = clamp(F.g + F.gv * dt, F.late ? 0 : max(0, target - LAG), F.late ? LAST : min(LAST, target + LAG));
+    // The robot waits at its section until the task reaches the exit pose (the box in hand, say), then walks off,
+    // running if the reader is already far ahead. The clock speeds up the further ahead they are (see below).
+    const j0 = F.task, T0 = F.g > j0 ? SECTIONS[j0].exit.next : F.g < j0 ? SECTIONS[j0].exit.prev : null;
+    if (T0 !== null && abs(clocks[j0] - T0) > 0.05 && abs(F.g - j0) < LAG) { F.g = j0; F.gv = 0; F.late = true; }
   }
   const k = min(N - 2, floor(F.g)), s = F.g - k, seg = segAt(k, s), move = TRANSITIONS[k];
   const parked = s < 0.004 ? k : s > 0.996 ? k + 1 : -1;
@@ -133,24 +148,21 @@ export function update(dt: number, time: number, c: number) {
   const settled = parked >= 0 && speed < 0.15 && abs(wrapA(F.theta - SECTIONS[parked].heading)) < 0.3;
   F.wTask = reduced ? (parked >= 0 ? 1 : 0) : clamp(F.wTask + (settled ? 2.4 : -3.6 - 3 * speed) * dt);
 
-  // Task clock: runs while featured, steers to the exit state when the reader is about to leave.
-  const j = F.task, y = scrollY, soon = mobile ? vh * 0.2 : vh * 0.45;
+  // Task clock: loops while featured and steers to the exit state when the reader is about to leave, faster the
+  // further into the band they have scrolled.
+  const j = F.task, y = scrollY, soon = mobile ? vh * 0.12 : vh * 0.25;
   const fwdSoon = j < LAST && (y > A[j] - soon || F.g > j + 0.001);
   const backSoon = j > 0 && (y < B[j - 1] + soon || F.g < j - 0.001);
   const T = fwdSoon ? sec.exit.next : backSoon ? sec.exit.prev : null;
-  const prevClock = clocks[j];
   if (reduced) clocks[j] = T ?? sec.still;
-  else clocks[j] = F.wTask > 0 || parked === j ? steer(j, clocks[j], T, dt) : clocks[j];
+  else clocks[j] = F.wTask > 0 || parked === j ? steer(j, clocks[j], T, dt, abs(target - j) > 0.01 ? min(9, 4 + 12 * abs(target - j)) : 2.5) : clocks[j];
   if (!reduced && T !== null && F.wTask < 0.98 && abs(clocks[j] - T) > 0.05 && parked !== j) { clocks[j] = T; snap(); }
-  if (clocks[j] > prevClock) for (const t of sec.pulses) if (prevClock < t && clocks[j] >= t) pulse(time, 1);
 
   // Locomotion: phase advances with distance (and with turning), so stance feet do not skate.
   const run = smooth(1.9, 2.9, speed);
   F.run = follow(F.run, run, 4, dt);
   const S = strideFor(speed, F.run), adv = abs(dX) + 0.22 * abs(dTh);
-  const before = F.phase;
   F.phase += adv / S;
-  if (floor(before * 2) !== floor(F.phase * 2) && c >= 1) pulse(time, 0.45);
   F.stride = follow(F.stride, adv > 1e-5 ? (S * abs(dX)) / adv : F.stride, 8, dt);
   F.amp = follow(F.amp, smooth(0.03, 0.3, speed + 0.4 * abs(dTh) / max(dt, 1e-3)), 7, dt);
   const tsc = secScene(j, clocks[j]);
@@ -160,7 +172,7 @@ export function update(dt: number, time: number, c: number) {
 
   // Push: a shove in the back when crossing the middle of the band, caught with a longer step.
   if (move === 'push' && (F.lastS - 0.5) * (s - 0.5) < 0 && speed > 0.25 && time - F.pushT > 1.5 && !reduced) {
-    F.pv += 1.6; F.pushT = time; F.pushA = 1; pulse(time, 1.2);
+    F.pv += 1.6; F.pushT = time; F.pushA = 1;
   }
   F.lastS = s;
   F.pv += (-30 * F.pz - 6 * F.pv) * dt; F.pz += F.pv * dt;
@@ -171,11 +183,12 @@ export function update(dt: number, time: number, c: number) {
   loco = { ...loco, lf: [loco.lf[0] + F.offL, ...loco.lf.slice(1)], rf: [loco.rf[0] + F.offR, ...loco.rf.slice(1)] };
 
   let spec = stepMix(loco, tsc.spec, F.wTask);
-  const boxDown = spec.box && spec.box[4] < 0.02;
+  const boxDown = loose(spec.box);
   if (boxDown) { spec = { ...spec }; delete spec.box; }
   stepSpring(F.sp, dt);
   const hand = toLocal(F.sp.x, F.sp.z, F.theta);
-  let frame = place(solve(spec, [hand[0] + F.pz, 0, hand[2]]), [], F.theta, 0, 0).frame;
+  const [rx, rz, ra] = atSection(j, tsc).root;
+  let frame = place(place(solveScene({ ...tsc, spec, push: tsc.push && { ...tsc.push, strength: tsc.push.strength * F.wTask } }, [hand[0] + F.pz, 0, hand[2]]), [], ra, rx, rz).frame, [], F.theta, 0, 0).frame;
   F.snapT += dt;
   if (F.snapFrom && F.snapT < 0.35) frame = blend(F.snapFrom, frame, smooth(0, 0.35, F.snapT));
   F.frame = frame;
@@ -186,23 +199,26 @@ export function update(dt: number, time: number, c: number) {
   for (let i = 0; i < N; i++) {
     const near = 1 - smooth(0.06, 0.3, abs(F.g - i));
     if (near <= 0.01) continue;
-    const sc = i === j ? tsc : secScene(i, clocks[i]);
-    const list = [...sc.props];
-    if (sc.spec.box && sc.spec.box[4] < 0.02) list.push(crate(sc.spec.box));
-    if (list.length) props.push({ props: place(LIE, list, SECTIONS[i].heading, 0, 0).props, x: X[i], a: near, k: i });
+    const list = secProps(i);
+    if (list.length) props.push({ props: list, x: X[i], a: near, k: i });
   }
   if (move === 'jump') props.push({ props: place(LIE, [jumpObstacle(-JUMP.obstacle.x)], HR, 0, 0).props, x: (X[k] + X[k + 1]) / 2, a: smooth(0.02, 0.16, s) * (1 - smooth(0.84, 0.98, s)), k: -1 });
 
   const inBand = parked < 0;
   const gaitCap = move === 'carry' ? 'carry' : F.run > 0.6 ? 'run' : 'walk';
   const cap = !inBand ? SECTIONS[parked].caption : seg.g.jump ? 'jump' : move === 'push' && time - F.pushT < 2 ? 'push recovery' : gaitCap;
+  // The policy reads the robot every frame. Its side flips mid-walk, folding through the head instead of jumping.
+  stepNet(frame, { v: F.v, phase: F.phase, amp: F.amp, push: F.pv }, dt);
+  const outT = SECTIONS[F.task].side === 'R' && F.wTask > 0.5 ? 1 : ax < track.xLeft / 2 ? -1 : 1;
+  F.out = reduced ? outT : follow(F.out, outT, 7, dt);
+
   Object.assign(scene, { frame, x: ax, props, cap, capA: inBand ? smooth(0.12, 0.3, s) * (1 - smooth(0.7, 0.88, s)) : F.wTask, k, s });
 }
 
 // The robot, the props of nearby sections, the ground it walks on and a faint policy. On mobile everything is
 // clipped to the dock. Returns the rect the pointer can nudge.
-export function renderFollower(g: CanvasRenderingContext2D, time: number, dock: DOMRect | null): Rect {
-  const { X, xLeft } = track, { mobile, folRect, ppm } = layout;
+export function renderFollower(g: CanvasRenderingContext2D, dock: DOMRect | null): Rect {
+  const { X } = track, { mobile, folRect, ppm } = layout;
   const fo = scene, camX = mobile ? fo.x : 0;
   const vAt = (x: number) => folView((x - camX) * ppm);
   const v = vAt(fo.x);
@@ -224,7 +240,7 @@ export function renderFollower(g: CanvasRenderingContext2D, time: number, dock: 
     groundLine(g, min(xa, xb) - half, max(xa, xb) + half, gy, span);
     for (let i = 0; i < N; i++) ring(g, vAt(X[i]), 0.6, 0.8 * (1 - smooth(0.02, 0.16, abs(F.g - i))));
   }
-  // Tools of the section the robot is parked at (the drill) are depth-sorted with its hands, otherwise they are props.
+  // Tools and the loose crate of the section the robot is parked at are drawn with the figure, otherwise as props.
   const held = abs(F.g - F.task) < 0.004 ? F.task : null;
   for (const pp of fo.props) drawProps(g, pp.props, vAt(pp.x), pp.a, pp.k !== held);
   drawFigure(g, fo.frame, v, fo.props.find(pp => pp.k === held)?.props ?? []);
@@ -232,11 +248,12 @@ export function renderFollower(g: CanvasRenderingContext2D, time: number, dock: 
     const ch = fo.frame.joints.chest, dir = [cos(F.theta), 0, -sin(F.theta)];
     arrow(g, v, addv(ch, dir, -0.75), addv(ch, dir, -0.14), F.pushA);
   }
+  const push = fo.frame.push;
+  if (push && push.strength > 0.02) arrow(g, v, addv(push.at, push.dir, -0.63), addv(push.at, push.dir, -0.02), push.strength);
   if (mobile) g.restore();
   else {
-    // The net sits on the outer side of the robot, away from the text.
-    const out = SECTIONS[F.task].side === 'R' && F.wTask > 0.5 ? 1 : fo.x < xLeft / 2 ? -1 : 1;
-    drawNet(g, fo.frame, v, (F.wTask * 0.9 + 0.35 * (1 - F.wTask)) * 0.95, out, time);
+    // The net sits on the outer side of the robot, away from the text, and keeps running between sections.
+    drawNet(g, fo.frame, v, 0.9, F.out);
     caption(g, fo.cap, rx, gy + 28, fo.capA);
   }
   return { x: rx - folRect.w * 0.3, y: folRect.y, w: folRect.w * 0.6, h: folRect.h };

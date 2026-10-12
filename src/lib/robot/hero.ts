@@ -1,13 +1,13 @@
 // Hero: a 3x3 grid of tiles, each learning its own skill. Early attempts are faint, wobble and sometimes fall,
 // then converge. On scroll the grid collapses into the selected tile, which becomes the follower.
-import { blend, type Camera, type Vec3 } from './rig';
+import { blend, type Camera, type Frame, type Vec3 } from './rig';
 import { place, type Prop } from './skills';
 import { TASK, LIE, live, facing } from './tasks';
 import { HERO } from './story';
 import { F, secProps } from './follower';
 import { FOL_PITCH, FOL_TARGET, FOV, YAW, P, grow, layout, lerpRect, makeView, type Rect } from './camera';
 import { drawFigure, drawProps, faded, polyline } from './draw';
-import { caption, ring } from './overlay';
+import { caption, drawNet, ring } from './overlay';
 import { pal, col } from './palette';
 import { addv, lerp, rnd, smooth, stepSpring, TAU } from './math';
 
@@ -85,9 +85,9 @@ export function renderHero(g: G, lg: G, c: number, ce: number, sr: Rect): Rect {
     caption(g, HERO.caption, sr.x + 16, sr.y + sr.h - 6, ha, 'left');
   }
 
-  const selFrame = place(F.frame, [], 0, 0, 0).frame;
   const order = envs.map(e => ({ e, z: P(v, [e.gx, 0, e.gz])[2] })).sort((a, b) => b.z - a.z);
   const others = 1 - smooth(0.04, 0.5, c);
+  let selPlaced: Frame | null = null;
   for (const { e } of order) {
     const isSel = e.i === SEL, s = TILE / 2;
     const q = [[-s, -s], [s, -s], [s, s], [-s, s], [-s, -s]].map(([a, b]) => P(v, [e.gx + a, 0, e.gz + b]));
@@ -96,18 +96,18 @@ export function renderHero(g: G, lg: G, c: number, ce: number, sr: Rect): Rect {
     // Accent outline: the selected tile while it is picked, the others when they restart after a fall.
     const hi = isSel ? smooth(0.02, 0.22, c) * (1 - smooth(0.6, 0.92, c)) : e.flash * 0.6 * others;
     if (hi > 0.01) { g.strokeStyle = col(pal.accent, hi); polyline(g, q); }
-    const fr = isSel ? selFrame : e.frame, props = isSel ? [] : e.props;
-    const placed = place(fr, props, e.yaw, e.gx, e.gz);
+    // The selected tile shows the follower, whose frame and section props already face the section heading, so the
+    // tile only moves them.
+    const placed = isSel ? place(F.frame, secProps(0), 0, e.gx, e.gz) : place(e.frame, e.props, e.yaw, e.gx, e.gz);
+    if (isSel) selPlaced = placed.frame;
     const pel = P(v, placed.frame.joints.pelvis);
     e.sx = pel[0]; e.sy = pel[1];
     const alpha = isSel ? 1 : others * (e.fallT >= 0 ? lerp(0.42, 1, e.p) * (1 - smooth(1.0, 1.6, e.fallT)) : lerp(0.42, 1, e.p));
     const xs = q.map(p => p[0]), ys = q.map(p => p[1]), tall = (max(...ys) - min(...ys)) * 2.2;
     const tileR: Rect = { x: min(...xs) - 12, y: min(...ys) - tall, w: max(...xs) - min(...xs) + 24, h: max(...ys) - min(...ys) + tall + 12 };
-    const bg = isSel ? secProps(0) : placed.props;
     faded(g, lg, alpha, isSel ? grow(r, 0.3) : tileR, d => {
-      if (isSel) drawProps(d, place(LIE, bg, e.yaw, e.gx, e.gz).props, v);
-      else drawProps(d, bg, v);
-      drawFigure(d, placed.frame, v, isSel ? [] : placed.props);
+      drawProps(d, placed.props, v);
+      drawFigure(d, placed.frame, v, placed.props);
       if (!isSel && placed.frame.push && placed.frame.push.strength > 0.05) {
         const { at, dir, strength } = placed.frame.push;
         const A2 = P(v, addv(at, dir, -0.7)), B2 = P(v, addv(at, dir, -0.06));
@@ -116,6 +116,8 @@ export function renderHero(g: G, lg: G, c: number, ce: number, sr: Rect): Rect {
     });
   }
   ring(g, v, 0.6, 0.8 * smooth(0.6, 1, c) * (mobile ? 0 : 1), sel.gx, sel.gz);
+  // The selected robot's policy appears while it is picked, so it is already running when the follower takes over.
+  if (selPlaced && !mobile) drawNet(g, selPlaced, v, 0.9 * smooth(0.1, 0.7, c), F.out);
   return r;
 }
 

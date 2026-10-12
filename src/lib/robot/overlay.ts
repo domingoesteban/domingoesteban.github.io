@@ -1,44 +1,84 @@
-// Everything drawn around the robot: the policy net beside its head, the ring it stands on, the ground line of a
-// walk, the caption under it and the push arrow.
-import type { Frame } from './rig';
+// Everything drawn around the robot: the policy net beside its head (and its closed-loop state), the ring it
+// stands on, the ground line of a walk, the caption under it and the push arrow.
+import type { Frame, JointName } from './rig';
 import { P, type View } from './camera';
 import { pal, col } from './palette';
 import { polyline } from './draw';
-import { rnd, smooth, TAU } from './math';
+import { follow, TAU } from './math';
 
-const { min, max, sin, cos, atan2 } = Math;
+const { min, max, abs, sin, cos, atan2, tanh, hypot } = Math;
 type G = CanvasRenderingContext2D;
 
-// Pulses run through the net in step with the action: k is the strength, w a random weight per edge.
-export const pulses: { t: number; k: number; w: number[] }[] = [];
-export const pulse = (time: number, k = 1) => { pulses.push({ t: time, k, w: Array.from({ length: 30 }, () => rnd()) }); if (pulses.length > 6) pulses.shift(); };
-
-// A few faint nodes beside the head, wired into it. out = 1 puts the net to the right of the head, -1 to the left.
+// The policy beside the head runs in closed loop: every frame it reads the robot's own motion (gait clock, speed,
+// feet, hands, torso, push) and its activations follow. Walking, drilling or standing still each light it in their
+// own way, and it never goes dark: biases and a little sensor noise keep it ticking at rest.
 const NET = [3, 3];
-export const drawNet = (g: G, f: Frame, v: View, a: number, out: number, time: number) => {
+let seed = 7;
+const w = () => ((seed = (seed * 16807) % 2147483647) / 2147483647) * 2 - 1;
+// Observations: speed, gait sin, gait cos, left foot, right foot, left hand, right hand, torso, push.
+// Input node 0 mostly reads the legs, node 1 the arms, node 2 the torso and balance, plus a little of everything.
+const W0 = [
+  [0.3, 1.1, 0.2, 0.9, 0.9, 0, 0, 0, 0.3],
+  [0, 0, 0, 0, 0, 1.3, 1.3, 0.3, 0],
+  [0.7, 0, 0.8, 0, 0, 0, 0, 1.2, 1.4],
+].map(row => row.map(x => 0.8 * x + 0.2 * w()));
+const B0 = [0.32, 0.26, 0.3];
+// Hidden layer: each node follows one input node and is held back by another, so a gait or a task shows a pattern
+// rather than lighting everything.
+const W1 = [
+  [1.2, -0.6, 0.2],
+  [-0.3, 0.9, 0.4],
+  [0.2, -0.3, 1.1],
+];
+const B1 = [0.3, -0.1, 0];
+const GAIN = [0.35, 0.7, 0.7, 0.45, 0.45, 0.8, 0.8, 1, 1];
+const dense = (W: number[][], x: number[], b: number[]) => W.map((row, i) => tanh(row.reduce((s, wij, j) => s + wij * x[j], b[i])));
+
+const a0 = dense(W0, Array(9).fill(0), B0);
+export const net = { obs: Array(9).fill(0), noise: Array(9).fill(0), a: [a0, dense(W1, a0, B1)], prev: null as Frame | null };
+
+// s carries the follower state the frame alone does not show: track speed (m/s), gait phase, gait amplitude, push.
+export function stepNet(f: Frame, s: { v: number; phase: number; amp: number; push: number }, dt: number) {
+  const p = net.prev;
+  net.prev = f;
+  if (!p || dt <= 0) return;
+  const vel = (j: JointName, rel = true) => {
+    const a = f.joints[j], b = p.joints[j], pa = rel ? f.joints.pelvis : [0, 0, 0], pb = rel ? p.joints.pelvis : [0, 0, 0];
+    return hypot(a[0] - pa[0] - b[0] + pb[0], a[1] - pa[1] - b[1] + pb[1], a[2] - pa[2] - b[2] + pb[2]) / dt;
+  };
+  const ph = s.phase * TAU;
+  const raw = [abs(s.v), s.amp * sin(ph), s.amp * cos(ph), vel('lAnkle'), vel('rAnkle'), vel('lHand'), vel('rHand'), vel('chest', false), abs(s.push)];
+  net.noise = net.noise.map(n => follow(n, 0.3 * (Math.random() * 2 - 1), 8, dt));
+  net.obs = raw.map((x, i) => follow(net.obs[i], tanh(GAIN[i] * x) + net.noise[i], 16, dt));
+  // Each layer lags the one before a little, so changes flow from the inputs toward the head.
+  const x0 = dense(W0, net.obs, B0), x1 = dense(W1, net.a[0], B1);
+  net.a[0] = net.a[0].map((v, i) => follow(v, x0[i], 14, dt));
+  net.a[1] = net.a[1].map((v, i) => follow(v, x1[i], 9, dt));
+}
+
+// A few faint nodes beside the head, wired into it. out = 1 puts the net to the right of the head, -1 to the left,
+// values in between fold it through the head when it changes side.
+export const drawNet = (g: G, f: Frame, v: View, a: number, out: number) => {
   if (a < 0.01) return;
+  a *= 0.55 + 0.45 * abs(out);
   const h = P(v, f.joints.head), s = v.focal / v.cam.dist / 170;
   const nodes = NET.map((n, L) => Array.from({ length: n }, (_, i) => [h[0] + out * (70 - L * 26) * s, h[1] - 30 * s + (i - (n - 1) / 2) * 12 * s]));
   const into = [h[0] + out * 13 * s, h[1] - 4 * s];
-  const edges: [number[], number[], number][] = [];
-  for (const p of nodes[0]) for (const q of nodes[1]) edges.push([p, q, 0]);
-  for (const p of nodes[1]) edges.push([p, into, 1]);
+  const [A0, A1] = net.a;
   g.lineWidth = 0.7;
-  edges.forEach(([p, q, L], i) => {
-    let lit = 0;
-    for (const pu of pulses) {
-      const u = (time - pu.t) / 0.5;
-      lit = max(lit, pu.k * (0.35 + 0.65 * pu.w[i % pu.w.length]) * smooth(L * 0.4 - 0.05, L * 0.4 + 0.15, u) * (1 - smooth(L * 0.4 + 0.3, L * 0.4 + 0.7, u)));
-    }
-    g.strokeStyle = col(pal.ink, 0.1 * a); polyline(g, [p, q]);
-    if (lit > 0.02) { g.strokeStyle = col(pal.accent, min(0.7, lit * 0.7) * a); polyline(g, [p, q]); }
-  });
-  nodes.flat().forEach((p, i) => {
-    let lit = 0;
-    for (const pu of pulses) { const u = (time - pu.t) / 0.5, L = i < NET[0] ? 0 : 1; lit = max(lit, pu.k * smooth(L * 0.4, L * 0.4 + 0.12, u) * (1 - smooth(L * 0.4 + 0.25, L * 0.4 + 0.65, u))); }
-    g.fillStyle = lit > 0.05 ? col(pal.accent, min(0.8, lit) * a) : col(pal.bg); g.strokeStyle = col(pal.ink, 0.32 * a);
-    g.beginPath(); g.arc(p[0], p[1], 1.8 * max(0.8, s), 0, TAU); g.fill(); g.stroke();
-  });
+  const edge = (p: number[], q: number[], lit: number) => {
+    g.strokeStyle = col(pal.ink, 0.08 * a); polyline(g, [p, q]);
+    g.strokeStyle = col(pal.accent, min(0.65, 0.6 * lit) * a); polyline(g, [p, q]);
+  };
+  nodes[0].forEach((p, i) => nodes[1].forEach((q, j) => edge(p, q, abs(A0[i] * W1[j][i]))));
+  nodes[1].forEach((p, j) => edge(p, into, abs(A1[j])));
+  nodes.forEach((layer, L) => layer.forEach((p, i) => {
+    const r = 1.8 * max(0.8, s);
+    g.fillStyle = col(pal.bg);
+    g.beginPath(); g.arc(p[0], p[1], r, 0, TAU); g.fill();
+    g.fillStyle = col(pal.accent, (0.08 + 0.85 * abs(net.a[L][i]) ** 1.5) * a); g.strokeStyle = col(pal.ink, 0.3 * a);
+    g.fill(); g.stroke();
+  }));
 };
 
 // Ground circle of radius r (m) around (cx, cz).

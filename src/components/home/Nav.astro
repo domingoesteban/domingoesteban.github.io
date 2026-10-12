@@ -1,14 +1,9 @@
 ---
 import { profile } from '@/data/profile';
+import { SECTIONS } from '@/lib/robot/story';
 
-// keep: still shown on mobile, where the others are hidden.
-const links = [
-  { id: 'research', label: 'Research', keep: true },
-  { id: 'about', label: 'About' },
-  { id: 'experience', label: 'Experience' },
-  { id: 'notes', label: 'Notes', keep: true },
-  { id: 'contact', label: 'Contact' },
-];
+// One link per section of PAGE (src/data/page.ts); the ones marked mobile stay on small screens.
+const links = SECTIONS.map(s => ({ id: s.id, label: s.label, keep: !!s.mobile }));
 ---
 <header class="nav">
   <div class="wrap nav-in">

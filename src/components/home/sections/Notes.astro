@@ -5,7 +5,7 @@ import Section from '../Section.astro';
 const notes = (await getCollection('notes', n => !n.data.draft)).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 const formatDate = (d: Date) => d.toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: '2-digit' });
 ---
-<Section id="notes" label="Notes" heading="Notes on robot learning.">
+<Section id="notes" heading="Notes on robot learning.">
   <ol class="notes">
     {notes.map(({ data: n }) => (
       <li data-r>

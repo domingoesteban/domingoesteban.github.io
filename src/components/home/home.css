@@ -1,6 +1,6 @@
 /* Home page: design tokens and base styles, all under the .home root. Component styles live in each component.
    Base rules use :where() so any component rule overrides them. The robot canvas reads --bg, --ink, --muted,
-   --line-2, --accent, --mono and --colgap from here. */
+   --line-2, --accent, --object, --object-fill, --mono and --colgap from here. */
 
 .home {
   --bg: #fbfbfa;
@@ -10,6 +10,8 @@
   --line: #ebedf0;
   --line-2: #dcdfe5;
   --accent: #2b5be6;
+  --object: #b8742a; /* boxes the robot handles, sits on or jumps over */
+  --object-fill: #f6ebdc;
   --sans: 'Geist', 'Helvetica Neue', Arial, sans-serif;
   --mono: 'Geist Mono', ui-monospace, Menlo, monospace;
   --ease: cubic-bezier(.2, .7, .2, 1);

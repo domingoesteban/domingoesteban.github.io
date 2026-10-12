@@ -7,6 +7,7 @@ import { F, clocks, renderFollower, scene, track, update as updateFollower } fro
 import { FOL_PITCH, FOL_TARGET, FOV, YAW, P, camAt, dockPts, fitCam, folPts, folView, layout, toRect, type Rect } from './camera';
 import { TASK } from './tasks';
 import { readPalette } from './palette';
+import { net } from './overlay';
 import { clamp, ease, kick, toLocal } from './math';
 
 const { min, max, abs, sin, cos, hypot, tan } = Math;
@@ -31,7 +32,7 @@ export function startRobot(root: HTMLElement) {
   const bands = [...root.querySelectorAll<HTMLElement>('.band')];
   const mainWrap = root.querySelector<HTMLElement>('main.wrap')!;
   const navEl = root.querySelector<HTMLElement>('.nav')!;
-  if (bands.length !== TRANSITIONS.length) console.warn(`robot: ${bands.length} bands on the page, ${TRANSITIONS.length} transitions in story.ts`);
+  if (bands.length !== TRANSITIONS.length) console.warn(`robot: ${bands.length} bands on the page, ${TRANSITIONS.length} transitions from PAGE (src/data/page.ts)`);
 
   // Layout: hero and follower cameras, section x positions, band heights (desktop) and band scroll ranges.
   const resize = () => {
@@ -89,7 +90,7 @@ export function startRobot(root: HTMLElement) {
     if (reduced) c = c > 0.5 ? 1 : 0;
     if (c < 1) stepHero(dt, c, time);
     updateFollower(dt, time, c);
-    root.dataset.dbg = `g=${F.g.toFixed(3)} v=${F.v.toFixed(2)} run=${F.run.toFixed(2)} task=${F.task} w=${F.wTask.toFixed(2)} clk=${clocks[F.task].toFixed(2)} th=${F.theta.toFixed(2)} cap=${scene.cap}`;
+    root.dataset.dbg = `g=${F.g.toFixed(3)} v=${F.v.toFixed(2)} run=${F.run.toFixed(2)} task=${F.task} w=${F.wTask.toFixed(2)} clk=${clocks[F.task].toFixed(2)} th=${F.theta.toFixed(2)} cap=${scene.cap} net=${net.a.flat().map(a => a.toFixed(2)).join(",")} obs=${net.obs.map(a => a.toFixed(2)).join(",")}`;
   };
 
   let figRect: Rect = { x: 0, y: 0, w: 0, h: 0 };
@@ -101,7 +102,7 @@ export function startRobot(root: HTMLElement) {
     dock.style.setProperty('--c', String(clamp(c * 1.5)));
     if (c < 1) figRect = renderHero(ctx, lctx, c, reduced ? c : ease(c), toRect(stage.getBoundingClientRect()));
     else {
-      figRect = renderFollower(ctx, time, layout.mobile ? dock.getBoundingClientRect() : null);
+      figRect = renderFollower(ctx, layout.mobile ? dock.getBoundingClientRect() : null);
       if (layout.mobile && dockCap.textContent !== scene.cap) dockCap.textContent = scene.cap;
     }
   };

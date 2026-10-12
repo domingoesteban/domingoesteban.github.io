@@ -1,13 +1,13 @@
 ---
 // A page section: index and label, heading, then the slot, in the half of the page the robot does not use.
-// The side and the number come from story.ts, so the page and the robot agree on the layout.
+// The side, label and number come from PAGE (src/data/page.ts), so the page and the robot agree on the layout.
 import { SECTIONS } from '@/lib/robot/story';
 
-interface Props { id: string; label: string; heading: string }
-const { id, label, heading } = Astro.props;
+interface Props { id: string; heading: string }
+const { id, heading } = Astro.props;
 const index = SECTIONS.findIndex(s => s.id === id);
-if (index < 0) throw new Error(`Section "${id}" is not in SECTIONS (src/lib/robot/story.ts)`);
-const { side } = SECTIONS[index];
+if (index < 0) throw new Error(`Section "${id}" is not in PAGE (src/data/page.ts)`);
+const { side, label } = SECTIONS[index];
 ---
 <section class="sec" data-side={side} id={id} aria-labelledby={`${id}-h`}>
   <div class="col">

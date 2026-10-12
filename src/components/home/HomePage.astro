@@ -1,32 +1,32 @@
 ---
-// The home page: hero, then the sections with a transition band between each pair, where the robot walks.
-// Section order must match SECTIONS in src/lib/robot/story.ts (one band per entry in TRANSITIONS).
+// The home page: hero, then the sections of PAGE (src/data/page.ts) in its order, with a transition band
+// between each pair where the robot walks. Section "about-me" is rendered from sections/AboutMe.astro.
 import './home.css';
 import Nav from './Nav.astro';
 import RobotCanvas from './RobotCanvas.astro';
 import Hero from './Hero.astro';
 import Footer from './Footer.astro';
-import Research from './sections/Research.astro';
-import About from './sections/About.astro';
-import Experience from './sections/Experience.astro';
-import Notes from './sections/Notes.astro';
-import Contact from './sections/Contact.astro';
+import { SECTIONS } from '@/lib/robot/story';
+
+const files = import.meta.glob<{ default: any }>('./sections/*.astro', { eager: true });
+const file = (id: string) => `./sections/${id.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join('')}.astro`;
+const sections = SECTIONS.map(s => {
+  const f = files[file(s.id)];
+  if (!f) throw new Error(`Section "${s.id}" in src/data/page.ts has no component ${file(s.id).slice(2)}`);
+  return f.default;
+});
 ---
 <div class="home">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&display=swap" />
   <Nav />
   <RobotCanvas />
   <Hero />
   <main class="wrap">
-    <Research />
-    <div class="band" aria-hidden="true"></div>
-    <About />
-    <div class="band" aria-hidden="true"></div>
-    <Experience />
-    <div class="band" aria-hidden="true"></div>
-    <Notes />
-    <div class="band" aria-hidden="true"></div>
-    <Contact />
+    {sections.map((Part, i) => (
+      <>
+        {i > 0 && <div class="band" aria-hidden="true"></div>}
+        <Part />
+      </>
+    ))}
   </main>
   <Footer />
 </div>

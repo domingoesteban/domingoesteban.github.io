@@ -5,7 +5,7 @@ import Section from '../Section.astro';
 const entries = (await getCollection('experience')).sort((a, b) => a.data.order - b.data.order);
 const roles = await Promise.all(entries.map(async e => ({ ...e.data, Summary: (await render(e)).Content })));
 ---
-<Section id="experience" label="Experience" heading="From legged robots to humanoids.">
+<Section id="experience" heading="From legged robots to humanoids.">
   <ol class="tl">
     {roles.map(({ period, title, org, place, href, Summary }, i) => (
       <li class:list={['tl-row', { now: i === 0 }]} data-r>

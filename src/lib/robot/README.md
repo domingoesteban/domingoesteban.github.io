@@ -8,35 +8,43 @@ with the scroll. Booted by `src/components/home/RobotCanvas.astro`.
 
 | To change | Edit |
 | --- | --- |
-| Which task a section shows, its caption, heading, side, exit poses, NN pulses | `story.ts` `SECTIONS` |
-| What happens between two sections (walk, carry, jump, push) | `story.ts` `TRANSITIONS` (one entry per gap) |
-| Hero tiles: task, yaw, learning delay, which tile is selected | `story.ts` `HERO` |
-| A task's motion, loop length, fall points | `tasks.ts` `TASK`, the specs in `skills.ts` / `rig.ts` |
+| Sections: order, label, which skill each one shows | `PAGE` in `src/data/page.ts` (one line per section) |
+| How the robot walks into a section (walk, jump, push) | `arrive` on its `PAGE` line (default: varied) |
+| Hero tiles: yaw, learning delay | `story.ts` `TILES` |
+| A skill's motion, loop length, fall points, and its caption, heading, reduced-motion pose as a section | `tasks.ts` `TASK`, the specs in `skills.ts` / `rig.ts` |
 | Hero learning curve, falls, grid size, collapse | `hero.ts` |
 | Walk/run speed, follower damping, jump band, push strength | `follower.ts` `update` |
 | Robot look (limbs, shells, helmet, visor, props) | `draw.ts` |
-| Policy net, ring, ground line, caption, push arrow | `overlay.ts` |
+| Which part paints over which at a joint (thigh over shin, elbow pin over the arm) | `draw.ts` `COVERS` |
+| How parts are ordered: depth, covers, the box hiding what is behind it | `paint.ts` |
+| Policy net (closed loop: its activations follow the robot's motion), ring, ground line, caption, push arrow | `overlay.ts` (`W0`, `W1`, `GAIN`, `stepNet`) |
 | Camera angle, framing | `camera.ts` (`YAW`, `FOV`, `FOL_*`), fits in `app.ts` `resize` |
-| Colors, caption font | CSS variables in `src/components/home/home.css` (read by `palette.ts`) |
+| Colors, caption font | CSS variables in `src/components/home/home.css` (read by `palette.ts`); which props take the object color: `OBJECTS` in `draw.ts` |
 | Column gap, band heights, robot size on desktop | `--colgap` in `home.css`, `app.ts` `resize` |
 
-## Rules of the story
+## Adding a section
 
-- `SECTIONS` must be in page order and its ids must match the sections in `HomePage.astro`. Each section's
-  side (`data-side`) and number come from here.
-- The page has one `.band` per entry in `TRANSITIONS` (a warning is logged otherwise).
-- `carry` holds the box during the walk: the section before should exit while holding it (lift at 3.75) and the
-  one after should put it down in its `intro`.
-- Exit clocks are where the robot leaves a section (`next` / `prev`); a value below the intro length rewinds the
-  intro, so walking back undoes it.
+1. Write `src/components/home/sections/<Id>.astro` with its content inside `<Section id="<id>" heading="...">`
+   (id `talks` is `Talks.astro`, `open-source` is `OpenSource.astro`).
+2. Add `{ id, label, task }` to `PAGE` in `src/data/page.ts`, where it goes in the page. `task` is any of the nine skills:
+   lift, poise, drill, sit, wave, walk, carry, jump, push.
+
+The page, the nav and the robot all follow `PAGE`. The rest is derived from the order:
+- The side alternates (right, left, ...). The first section's skill is the hero tile that is picked.
+- Lift leaves holding the box and carry always holds it. The robot carries it into the next section and puts it
+  down there, if that skill has room for it (`room` in `TASK`) or carries it on. Otherwise it leaves without the box.
+- A carry section picks the box up when the robot arrives without one.
+- The band after a section where the robot leaves holding the box is a carry; the others cycle walk, jump, push.
+- Walking back undoes all of it, so the robot always comes back in the state it left.
 
 ## Files
 
-- `story.ts` declarative data: sections, transitions, hero tiles
-- `tasks.ts` the task table and helpers to mix specs with stepping
+- `story.ts` what follows from the sections of `PAGE` (sides, exits, intros, transitions, hero pick)
+- `tasks.ts` the nine skills (motion and how each shows as a section) and helpers to mix specs with stepping
 - `hero.ts` the 3x3 hero tiles: learning, falls, convergence, grid render
 - `follower.ts` scroll-driven locomotion, task clocks, transitions, follower render
-- `draw.ts` figure and props; `overlay.ts` net, ring, ground line, caption, arrow
+- `draw.ts` figure (as parts) and props; `paint.ts` paints the parts in order; `overlay.ts` net, ring, ground line,
+  caption, arrow
 - `camera.ts` projection, fits and the shared screen `layout`; `palette.ts` CSS colors
 - `app.ts` DOM wiring: resize, animation loop, pointer, reduced motion
 - `rig.ts`, `skills.ts` the humanoid rig and its skills (forks of `prototype-styles/humanoid*.ts`); `math.ts` helpers

@@ -5,7 +5,7 @@ import Section from '../Section.astro';
 const entries = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order);
 const areas = await Promise.all(entries.map(async e => ({ ...e.data, Summary: (await render(e)).Content })));
 ---
-<Section id="research" label="Research" heading="Robots that learn their own skills.">
+<Section id="research" heading="Robots that learn their own skills.">
   <ol class="areas">
     {areas.map(({ title, keywords, Summary }, i) => (
       <li class="area" data-r>

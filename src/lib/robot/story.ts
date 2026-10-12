@@ -1,56 +1,74 @@
-// The story of the page, as data. Nine hero tiles learn nine skills; the selected one grows into the first
-// section, shows one skill per section and moves between sections with the transitions below.
-// Clock times are seconds into the task loop (see tasks.ts and the specs in skills.ts / rig.ts).
+// The story of the page, derived from its sections (PAGE in src/data/page.ts). Nine hero tiles learn nine skills; the
+// tile of the first section's skill grows into that section, the robot shows one skill per section and moves between
+// sections with the scroll. From the order alone: the side alternates, a box picked up is carried to the next section
+// and put down there, and the walks in between vary.
 import { HR } from './camera';
-import type { TaskName } from './tasks';
+import { TASK, LIFT, type TaskName } from './tasks';
+import { PAGE, type Entry } from '@/data/page';
 
 export type Side = 'L' | 'R';
+// How the robot moves through the band between two sections: walk or run with the scroll speed; carry the box
+// (whenever it leaves a section holding it); jump over a low obstacle; push: a shove mid-way, caught with a step.
+export type Transition = 'carry' | NonNullable<Entry['arrive']>;
 
-export type Section = {
-  id: string; // matches the <section id> on the page, in page order
+export type Section = Entry & {
   side: Side; // half of the page the robot stands in; the text takes the other half
-  task: TaskName;
-  caption: string; // shown under the robot while it does the task
-  heading: number; // yaw the robot faces while working (rad, + turns left)
+  caption: string;
+  heading: number;
   start?: number; // clock on page load (first section only, where the hero tile starts)
   // Before its own loop, play another task's clip [from, to] and step into this task over `mix` seconds.
-  // keepBox leaves the lift box on the floor where the clip put it down.
+  // keepBox leaves the box on the floor where the clip put it down.
   intro?: { task: TaskName; from: number; to: number; mix: number; keepBox?: boolean };
   // Section clock where the robot leaves for the next / previous section (null: keep looping).
   // Times below the intro length rewind the intro, so the robot arrives back in the state it came in.
   exit: { next: number | null; prev: number | null };
+  rewind?: number; // seconds of clip the robot may play backwards to reach an exit
   still: number; // pose shown with reduced motion
-  pulses: number[]; // section clock times that send a pulse through the policy net
 };
 
-export const SECTIONS: Section[] = [
-  { id: 'research', side: 'R', task: 'lift', caption: 'pick up', heading: -0.45, start: 1.2, exit: { next: 3.75, prev: null }, still: 3.75, pulses: [2.4, 3.1, 7.2] },
-  {
-    id: 'about', side: 'L', task: 'poise', caption: 'balance', heading: 0.25,
-    intro: { task: 'lift', from: 5.7, to: 8.2, mix: 0.8, keepBox: true }, // put down the box carried from Research
-    exit: { next: 3.3, prev: 0 }, still: 6.5, pulses: [1.1, 1.5, 5.9, 8.9, 11.9],
-  },
-  { id: 'experience', side: 'R', task: 'drill', caption: 'drill', heading: 2.0, exit: { next: 0, prev: 0 }, still: 5.4, pulses: [1.2, 3.2, 3.5, 5.2, 5.5, 8.1] },
-  { id: 'notes', side: 'L', task: 'sit', caption: 'sit to stand', heading: 1.7, exit: { next: 0, prev: 0 }, still: 4.3, pulses: [3.1, 5.6] },
-  { id: 'contact', side: 'R', task: 'wave', caption: 'hello', heading: 0.55, exit: { next: null, prev: 0 }, still: 2.2, pulses: [1.3, 1.95, 2.6, 3.3] },
+// Whether a task has the box in its hands at clock t.
+const holds = (task: TaskName, t: number) => (TASK[task].scene(t).spec.box?.[4] ?? 0) > 0.5;
+const hasBox = (task: TaskName) => !!TASK[task].scene(0).spec.box;
+// Whether section i can take a box carried in: it has room to put it down, or carries it and can pass it on.
+const take = (i: number): boolean => i < PAGE.length && (!!TASK[PAGE[i].task].room || (holds(PAGE[i].task, 0) && (i === PAGE.length - 1 || take(i + 1))));
+
+const holding: boolean[] = []; // whether the robot leaves section i with the box
+export const SECTIONS: Section[] = PAGE.map((p, i) => {
+  const t = TASK[p.task], last = i === PAGE.length - 1;
+  // A robot that walks in holding the box puts it down first; one whose task needs the box picks it up first.
+  const came = i > 0 && holding[i - 1], starts = holds(p.task, 0);
+  const intro = came && !starts ? { task: 'lift' as const, from: LIFT.down[0], to: LIFT.down[1], mix: 0.8, keepBox: !hasBox(p.task) }
+    : !came && starts ? { task: 'lift' as const, from: LIFT.up[0], to: LIFT.up[1], mix: 0.8 } : undefined;
+  const I = intro ? intro.to - intro.from + intro.mix : 0;
+  // A task that would leave holding the box does so only if the next section can take it. Otherwise it leaves from
+  // its loop start with the box down, or, if its task always holds the box, by undoing the pick-up.
+  const L = t.leave ?? 0, wants = holds(p.task, L);
+  holding[i] = !last && wants && take(i + 1);
+  const leave = !wants || holding[i] ? I + L : starts ? 0 : I;
+  if (!last && !holding[i] && starts && came) console.warn(`robot: "${p.id}" (${p.task}) cannot hand on the box it was given`);
+  return {
+    ...p, side: i % 2 ? 'L' : 'R', caption: p.caption ?? t.caption, heading: p.heading ?? t.heading, start: t.start, intro,
+    exit: { next: last ? null : leave, prev: i > 0 ? 0 : null }, rewind: t.rewind, still: I + t.still,
+  };
+});
+
+// One per gap between sections: carry when the robot leaves holding the box, else the section's `arrive` or the
+// next one of VARIETY.
+const VARIETY: Transition[] = ['walk', 'jump', 'push'];
+let n = 0;
+export const TRANSITIONS: Transition[] = SECTIONS.slice(1).map((s, i) => (holding[i] ? 'carry' : s.arrive ?? VARIETY[n++ % VARIETY.length]));
+
+// Hero tiles on the 3x3 grid (tile i sits at row floor(i / 3), column i % 3), one per skill. t0 delays its learning
+// curve (s). The tile of the first section's skill is the one picked, so the page can start with any skill.
+const TILES: { task: TaskName; yaw: number; t0: number }[] = [
+  { task: 'lift', yaw: -0.45, t0: 0 }, { task: 'sit', yaw: 1.6, t0: 1.6 }, { task: 'walk', yaw: 0, t0: 0.6 },
+  { task: 'drill', yaw: -0.32, t0: 2.4 }, { task: 'poise', yaw: 0.5, t0: 1.0 }, { task: 'jump', yaw: HR, t0: 2.9 },
+  { task: 'wave', yaw: 0.82, t0: 2.0 }, { task: 'push', yaw: 0.25, t0: 0.3 }, { task: 'carry', yaw: 0.4, t0: 1.3 },
 ];
-
-// How the robot moves through the band after section k (one entry per gap between sections):
-// walk: walk or run with the scroll speed; carry: walk holding the box (exit the section before while holding it);
-// jump: jump over a low obstacle in the middle; push: a shove in the back mid-way, caught with a longer step.
-export type Transition = 'walk' | 'carry' | 'jump' | 'push';
-export const TRANSITIONS: Transition[] = ['carry', 'walk', 'jump', 'push'];
-
-// Hero tiles on the 3x3 grid (tile i sits at row floor(i / 3), column i % 3). t0 delays its learning curve (s).
-// The selected tile becomes the follower, so it runs the first section's task facing its heading.
 export const HERO = {
-  selected: 0,
+  selected: TILES.findIndex(t => t.task === SECTIONS[0].task),
   caption: 'nine skills, trained in parallel',
-  tiles: [
-    { task: 'lift', yaw: SECTIONS[0].heading, t0: 0 }, { task: 'sit', yaw: 1.6, t0: 1.6 }, { task: 'walk', yaw: 0, t0: 0.6 },
-    { task: 'drill', yaw: -0.32, t0: 2.4 }, { task: 'poise', yaw: 0.5, t0: 1.0 }, { task: 'jump', yaw: HR, t0: 2.9 },
-    { task: 'wave', yaw: 0.82, t0: 2.0 }, { task: 'push', yaw: 0.25, t0: 0.3 }, { task: 'carry', yaw: 0.4, t0: 1.3 },
-  ] as { task: TaskName; yaw: number; t0: number }[],
+  tiles: TILES,
 };
 
 export const sideOf = (id: string) => SECTIONS.find(s => s.id === id)!.side;

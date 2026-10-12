@@ -97,9 +97,12 @@ export function keyed(D: number, keys: [number, Spec][], mirrored = false) {
   };
 }
 
-function ik(root: V, target: V, [a, b]: number[], pole: V, floor: number): [V, V] {
+// soft > 0 eases the chain into full extension over the last `soft` meters, so an out-of-reach target does not
+// snap the elbow straight and back.
+function ik(root: V, target: V, [a, b]: number[], pole: V, floor: number, soft = 0): [V, V] {
   const v = sub(target, root), d0 = len(v), dir = d0 > 1e-6 ? mul(v, 1 / d0) : [0, -1, 0];
-  const d = clamp(d0, abs(a - b) + 0.02, (a + b) * 0.9995);
+  const top = (a + b) * 0.9995, knee = top - soft;
+  const d = clamp(soft > 0 && d0 > knee ? top - soft * exp(-(d0 - knee) / soft) : d0, abs(a - b) + 0.02, top);
   const ca = (a * a + d * d - b * b) / (2 * a * d), r = a * sqrt(max(0, 1 - ca * ca)), c = add(root, mul(dir, a * ca));
   let u = sub(pole, mul(dir, dot(pole, dir)));
   if (len(u) < 1e-6) u = cross(dir, [0, 0, 1]);
@@ -159,7 +162,7 @@ export function solve(s: Spec, perturb?: Vec3): Frame {
     const g = grip(side);
     if (g) t = mix(t, g, gw);
     t[1] = max(t[1], 0.03);
-    return [sh, ...ik(sh, t, ARM, ap(Rc, [-0.4, -0.85, side * 0.25]), 0.03)];
+    return [sh, ...ik(sh, t, ARM, ap(Rc, [-0.4, -0.85, side * 0.25]), 0.03, 0.04)];
   };
   const leg = (side: number, F: ReturnType<typeof foot>) => {
     const h = hip(side), [knee, ankle] = ik(h, F.ankle, LEG, add(ap(Rp, [1, 0.5, side * 0.15]), mul(F.fwd, 0.5)), 0.035);
@@ -321,16 +324,19 @@ function ballAt(t: number): V {
   return [0.5 + 0.8 * out, BALL_RADIUS + 0.12 * sin(PI * min(k / 0.45, 1)), 0.08 - 0.6 * out];
 }
 
+// The shove of the push skill at clock t: its direction and strength, or null between shoves.
+export function pushAt(t: number) {
+  const D = DURATION.push, tt = mod(t, D), u = tt % (D / 2), strength = smooth(PUSH_T - 0.35, PUSH_T, u) * (1 - smooth(PUSH_T, PUSH_T + 0.18, u));
+  const dir: Vec3 = tt >= D / 2 ? [PUSH_DIR[0], 0, -PUSH_DIR[2]] : PUSH_DIR;
+  return strength > 0 ? { dir, strength } : null;
+}
+
 export function pose(skill: Skill, t: number, opts: { perturb?: Vec3 } = {}): Frame {
   const D = DURATION[skill], tt = mod(t, D), s = SPECS[skill](tt);
   if (skill === 'kick') s.ball = ballAt(tt);
   const f = solve(s, opts.perturb);
   f.speed = SPEED[skill] ?? 0;
-  if (skill === 'push') {
-    const half = tt >= D / 2, strength = smooth(PUSH_T - 0.35, PUSH_T, tt % (D / 2)) * (1 - smooth(PUSH_T, PUSH_T + 0.18, tt % (D / 2)));
-    const dir: Vec3 = half ? [PUSH_DIR[0], 0, -PUSH_DIR[2]] : PUSH_DIR;
-    if (strength > 0) f.push = { at: sub(f.joints.chest, mul(dir, 0.12)) as Vec3, dir, strength };
-  }
+  if (skill === 'push') { const p = pushAt(tt); if (p) f.push = { at: sub(f.joints.chest, mul(p.dir, 0.12)) as Vec3, ...p }; }
   if (skill === 'reach') {
     const u = tt % (D / 2);
     f.target = [REACH[0], REACH[1], tt >= D / 2 ? -REACH[2] : REACH[2]];
