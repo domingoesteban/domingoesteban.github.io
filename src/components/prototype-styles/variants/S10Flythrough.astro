@@ -1,0 +1,755 @@
+---
+// PROTOTYPE 10 Flythrough: deep navy, wireframe terrain flythrough hero, sticky chapters with a live screen.
+import { profile, areas, experience, notes, formatDate } from '../content';
+
+const year = new Date().getFullYear();
+---
+<div class="s10">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" />
+
+  <header class="hero" id="top">
+    <canvas class="terrain" aria-hidden="true"></canvas>
+    <div class="veil" aria-hidden="true"></div>
+    <div class="corners" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+    <nav class="nav" aria-label="Primary">
+      <a class="brand mono" href="#top"><span class="rec"></span>DE / Robotics</a>
+      <ul class="mono">
+        <li><a href="#work">Research</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#notes">Notes</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="vp mono" aria-hidden="true"><span class="vp-cross"></span>WP 01</div>
+
+    <div class="hero-copy">
+      <p class="eyebrow mono">{profile.role} · {profile.company}</p>
+      <h1 class="name"><span>{profile.firstName}</span><span>{profile.lastName}</span></h1>
+      <p class="tagline">{profile.tagline}</p>
+    </div>
+
+    <dl class="telemetry mono" aria-hidden="true">
+      <div><dt><span class="rec"></span>Rec</dt><dd data-t="clock">00:00:00</dd></div>
+      <div><dt>Alt</dt><dd><span data-t="alt">0.0</span> m</dd></div>
+      <div><dt>Vel</dt><dd><span data-t="vel">0.0</span> m/s</dd></div>
+      <div><dt>Hdg</dt><dd><span data-t="hdg">000</span>°</dd></div>
+      <div><dt>Frame</dt><dd data-t="frame">000000</dd></div>
+    </dl>
+    <div class="strip" aria-hidden="true"></div>
+  </header>
+
+  <section class="research" id="work" aria-labelledby="s10-research">
+    <div class="wrap">
+      <header class="sec-head">
+        <p class="label mono"><span>01</span>Research</p>
+        <h2 id="s10-research">Three directions,<br />one robot.</h2>
+      </header>
+      <div class="chapters">
+        <ol class="chapter-list">
+          {areas.map((a, i) => (
+            <li class:list={['chapter', { 'is-active': i === 0 }]} data-index={i}>
+              <p class="ch-n mono">Ch.0{i + 1} / {a.short}</p>
+              <h3>{a.title}</h3>
+              <p class="ch-sum">{a.summary}</p>
+              <ul class="kw mono">{a.keywords.map(k => <li>{k}</li>)}</ul>
+            </li>
+          ))}
+        </ol>
+        <div class="screen-col">
+          <figure class="screen" aria-hidden="true">
+            <canvas class="screen-canvas"></canvas>
+            <div class="screen-hud mono">
+              <span class="hud-tl">Ch.<b data-s="n">01</b> / <b data-s="name">{areas[0].short}</b></span>
+              <span class="hud-tr"><span class="rec"></span>Live</span>
+              <div class="hud-bottom">
+                <span data-s="caption">Policy ascent on a reward landscape</span>
+                <span>T+<b data-s="clock">00.0</b>s</span>
+                <div class="bar"><div class="fill"></div></div>
+              </div>
+            </div>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about wrap" id="about" aria-labelledby="s10-about">
+    <header class="sec-head">
+      <p class="label mono"><span>02</span>About</p>
+      <h2 id="s10-about">Learning to move,<br />for real.</h2>
+    </header>
+    <div class="about-body">
+      <p class="lead">{profile.bio[0]}</p>
+      <p>{profile.bio[1]}</p>
+      <dl class="facts mono">
+        <div><dt>Base</dt><dd>{profile.location}</dd></div>
+        <div><dt>Origin</dt><dd>{profile.origin}</dd></div>
+        <div><dt>Now</dt><dd>{profile.company}</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="wrap" id="experience" aria-labelledby="s10-exp">
+    <header class="sec-head">
+      <p class="label mono"><span>03</span>Experience</p>
+      <h2 id="s10-exp">Log</h2>
+    </header>
+    <ol class="rows">
+      {experience.map(e => (
+        <li>
+          <a class="row" href={e.href} target="_blank" rel="noopener">
+            <span class="when mono">{e.period}</span>
+            <span class="row-main">
+              <span class="row-title">{e.title}</span>
+              <span class="row-org">{e.org} · {e.place}</span>
+              <span class="row-sum">{e.summary}</span>
+            </span>
+            <span class="go" aria-hidden="true">↗</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="wrap" id="notes" aria-labelledby="s10-notes">
+    <header class="sec-head">
+      <p class="label mono"><span>04</span>Notes</p>
+      <h2 id="s10-notes">Field notes</h2>
+    </header>
+    <ol class="rows">
+      {notes.map(n => (
+        <li>
+          <a class="row" href="#notes">
+            <time class="when mono" datetime={n.date.toISOString()}>{formatDate(n.date)}</time>
+            <span class="row-main">
+              <span class="row-title">{n.title}</span>
+              <span class="row-sum">{n.description}</span>
+            </span>
+            <span class="tags mono">{n.tags?.map(t => <span>{t}</span>)}</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="wrap" id="contact" aria-labelledby="s10-contact">
+    <div class="contact">
+      <p class="label mono"><span>05</span>Contact</p>
+      <h2 id="s10-contact">Open channel.</h2>
+      <p class="contact-text">For research, collaborations or a conversation about robot learning, reach out on any of these.</p>
+      <ul class="links mono">
+        {profile.links.map(l => (
+          <li><a href={l.href} target="_blank" rel="noopener">{l.label}<span aria-hidden="true">↗</span></a></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <footer class="foot wrap mono">
+    <span>© {year} {profile.name}</span>
+    <span>{profile.location}</span>
+    <a href="#top">Return to origin ↑</a>
+  </footer>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('.s10');
+  if (root) {
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    type RGB = [number, number, number];
+    const BLUE: RGB = [77, 163, 255];
+    const CYAN: RGB = [110, 226, 255];
+    const TEAL: RGB = [45, 212, 191];
+    const rgba = (c: RGB, a: number) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
+    const mix = (a: RGB, b: RGB, k: number): RGB => [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k, a[2] + (b[2] - a[2]) * k].map(Math.round) as RGB;
+    const clamp = (v: number, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, v));
+
+    // Runs draw(t) on rAF only while the element is on screen; one static frame with reduced motion.
+    const loop = (el: Element, draw: (t: number) => void) => {
+      let raf = 0, visible = false, t0 = performance.now();
+      const frame = (now: number) => { draw((now - t0) / 1000); raf = requestAnimationFrame(frame); };
+      const start = () => { if (!raf && visible && !document.hidden && !reduce) raf = requestAnimationFrame(frame); };
+      const stop = () => { cancelAnimationFrame(raf); raf = 0; };
+      new IntersectionObserver(([e]) => { visible = e.isIntersecting; visible ? start() : stop(); }).observe(el);
+      document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+      return { redraw: () => draw(reduce ? 6 : (performance.now() - t0) / 1000) };
+    };
+
+    const fitCanvas = (canvas: HTMLCanvasElement, onResize: () => void) => {
+      const ctx = canvas.getContext('2d')!;
+      const size = { w: 0, h: 0 };
+      new ResizeObserver(() => {
+        const dpr = Math.min(devicePixelRatio || 1, 2);
+        size.w = canvas.clientWidth;
+        size.h = canvas.clientHeight;
+        canvas.width = Math.round(size.w * dpr);
+        canvas.height = Math.round(size.h * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        onResize();
+      }).observe(canvas);
+      return { ctx, size };
+    };
+
+    // Hero: perspective height-field flown through a winding valley.
+    const terrain = root.querySelector<HTMLCanvasElement>('.terrain');
+    if (terrain) {
+      const ROWS = 60, COLS = 97, DZ = 0.85, Z0 = 1.4, XSPAN = 62, SPEED = 1.5;
+      const pts = new Float32Array(ROWS * COLS * 2);
+      const tele = Object.fromEntries([...root.querySelectorAll<HTMLElement>('[data-t]')].map(el => [el.dataset.t, el]));
+      let frameN = 0;
+      const valley = (z: number) => 5 * Math.sin(z * 0.045) + 2.4 * Math.sin(z * 0.11 + 1);
+      const height = (x: number, z: number) => {
+        const d = x - valley(z);
+        return 0.9 * Math.sin(d * 0.42 + z * 0.19) + 0.6 * Math.sin(d * 0.17 - z * 0.31 + 1.7)
+          + 0.35 * Math.sin(d * 0.83 + z * 0.57) + 0.22 * Math.sin(z * 0.9 - d * 0.6)
+          + 4.5 * (1 - Math.exp(-((d / 14) ** 2)));
+      };
+
+      const { ctx, size } = fitCanvas(terrain, () => hero.redraw());
+      const draw = (t: number) => {
+        const { w, h } = size;
+        if (!w) return;
+        const off = t * SPEED;
+        const base = Math.floor(off / DZ);
+        const frac = off - base * DZ;
+        const camY = 2.7 + 0.18 * Math.sin(t * 0.3);
+        const horizon = h * 0.39 + Math.sin(t * 0.21) * 3;
+        const f = Math.max(w * 0.42, h * 0.56);
+        const cx = w / 2;
+        const depth = ROWS * DZ;
+
+        ctx.fillStyle = '#070b14';
+        ctx.fillRect(0, 0, w, h);
+        const glow = ctx.createRadialGradient(cx, horizon, 0, cx, horizon, w * 0.6);
+        glow.addColorStop(0, 'rgba(77,163,255,0.3)');
+        glow.addColorStop(0.35, 'rgba(45,120,220,0.08)');
+        glow.addColorStop(1, 'rgba(7,11,20,0)');
+        ctx.save();
+        ctx.translate(0, horizon);
+        ctx.scale(1, 0.35);
+        ctx.fillStyle = glow;
+        ctx.fillRect(0, -w, w, w * 2);
+        ctx.restore();
+
+        for (let i = 0; i < ROWS; i++) {
+          const z = Z0 + i * DZ - frac;
+          const zw = Z0 + (i + base) * DZ;
+          for (let j = 0; j < COLS; j++) {
+            const x = -XSPAN + (j / (COLS - 1)) * XSPAN * 2;
+            const k = (i * COLS + j) * 2;
+            pts[k] = cx + (x / z) * f;
+            pts[k + 1] = horizon + ((camY - height(x, zw)) / z) * f;
+          }
+        }
+
+        const ground = ctx.createLinearGradient(0, horizon - h * 0.2, 0, h);
+        ground.addColorStop(0, '#0b1426');
+        ground.addColorStop(1, '#070b14');
+        const scan = Z0 + ((t * 0.09) % 1) * depth;
+        ctx.lineJoin = 'round';
+
+        for (let i = ROWS - 1; i >= 0; i--) {
+          const z = Z0 + i * DZ - frac;
+          const k0 = i * COLS * 2;
+          const fog = Math.pow(clamp(1 - (z - Z0) / depth), 1.25) * clamp((z - Z0) / 1.2);
+          const near = clamp(1 - (z - Z0) / (depth * 0.6));
+          const lit = Math.max(0, 1 - Math.abs(z - scan) / 1.6);
+
+          ctx.beginPath();
+          ctx.moveTo(pts[k0], pts[k0 + 1]);
+          for (let j = 1; j < COLS; j++) ctx.lineTo(pts[k0 + j * 2], pts[k0 + j * 2 + 1]);
+          const path = new Path2D();
+          path.moveTo(pts[k0], pts[k0 + 1]);
+          for (let j = 1; j < COLS; j++) path.lineTo(pts[k0 + j * 2], pts[k0 + j * 2 + 1]);
+          ctx.lineTo(pts[k0 + (COLS - 1) * 2], h + 10);
+          ctx.lineTo(pts[k0], h + 10);
+          ctx.closePath();
+          ctx.fillStyle = ground;
+          ctx.fill();
+
+          if (i < ROWS - 1) {
+            const k1 = (i + 1) * COLS * 2;
+            ctx.beginPath();
+            for (let j = 0; j < COLS; j++) {
+              ctx.moveTo(pts[k1 + j * 2], pts[k1 + j * 2 + 1]);
+              ctx.lineTo(pts[k0 + j * 2], pts[k0 + j * 2 + 1]);
+            }
+            ctx.strokeStyle = rgba(mix(TEAL, BLUE, near), fog * 0.4);
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+          ctx.strokeStyle = rgba(mix(mix(TEAL, BLUE, near), CYAN, lit), clamp(fog * (0.8 + lit * 0.6)));
+          ctx.lineWidth = 1 + near * 0.3 + lit * 0.4;
+          ctx.stroke(path);
+        }
+
+        if (++frameN % 6 === 0 || reduce) {
+          const s = Math.floor(t);
+          tele.clock && (tele.clock.textContent = [s / 3600, (s / 60) % 60, s % 60].map(v => String(Math.floor(v)).padStart(2, '0')).join(':'));
+          tele.alt && (tele.alt.textContent = (118 + (camY - height(0, off + Z0 + 3)) * 14).toFixed(1));
+          tele.vel && (tele.vel.textContent = (SPEED * 8.2 + Math.sin(t * 0.7) * 0.3).toFixed(1));
+          tele.hdg && (tele.hdg.textContent = String(Math.round((360 + Math.atan(valley(off + 6) - valley(off)) * 57.3 * 4) % 360)).padStart(3, '0'));
+          tele.frame && (tele.frame.textContent = String(Math.floor(t * 60)).padStart(6, '0'));
+        }
+      };
+      const hero = loop(terrain, draw);
+    }
+
+    // Research: sticky chapters drive a screen with one wireframe scene per area.
+    const screen = root.querySelector<HTMLCanvasElement>('.screen-canvas');
+    const chapters = [...root.querySelectorAll<HTMLElement>('.chapter')];
+    if (screen && chapters.length) {
+      const names = chapters.map(c => c.querySelector('.ch-n')!.textContent!.split('/')[1].trim());
+      const captions = ['Policy ascent on a reward landscape', 'Trotting gait over rough terrain', 'Parallel environments, one deployment'];
+      const hud = Object.fromEntries([...root.querySelectorAll<HTMLElement>('[data-s]')].map(el => [el.dataset.s, el]));
+      const fill = root.querySelector<HTMLElement>('.screen .fill');
+      const section = root.querySelector<HTMLElement>('.research')!;
+      const weights = chapters.map((_, i) => (i === 0 ? 1 : 0));
+      let active = 0;
+
+      const { ctx, size } = fitCanvas(screen, () => view.redraw());
+
+      const reward = (u: number, v: number) =>
+        0.95 * Math.exp(-((u - 0.35) ** 2 + (v + 0.2) ** 2) / 0.12)
+        + 0.5 * Math.exp(-((u + 0.45) ** 2 + (v - 0.4) ** 2) / 0.08)
+        + 0.06 * Math.sin(6 * u) * Math.cos(5 * v);
+
+      const landscape = (t: number, w: number, h: number) => {
+        const N = 26, S = Math.min(w, h * 1.5) * 0.36, cx = w / 2, cy = h * 0.56;
+        const ang = t * 0.08 + 0.6;
+        const ca = Math.cos(ang), sa = Math.sin(ang);
+        const proj = (u: number, v: number, z: number) => {
+          const x = u * ca - v * sa, y = u * sa + v * ca;
+          return [cx + x * S, cy + y * S * 0.42 - z * S * 0.62, (y + 1.42) / 2.84];
+        };
+        const grid: number[][][] = [];
+        for (let i = 0; i < N; i++) {
+          grid.push([]);
+          for (let j = 0; j < N; j++) {
+            const u = -1 + (2 * i) / (N - 1), v = -1 + (2 * j) / (N - 1);
+            grid[i].push(proj(u, v, reward(u, v)));
+          }
+        }
+        ctx.lineWidth = 1;
+        for (let i = 0; i < N; i++) for (let j = 0; j < N; j++) {
+          const p = grid[i][j];
+          for (const q of [grid[i + 1]?.[j], grid[i][j + 1]]) {
+            if (!q) continue;
+            const d = (p[2] + q[2]) / 2;
+            ctx.strokeStyle = rgba(mix(TEAL, BLUE, d), 0.12 + d * 0.5);
+            ctx.beginPath();
+            ctx.moveTo(p[0], p[1]);
+            ctx.lineTo(q[0], q[1]);
+            ctx.stroke();
+          }
+        }
+        const agent = (s: number) => {
+          const r = 0.92 * Math.pow(1 - s, 1.2), th = s * 9 + 2.2;
+          const u = clamp(0.35 + r * Math.cos(th), -1, 1), v = clamp(-0.2 + r * Math.sin(th), -1, 1);
+          return proj(u, v, reward(u, v) + 0.02);
+        };
+        const s = (t / 10) % 1;
+        ctx.beginPath();
+        for (let k = 0; k <= 50; k++) {
+          const p = agent(Math.max(0, s - 0.35 + (k / 50) * 0.35));
+          k ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]);
+        }
+        ctx.strokeStyle = rgba(CYAN, 0.75);
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        const a = agent(s);
+        ctx.fillStyle = rgba(CYAN, 1);
+        ctx.beginPath(); ctx.arc(a[0], a[1], 3, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = rgba(CYAN, 0.35 + 0.25 * Math.sin(t * 3));
+        ctx.beginPath(); ctx.arc(a[0], a[1], 9, 0, Math.PI * 2); ctx.stroke();
+      };
+
+      const walker = (t: number, w: number, h: number) => {
+        const U = Math.min(h / 4.4, w / 5.6), gy0 = h * 0.72, cx = w * 0.4;
+        const T = 0.9, stride = 0.7, v = stride / (T / 2), s = t * v;
+        const ground = (u: number) => 0.22 * Math.sin(u * 1.1) + 0.1 * Math.sin(u * 2.7 + 1) + 0.05 * Math.sin(u * 5.3);
+        const X = (u: number) => cx + (u - s) * U;
+        const Y = (y: number) => gy0 - y * U;
+        const u0 = s - cx / U - 0.5, u1 = s + (w - cx) / U + 0.5;
+
+        for (let layer = 0; layer < 4; layer++) {
+          ctx.beginPath();
+          for (let u = u0; u <= u1; u += 0.06) {
+            const y = Y(ground(u) * (1 - layer * 0.18) - layer * 0.28);
+            u === u0 ? ctx.moveTo(X(u), y) : ctx.lineTo(X(u), y);
+          }
+          ctx.strokeStyle = rgba(layer ? TEAL : BLUE, layer ? 0.28 - layer * 0.06 : 0.85);
+          ctx.lineWidth = layer ? 1 : 1.4;
+          ctx.stroke();
+        }
+        ctx.beginPath();
+        for (let u = Math.ceil(u0 / 0.25) * 0.25; u <= u1; u += 0.25) {
+          ctx.moveTo(X(u), Y(ground(u)));
+          ctx.lineTo(X(u), Y(ground(u) * 0.46 - 0.84));
+        }
+        ctx.strokeStyle = rgba(BLUE, 0.1);
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        const half = 0.78, hipH = 0.86, l1 = 0.6, l2 = 0.6;
+        const gF = ground(s + half), gR = ground(s - half);
+        const pitch = Math.atan2(gF - gR, half * 2);
+        const bodyY = (gF + gR) / 2 + hipH;
+        const hip = (side: number): [number, number] => [s + side * half * Math.cos(pitch), bodyY + side * half * Math.sin(pitch)];
+
+        const leg = (side: number, phase: number, far: boolean) => {
+          const [hu, hy] = hip(side);
+          const p = ((t / T + phase) % 1 + 1) % 1;
+          const rel = p < 0.5 ? stride / 2 - stride * (p / 0.5) : -stride / 2 + stride * ((p - 0.5) / 0.5);
+          const lift = p < 0.5 ? 0 : Math.sin(Math.PI * ((p - 0.5) / 0.5)) * 0.22;
+          const fu = hu + rel, fy = ground(fu) + lift;
+          const dx = fu - hu, dy = fy - hy;
+          const d = Math.min(Math.hypot(dx, dy), l1 + l2 - 0.001);
+          const a = Math.atan2(dy, dx), b = Math.acos(clamp((l1 * l1 + d * d - l2 * l2) / (2 * l1 * d), -1, 1));
+          const ka = a + (side > 0 ? -b : b);
+          const ku = hu + l1 * Math.cos(ka), ky = hy + l1 * Math.sin(ka);
+          const o = far ? 0.08 : 0;
+          const c = far ? rgba(BLUE, 0.35) : rgba(CYAN, 0.95);
+          ctx.strokeStyle = c;
+          ctx.lineWidth = far ? 1.4 : 2;
+          ctx.beginPath();
+          ctx.moveTo(X(hu + o), Y(hy));
+          ctx.lineTo(X(ku + o), Y(ky));
+          ctx.lineTo(X(fu + o), Y(fy));
+          ctx.stroke();
+          ctx.fillStyle = '#0d1424';
+          for (const [ju, jy, r] of [[hu, hy, 4], [ku, ky, 3.2], [fu, fy, 2.4]]) {
+            ctx.beginPath(); ctx.arc(X(ju + o), Y(jy), r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+          }
+        };
+
+        leg(1, 0.5, true);
+        leg(-1, 0, true);
+
+        const [fu, fy] = hip(1), [ru, ry] = hip(-1);
+        const bl = (half * 2 + 0.42) * U, bh = 0.34 * U;
+        ctx.save();
+        ctx.translate(X((fu + ru) / 2), Y((fy + ry) / 2));
+        ctx.rotate(-pitch);
+        ctx.beginPath();
+        ctx.roundRect(-bl / 2, -bh * 0.75, bl, bh, bh * 0.35);
+        ctx.fillStyle = 'rgba(13,20,36,0.94)';
+        ctx.fill();
+        ctx.strokeStyle = rgba(BLUE, 0.95);
+        ctx.lineWidth = 1.4;
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(-bl / 2 + bh * 0.5, -bh * 0.22);
+        ctx.lineTo(bl / 2 - bh * 0.5, -bh * 0.22);
+        ctx.strokeStyle = rgba(BLUE, 0.3);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.roundRect(bl / 2 - 1, -bh * 0.55, 0.15 * U, bh * 0.5, 3);
+        ctx.strokeStyle = rgba(CYAN, 0.9);
+        ctx.stroke();
+        ctx.restore();
+
+        const headU = fu + 0.34, headY = fy + 0.06;
+        for (let k = 0; k < 7; k++) {
+          const tu = s + 1.3 + k * 0.32;
+          const pulse = 0.5 + 0.5 * Math.sin(t * 2.4 - k * 0.6);
+          ctx.strokeStyle = rgba(CYAN, 0.06 + pulse * 0.14);
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(X(headU), Y(headY));
+          ctx.lineTo(X(tu), Y(ground(tu)));
+          ctx.stroke();
+          ctx.fillStyle = rgba(CYAN, 0.3 + pulse * 0.5);
+          ctx.fillRect(X(tu) - 1.5, Y(ground(tu)) - 1.5, 3, 3);
+        }
+
+        leg(1, 0, false);
+        leg(-1, 0.5, false);
+      };
+
+      const hash = (n: number) => { const x = Math.sin(n * 127.1) * 43758.5453; return x - Math.floor(x); };
+      const parallel = (t: number, w: number, h: number) => {
+        const cols = w > 520 ? 6 : 4, rows = 4, pad = Math.max(14, w * 0.05), gap = 8;
+        const top = pad + 18, bottom = pad + 34;
+        const tw = (w - pad * 2 - gap * (cols - 1)) / cols, th = (h - top - bottom - gap * (rows - 1)) / rows;
+        const wave = ((t * 0.22) % 1.5) - 0.25;
+        ctx.font = '9px "JetBrains Mono", monospace';
+        for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+          const id = r * cols + c, real = id === rows * cols - 1;
+          const x0 = pad + c * (tw + gap), y0 = top + r * (th + gap);
+          const amp = real ? 0.5 : 0.25 + hash(id) * 0.6, freq = real ? 1 : 0.6 + hash(id + 9) * 1.1;
+          const om = real ? 1.6 : 1.2 + hash(id + 3) * 0.9, ph = hash(id + 5) * 6.28;
+          const lit = Math.max(0, 1 - Math.abs(c / (cols - 1) - wave) * 4);
+          const base = real ? 0.95 : 0.3 + lit * 0.45;
+
+          ctx.strokeStyle = real ? rgba(CYAN, 0.9) : rgba([28, 38, 56], 1);
+          ctx.lineWidth = 1;
+          ctx.strokeRect(x0 + 0.5, y0 + 0.5, tw - 1, th - 1);
+
+          const gyAt = (x: number) => y0 + th * 0.78 - Math.sin((x - x0) / tw * 6.28 * freq + t * 0.8 + ph) * th * 0.06 * amp * 2;
+          ctx.beginPath();
+          for (let x = x0 + 4; x <= x0 + tw - 4; x += 3) x === x0 + 4 ? ctx.moveTo(x, gyAt(x)) : ctx.lineTo(x, gyAt(x));
+          ctx.strokeStyle = rgba(TEAL, base * 0.7);
+          ctx.stroke();
+
+          const bx = x0 + tw / 2, by = gyAt(bx);
+          const L = Math.min(tw, th) * 0.26;
+          const a1 = -Math.PI / 2 + amp * 0.9 * Math.sin(om * t + ph);
+          const a2 = a1 + 0.9 * amp * Math.sin(om * t + ph + 1.2);
+          const kx = bx + Math.cos(a1) * L, ky = by + Math.sin(a1) * L;
+          const ex = kx + Math.cos(a2) * L, ey = ky + Math.sin(a2) * L;
+          ctx.strokeStyle = rgba(real ? CYAN : BLUE, base);
+          ctx.lineWidth = real ? 1.6 : 1.2;
+          ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(kx, ky); ctx.lineTo(ex, ey); ctx.stroke();
+          ctx.fillStyle = rgba(real ? CYAN : BLUE, base);
+          ctx.beginPath(); ctx.arc(kx, ky, 2, 0, Math.PI * 2); ctx.arc(ex, ey, 2, 0, Math.PI * 2); ctx.fill();
+
+          ctx.fillStyle = real ? rgba(CYAN, 0.95) : rgba([138, 151, 181], 0.5 + lit * 0.3);
+          if (real || tw > 80) ctx.fillText(real ? 'REAL' : `ENV ${String(id * 171 + 3).padStart(4, '0')}`, x0 + 6, y0 + 13);
+        }
+      };
+
+      const scenes = [landscape, walker, parallel];
+      const draw = (t: number) => {
+        const { w, h } = size;
+        if (!w) return;
+        ctx.clearRect(0, 0, w, h);
+        ctx.strokeStyle = 'rgba(28,38,56,0.6)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        for (let x = 0; x < w; x += 40) { ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, h); }
+        for (let y = 0; y < h; y += 40) { ctx.moveTo(0, y + 0.5); ctx.lineTo(w, y + 0.5); }
+        ctx.stroke();
+        weights.forEach((wt, i) => {
+          weights[i] = reduce ? (i === active ? 1 : 0) : wt + ((i === active ? 1 : 0) - wt) * 0.06;
+          if (weights[i] < 0.01) return;
+          ctx.save();
+          ctx.globalAlpha = weights[i];
+          scenes[i](t, w, h);
+          ctx.restore();
+        });
+        hud.clock && (hud.clock.textContent = (t % 100).toFixed(1).padStart(4, '0'));
+      };
+      const view = loop(screen, draw);
+
+      const setActive = (i: number) => {
+        if (i === active) return;
+        active = i;
+        chapters.forEach((c, k) => c.classList.toggle('is-active', k === i));
+        hud.n && (hud.n.textContent = `0${i + 1}`);
+        hud.name && (hud.name.textContent = names[i]);
+        hud.caption && (hud.caption.textContent = captions[i]);
+        view.redraw();
+      };
+      root.classList.add('js');
+      const chapterIO = new IntersectionObserver(entries => {
+        for (const e of entries) if (e.isIntersecting) setActive(Number((e.target as HTMLElement).dataset.index));
+      }, { rootMargin: '-45% 0px -45% 0px' });
+      chapters.forEach(c => chapterIO.observe(c));
+
+      const progress = () => {
+        const r = section.getBoundingClientRect();
+        const p = clamp((innerHeight * 0.5 - r.top) / r.height);
+        if (fill) fill.style.transform = `scaleX(${p})`;
+      };
+      addEventListener('scroll', progress, { passive: true });
+      progress();
+    }
+  }
+</script>
+
+<style>
+  .s10 {
+    --bg: #070b14;
+    --panel: #0d1424;
+    --ink: #e8eefc;
+    --muted: #8a97b5;
+    --line: #1c2638;
+    --accent: #4da3ff;
+    --cyan: #6ee2ff;
+    --grad: linear-gradient(90deg, #2f6bff, #4da3ff 35%, #6ee2ff 65%, #2dd4bf);
+    --gutter: clamp(16px, 4vw, 48px);
+    --wide: 'Archivo', 'Inter', system-ui, sans-serif;
+    --mono-f: 'JetBrains Mono', ui-monospace, monospace;
+    --ease: cubic-bezier(.22, .61, .36, 1);
+    background: var(--bg);
+    color: var(--ink);
+    font: 400 16px/1.65 'Inter', system-ui, sans-serif;
+    overflow-x: clip;
+    padding-bottom: 96px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s10 * { box-sizing: border-box; }
+  .s10 a { color: inherit; text-decoration: none; }
+  .s10 a:focus-visible { outline: 1px solid var(--accent); outline-offset: 4px; border-radius: 2px; }
+  .s10 ::selection { background: var(--accent); color: var(--bg); }
+  .mono { font-family: var(--mono-f); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+  .wrap { max-width: 1320px; margin: 0 auto; padding: 0 var(--gutter); }
+  .rec { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #ff5a6a; margin-right: 8px; vertical-align: 1px; box-shadow: 0 0 8px #ff5a6a88; animation: s10-blink 1.6s steps(2, jump-none) infinite; }
+
+  .hero { position: relative; height: min(100svh, 980px); min-height: 620px; overflow: hidden; isolation: isolate; }
+  .terrain { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: -2; }
+  .veil {
+    position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      linear-gradient(to top, var(--bg) 0%, rgb(7 11 20 / .7) 22%, transparent 55%),
+      linear-gradient(to bottom, rgb(7 11 20 / .85), transparent 22%);
+  }
+  .corners i { position: absolute; width: 18px; height: 18px; border: 0 solid rgb(232 238 252 / .35); }
+  .corners i:nth-child(1) { top: 72px; left: var(--gutter); border-width: 1px 0 0 1px; }
+  .corners i:nth-child(2) { top: 72px; right: var(--gutter); border-width: 1px 1px 0 0; }
+  .corners i:nth-child(3) { bottom: 22px; left: var(--gutter); border-width: 0 0 1px 1px; }
+  .corners i:nth-child(4) { bottom: 22px; right: var(--gutter); border-width: 0 1px 1px 0; }
+
+  .nav { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 22px var(--gutter); }
+  .brand { color: var(--ink); }
+  .nav ul { display: flex; gap: clamp(14px, 3vw, 36px); margin: 0; padding: 0; list-style: none; }
+  .nav ul a { color: var(--muted); transition: color .4s var(--ease), text-shadow .4s; }
+  .nav ul a:hover { color: var(--ink); text-shadow: 0 0 12px rgb(77 163 255 / .6); }
+
+  .vp { position: absolute; left: 50%; top: 39%; transform: translate(-50%, -50%); color: rgb(110 226 255 / .7); font-size: 9.5px; display: flex; align-items: center; gap: 10px; padding-left: 26px; }
+  .vp-cross { position: absolute; left: 0; width: 15px; height: 15px; border: 1px solid rgb(110 226 255 / .5); border-radius: 50%; }
+  .vp-cross::before, .vp-cross::after { content: ''; position: absolute; background: rgb(110 226 255 / .7); }
+  .vp-cross::before { left: 6px; top: -5px; width: 1px; height: 23px; }
+  .vp-cross::after { top: 6px; left: -5px; height: 1px; width: 23px; }
+
+  .hero-copy { position: absolute; left: var(--gutter); right: var(--gutter); bottom: clamp(56px, 10vh, 110px); max-width: 1000px; }
+  .eyebrow { margin: 0 0 18px; color: var(--accent); }
+  .name {
+    margin: 0; display: flex; flex-direction: column;
+    font: 800 clamp(52px, 10.4vw, 168px)/.86 var(--wide); font-stretch: 125%;
+    letter-spacing: -.02em; text-transform: uppercase;
+    text-shadow: 0 2px 40px rgb(7 11 20 / .6);
+  }
+  .tagline { margin: 26px 0 0; max-width: 40ch; color: #b9c4de; font-size: clamp(16px, 1.4vw, 19px); line-height: 1.55; }
+
+  .telemetry {
+    position: absolute; right: calc(var(--gutter) + 22px); bottom: clamp(56px, 10vh, 110px); margin: 0;
+    display: grid; gap: 4px; min-width: 196px; padding: 14px 16px;
+    font-size: 10.5px; color: var(--muted);
+    background: rgb(13 20 36 / .55); border: 1px solid var(--line); backdrop-filter: blur(6px);
+  }
+  .telemetry div { display: flex; justify-content: space-between; gap: 24px; }
+  .telemetry dt { color: var(--muted); }
+  .telemetry dd { margin: 0; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .strip { position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--grad); opacity: .8; }
+
+  .sec-head { margin-bottom: clamp(36px, 6vw, 72px); }
+  .label { display: flex; align-items: center; gap: 12px; margin: 0 0 18px; color: var(--muted); }
+  .label span { color: var(--accent); }
+  .label::after { content: ''; flex: 0 1 80px; height: 1px; background: var(--grad); opacity: .6; }
+  .s10 h2 {
+    margin: 0; font: 650 clamp(34px, 5vw, 68px)/1.02 var(--wide); font-stretch: 118%;
+    letter-spacing: -.02em; text-wrap: balance;
+  }
+  .s10 section { padding-top: clamp(88px, 12vw, 160px); }
+
+  .chapters { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: clamp(32px, 5vw, 80px); }
+  .chapter-list { list-style: none; margin: 0; padding: 0; }
+  .chapter {
+    min-height: min(72vh, 680px); display: flex; flex-direction: column; justify-content: center;
+    padding: 40px 0; border-top: 1px solid var(--line);
+    transition: opacity .7s var(--ease);
+  }
+  .chapter:first-child { border-top: 0; min-height: min(60vh, 560px); justify-content: flex-start; padding-top: 12px; }
+  .s10.js .chapter:not(.is-active) { opacity: .26; }
+  .ch-n { margin: 0 0 16px; color: var(--accent); }
+  .chapter h3 { margin: 0 0 18px; font: 600 clamp(26px, 3vw, 40px)/1.08 var(--wide); font-stretch: 112%; letter-spacing: -.015em; }
+  .ch-sum { margin: 0 0 24px; color: #b9c4de; max-width: 44ch; font-size: 17px; }
+  .kw { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; font-size: 10px; }
+  .kw li { padding: 6px 10px; border: 1px solid var(--line); border-radius: 2px; color: var(--muted); }
+  .screen-col { position: relative; }
+  .screen {
+    position: sticky; top: max(12vh, calc(50vh - 340px)); margin: 0; height: min(76vh, 680px);
+    background: var(--panel); border: 1px solid var(--line); border-radius: 4px; overflow: hidden;
+    box-shadow: 0 40px 120px -40px rgb(77 163 255 / .18);
+  }
+  .screen-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .screen-hud { position: absolute; inset: 0; pointer-events: none; color: var(--muted); font-size: 10px; }
+  .screen-hud b { font-weight: 500; color: var(--ink); }
+  .hud-tl { position: absolute; top: 14px; left: 16px; }
+  .hud-tr { position: absolute; top: 14px; right: 16px; }
+  .hud-bottom { position: absolute; left: 16px; right: 16px; bottom: 14px; display: grid; grid-template-columns: 1fr auto; gap: 10px 16px; }
+  .hud-bottom b { font-variant-numeric: tabular-nums; }
+  .hud-bottom > span:first-child { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .bar { grid-column: 1 / -1; height: 2px; background: var(--line); overflow: hidden; }
+  .fill { height: 100%; background: var(--grad); transform: scaleX(0); transform-origin: left; }
+
+  .about { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: clamp(32px, 5vw, 80px); }
+  .about .sec-head { margin: 0; }
+  .about-body p { margin: 0 0 22px; color: #b9c4de; max-width: 58ch; }
+  .about-body .lead { color: var(--ink); font: 400 clamp(20px, 2vw, 26px)/1.45 'Inter', sans-serif; letter-spacing: -.01em; }
+  .facts { display: grid; grid-template-columns: repeat(3, 1fr); margin: 40px 0 0; border-top: 1px solid var(--line); }
+  .facts div { padding: 16px 16px 0 0; }
+  .facts dt { color: var(--muted); font-size: 10px; margin-bottom: 6px; }
+  .facts dd { margin: 0; color: var(--ink); letter-spacing: .06em; }
+
+  .rows { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .rows li { border-bottom: 1px solid var(--line); }
+  .row {
+    position: relative; display: grid; grid-template-columns: 110px minmax(0, 1fr) auto; gap: 8px 32px;
+    padding: 28px 12px; margin: 0 -12px;
+    transition: background .5s var(--ease);
+  }
+  .row::before {
+    content: ''; position: absolute; left: 0; right: 0; top: -1px; height: 1px; background: var(--grad);
+    transform: scaleX(0); transform-origin: left; transition: transform .8s var(--ease);
+  }
+  .row:hover, .row:focus-visible { background: linear-gradient(90deg, rgb(77 163 255 / .07), transparent 70%); }
+  .row:hover::before, .row:focus-visible::before { transform: scaleX(1); }
+  .when { padding-top: 6px; color: var(--muted); }
+  .row-main { display: grid; gap: 6px; }
+  .row-title { font: 600 clamp(20px, 2.2vw, 28px)/1.2 var(--wide); font-stretch: 110%; letter-spacing: -.01em; transition: color .4s, text-shadow .4s; }
+  .row:hover .row-title { color: #fff; text-shadow: 0 0 24px rgb(77 163 255 / .45); }
+  .row-org { color: var(--accent); font-size: 14px; font-weight: 500; }
+  .row-sum { color: var(--muted); font-size: 15px; max-width: 64ch; }
+  .go { color: var(--muted); font-size: 20px; transition: transform .5s var(--ease), color .4s; }
+  .row:hover .go { color: var(--cyan); transform: translate(4px, -4px); }
+  .tags { display: flex; flex-wrap: wrap; justify-content: flex-end; align-content: flex-start; gap: 6px; max-width: 280px; font-size: 9.5px; }
+  .tags span { padding: 5px 8px; border: 1px solid var(--line); color: var(--muted); border-radius: 2px; }
+
+  .contact {
+    position: relative; padding: clamp(32px, 6vw, 80px); background: var(--panel); border: 1px solid var(--line); border-radius: 4px; overflow: hidden;
+  }
+  .contact::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--grad); }
+  .contact h2 { font-size: clamp(40px, 7vw, 104px); }
+  .contact-text { margin: 20px 0 36px; color: #b9c4de; max-width: 48ch; font-size: 17px; }
+  .links { display: flex; flex-wrap: wrap; gap: 12px; margin: 0; padding: 0; list-style: none; }
+  .links a {
+    display: inline-flex; gap: 14px; align-items: center; padding: 14px 20px;
+    border: 1px solid var(--line); border-radius: 2px; color: var(--ink);
+    transition: border-color .4s, box-shadow .4s, color .4s;
+  }
+  .links a span { color: var(--muted); transition: transform .5s var(--ease), color .4s; }
+  .links a:hover, .links a:focus-visible { border-color: rgb(77 163 255 / .6); box-shadow: 0 0 24px -6px rgb(77 163 255 / .5); }
+  .links a:hover span { color: var(--cyan); transform: translate(3px, -3px); }
+
+  .foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 72px; padding-top: 22px; border-top: 1px solid var(--line); color: var(--muted); font-size: 10px; }
+  .foot a:hover { color: var(--ink); }
+
+  @keyframes s10-blink { 0%, 60% { opacity: 1; } 61%, 100% { opacity: .15; } }
+
+  @media (max-width: 900px) {
+    .chapters { grid-template-columns: 1fr; gap: 0; }
+    .screen-col { order: -1; position: sticky; top: 0; z-index: 2; padding: 12px 0; background: var(--bg); }
+    .screen { position: relative; top: 0; height: 44vw; min-height: 230px; max-height: 360px; }
+    .chapter, .chapter:first-child { min-height: min(64vh, 560px); justify-content: flex-start; padding-top: 32px; }
+    .about { grid-template-columns: 1fr; }
+    .telemetry { display: none; }
+    .row { grid-template-columns: 1fr auto; }
+    .when { grid-column: 1 / -1; padding: 0; }
+    .tags { grid-column: 1 / -1; justify-content: flex-start; max-width: none; }
+  }
+  @media (max-width: 560px) {
+    .nav .brand { display: none; }
+    .nav ul { justify-content: space-between; width: 100%; }
+    .facts { grid-template-columns: 1fr; }
+    .vp { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rec { animation: none; }
+    .s10 *, .s10 *::before { transition-duration: .01ms !important; }
+  }
+</style>

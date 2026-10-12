@@ -1,0 +1,740 @@
+---
+// PROTOTYPE 19 Constellation: one fixed set of nodes that morphs between a humanoid, a policy network,
+// a quadruped and a grid of parallel rollouts as you scroll. It docks right (bottom on mobile).
+import { profile, areas, experience, notes, formatDate } from '../content';
+
+const year = new Date().getFullYear();
+const host = (href: string) => href.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+const jobForms = ['walk', 'quad', 'quad', 'walk'];
+const jobCaps = ['humanoid', 'quadruped', 'quadruped', 'humanoid'];
+---
+<div class="s19" data-theme="light">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" />
+
+  <header class="nav">
+    <div class="wrap nav-in">
+      <a class="brand" href="#s19-top">{profile.name}</a>
+      <nav aria-label="Primary">
+        <a href="#s19-research">Research</a>
+        <a href="#s19-about">About</a>
+        <a href="#s19-work">Experience</a>
+        <a href="#s19-notes">Notes</a>
+        <a href="#s19-contact">Contact</a>
+      </nav>
+      <button class="theme" type="button" aria-pressed="false" aria-label="Toggle dark mode">
+        <svg class="sun" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3" /><path d="M8 1.5v1.6M8 12.9v1.6M1.5 8h1.6M12.9 8h1.6M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1" /></svg>
+        <svg class="moon" viewBox="0 0 16 16" aria-hidden="true"><path d="M13 9.6A5.5 5.5 0 0 1 6.4 3a5.5 5.5 0 1 0 6.6 6.6Z" /></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero" id="s19-top" data-form="hero" data-cap="get up" data-label="Domingo Esteban">
+      <div class="txt" data-r>
+        <p class="mono kicker"><i></i>Robot learning · {profile.location}</p>
+        <h1>{profile.firstName}<br />{profile.lastName}</h1>
+        <p class="tagline">I develop intelligent robots that <em>learn</em>, adapt, and make decisions through AI.</p>
+        <p class="role">{profile.role} at <a href={profile.companyHref} target="_blank" rel="noopener">{profile.company}</a></p>
+      </div>
+      <div class="slot" aria-hidden="true"></div>
+    </section>
+
+    <section class="sec" id="s19-research" data-form="net" data-cap="policy" data-label="01 Research" aria-labelledby="s19-research-h">
+      <div class="txt">
+        <header class="head" data-r>
+          <p class="mono idx"><span>01</span>Research</p>
+          <h2 id="s19-research-h">How robots learn to move.</h2>
+        </header>
+        <ol class="areas">
+          {areas.map((a, i) => (
+            <li data-r>
+              <span class="mono n">0{i + 1}</span>
+              <div>
+                <h3>{a.title}</h3>
+                <p>{a.summary}</p>
+                <p class="mono kw">{a.keywords.join('  /  ')}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+      <div class="slot" aria-hidden="true"></div>
+    </section>
+
+    <section class="sec flip" id="s19-about" data-form="balance" data-cap="balance" data-label="02 About" aria-labelledby="s19-about-h">
+      <div class="txt">
+        <header class="head" data-r>
+          <p class="mono idx"><span>02</span>About</p>
+          <h2 id="s19-about-h">Skills built from experience, not rules.</h2>
+        </header>
+        <div data-r>
+          <p class="lead">{profile.bio[0]}</p>
+          <p>{profile.bio[1]}</p>
+        </div>
+        <dl class="facts" data-r>
+          <div><dt class="mono">Now</dt><dd>{profile.company}</dd></div>
+          <div><dt class="mono">Based</dt><dd>{profile.location}</dd></div>
+          <div><dt class="mono">From</dt><dd>{profile.origin}</dd></div>
+        </dl>
+      </div>
+      <div class="slot" aria-hidden="true"></div>
+    </section>
+
+    <section class="sec" id="s19-work" aria-labelledby="s19-work-h">
+      <div class="txt">
+        <header class="head" data-r>
+          <p class="mono idx"><span>03</span>Experience</p>
+          <h2 id="s19-work-h">From quadrupeds to humanoids.</h2>
+        </header>
+        <ol class="jobs">
+          {experience.map((e, i) => (
+            <li data-form={jobForms[i]} data-cap={jobCaps[i]} data-label="03 Experience" data-minor={i > 0 ? '' : undefined} data-r>
+              <p class="mono when">{e.period}</p>
+              <div>
+                <h3>{e.title}</h3>
+                <p class="org"><a href={e.href} target="_blank" rel="noopener">{e.org}</a><span class="mono">{e.place}</span></p>
+                <p>{e.summary}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+      <div class="slot" aria-hidden="true"></div>
+    </section>
+
+    <section class="sec flip" id="s19-notes" data-form="grid" data-cap="rollouts" data-label="04 Notes" aria-labelledby="s19-notes-h">
+      <div class="txt">
+        <header class="head" data-r>
+          <p class="mono idx"><span>04</span>Notes</p>
+          <h2 id="s19-notes-h">Notes from the lab.</h2>
+        </header>
+        <ol class="notes">
+          {notes.map(n => (
+            <li data-r>
+              <a href="#s19-notes">
+                <time class="mono" datetime={n.date.toISOString()}>{formatDate(n.date)}</time>
+                <div>
+                  <h3>{n.title}</h3>
+                  <p>{n.description}</p>
+                  {n.tags && <p class="mono kw">{n.tags.join('  /  ')}</p>}
+                </div>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </div>
+      <div class="slot" aria-hidden="true"></div>
+    </section>
+
+    <section class="sec contact" id="s19-contact" data-form="stand" data-cap="stand" data-label="05 Contact" aria-labelledby="s19-contact-h">
+      <div class="txt">
+        <header class="head" data-r>
+          <p class="mono idx"><span>05</span>Contact</p>
+          <h2 id="s19-contact-h">Say hello.</h2>
+        </header>
+        <ul class="links" data-r>
+          {profile.links.map(l => (
+            <li><a href={l.href} target="_blank" rel="noopener"><span>{l.label}</span><span class="mono">{host(l.href)}</span><span class="arr" aria-hidden="true">↗</span></a></li>
+          ))}
+        </ul>
+        <footer class="foot mono">
+          <span>© {year} {profile.name}</span>
+          <a href="#s19-top">Back to top</a>
+        </footer>
+      </div>
+      <div class="slot" aria-hidden="true"></div>
+    </section>
+  </main>
+
+  <div class="dock" aria-hidden="true"><span class="mono dock-label"></span></div>
+  <div class="stage" aria-hidden="true"><span class="mono cap"></span></div>
+  <canvas class="sky" aria-hidden="true"></canvas>
+</div>
+
+<script>
+  import { pose, samplePoints, project, blend, BONES, type JointName, type Vec3, type Camera, type Frame } from '../humanoid';
+
+  const root = document.querySelector<HTMLElement>('.s19');
+  if (root) {
+    root.classList.add('js');
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const { sin, cos, exp, min, max, abs, hypot, PI } = Math;
+    const clamp = (x: number, a = 0, b = 1) => min(b, max(a, x));
+    const lerp = (a: number, b: number, w: number) => a + (b - a) * w;
+    const smooth = (a: number, b: number, x: number) => { const u = clamp((x - a) / (b - a)); return u * u * (3 - 2 * u); };
+    const ease = (k: number) => (k < 0.5 ? 4 * k * k * k : 1 - (-2 * k + 2) ** 3 / 2);
+    const mod = (a: number, n: number) => ((a % n) + n) % n;
+
+    // Colours come from the CSS variables so the canvas follows the theme.
+    const C = { node: '0,0,0', accent: '0,0,0', line: '0,0,0' };
+    const rgb = (name: string) => {
+      const v = getComputedStyle(root).getPropertyValue(name).trim().replace('#', '');
+      return [0, 2, 4].map(i => parseInt(v.slice(i, i + 2), 16)).join(',');
+    };
+    const readColors = () => { C.node = rgb('--node'); C.accent = rgb('--accent'); C.line = rgb('--muted'); };
+
+    const btn = root.querySelector<HTMLButtonElement>('.theme')!;
+    const setTheme = (dark: boolean) => {
+      root.dataset.theme = dark ? 'dark' : 'light';
+      btn.setAttribute('aria-pressed', String(dark));
+      readColors();
+    };
+    let saved: string | null = null;
+    try { saved = localStorage.getItem('proto-theme'); } catch {}
+    setTheme(saved === 'dark');
+    btn.addEventListener('click', () => {
+      const dark = root.dataset.theme !== 'dark';
+      setTheme(dark);
+      try { localStorage.setItem('proto-theme', dark ? 'dark' : 'light'); } catch {}
+    });
+
+    const reveal = new IntersectionObserver(entries => {
+      for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); reveal.unobserve(e.target); }
+    }, { rootMargin: '0px 0px -6% 0px' });
+    root.querySelectorAll('[data-r]').forEach(el => reveal.observe(el));
+
+    // Node identity: 18 joints x 9 copies (one copy per rollout), plus 54 points along the bones.
+    const JOINTS: JointName[] = ['pelvis', 'chest', 'neck', 'head', 'lShoulder', 'lElbow', 'lHand', 'rShoulder', 'rElbow', 'rHand', 'lHip', 'lKnee', 'lAnkle', 'lToe', 'rHip', 'rKnee', 'rAnkle', 'rToe'];
+    const JI = Object.fromEntries(JOINTS.map((n, i) => [n, i])) as Record<JointName, number>;
+    const NJ = 18, CP = 9, NS = 54, N = NJ * CP + NS;
+    const jn = (j: number, c = 0) => j * CP + c;
+    const sn = (s: number) => NJ * CP + s;
+
+    // Same bone layout as samplePoints(), so each sample knows its bone and can be chained into edges.
+    const REST = pose('stand', 0).joints;
+    const dist = (a: Vec3, b: Vec3) => hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
+    const lens = BONES.map(([a, b]) => dist(REST[a], REST[b])), total = lens.reduce((x, y) => x + y, 0);
+    const LAYOUT: [number, number][] = [];
+    for (let i = 0, bi = 0, acc = 0; i < NS; i++) {
+      const s = ((i + 0.5) / NS) * total;
+      while (bi < BONES.length - 1 && s > acc + lens[bi]) acc += lens[bi++];
+      LAYOUT.push([bi, (s - acc) / lens[bi]]);
+    }
+    type Edge = [number, number];
+    const bodyEdges: Edge[] = [];
+    BONES.forEach(([a, b], bi) => {
+      const chain = [jn(JI[a]), ...LAYOUT.flatMap(([lb], s) => (lb === bi ? [sn(s)] : [])), jn(JI[b])];
+      for (let k = 1; k < chain.length; k++) bodyEdges.push([chain[k - 1], chain[k]]);
+    });
+    const quadEdges: Edge[] = [...bodyEdges, [jn(JI.lHip), jn(JI.lShoulder)], [jn(JI.rHip), jn(JI.rShoulder)]];
+    const gridEdges: Edge[] = [];
+    for (let c = 0; c < CP; c++) for (const [a, b] of BONES) gridEdges.push([jn(JI[a], c), jn(JI[b], c)]);
+
+    // A formation: where every node sits (normalized stage units), how visible it is, and its edges.
+    type Form = { x: Float32Array; y: Float32Array; a: Float32Array; r: Float32Array; c: Float32Array; ring: Float32Array; edges: Edge[]; ew: Float32Array; lines: number[][] };
+    const newForm = (): Form => ({
+      x: new Float32Array(N), y: new Float32Array(N), a: new Float32Array(N), r: new Float32Array(N), c: new Float32Array(N), ring: new Float32Array(N),
+      edges: [], ew: new Float32Array(400).fill(1), lines: [],
+    });
+    const FA = newForm(), FB = newForm();
+
+    const cam = (yaw: number, target: Vec3, d = 4.6): Camera => ({ yaw: yaw + view.yaw, pitch: 0.13, dist: d, target, fov: 0.5 });
+    const view = { yaw: 0 };
+    const camRight = (c: Camera): Vec3 => [sin(c.yaw), 0, -cos(c.yaw)];
+    const proj = (p: Vec3 | number[], c: Camera): [number, number] => {
+      const [x, y] = project(p as Vec3, c, 1000, 1000);
+      return [(x - 500) / 500, (y - 500) / 500];
+    };
+    const at = (J: Record<JointName, Vec3>, s: number): Vec3 => {
+      const [bi, u] = LAYOUT[s], A = J[BONES[bi][0]], B = J[BONES[bi][1]];
+      return [lerp(A[0], B[0], u), lerp(A[1], B[1], u), lerp(A[2], B[2], u)];
+    };
+    const ground = (F: Form, c: Camera, half: number, x = 0) => {
+      const r = camRight(c), a = proj([x - r[0] * half, 0, -r[2] * half], c), b = proj([x + r[0] * half, 0, r[2] * half], c);
+      F.lines.push([a[0], a[1], b[0], b[1], 0.35, 0]);
+    };
+
+    const putBody = (F: Form, J: Record<JointName, Vec3>, pts: Vec3[], c: Camera, edges: Edge[], ringR: number) => {
+      for (let j = 0; j < NJ; j++) {
+        const [x, y] = proj(J[JOINTS[j]], c);
+        for (let k = 0; k < CP; k++) {
+          const i = jn(j, k);
+          F.x[i] = x; F.y[i] = y; F.a[i] = k ? 0 : 1; F.r[i] = 1; F.c[i] = j === 3 ? 1 : 0; F.ring[i] = j === 3 ? ringR : 0;
+        }
+      }
+      for (let s = 0; s < NS; s++) {
+        const [x, y] = proj(pts[s], c), i = sn(s);
+        F.x[i] = x; F.y[i] = y; F.a[i] = 1; F.r[i] = 0.55; F.c[i] = 0; F.ring[i] = 0;
+      }
+      F.edges = edges; F.ew.fill(1); F.lines = [];
+    };
+
+    const humanCam = () => cam(0.85, [0, 0.72, 0], 3.9);
+    const putHuman = (F: Form, f: Frame) => {
+      const c = humanCam();
+      putBody(F, f.joints, samplePoints(f, NS), c, bodyEdges, 0.075);
+      ground(F, c, 0.55);
+    };
+
+    // A simple trotting quadruped, built on the humanoid's joint names: arms become front legs, the spine the trunk.
+    const quadJoints = (t: number) => {
+      const ph = t / 0.62, L = 0.26, Hb = 0.45 + 0.01 * cos(4 * PI * ph), J = {} as Record<JointName, Vec3>;
+      const leg = (hx: number, hz: number, phase: number, knee: number): [Vec3, Vec3] => {
+        const u = mod(ph + phase, 1), q = (u - 0.55) / 0.45;
+        const fx = hx + 0.2 * (u < 0.55 ? 0.5 - u / 0.55 : -0.5 + q * q * (3 - 2 * q));
+        const foot: Vec3 = [fx, 0.02 + (u < 0.55 ? 0 : 0.05 * sin(PI * q)), hz];
+        const dx = fx - hx, dy = foot[1] - Hb, D = min(hypot(dx, dy), 2 * L - 0.01), al = Math.acos(D / (2 * L));
+        const ux = dx / D, uy = dy / D, ca = cos(al), sa = sin(al) * knee;
+        return [[hx + L * (ux * ca - uy * sa), Hb + L * (uy * ca + ux * sa), hz], foot];
+      };
+      J.pelvis = [-0.36, Hb, 0]; J.chest = [0, Hb + 0.01, 0]; J.neck = [0.36, Hb + 0.02, 0]; J.head = [0.5, Hb + 0.09, 0];
+      J.lShoulder = [0.36, Hb, -0.13]; J.rShoulder = [0.36, Hb, 0.13]; J.lHip = [-0.36, Hb, -0.13]; J.rHip = [-0.36, Hb, 0.13];
+      [J.lElbow, J.lHand] = leg(0.36, -0.13, 0, -1);
+      [J.rElbow, J.rHand] = leg(0.36, 0.13, 0.5, -1);
+      [J.lKnee, J.lAnkle] = leg(-0.36, -0.13, 0.5, 1);
+      [J.rKnee, J.rAnkle] = leg(-0.36, 0.13, 0, 1);
+      J.lToe = [J.lAnkle[0] + 0.05, J.lAnkle[1], J.lAnkle[2]];
+      J.rToe = [J.rAnkle[0] + 0.05, J.rAnkle[1], J.rAnkle[2]];
+      return J;
+    };
+    const putQuad = (F: Form, t: number) => {
+      const J = quadJoints(t), c = cam(1.3, [0, 0.36, 0], 3.4);
+      putBody(F, J, LAYOUT.map((_, s) => at(J, s)), c, quadEdges, 0);
+      ground(F, c, 0.7);
+    };
+
+    // Policy network: 4 layers, a tiny forward pass driven by time and the cursor, and a pulse from input to output.
+    const LAYERS = [8, 12, 12, 6];
+    const slots = LAYERS.flatMap((n, l) => Array.from({ length: n }, (_, k) => ({ l, k, x: -0.72 + l * 0.48, y: (k - (n - 1) / 2) * 0.118 })));
+    let seed = 7;
+    const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const W = LAYERS.slice(1).map((n, l) => Array.from({ length: n }, () => Array.from({ length: LAYERS[l] }, () => (rnd() * 2 - 1) * 1.9 / Math.sqrt(LAYERS[l]))));
+    const act = LAYERS.map(n => new Float32Array(n));
+    const slotNode = new Int16Array(slots.length), nodeSlot = new Int16Array(N), primary = new Uint8Array(N);
+    {
+      putHuman(FA, pose('stand', 0));
+      const vis = [...Array.from({ length: NJ }, (_, j) => jn(j)), ...Array.from({ length: NS }, (_, s) => sn(s))].sort((a, b) => FA.x[a] - FA.x[b]);
+      let start = 0, base = 0;
+      const taken = new Uint8Array(slots.length);
+      LAYERS.forEach((n, l) => {
+        const g = l === LAYERS.length - 1 ? vis.length - start : Math.round((vis.length * n) / slots.length);
+        const group = vis.slice(start, start + g).sort((a, b) => FA.y[a] - FA.y[b]);
+        group.forEach((node, k) => {
+          const s = base + Math.floor((k * n) / g);
+          nodeSlot[node] = s;
+          if (!taken[s]) { taken[s] = 1; slotNode[s] = node; primary[node] = 1; }
+        });
+        start += g; base += n;
+      });
+      for (let j = 0; j < NJ; j++) for (let k = 1; k < CP; k++) nodeSlot[jn(j, k)] = nodeSlot[jn(j)];
+    }
+    const netEdges: [number, number, number, number, number][] = [];
+    let off = 0;
+    for (let l = 0; l < LAYERS.length - 1; l++) {
+      for (let a = 0; a < LAYERS[l]; a++) for (let b = 0; b < LAYERS[l + 1]; b++) netEdges.push([slotNode[off + a], slotNode[off + LAYERS[l] + b], l, a, b]);
+      off += LAYERS[l];
+    }
+    const netEdgeList: Edge[] = netEdges.map(e => [e[0], e[1]]);
+    const putNet = (F: Form, t: number, cur: { x: number; y: number; w: number }) => {
+      act[0].forEach((_, k) => {
+        const y = slots[k].y;
+        act[0][k] = 0.55 * sin(t * (0.7 + 0.11 * k) + k * 1.9) + 1.1 * cur.w * exp(-((cur.y - y) ** 2) / 0.03);
+      });
+      for (let l = 1; l < LAYERS.length; l++) act[l].forEach((_, k) => (act[l][k] = Math.tanh(W[l - 1][k].reduce((s, w, i) => s + w * act[l - 1][i], 0))));
+      const front = -0.6 + mod(t / 2.6, 1) * 4.6;
+      const glow = (l: number) => exp(-((l - front) ** 2) / 0.4);
+      for (let i = 0; i < N; i++) {
+        const s = slots[nodeSlot[i]], a = abs(act[s.l][s.k]);
+        F.x[i] = s.x; F.y[i] = s.y; F.a[i] = primary[i] ? 1 : 0; F.ring[i] = 0;
+        F.r[i] = 0.75 + 0.9 * a; F.c[i] = clamp(a * glow(s.l) * 1.3);
+      }
+      F.edges = netEdgeList;
+      netEdges.forEach(([, , l, a, b], k) => (F.ew[k] = 0.22 + 2.2 * abs(W[l][b][a] * act[l][a]) * glow(l + 0.5)));
+      F.lines = [];
+    };
+
+    // Rollouts: nine small humanoids being pushed, slightly out of phase; the cursor nudges the nearest ones.
+    const nudge = Array.from({ length: CP }, () => [0, 0, 0] as Vec3);
+    const putGrid = (F: Form, t: number, cur: { x: number; y: number; w: number }) => {
+      const c = cam(0.85, [0, 0.8, 0]), sc = 0.29, right = camRight(c);
+      F.lines = [];
+      for (let m = 0; m < CP; m++) {
+        const ox = ((m % 3) - 1) * 0.64, oy = (Math.floor(m / 3) - 1) * 0.64;
+        const dx = cur.x - ox, dy = cur.y - oy, w = cur.w * exp(-(dx * dx + dy * dy) / 0.05);
+        nudge[m] = nudge[m].map((v, i) => lerp(v, -right[i] * dx * 2.4 * w, 0.08)) as Vec3;
+        const f = pose('push', t * 0.95 + m * 0.37 + (m % 2) * 4, { perturb: nudge[m] });
+        const P = (p: Vec3 | number[]) => { const [x, y] = proj(p, c); return [ox + x * sc, oy + y * sc]; };
+        for (let j = 0; j < NJ; j++) {
+          const [x, y] = P(f.joints[JOINTS[j]]), i = jn(j, m);
+          F.x[i] = x; F.y[i] = y; F.a[i] = 1; F.r[i] = 0.62; F.c[i] = 0; F.ring[i] = j === 3 ? 0.075 * sc : 0;
+        }
+        const g0 = P([-right[0] * 0.4, 0, -right[2] * 0.4]), g1 = P([right[0] * 0.4, 0, right[2] * 0.4]);
+        F.lines.push([g0[0], g0[1], g1[0], g1[1], 0.3, 0]);
+        if (f.push) {
+          const a = P(f.push.at), b = P(f.push.at.map((v, i) => v - f.push!.dir[i] * 0.3));
+          F.lines.push([b[0], b[1], a[0], a[1], f.push.strength, 1]);
+        }
+      }
+      for (let s = 0; s < NS; s++) {
+        const m = s % CP, [bi, u] = LAYOUT[s], A = jn(JI[BONES[bi][0]], m), B = jn(JI[BONES[bi][1]], m), i = sn(s);
+        F.x[i] = lerp(F.x[A], F.x[B], u); F.y[i] = lerp(F.y[A], F.y[B], u); F.a[i] = 0; F.r[i] = 0.5; F.c[i] = 0; F.ring[i] = 0;
+      }
+      F.edges = gridEdges; F.ew.fill(1);
+    };
+
+    // Shared perturbation from the cursor and scroll speed, integrated as a damped spring so the robot sways back.
+    const P: Vec3 = [0, 0, 0], PV: Vec3 = [0, 0, 0];
+    const heroFrame = (t: number) => {
+      const opts = { perturb: P }, tg = t + 0.9;
+      if (tg < 6.2) return pose('getup', tg, opts);
+      const w = smooth(6.2, 7.2, tg);
+      return w >= 1 ? pose('stand', tg - 6.2, opts) : blend(pose('getup', min(tg, 7.9), opts), pose('stand', tg - 6.2, opts), w);
+    };
+    const putKind = (F: Form, kind: string, t: number, cur: { x: number; y: number; w: number }) => {
+      if (kind === 'hero') putHuman(F, heroFrame(t));
+      else if (kind === 'net') putNet(F, t, cur);
+      else if (kind === 'quad') putQuad(F, t);
+      else if (kind === 'grid') putGrid(F, t, cur);
+      else putHuman(F, pose(kind as 'balance' | 'walk' | 'stand', t, { perturb: P }));
+    };
+
+    // Layout: every [data-form] element is a state; entering it is a boundary at a scroll position.
+    const stage = root.querySelector<HTMLElement>('.stage')!;
+    const capEl = stage.querySelector<HTMLElement>('.cap')!;
+    const dock = root.querySelector<HTMLElement>('.dock')!;
+    const dockLabel = dock.querySelector<HTMLElement>('.dock-label')!;
+    const canvas = root.querySelector<HTMLCanvasElement>('.sky')!;
+    const ctx = canvas.getContext('2d')!;
+    type State = { kind: string; cap: string; label: string; c: number; cx: number; feat: number; major: boolean; flip: boolean; hm: number; m0: number; m1: number };
+    let states: State[] = [];
+    let vw = 0, vh = 0, dpr = 1, mobile = false, dockY = 0, heroCy = 0, smallS = 140, sMax = 0;
+    let mob = { s0: 0, cx0: 0, b0: 0 };
+
+    const measure = () => {
+      vw = innerWidth; vh = innerHeight; dpr = min(2, devicePixelRatio || 1);
+      canvas.width = Math.round(vw * dpr); canvas.height = Math.round(vh * dpr);
+      mobile = vw < 860;
+      const sy = scrollY, navH = 64;
+      dockY = navH + (vh - navH) / 2;
+      sMax = document.documentElement.scrollHeight - vh;
+      const els = [...root.querySelectorAll<HTMLElement>('[data-form]')];
+      const heroSlot = root.querySelector<HTMLElement>('.hero .slot')!.getBoundingClientRect();
+      states = els.map((el, i) => {
+        const sec = el.closest('section')!, slot = sec.querySelector<HTMLElement>(':scope > .slot')!.getBoundingClientRect();
+        const minor = el.hasAttribute('data-minor'), top = (minor ? el : sec).getBoundingClientRect().top + sy;
+        const feat = i === 0 ? min(500, vh * 0.58, heroSlot.width, vh - navH - 80) : min(360, slot.width - 24, vh - navH - 120);
+        return { kind: el.dataset.form!, cap: el.dataset.cap!, label: el.dataset.label!, c: i === 0 ? -1e9 : top - dockY + (minor ? 60 : 0), cx: slot.left + slot.width / 2, feat, major: !minor, flip: false, hm: 0, m0: 0, m1: 0 };
+      });
+      states.forEach((s, i) => {
+        if (!i) return;
+        const p = states[i - 1], next = states[i + 1];
+        s.flip = abs(s.cx - p.cx) > 4;
+        s.c = min(s.c, sMax - 60 - (states.length - 1 - i) * 40);
+        const room = min(i > 1 ? s.c - p.c : 1e9, next ? next.c - s.c : 1e9) * 0.45;
+        s.hm = min(s.major ? vh * 0.32 : 120, room);
+        s.m0 = s.c - s.hm * 0.6; s.m1 = s.c + s.hm * 1.3;
+      });
+      heroCy = heroSlot.top + sy + heroSlot.height / 2;
+      if (mobile) {
+        mob = { s0: min(vh * 0.38, heroSlot.width), cx0: heroSlot.left + heroSlot.width / 2, b0: heroSlot.top + sy + min(vh * 0.38, heroSlot.width) };
+      }
+    };
+
+    // Geometry and morph state at a (smoothed) scroll position.
+    const geometry = (s: number) => {
+      let from = 0, to = 0, u = 0, cur = 0;
+      states.forEach((st, j) => { if (j && s >= st.c) cur = j; });
+      for (let j = 1; j < states.length; j++) {
+        const st = states[j];
+        if (s > st.m0 && s < st.m1) { from = j - 1; to = j; u = (s - st.m0) / (st.m1 - st.m0); break; }
+        from = to = cur;
+      }
+      if (reduced) { from = to = cur; u = 0; }
+      let S: number, cx: number, cy: number, docked = 1;
+      if (mobile) {
+        const m = reduced ? (s > 40 ? 1 : 0) : ease(smooth(0, 150, s));
+        docked = m;
+        S = lerp(mob.s0, 76, m);
+        cx = lerp(mob.cx0, vw - 16 - 38, m);
+        cy = lerp(mob.b0 - s * 0.35 * (1 - m), vh - 10, m) - S / 2;
+      } else {
+        let best = 1e9, k = 0;
+        states.forEach((st, j) => { if (j && st.major && abs(s - st.c) < best) { best = abs(s - st.c); k = j; } });
+        const st = states[k], flat = st && st.flip ? 100 : 0;
+        const feat = st ? (s < st.c ? featAt(k - 1) : st.feat) : states[0].feat;
+        const dip = st && !reduced ? 1 - smooth(flat, vh * 0.26 + flat, best) : 0;
+        S = lerp(feat, smallS, dip);
+        cx = states[0].cx;
+        for (let j = 1; j < states.length; j++) {
+          const a = states[j], hx = a.flip ? 90 : a.hm;
+          cx += (a.cx - states[j - 1].cx) * (reduced ? (s >= a.c ? 1 : 0) : ease(smooth(a.c - hx, a.c + hx, s)));
+        }
+        cy = max(dockY, heroCy - s);
+      }
+      return { from, to, u, S, cx, cy, docked, cur: u > 0.5 ? to : from };
+    };
+    const featAt = (j: number) => states[j].feat;
+
+    let mx = -1e4, my = -1e4;
+    addEventListener('pointermove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
+    document.addEventListener('pointerleave', () => { mx = my = -1e4; });
+
+    const hash = (i: number) => mod(sin(i * 12.9898) * 43758.5453, 1);
+    let clock = reduced ? 9 : 0, last = performance.now(), sS = scrollY, prevS = scrollY, vel = 0, raf = 0, shownCap = '', shownLabel = '';
+
+    const draw = (now: number) => {
+      const dt = min(0.05, (now - last) / 1000);
+      last = now;
+      if (!reduced) clock += dt;
+      sS = reduced ? scrollY : lerp(sS, scrollY, 1 - exp(-dt * 9));
+      vel = lerp(vel, (sS - prevS) / max(dt, 1e-3), 0.15);
+      prevS = sS;
+      const g = geometry(sS), unit = g.S * 0.46;
+      stage.style.transform = `translate(${(g.cx - g.S / 2).toFixed(1)}px, ${(g.cy - g.S / 2).toFixed(1)}px)`;
+      stage.style.width = stage.style.height = `${g.S.toFixed(1)}px`;
+      stage.style.setProperty('--cap', String(mobile ? 0 : smooth(170, 240, g.S)));
+      dock.style.opacity = String(mobile ? g.docked : 0);
+
+      // Cursor in stage units drives the network inputs, the rollouts and the robot's sway.
+      const cur = { x: (mx - g.cx) / unit, y: (my - g.cy) / unit, w: 0 };
+      cur.w = exp(-(cur.x * cur.x + cur.y * cur.y) / 1.6);
+      if (!reduced) {
+        const right = camRight(humanCam()), lean = -clamp(cur.x, -1.5, 1.5) * 0.24 * cur.w + clamp(vel / 9000, -0.12, 0.12);
+        for (let i = 0; i < 3; i++) {
+          PV[i] += ((right[i] * lean - P[i]) * 34 - PV[i] * 6.5) * dt;
+          P[i] += PV[i] * dt;
+        }
+        view.yaw = lerp(view.yaw, mx > -1e3 ? (mx / vw - 0.5) * 0.25 : 0, 0.04);
+      }
+
+      const A = states[g.from], B = states[g.to];
+      putKind(FA, A.kind, clock, cur);
+      if (g.to !== g.from) putKind(FB, B.kind, clock, cur);
+      const morph = g.to !== g.from ? g.u : 0, Fb = g.to !== g.from ? FB : FA;
+
+      const st = states[g.cur];
+      const cap = st.kind === 'hero' && clock > 6 ? 'stand' : st.cap;
+      if (cap !== shownCap) { capEl.textContent = shownCap = cap; }
+      const label = `${st.label}  ·  ${cap}`;
+      if (label !== shownLabel) dockLabel.textContent = shownLabel = label;
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, vw, vh);
+      ctx.save();
+      ctx.beginPath();
+      ctx.roundRect(g.cx - g.S / 2 + 1, g.cy - g.S / 2 + 1, g.S - 2, g.S - 2, 5);
+      ctx.clip();
+
+      const X = new Float32Array(N), Y = new Float32Array(N), U = new Float32Array(N);
+      for (let i = 0; i < N; i++) {
+        const d = 0.26 * clamp((FA.x[i] + 1) / 2) + 0.09 * hash(i);
+        const ui = morph ? ease(clamp((morph - d) / 0.65)) : 0;
+        U[i] = ui;
+        X[i] = g.cx + lerp(FA.x[i], Fb.x[i], ui) * unit;
+        Y[i] = g.cy + lerp(FA.y[i], Fb.y[i], ui) * unit;
+      }
+
+      const k = clamp(g.S / 360, 0.55, 1.25), dot = 2 * k;
+      ctx.lineCap = 'round';
+      const lines = (F: Form, w: number) => {
+        for (const [x0, y0, x1, y1, a, acc] of F.lines) {
+          if (a * w < 0.01) continue;
+          ctx.strokeStyle = `rgba(${acc ? C.accent : C.line},${(a * w * (acc ? 0.9 : 1)).toFixed(3)})`;
+          ctx.lineWidth = acc ? 1.4 : 1;
+          ctx.beginPath(); ctx.moveTo(g.cx + x0 * unit, g.cy + y0 * unit); ctx.lineTo(g.cx + x1 * unit, g.cy + y1 * unit); ctx.stroke();
+        }
+      };
+      lines(FA, 1 - morph);
+      if (morph) lines(Fb, morph);
+
+      const edges = (F: Form, side: number) => {
+        const isNet = F.edges === netEdgeList;
+        F.edges.forEach(([i, j], e) => {
+          const ue = (U[i] + U[j]) / 2, w = side ? ue : 1 - ue;
+          if (w < 0.01) return;
+          const ew = F.ew[e];
+          const a = isNet ? min(0.55, 0.05 + 0.1 * ew) * w : 0.42 * w;
+          if (a < 0.008) return;
+          ctx.strokeStyle = isNet && ew > 1.4 ? `rgba(${C.accent},${(a * 0.9).toFixed(3)})` : `rgba(${C.node},${a.toFixed(3)})`;
+          ctx.lineWidth = isNet ? 0.7 : 1;
+          ctx.beginPath(); ctx.moveTo(X[i], Y[i]); ctx.lineTo(X[j], Y[j]); ctx.stroke();
+        });
+      };
+      edges(FA, 0);
+      if (morph) edges(Fb, 1);
+
+      for (let i = 0; i < N; i++) {
+        const ui = U[i], a = lerp(FA.a[i], Fb.a[i], ui);
+        if (a < 0.02) continue;
+        const r = lerp(FA.r[i], Fb.r[i], ui) * dot, acc = lerp(FA.c[i], Fb.c[i], ui), ring = lerp(FA.ring[i], Fb.ring[i], ui) * unit;
+        ctx.fillStyle = acc > 0.35 ? `rgba(${C.accent},${(a * (0.45 + 0.55 * acc)).toFixed(3)})` : `rgba(${C.node},${(a * 0.9).toFixed(3)})`;
+        ctx.beginPath(); ctx.arc(X[i], Y[i], max(0.6, r * (1 + 0.25 * acc)), 0, PI * 2); ctx.fill();
+        if (ring > 1.5) {
+          ctx.strokeStyle = `rgba(${C.node},${(a * 0.6).toFixed(3)})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.arc(X[i], Y[i], ring, 0, PI * 2); ctx.stroke();
+        }
+      }
+      ctx.restore();
+      raf = requestAnimationFrame(draw);
+    };
+
+    const start = () => { if (!raf) { last = performance.now(); raf = requestAnimationFrame(draw); } };
+    const stop = () => { cancelAnimationFrame(raf); raf = 0; };
+    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+    addEventListener('resize', measure);
+    new ResizeObserver(measure).observe(root);
+    document.fonts?.ready.then(measure);
+    measure();
+    start();
+  }
+</script>
+
+<style>
+  .s19 {
+    --bg: #fbfbfa;
+    --panel: #f5f6f8;
+    --ink: #1f2737;
+    --body: #545e6e;
+    --muted: #8a92a0;
+    --line: #e6e8ec;
+    --accent: #2f5ce6;
+    --node: #273142;
+    --sans: 'Inter', system-ui, sans-serif;
+    --display: 'Inter Tight', 'Inter', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    background: var(--bg);
+    color: var(--body);
+    min-height: 100vh;
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+    transition: background-color 0.4s, color 0.4s;
+  }
+  .s19[data-theme="dark"] {
+    --bg: #0c111b;
+    --panel: #111827;
+    --ink: #e2e6ee;
+    --body: #a1aab9;
+    --muted: #6d788b;
+    --line: #1f2939;
+    --accent: #7ea3ff;
+    --node: #d3dae6;
+  }
+  .s19 *, .s19 *::before, .s19 *::after { box-sizing: border-box; }
+  .s19 a { color: inherit; text-decoration: none; }
+  :where(.s19) :where(h1, h2, h3, p, ol, ul, dl, dd) { margin: 0; padding: 0; }
+  :where(.s19) :where(ol, ul) { list-style: none; }
+  .mono { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.02em; line-height: 1.5; }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+
+  .nav { position: sticky; top: 0; z-index: 10; height: 64px; background: var(--bg); border-bottom: 1px solid var(--line); transition: background-color 0.4s, border-color 0.4s; }
+  .nav-in { height: 100%; display: flex; align-items: center; gap: 28px; }
+  .brand { font-family: var(--display); font-weight: 500; font-size: 15px; color: var(--ink); letter-spacing: -0.01em; margin-right: auto; }
+  .nav nav { display: flex; gap: 26px; font-size: 14px; }
+  .nav nav a { color: var(--body); transition: color 0.2s; }
+  .nav nav a:hover { color: var(--accent); }
+  .theme { width: 32px; height: 32px; border: 1px solid var(--line); border-radius: 50%; background: none; color: var(--body); display: grid; place-items: center; cursor: pointer; padding: 0; transition: border-color 0.2s, color 0.2s; }
+  .theme:hover { border-color: var(--accent); color: var(--accent); }
+  .theme svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+  .theme .moon { display: none; }
+  .s19[data-theme="dark"] .theme .sun { display: none; }
+  .s19[data-theme="dark"] .theme .moon { display: block; }
+
+  .hero, .sec { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: 72px; }
+  .sec.flip { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+  .sec.flip > .txt { grid-column: 2; grid-row: 1; }
+  .sec.flip > .slot { grid-column: 1; grid-row: 1; }
+  .hero { min-height: calc(100vh - 64px); align-items: center; padding: 40px 0; }
+  .hero .slot { align-self: stretch; }
+
+  .kicker { display: flex; align-items: center; gap: 10px; color: var(--muted); margin-bottom: 28px; }
+  .kicker i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  h1 { font-family: var(--display); font-weight: 300; font-size: clamp(54px, 6.4vw, 92px); line-height: 0.98; letter-spacing: -0.042em; color: var(--ink); }
+  .tagline { margin-top: 34px; max-width: 30ch; font-family: var(--display); font-weight: 300; font-size: clamp(21px, 2vw, 27px); line-height: 1.38; letter-spacing: -0.012em; color: var(--ink); }
+  .tagline em { font-style: normal; color: var(--accent); }
+  .role { margin-top: 22px; font-size: 15.5px; color: var(--body); }
+  .role a { color: var(--accent); border-bottom: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); }
+
+  .sec { padding: 160px 0; }
+  .head { border-top: 1px solid var(--line); padding-top: 22px; margin-bottom: 56px; }
+  .idx { color: var(--muted); display: flex; gap: 14px; }
+  .idx span { color: var(--accent); }
+  h2 { margin-top: 26px; font-family: var(--display); font-weight: 300; font-size: clamp(34px, 3.6vw, 48px); line-height: 1.08; letter-spacing: -0.03em; color: var(--ink); max-width: 18ch; }
+  h3 { font-family: var(--display); font-weight: 400; font-size: 21px; line-height: 1.3; letter-spacing: -0.012em; color: var(--ink); }
+  .kw { color: var(--muted); margin-top: 14px; white-space: pre-wrap; }
+
+  .areas li { display: grid; grid-template-columns: 56px minmax(0, 1fr); padding: 30px 0; border-top: 1px solid var(--line); }
+  .areas li:last-child { border-bottom: 1px solid var(--line); }
+  .areas .n { color: var(--accent); padding-top: 5px; }
+  .areas p:not(.kw) { margin-top: 10px; max-width: 58ch; }
+
+  .lead { font-family: var(--display); font-weight: 300; font-size: 23px; line-height: 1.48; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 24px; }
+  .facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 48px; border-top: 1px solid var(--line); }
+  .facts div { padding: 18px 16px 0 0; }
+  .facts div + div { padding-left: 18px; border-left: 1px solid var(--line); }
+  .facts dt { color: var(--muted); }
+  .facts dd { margin-top: 6px; color: var(--ink); font-size: 15px; }
+
+  .jobs li { display: grid; grid-template-columns: 112px minmax(0, 1fr); padding: 34px 0; border-top: 1px solid var(--line); }
+  .jobs li:last-child { border-bottom: 1px solid var(--line); }
+  .when { color: var(--accent); padding-top: 5px; }
+  .org { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin: 6px 0 12px; font-size: 15px; }
+  .org a { color: var(--ink); border-bottom: 1px solid var(--line); transition: color 0.2s, border-color 0.2s; }
+  .org a:hover { color: var(--accent); border-color: var(--accent); }
+  .org .mono { color: var(--muted); }
+
+  .notes li { border-top: 1px solid var(--line); }
+  .notes li:last-child { border-bottom: 1px solid var(--line); }
+  .notes a { display: grid; grid-template-columns: 112px minmax(0, 1fr); padding: 28px 0; }
+  .notes time { color: var(--muted); padding-top: 5px; }
+  .notes p:not(.kw) { margin-top: 8px; }
+  .notes a h3 { transition: color 0.2s; }
+  .notes a:hover h3 { color: var(--accent); }
+
+  .contact { padding-bottom: 80px; }
+  .links li { border-top: 1px solid var(--line); }
+  .links li:last-child { border-bottom: 1px solid var(--line); }
+  .links a { display: grid; grid-template-columns: minmax(0, 1fr) auto 28px; align-items: baseline; gap: 16px; padding: 20px 0; font-family: var(--display); font-size: 22px; font-weight: 300; color: var(--ink); }
+  .links .mono { color: var(--muted); }
+  .links .arr { color: var(--muted); text-align: right; transition: color 0.2s, transform 0.2s; }
+  .links a:hover .arr { color: var(--accent); transform: translate(2px, -2px); }
+  .foot { display: flex; justify-content: space-between; margin-top: 120px; color: var(--muted); }
+  .foot a:hover { color: var(--accent); }
+
+  .stage { position: fixed; left: 0; top: 0; z-index: 3; width: 0; height: 0; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); pointer-events: none; transition: background-color 0.4s, border-color 0.4s; }
+  .cap { position: absolute; left: 14px; bottom: 10px; color: var(--muted); opacity: var(--cap, 1); }
+  .sky { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 4; pointer-events: none; }
+  .dock { position: fixed; left: 0; right: 0; bottom: 0; z-index: 2; height: 96px; background: var(--bg); border-top: 1px solid var(--line); opacity: 0; pointer-events: none; display: none; align-items: center; padding: 0 16px; }
+  .dock-label { color: var(--muted); white-space: pre; }
+
+  .s19.js [data-r] { opacity: 0; transform: translateY(12px); transition: opacity 0.9s cubic-bezier(.2,.7,.2,1), transform 0.9s cubic-bezier(.2,.7,.2,1); }
+  .s19.js [data-r].in { opacity: 1; transform: none; }
+
+  @media (max-width: 1080px) {
+    .wrap { padding: 0 32px; }
+    .hero, .sec { column-gap: 40px; }
+    .nav nav { gap: 18px; }
+  }
+  @media (max-width: 859px) {
+    .wrap { padding: 0 20px; }
+    .nav { height: 56px; }
+    .nav nav { display: none; }
+    .hero, .sec, .sec.flip { grid-template-columns: minmax(0, 1fr); }
+    .sec.flip > .txt { grid-column: 1; }
+    .hero { min-height: 0; padding: 44px 0 0; align-items: start; }
+    .hero .slot { height: min(38vh, calc(100vw - 40px)); margin-top: 36px; }
+    .sec .slot { display: none; }
+    .sec { padding: 120px 0 40px; }
+    .contact { padding-bottom: 150px; }
+    .kicker { margin-bottom: 20px; }
+    .tagline { margin-top: 24px; }
+    .head { margin-bottom: 36px; }
+    .areas li { grid-template-columns: 40px minmax(0, 1fr); }
+    .jobs li, .notes a { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+    .facts { grid-template-columns: minmax(0, 1fr); }
+    .facts div, .facts div + div { padding: 14px 0; border-left: 0; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; }
+    .facts dd { margin: 0; }
+    .links a { font-size: 19px; grid-template-columns: minmax(0, 1fr) 20px; }
+    .links .mono { display: none; }
+    .foot { margin-top: 72px; }
+    .dock { display: flex; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .s19.js [data-r] { opacity: 1; transform: none; transition: none; }
+  }
+</style>

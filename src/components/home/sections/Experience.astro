@@ -1,0 +1,38 @@
+---
+import { getCollection, render } from 'astro:content';
+import Section from '../Section.astro';
+
+const entries = (await getCollection('experience')).sort((a, b) => a.data.order - b.data.order);
+const roles = await Promise.all(entries.map(async e => ({ ...e.data, Summary: (await render(e)).Content })));
+---
+<Section id="experience" label="Experience" heading="From legged robots to humanoids.">
+  <ol class="tl">
+    {roles.map(({ period, title, org, place, href, Summary }, i) => (
+      <li class:list={['tl-row', { now: i === 0 }]} data-r>
+        <p class="period mono">{period}</p>
+        <div>
+          <h3>{title}</h3>
+          <p class="org"><a href={href} target="_blank" rel="noopener">{org}</a><span class="mono">{place}</span></p>
+          <div class="tl-sum"><Summary /></div>
+        </div>
+      </li>
+    ))}
+  </ol>
+</Section>
+
+<style>
+  .tl { border-top: 1px solid var(--line-2); }
+  .tl-row { display: grid; grid-template-columns: 112px minmax(0, 1fr); padding: 24px 0 26px; border-bottom: 1px solid var(--line); }
+  .period { color: var(--muted); font-size: 10.5px; padding-top: 4px; }
+  .now .period { color: var(--accent); }
+  .org { margin-top: 4px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; font-size: 15px; }
+  .org a { color: var(--ink); opacity: .82; border-bottom: 1px solid var(--line-2); transition: color .2s, border-color .2s; }
+  .org a:hover { color: var(--accent); border-color: currentColor; opacity: 1; }
+  .org .mono { color: var(--muted); font-size: 10px; }
+  .tl-sum { margin-top: 10px; font-size: 15px; line-height: 1.62; }
+
+  @media (max-width: 900px) {
+    .tl-row { grid-template-columns: 1fr; }
+    .period { padding-top: 0; margin-bottom: 6px; }
+  }
+</style>

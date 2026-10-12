@@ -1,0 +1,35 @@
+---
+import { profile } from '@/data/profile';
+
+// keep: still shown on mobile, where the others are hidden.
+const links = [
+  { id: 'research', label: 'Research', keep: true },
+  { id: 'about', label: 'About' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'notes', label: 'Notes', keep: true },
+  { id: 'contact', label: 'Contact' },
+];
+---
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top">{profile.name}</a>
+    <nav aria-label="Primary">
+      {links.map(n => <a class:list={[{ opt: !n.keep }]} href={`#${n.id}`}>{n.label}</a>)}
+    </nav>
+  </div>
+</header>
+
+<style>
+  .nav { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); }
+  .nav-in { height: var(--nav); display: flex; align-items: center; gap: 28px; }
+  .brand { font-weight: 500; font-size: 15px; letter-spacing: -.01em; color: var(--ink); margin-right: auto; }
+  nav { display: flex; gap: clamp(16px, 2.4vw, 34px); font-size: 14px; }
+  nav a { color: var(--body); transition: color .2s; }
+  nav a:hover { color: var(--accent); }
+
+  @media (max-width: 900px) {
+    .nav-in { gap: 18px; }
+    nav { gap: 18px; }
+    nav a.opt { display: none; }
+  }
+</style>

@@ -1,0 +1,59 @@
+---
+// PROTOTYPE: ten style explorations for the new site, one per route.
+// /prototype/styles/ lists them; /prototype/styles/01/ ... /10/ render each one. Dev only.
+import { styles } from '@/components/prototype-styles/styles';
+import StyleSwitcher from '@/components/prototype-styles/StyleSwitcher.astro';
+
+export function getStaticPaths() {
+  return import.meta.env.DEV
+    ? [undefined, ...styles.map(s => s.id)].map(style => ({ params: { style } }))
+    : [];
+}
+
+const variants = import.meta.glob<{ default: any }>('@/components/prototype-styles/variants/S*.astro', { eager: true });
+const id = Astro.params.style;
+const current = styles.find(s => s.id === id);
+const Variant = current && Object.entries(variants).find(([path]) => path.includes(`/S${id}`))?.[1].default;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <title>{current ? `${current.id} ${current.name} · Domingo Esteban` : 'Style prototypes · Domingo Esteban'}</title>
+  </head>
+  <body style={`margin:0;background:${current?.bg ?? '#fff'}`}>
+    {current ? (
+      <>
+        {Variant ? <Variant /> : <p style="padding:40px;font-family:monospace">Style {id} not built yet.</p>}
+        <StyleSwitcher current={current.id} />
+      </>
+    ) : (
+      <main class="proto-index">
+        <p class="kicker">Prototype · not part of the site</p>
+        <h1>Styles for domingoesteban.com</h1>
+        <p>Same content in every one. Use ← → (or the bar at the bottom) to flip between them.</p>
+        <ol>
+          {styles.map(s => (
+            <li><a href={`/prototype/styles/${s.id}/`}><span>{s.id}</span><strong>{s.name}</strong><em>{s.mood}</em></a></li>
+          ))}
+        </ol>
+      </main>
+    )}
+  </body>
+</html>
+<style>
+  .proto-index { max-width: 760px; margin: 80px auto; padding: 0 20px; font-family: system-ui, sans-serif; color: #111; }
+  .proto-index h1 { font-size: 40px; letter-spacing: -.03em; margin: 8px 0 12px; }
+  .kicker { font: 12px ui-monospace, monospace; text-transform: uppercase; letter-spacing: .1em; color: #2563eb; }
+  .proto-index ol { list-style: none; padding: 0; margin-top: 40px; border-top: 1px solid #e5e7eb; }
+  .proto-index li a { display: grid; grid-template-columns: 40px 160px 1fr; gap: 12px; padding: 16px 4px; border-bottom: 1px solid #e5e7eb; text-decoration: none; color: inherit; }
+  .proto-index li a:hover { background: #f5f8ff; }
+  .proto-index span { font-family: ui-monospace, monospace; color: #2563eb; }
+  .proto-index em { font-style: normal; color: #6b7280; }
+  @media (max-width: 600px) { .proto-index li a { grid-template-columns: 32px 1fr; } .proto-index em { grid-column: 2; } }
+</style>

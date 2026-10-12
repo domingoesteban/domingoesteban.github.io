@@ -1,0 +1,833 @@
+---
+// PROTOTYPE 15 Latent: reading the page walks a point through a learned latent space of whole-body motions.
+import { profile, areas, experience, notes, formatDate } from '../content';
+
+const sections = [
+  { id: 's15-research', n: '01', name: 'Research' },
+  { id: 's15-about', n: '02', name: 'About' },
+  { id: 's15-work', n: '03', name: 'Experience' },
+  { id: 's15-notes', n: '04', name: 'Notes' },
+  { id: 's15-contact', n: '05', name: 'Contact' },
+];
+const host = (href: string) => href.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+const year = new Date().getFullYear();
+---
+<div class="s15">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+
+  <header class="nav">
+    <a class="brand" href="#s15-top">{profile.name}</a>
+    <nav aria-label="Primary">
+      {sections.map(s => <a href={`#${s.id}`}>{s.name}</a>)}
+    </nav>
+  </header>
+
+  <div class="layout">
+    <aside class="rail" aria-label="Section index">
+      <div class="rail-in">
+        <ol class="index">
+          {sections.map(s => (
+            <li><a href={`#${s.id}`} data-index={s.id}><span class="mono">{s.n}</span>{s.name}</a></li>
+          ))}
+        </ol>
+        <figure class="mini" aria-hidden="true">
+          <p class="mini-now mono" data-m="section">01 Research</p>
+          <canvas></canvas>
+          <figcaption class="mono"><span>z ≈ <b data-m="label">walk</b></span><span data-m="w">1.00</span></figcaption>
+        </figure>
+      </div>
+    </aside>
+
+    <main class="main" id="s15-top">
+      <section class="hero" aria-labelledby="s15-name">
+        <div class="hero-text" data-r>
+          <p class="eyebrow mono">Robot learning · {profile.location}</p>
+          <h1 id="s15-name"><span>{profile.firstName}</span> <span class="blue">{profile.lastName}</span></h1>
+          <p class="role">{profile.role}<br />at <a href={profile.companyHref} target="_blank" rel="noopener">{profile.company}</a></p>
+          <p class="tagline">{profile.tagline}</p>
+        </div>
+        <figure class="stage">
+          <canvas role="img" aria-label="A slowly rotating latent space of a few thousand points grouped into motion clusters. A highlighted point travels between them while a decoder shows a wheel-legged humanoid blending the matching poses."></canvas>
+          <div class="cell space" data-cell="space">
+            <span class="cap mono">latent space · z ∈ R³<br /><em>3,072 samples · 6 motion clusters</em></span>
+          </div>
+          <div class="cell dec" data-cell="dec">
+            <span class="cap mono">decoder · q = g(z)<br /><em>wheel-legged humanoid</em></span>
+            <dl class="weights mono" aria-hidden="true">
+              {[0, 1, 2].map(() => <div><dt data-w="name">walk</dt><dd><i data-w="bar"></i></dd><dd data-w="val">0.00</dd></div>)}
+            </dl>
+          </div>
+        </figure>
+        <p class="figcap mono"><span>Fig. 1</span>An illustrative latent space of whole-body motions. The marked point z moves through it; the decoder blends the poses of the nearest clusters.</p>
+      </section>
+
+      <section class="sec" id="s15-research" aria-labelledby="s15-research-h" data-sec>
+        <p class="label mono" data-r><span>01</span>Research</p>
+        <h2 id="s15-research-h" data-r>Robots that <span class="blue">learn</span> how to move, then move for real.</h2>
+        <ol class="areas">
+          {areas.map((a, i) => (
+            <li data-r>
+              <span class="mono idx">R.0{i + 1}</span>
+              <h3>{a.title}</h3>
+              <p>{a.summary}</p>
+              <p class="kw mono">{a.keywords.join(' · ')}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="sec" id="s15-about" aria-labelledby="s15-about-h" data-sec>
+        <p class="label mono" data-r><span>02</span>About</p>
+        <h2 id="s15-about-h" data-r>Motion that is <span class="blue">learned</span>, not scripted.</h2>
+        <div class="about" data-r>
+          <p class="lead">{profile.bio[0]}</p>
+          <div>
+            <p>{profile.bio[1]}</p>
+            <dl class="facts">
+              <div><dt class="mono">Now</dt><dd>{profile.company}, {profile.robot}</dd></div>
+              <div><dt class="mono">Based</dt><dd>{profile.location}</dd></div>
+              <div><dt class="mono">From</dt><dd>{profile.origin}</dd></div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec" id="s15-work" aria-labelledby="s15-work-h" data-sec>
+        <p class="label mono" data-r><span>03</span>Experience</p>
+        <h2 id="s15-work-h" data-r>Where the <span class="blue">trajectory</span> has been.</h2>
+        <ol class="rows">
+          {experience.map(e => (
+            <li class="job" data-r>
+              <span class="when mono">{e.period}</span>
+              <div>
+                <h3>{e.title}</h3>
+                <p class="org"><a href={e.href} target="_blank" rel="noopener">{e.org}<span aria-hidden="true"> ↗</span></a><span class="mono">{e.place}</span></p>
+              </div>
+              <p class="sum">{e.summary}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="sec" id="s15-notes" aria-labelledby="s15-notes-h" data-sec>
+        <p class="label mono" data-r><span>04</span>Notes</p>
+        <h2 id="s15-notes-h" data-r>Notes</h2>
+        <ol class="rows">
+          {notes.map(n => (
+            <li class="note" data-r>
+              <time class="when mono" datetime={n.date.toISOString()}>{formatDate(n.date)}</time>
+              <div>
+                <h3>{n.title}</h3>
+                <p class="sum">{n.description}</p>
+              </div>
+              {n.tags && <p class="tags mono">{n.tags.map(t => <span>{t}</span>)}</p>}
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="sec contact" id="s15-contact" aria-labelledby="s15-contact-h" data-sec>
+        <p class="label mono" data-r><span>05</span>Contact</p>
+        <h2 id="s15-contact-h" data-r>Let's <span class="blue">talk</span>.</h2>
+        <ul class="links">
+          {profile.links.map(l => (
+            <li data-r>
+              <a href={l.href} target="_blank" rel="noopener">
+                <span>{l.label}</span><span class="mono">{host(l.href)}</span><span class="arr" aria-hidden="true">↗</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <footer class="foot mono">
+        <span>© {year} {profile.name}</span>
+        <span>{profile.location} · From {profile.origin}</span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('.s15');
+  if (root) {
+    root.classList.add('js');
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    type V = [number, number, number];
+    const rx = (v: V, a: number): V => { const c = Math.cos(a), s = Math.sin(a); return [v[0], v[1] * c - v[2] * s, v[1] * s + v[2] * c]; };
+    const ry = (v: V, a: number): V => { const c = Math.cos(a), s = Math.sin(a); return [v[0] * c + v[2] * s, v[1], -v[0] * s + v[2] * c]; };
+    const rz = (v: V, a: number): V => { const c = Math.cos(a), s = Math.sin(a); return [v[0] * c - v[1] * s, v[0] * s + v[1] * c, v[2]]; };
+    const add = (a: V, b: V, k = 1): V => [a[0] + b[0] * k, a[1] + b[1] * k, a[2] + b[2] * k];
+    const clamp = (x: number, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+    const DOWN: V = [0, -1, 0];
+
+    // Poses: [pitch, hipL, hipR, kneeL, kneeR, shL, shR, abL, abR, elL, elR, head, yaw, roll]
+    const clusters = [
+      { name: 'walk', c: [-1.1, 0.35, 0.5] as V, q: [0.06, 0.38, -0.26, 0.22, 0.6, -0.38, 0.42, 0.12, 0.12, 0.35, 0.5, 0.05, 0, 0] },
+      { name: 'roll', c: [-0.2, -0.55, 1.1] as V, q: [0.16, 0.38, 0.38, 0.72, 0.72, 0.12, 0.12, 0.16, 0.16, 0.7, 0.7, -0.05, 0, 0] },
+      { name: 'turn', c: [0.95, -0.2, 0.55] as V, q: [0.12, 0.32, 0.28, 0.62, 0.52, 0.1, 0.25, 0.42, 0.3, 0.5, 0.35, 0.1, 0.75, -0.11] },
+      { name: 'balance', c: [1.05, 0.55, -0.55] as V, q: [0.04, 0.05, 0.75, 0.1, 1.35, 0.15, 0.15, 1.25, 1.25, 0.12, 0.12, 0, -0.2, 0.05] },
+      { name: 'recover', c: [0.0, 0.25, -1.1] as V, q: [0.32, 0.55, -0.35, 0.95, 0.25, 0.85, -0.45, 0.55, 0.5, 0.25, 0.45, -0.15, 0.25, -0.04] },
+      { name: 'crouch', c: [-1.0, -0.45, -0.45] as V, q: [0.48, 1.1, 1.1, 2.0, 2.0, 0.7, 0.7, 0.18, 0.18, 0.75, 0.75, -0.25, 0, 0] },
+    ];
+    const K = clusters.length;
+    const centers = clusters.map(c => c.c.map(x => x * 1.2) as V);
+
+    // Wheel-legged humanoid from simple forward kinematics, drawn as hollow line-art capsules.
+    const R_WHEEL = 0.11;
+    const box = (c: V, h: V, f: (v: V) => V) => {
+      const p: V[] = [];
+      for (const x of [-1, 1]) for (const y of [-1, 1]) for (const z of [-1, 1]) p.push(add(c, f([x * h[0], y * h[1], z * h[2]])));
+      return [[0, 1, 3, 2], [4, 5, 7, 6], [0, 1, 5, 4], [2, 3, 7, 6], [0, 2, 6, 4], [1, 3, 7, 5]].map(f => f.map(i => p[i]));
+    };
+    const skeleton = (q: number[], spin: number) => {
+      const j: Record<string, V> = {};
+      const up = (v: V) => rx(v, q[0]);
+      j.pelvis = [0, 0, 0];
+      j.waist = up([0, 0.24, 0]);
+      j.chest = up([0, 0.53, 0]);
+      j.neck = up([0, 0.6, 0]);
+      j.head = add(j.neck, up(rx([0, 0.13, 0], q[11])));
+      const wheels: { hub: V; faces: V[][]; spokes: [V, V][] }[] = [];
+      for (const s of [1, -1]) {
+        const k = s === 1 ? 'L' : 'R', o = s === 1 ? 0 : 1;
+        const hip: V = [s * 0.1, -0.07, 0];
+        const knee = add(hip, rx(DOWN, -q[1 + o]), 0.42);
+        const ankle = add(knee, rx(DOWN, -(q[1 + o] - q[3 + o])), 0.4);
+        const hub: V = [ankle[0] + s * 0.05, ankle[1], ankle[2]];
+        Object.assign(j, { ['hip' + k]: hip, ['knee' + k]: knee, ['ankle' + k]: ankle });
+        const faces: V[][] = [];
+        for (const [dx, r] of [[-0.025, R_WHEEL], [0.025, R_WHEEL], [0.03, R_WHEEL * 0.45]]) {
+          const ring: V[] = [];
+          for (let i = 0; i <= 28; i++) {
+            const a = (i / 28) * Math.PI * 2;
+            ring.push([hub[0] + s * dx, hub[1] + Math.cos(a) * r, hub[2] + Math.sin(a) * r]);
+          }
+          faces.push(ring);
+        }
+        const spokes: [V, V][] = [];
+        for (let i = 0; i < 5; i++) {
+          const a = spin + (i * Math.PI * 2) / 5, h: V = [hub[0] + s * 0.03, hub[1], hub[2]];
+          spokes.push([add(h, [0, Math.cos(a), Math.sin(a)], R_WHEEL * 0.45), add(h, [0, Math.cos(a), Math.sin(a)], R_WHEEL * 0.9)]);
+        }
+        wheels.push({ hub, faces, spokes });
+        const ab = s * q[7 + o];
+        const shoulder = up([s * 0.2, 0.47, 0]);
+        const elbow = add(shoulder, up(rz(rx(DOWN, -q[5 + o]), ab)), 0.27);
+        const fore = up(rz(rx(DOWN, -(q[5 + o] + q[9 + o])), ab));
+        const wrist = add(elbow, fore, 0.25);
+        Object.assign(j, { ['sh' + k]: shoulder, ['el' + k]: elbow, ['wr' + k]: wrist, ['hand' + k]: add(wrist, fore, 0.08) });
+      }
+      const boxes = [...box(up([0, 0.38, 0]), [0.15, 0.15, 0.09], up), ...box([0, -0.03, 0], [0.13, 0.065, 0.08], v => v)];
+      const lift = R_WHEEL - Math.min(wheels[0].hub[1], wheels[1].hub[1]);
+      const T = (v: V) => ry(rz([v[0], v[1] + lift, v[2]], q[13]), q[12]);
+      for (const k in j) j[k] = T(j[k]);
+      return {
+        j,
+        boxes: boxes.map(f => f.map(T)),
+        wheels: wheels.map(w => ({ hub: T(w.hub), faces: w.faces.map(f => f.map(T)), spokes: w.spokes.map(([a, b]) => [T(a), T(b)] as [V, V]) })),
+      };
+    };
+    const LIMBS: [string, string, number][] = [
+      ['hipL', 'kneeL', 0.05], ['kneeL', 'ankleL', 0.042], ['hipR', 'kneeR', 0.05], ['kneeR', 'ankleR', 0.042],
+      ['shL', 'elL', 0.04], ['elL', 'wrL', 0.034], ['wrL', 'handL', 0.03], ['shR', 'elR', 0.04], ['elR', 'wrR', 0.034], ['wrR', 'handR', 0.03],
+      ['chest', 'neck', 0.032], ['pelvis', 'waist', 0.06],
+    ];
+    const JOINTS = ['shL', 'shR', 'elL', 'elR', 'wrL', 'wrR', 'hipL', 'hipR', 'kneeL', 'kneeR', 'neck'];
+
+    type Cam = { yaw: number; pitch: number; f: number; D: number; ox: number; oy: number };
+    const project = (v: V, c: Cam) => {
+      const cy = Math.cos(c.yaw), sy = Math.sin(c.yaw), cp = Math.cos(c.pitch), sp = Math.sin(c.pitch);
+      const xr = v[0] * cy - v[2] * sy, zr = v[0] * sy + v[2] * cy;
+      const yr = v[1] * cp + zr * sp, zz = -v[1] * sp + zr * cp + c.D;
+      return [c.ox + (xr * c.f) / zz, c.oy - (yr * c.f) / zz, zz];
+    };
+
+    const INK = '23, 30, 46', BLUE = '45, 91, 255', SOFT = '143, 176, 255';
+    const polyline = (ctx: CanvasRenderingContext2D, pts: V[], c: Cam) => {
+      pts.forEach((p, i) => { const [x, y] = project(p, c); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
+    };
+    const drawGround = (ctx: CanvasRenderingContext2D, c: Cam, r: number, alpha: number) => {
+      ctx.strokeStyle = `rgba(${INK}, ${alpha})`;
+      ctx.lineWidth = 1;
+      for (const rr of [r, r * 0.55]) {
+        ctx.beginPath();
+        const ring: V[] = [];
+        for (let i = 0; i <= 48; i++) { const a = (i / 48) * Math.PI * 2; ring.push([Math.cos(a) * rr, 0, Math.sin(a) * rr]); }
+        polyline(ctx, ring, c);
+        ctx.stroke();
+      }
+    };
+    // Painter's order: far primitives first, so the white capsule cores hide what is behind them.
+    const drawFigure = (ctx: CanvasRenderingContext2D, q: number[], spin: number, c: Cam, o: { alpha: number; color?: string; ghost?: boolean; lw?: number }) => {
+      const { j, boxes, wheels } = skeleton(q, spin);
+      const col = o.color ?? INK, lw = o.lw ?? 1.2, stroke = `rgba(${col}, ${o.alpha})`;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      if (o.ghost) {
+        ctx.strokeStyle = stroke;
+        ctx.lineWidth = lw;
+        ctx.beginPath();
+        for (const [a, b] of LIMBS) polyline(ctx, [j[a], j[b]], c);
+        for (const f of boxes) polyline(ctx, [...f, f[0]], c);
+        for (const w of wheels) polyline(ctx, w.faces[1], c);
+        ctx.stroke();
+        return;
+      }
+      const prims: { z: number; draw: () => void }[] = [];
+      for (const [a, b, r] of LIMBS) {
+        const pa = project(j[a], c), pb = project(j[b], c), zz = (pa[2] + pb[2]) / 2;
+        prims.push({ z: zz, draw: () => {
+          const wpx = (2 * r * c.f) / zz;
+          ctx.beginPath(); ctx.moveTo(pa[0], pa[1]); ctx.lineTo(pb[0], pb[1]);
+          ctx.lineWidth = wpx + lw * 2; ctx.strokeStyle = stroke; ctx.stroke();
+          ctx.lineWidth = wpx; ctx.strokeStyle = '#fff'; ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(pa[0], pa[1]); ctx.lineTo(pb[0], pb[1]);
+          ctx.lineWidth = 0.8; ctx.strokeStyle = `rgba(${col}, ${o.alpha * 0.28})`; ctx.stroke();
+        } });
+      }
+      for (const name of JOINTS) {
+        const p = project(j[name], c);
+        prims.push({ z: p[2] - 0.06, draw: () => {
+          ctx.beginPath(); ctx.arc(p[0], p[1], Math.max(1.6, 0.016 * c.f / p[2]), 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${BLUE}, ${o.alpha})`; ctx.fill();
+        } });
+      }
+      for (const f of boxes) {
+        const z = f.reduce((acc, v) => acc + project(v, c)[2], 0) / 4;
+        prims.push({ z, draw: () => {
+          ctx.beginPath(); polyline(ctx, [...f, f[0]], c);
+          ctx.fillStyle = '#fff'; ctx.fill();
+          ctx.lineWidth = lw * 0.9; ctx.strokeStyle = stroke; ctx.stroke();
+        } });
+      }
+      for (const w of wheels) {
+        prims.push({ z: project(w.hub, c)[2], draw: () => {
+          ctx.lineWidth = lw * 0.9;
+          ctx.strokeStyle = stroke;
+          ctx.fillStyle = '#fff';
+          for (const f of w.faces.slice(0, 2)) { ctx.beginPath(); polyline(ctx, f, c); ctx.fill(); ctx.stroke(); }
+          ctx.beginPath(); polyline(ctx, w.faces[2], c);
+          for (const s of w.spokes) polyline(ctx, s, c);
+          ctx.strokeStyle = `rgba(${col}, ${o.alpha * 0.6})`; ctx.stroke();
+        } });
+      }
+      const ph = project(j.head, c);
+      prims.push({ z: ph[2], draw: () => {
+        const r = (0.105 * c.f) / ph[2];
+        ctx.beginPath(); ctx.ellipse(ph[0], ph[1], r * 0.86, r, 0, 0, Math.PI * 2);
+        ctx.fillStyle = '#fff'; ctx.fill();
+        ctx.lineWidth = lw; ctx.strokeStyle = stroke; ctx.stroke();
+        const fx = project(add(j.head, ry([0, 0, 0.08], q[12])), c);
+        if (fx[2] > ph[2]) return;
+        ctx.beginPath(); ctx.moveTo(fx[0] - r * 0.42, ph[1] - r * 0.12); ctx.lineTo(fx[0] + r * 0.42, ph[1] - r * 0.12);
+        ctx.lineWidth = lw * 1.6; ctx.strokeStyle = `rgba(${BLUE}, ${o.alpha})`; ctx.stroke();
+      } });
+      prims.sort((a, b) => b.z - a.z).forEach(p => p.draw());
+    };
+
+    // Seeded latent samples: anisotropic clusters, thin bridges along the motion path, sparse background.
+    let seed = 7;
+    const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const gauss = () => Math.sqrt(-2 * Math.log(rnd() + 1e-9)) * Math.cos(2 * Math.PI * rnd());
+    const catmull = (pts: V[], u: number, closed: boolean): V => {
+      const n = pts.length, i = Math.min(Math.floor(u), closed ? n - 1 : n - 2), s = u - i;
+      const at = (k: number) => (closed ? pts[(k + n) % n] : pts[clamp(k, 0, n - 1)]);
+      const p0 = at(i - 1), p1 = at(i), p2 = at(i + 1), p3 = at(i + 2);
+      const r = [0, 1, 2].map(d => 0.5 * (2 * p1[d] + (-p0[d] + p2[d]) * s + (2 * p0[d] - 5 * p1[d] + 4 * p2[d] - p3[d]) * s * s + (-p0[d] + 3 * p1[d] - 3 * p2[d] + p3[d]) * s * s * s));
+      return r as V;
+    };
+    const N = 3072, base = new Float32Array(N * 3), phase = new Float32Array(N), cid = new Int8Array(N);
+    let n = 0;
+    const put = (v: V, c: number) => { base.set(v, n * 3); phase[n] = rnd() * 6.283; cid[n++] = c; };
+    clusters.forEach((cl, k) => {
+      const sd: V = [0.17 + rnd() * 0.05, 0.08 + rnd() * 0.04, 0.11 + rnd() * 0.04];
+      const a = rnd() * 3, b = rnd() * 3;
+      for (let i = 0; i < 400; i++) put(add(centers[k], ry(rx([gauss() * sd[0], gauss() * sd[1], gauss() * sd[2]], a), b)), k);
+    });
+    for (let k = 0; k < K; k++) for (let i = 0; i < 80; i++) {
+      put(add(catmull(centers, k + rnd(), true), [gauss() * 0.05, gauss() * 0.05, gauss() * 0.05]), -1);
+    }
+    while (n < N) put([gauss() * 0.85, gauss() * 0.6, gauss() * 0.85], -1);
+
+    const drift = (i: number, t: number, out: Float32Array) => {
+      const p = phase[i], j = i * 3;
+      out[0] = base[j] + 0.03 * Math.sin(t * 0.37 + p);
+      out[1] = base[j + 1] + 0.03 * Math.sin(t * 0.29 + p * 1.7);
+      out[2] = base[j + 2] + 0.03 * Math.cos(t * 0.33 + p * 0.6);
+    };
+    const weightsAt = (z: V) => {
+      const w = centers.map(c => Math.exp(-((z[0] - c[0]) ** 2 + (z[1] - c[1]) ** 2 + (z[2] - c[2]) ** 2) / (2 * 0.5 * 0.5)));
+      const s = w.reduce((a, b) => a + b, 0) || 1;
+      return w.map(x => x / s);
+    };
+    const blend = (w: number[], t: number) => {
+      const q = clusters[0].q.map((_, d) => clusters.reduce((acc, cl, k) => acc + cl.q[d] * w[k], 0));
+      q[0] += 0.015 * Math.sin(t * 1.1);
+      q[5] += 0.03 * Math.sin(t * 0.9);
+      q[6] -= 0.03 * Math.sin(t * 0.9 + 0.6);
+      q[13] += 0.012 * Math.sin(t * 0.7);
+      return q;
+    };
+    const lingering = (u: number) => { const i = Math.floor(u), s = u - i; return i + s - (0.6 * Math.sin(2 * Math.PI * s)) / (2 * Math.PI); };
+
+    // Draws the scatter for any region; shared by the hero and the minimap.
+    const LEVELS = 6;
+    const buckets = Array.from({ length: LEVELS * 3 }, () => [] as number[]);
+    const sx = new Float32Array(N), sy = new Float32Array(N), sz = new Float32Array(N);
+    const tmp = new Float32Array(3);
+    const drawScatter = (ctx: CanvasRenderingContext2D, c: Cam, t: number, active: number, step: number, dot: number) => {
+      buckets.forEach(b => (b.length = 0));
+      for (let i = 0; i < N; i += step) {
+        drift(i, t, tmp);
+        const [x, y, zz] = project([tmp[0], tmp[1], tmp[2]], c);
+        sx[i] = x; sy[i] = y; sz[i] = zz;
+        const near = clamp((c.D + 1.6 - zz) / 3.2);
+        const g = cid[i] < 0 ? 0 : cid[i] === active ? 2 : 1;
+        buckets[Math.min(LEVELS - 1, Math.floor(near * LEVELS)) * 3 + g].push(i);
+      }
+      for (let l = 0; l < LEVELS; l++) {
+        const near = (l + 0.5) / LEVELS;
+        for (let g = 0; g < 3; g++) {
+          const list = buckets[l * 3 + g];
+          if (!list.length) continue;
+          const a = g === 0 ? 0.12 + near * 0.25 : g === 1 ? 0.3 + near * 0.5 : 0.4 + near * 0.6;
+          ctx.fillStyle = `rgba(${g === 0 ? INK : g === 1 ? SOFT : BLUE}, ${a})`;
+          const s = (0.9 + near * 1.3) * dot;
+          for (const i of list) ctx.fillRect(sx[i] - s / 2, sy[i] - s / 2, s, s);
+        }
+      }
+    };
+    const labelFont = (px: number) => `500 ${px}px "IBM Plex Mono", ui-monospace, monospace`;
+
+    const setupCanvas = (canvas: HTMLCanvasElement, el: HTMLElement, onSize: (w: number, h: number) => void) => {
+      new ResizeObserver(() => {
+        const r = el.getBoundingClientRect();
+        const dpr = Math.min(2, devicePixelRatio || 1);
+        canvas.width = Math.round(r.width * dpr);
+        canvas.height = Math.round(r.height * dpr);
+        canvas.getContext('2d')!.setTransform(dpr, 0, 0, dpr, 0, 0);
+        onSize(r.width, r.height);
+      }).observe(el);
+    };
+
+    // Hero: latent space on the left, decoder on the right.
+    const stage = root.querySelector<HTMLElement>('.stage')!;
+    const heroCanvas = stage.querySelector('canvas')!;
+    const hctx = heroCanvas.getContext('2d')!;
+    const cellSpace = stage.querySelector<HTMLElement>('[data-cell="space"]')!;
+    const cellDec = stage.querySelector<HTMLElement>('[data-cell="dec"]')!;
+    const wRows = [...stage.querySelectorAll<HTMLElement>('.weights > div')].map(d => ({
+      name: d.querySelector<HTMLElement>('[data-w="name"]')!, bar: d.querySelector<HTMLElement>('[data-w="bar"]')!, val: d.querySelector<HTMLElement>('[data-w="val"]')!,
+    }));
+    let hw = 0, hh = 0;
+    let A = { x: 0, y: 0, w: 0, h: 0 }, B = { x: 0, y: 0, w: 0, h: 0 };
+    const rel = (el: HTMLElement) => {
+      const s = stage.getBoundingClientRect(), r = el.getBoundingClientRect();
+      return { x: r.left - s.left, y: r.top - s.top, w: r.width, h: r.height };
+    };
+    let spin = 0, heroFrame = 0;
+    const drawHero = (t: number, dt: number) => {
+      if (!hw) return;
+      hctx.clearRect(0, 0, hw, hh);
+      const u = lingering((t / 6.5) % K);
+      const z = catmull(centers, u, true);
+      const w = weightsAt(z);
+      const order = w.map((x, k) => k).sort((a, b) => w[b] - w[a]);
+      const active = order[0];
+
+      const scale = Math.min(A.w * 0.27, A.h * 0.3);
+      const cam: Cam = { yaw: 0.5 + t * 0.035, pitch: 0.34, D: 6, f: scale * 6, ox: A.x + A.w * 0.5, oy: A.y + A.h * 0.53 };
+      drawScatter(hctx, cam, t, active, 1, hw < 640 ? 0.85 : 1);
+
+      // the motion prior path, faint and dotted
+      hctx.setLineDash([1, 5]);
+      hctx.lineWidth = 1;
+      hctx.strokeStyle = `rgba(${BLUE}, 0.35)`;
+      hctx.beginPath();
+      for (let i = 0; i <= 240; i++) { const [x, y] = project(catmull(centers, (i / 240) * K, true), cam); i ? hctx.lineTo(x, y) : hctx.moveTo(x, y); }
+      hctx.stroke();
+      hctx.setLineDash([]);
+
+      // trail behind z
+      let prev: number[] | null = null;
+      for (let i = 0; i <= 36; i++) {
+        const uu = lingering(((t - i * 0.07) / 6.5 + K) % K);
+        const p = project(catmull(centers, uu, true), cam);
+        if (prev && Math.hypot(p[0] - prev[0], p[1] - prev[1]) < 80) {
+          hctx.strokeStyle = `rgba(${BLUE}, ${0.85 * (1 - i / 36)})`;
+          hctx.lineWidth = 1.6;
+          hctx.beginPath(); hctx.moveTo(prev[0], prev[1]); hctx.lineTo(p[0], p[1]); hctx.stroke();
+        }
+        prev = p;
+      }
+
+      hctx.font = labelFont(hw < 640 ? 9.5 : 10.5);
+      clusters.forEach((cl, k) => {
+        const [x, y] = project(centers[k], cam);
+        const on = k === active;
+        hctx.strokeStyle = `rgba(${on ? BLUE : INK}, ${on ? 0.6 : 0.25})`;
+        hctx.lineWidth = 1;
+        hctx.beginPath(); hctx.moveTo(x + 4, y - 4); hctx.lineTo(x + 16, y - 16); hctx.lineTo(x + 22, y - 16); hctx.stroke();
+        hctx.fillStyle = on ? `rgb(${BLUE})` : 'rgba(23, 30, 46, 0.55)';
+        const text = on ? `${cl.name}  ${w[k].toFixed(2)}` : cl.name;
+        hctx.fillText(text, Math.min(x + 26, A.x + A.w - hctx.measureText(text).width - 10), y - 12.5);
+      });
+
+      const [zx, zy] = project(z, cam);
+      hctx.beginPath(); hctx.arc(zx, zy, 11, 0, Math.PI * 2);
+      hctx.strokeStyle = `rgba(${BLUE}, 0.3)`; hctx.lineWidth = 1; hctx.stroke();
+      hctx.beginPath(); hctx.arc(zx, zy, 4.5, 0, Math.PI * 2);
+      hctx.fillStyle = '#fff'; hctx.fill();
+      hctx.strokeStyle = `rgb(${BLUE})`; hctx.lineWidth = 2; hctx.stroke();
+      hctx.fillStyle = `rgb(${BLUE})`;
+      hctx.fillText('z', zx - 18, zy + 4);
+
+      // connector from z into the decoder
+      const px = B.x, py = B.y + B.h * 0.5;
+      hctx.setLineDash([2, 4]);
+      hctx.strokeStyle = `rgba(${BLUE}, 0.45)`;
+      hctx.lineWidth = 1;
+      hctx.beginPath();
+      hctx.moveTo(zx, zy);
+      hctx.bezierCurveTo(zx + 90, zy, px - 90, py, px, py);
+      hctx.stroke();
+      hctx.setLineDash([]);
+      hctx.beginPath(); hctx.arc(px, py, 3, 0, Math.PI * 2);
+      hctx.fillStyle = `rgb(${BLUE})`; hctx.fill();
+
+      // decoder figure, with faint ghosts of the two nearest pure poses
+      spin -= dt * (2 + 9 * (w[1] + w[2] * 0.6));
+      const fs = Math.min(B.h * 0.52 / 1.8, B.w * 0.62);
+      const fcam: Cam = { yaw: Math.PI + 0.85 + 0.25 * Math.sin(t * 0.09), pitch: 0.16, D: 7, f: fs * 7, ox: B.x + B.w * 0.5, oy: B.y + B.h * 0.74 };
+      drawGround(hctx, fcam, 0.62, 0.1);
+      for (const k of order.slice(0, 2)) drawFigure(hctx, clusters[k].q, spin, fcam, { alpha: 0.35, color: SOFT, lw: 1, ghost: true });
+      drawFigure(hctx, blend(w, t), spin, fcam, { alpha: 0.92, lw: 1.2 });
+
+      if (heroFrame++ % 4 === 0) {
+        wRows.forEach((r, i) => {
+          const k = order[i];
+          r.name.textContent = clusters[k].name;
+          r.bar.style.transform = `scaleX(${w[k].toFixed(3)})`;
+          r.val.textContent = w[k].toFixed(2);
+          r.name.parentElement!.classList.toggle('on', i === 0);
+        });
+      }
+    };
+    setupCanvas(heroCanvas, stage, (w, h) => {
+      hw = w; hh = h; A = rel(cellSpace); B = rel(cellDec);
+      drawHero(clock, 0);
+    });
+
+    let clock = 9, last = 0, heroRaf = 0;
+    const heroLoop = (now: number) => {
+      const dt = Math.min(0.05, (now - (last || now)) / 1000);
+      last = now; clock += dt;
+      drawHero(clock, dt);
+      heroRaf = requestAnimationFrame(heroLoop);
+    };
+    let heroOn = true;
+    const heroEl = root.querySelector<HTMLElement>('.hero')!;
+    new IntersectionObserver(([e]) => {
+      heroOn = e.isIntersecting;
+      root.classList.toggle('past-hero', !e.isIntersecting && e.boundingClientRect.top < 0);
+      if (reduce) return;
+      if (heroOn && !heroRaf) { last = 0; heroRaf = requestAnimationFrame(heroLoop); }
+      if (!heroOn && heroRaf) { cancelAnimationFrame(heroRaf); heroRaf = 0; }
+      if (!heroOn) startMini();
+    }, { rootMargin: '-15% 0px 0px 0px' }).observe(heroEl);
+
+    // Minimap: scroll position walks z along an open path through the clusters.
+    const mini = root.querySelector<HTMLElement>('.mini')!;
+    const miniCanvas = mini.querySelector('canvas')!;
+    const mctx = miniCanvas.getContext('2d')!;
+    const mLabel = mini.querySelector<HTMLElement>('[data-m="label"]')!;
+    const mW = mini.querySelector<HTMLElement>('[data-m="w"]')!;
+    const mSection = mini.querySelector<HTMLElement>('[data-m="section"]')!;
+    let mw = 0, mh = 0, uCur = 0, uTarget = 0, miniRaf = 0, mClock = 0, mLast = 0, mSpin = 0;
+    const drawMini = (t: number, dt: number) => {
+      if (!mw) return;
+      mctx.clearRect(0, 0, mw, mh);
+      const wide = mw > mh * 1.6;
+      const a = wide ? { x: 0, y: 0, w: mw * 0.62, h: mh } : { x: 0, y: 0, w: mw, h: mw };
+      const b = wide ? { x: mw * 0.62, y: 0, w: mw * 0.38, h: mh } : { x: 0, y: mw, w: mw, h: mh - mw };
+      const z = catmull(centers, uCur, false);
+      const w = weightsAt(z);
+      const active = w.indexOf(Math.max(...w));
+      const scale = Math.min(a.w, a.h) * 0.27;
+      const cam: Cam = { yaw: 0.5 + t * 0.02, pitch: 0.34, D: 6, f: scale * 6, ox: a.x + a.w / 2, oy: a.y + a.h / 2 };
+      drawScatter(mctx, cam, t, active, wide ? 4 : 3, 0.7);
+      mctx.lineWidth = 1;
+      mctx.setLineDash([1, 3]);
+      mctx.strokeStyle = `rgba(${BLUE}, 0.35)`;
+      mctx.beginPath();
+      for (let i = 0; i <= 120; i++) { const [x, y] = project(catmull(centers, (i / 120) * (K - 1), false), cam); i ? mctx.lineTo(x, y) : mctx.moveTo(x, y); }
+      mctx.stroke();
+      mctx.setLineDash([]);
+      mctx.strokeStyle = `rgb(${BLUE})`;
+      mctx.lineWidth = 1.4;
+      mctx.beginPath();
+      const steps = Math.max(1, Math.round(uCur * 30));
+      for (let i = 0; i <= steps; i++) { const [x, y] = project(catmull(centers, (i / steps) * uCur, false), cam); i ? mctx.lineTo(x, y) : mctx.moveTo(x, y); }
+      mctx.stroke();
+      if (!wide) {
+        mctx.font = labelFont(8.5);
+        const [lx, ly] = project(centers[active], cam);
+        const lxx = Math.min(lx + 8, mw - mctx.measureText(clusters[active].name).width - 2);
+        mctx.lineWidth = 3; mctx.strokeStyle = '#fff';
+        mctx.strokeText(clusters[active].name, lxx, ly - 8);
+        mctx.fillStyle = `rgb(${BLUE})`;
+        mctx.fillText(clusters[active].name, lxx, ly - 8);
+      }
+      const [zx, zy] = project(z, cam);
+      mctx.beginPath(); mctx.arc(zx, zy, 3.2, 0, Math.PI * 2);
+      mctx.fillStyle = '#fff'; mctx.fill();
+      mctx.strokeStyle = `rgb(${BLUE})`; mctx.lineWidth = 1.6; mctx.stroke();
+
+      mSpin -= dt * 8 * (w[1] + w[2] * 0.6);
+      const fs = Math.min((b.h * 0.8) / 1.8, b.w * 0.7);
+      const fcam: Cam = { yaw: Math.PI + 0.85, pitch: 0.14, D: 7, f: fs * 7, ox: b.x + b.w / 2, oy: b.y + b.h * 0.9 };
+      drawGround(mctx, fcam, 0.55, 0.12);
+      drawFigure(mctx, blend(w, t), mSpin, fcam, { alpha: 0.9, lw: 0.9 });
+      mLabel.textContent = clusters[active].name;
+      mW.textContent = w[active].toFixed(2);
+    };
+    setupCanvas(miniCanvas, miniCanvas, (w, h) => { mw = w; mh = h; drawMini(mClock, 0); });
+
+    const sectionEls = [...root.querySelectorAll<HTMLElement>('[data-sec]')];
+    const indexLinks = [...root.querySelectorAll<HTMLElement>('[data-index]')];
+    const measure = () => {
+      const start = heroEl.offsetTop + heroEl.offsetHeight - innerHeight * 0.6;
+      const end = document.documentElement.scrollHeight - innerHeight;
+      uTarget = clamp((scrollY - start) / Math.max(1, end - start)) * (K - 1) * 0.999;
+      let cur = 0;
+      sectionEls.forEach((s, i) => { if (s.getBoundingClientRect().top < innerHeight * 0.45) cur = i; });
+      indexLinks.forEach((a, i) => a.classList.toggle('on', i === cur));
+      mSection.textContent = `${String(cur + 1).padStart(2, '0')} ${indexLinks[cur]?.textContent?.replace(/^\d+/, '') ?? ''}`;
+    };
+    const miniLoop = (now: number) => {
+      const dt = Math.min(0.05, (now - (mLast || now)) / 1000);
+      mLast = now; mClock += dt;
+      uCur += (uTarget - uCur) * 0.06;
+      drawMini(mClock, dt);
+      miniRaf = heroOn ? 0 : requestAnimationFrame(miniLoop);
+    };
+    const startMini = () => {
+      if (reduce) { uCur = uTarget; drawMini(mClock, 0); return; }
+      if (!miniRaf && !heroOn) { mLast = 0; miniRaf = requestAnimationFrame(miniLoop); }
+    };
+    addEventListener('scroll', () => { measure(); startMini(); }, { passive: true });
+    addEventListener('resize', measure);
+    measure();
+    uCur = uTarget;
+    if (reduce) drawHero(clock, 0);
+    document.fonts?.ready.then(() => { drawHero(clock, 0); drawMini(mClock, 0); });
+
+    const reveal = new IntersectionObserver(entries => {
+      for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); reveal.unobserve(e.target); }
+    }, { rootMargin: '0px 0px -8% 0px' });
+    root.querySelectorAll('[data-r]').forEach(el => reveal.observe(el));
+  }
+</script>
+
+<style>
+  .s15 {
+    --ink: #171e2e;
+    --ink-2: #4a5568;
+    --ink-3: #8a94a6;
+    --line: #e8ebf1;
+    --blue: #2d5bff;
+    --soft: #8fb0ff;
+    --gutter: clamp(16px, 3.4vw, 48px);
+    --rail: 184px;
+    --mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+    --ease: cubic-bezier(.2, .7, .2, 1);
+    position: relative;
+    background: #fff;
+    color: var(--ink);
+    font: 400 16px/1.65 'IBM Plex Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+    padding-bottom: 88px;
+  }
+  .s15 *, .s15 *::before, .s15 *::after { box-sizing: border-box; }
+  :where(.s15 h1, .s15 h2, .s15 h3, .s15 p, .s15 ol, .s15 ul, .s15 dl, .s15 dd, .s15 figure) { margin: 0; padding: 0; }
+  :where(.s15 ol, .s15 ul) { list-style: none; }
+  :where(.s15 a) { color: inherit; text-decoration: none; }
+  .s15 a:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; border-radius: 3px; }
+  .mono { font-family: var(--mono); }
+  .blue { color: var(--blue); }
+
+  .nav {
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    padding: 26px var(--gutter); border-bottom: 1px solid var(--line);
+  }
+  .brand { font-weight: 500; font-size: 15px; letter-spacing: -.005em; }
+  .nav nav { display: flex; gap: clamp(14px, 2.4vw, 32px); }
+  .nav nav a { font-size: 14px; color: var(--ink-2); transition: color .3s; }
+  .nav nav a:hover { color: var(--blue); }
+
+  .layout { display: grid; grid-template-columns: var(--rail) minmax(0, 1fr); }
+  .rail { border-right: 1px solid var(--line); }
+  .rail-in {
+    position: sticky; top: 0; height: 100vh; max-height: 100%;
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 56px 0 104px 0;
+  }
+  .index { display: grid; gap: 2px; }
+  .index a {
+    position: relative; display: flex; gap: 14px; align-items: baseline;
+    padding: 9px var(--gutter); font-size: 14px; color: var(--ink-3); transition: color .4s;
+  }
+  .index a span { font-size: 11px; letter-spacing: .06em; transition: color .4s; }
+  .index a::before {
+    content: ''; position: absolute; left: 0; top: 50%; width: 2px; height: 18px; margin-top: -9px;
+    background: var(--blue); transform: scaleY(0); transition: transform .5s var(--ease);
+  }
+  .index a:hover { color: var(--ink); }
+  .index a.on { color: var(--ink); }
+  .index a.on span { color: var(--blue); }
+  .index a.on::before { transform: scaleY(1); }
+
+  .mini { margin: 0 18px 0 var(--gutter); opacity: 0; transform: translateY(8px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+  .past-hero .mini { opacity: 1; transform: none; }
+  .mini canvas { display: block; width: 100%; height: 252px; }
+  .mini-now { display: none; }
+  .mini figcaption { display: flex; justify-content: space-between; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); font-size: 10.5px; color: var(--ink-3); letter-spacing: .03em; }
+  .mini figcaption b { font-weight: 500; color: var(--blue); }
+
+  .main { padding: 0 var(--gutter); min-width: 0; }
+
+  .hero {
+    display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px;
+    align-items: center; align-content: center; min-height: clamp(640px, calc(100vh - 80px), 860px); padding: 40px 0 28px;
+  }
+  .hero-text { grid-column: 1 / 5; align-self: center; }
+  .eyebrow { font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+  .hero h1 { margin: 22px 0 28px; font-weight: 500; font-size: clamp(48px, 5.2vw, 80px); line-height: .98; letter-spacing: -.035em; }
+  .hero h1 span { display: block; }
+  .role { font-size: 15.5px; color: var(--ink-2); line-height: 1.6; }
+  .role a { color: var(--ink); border-bottom: 1px solid var(--line); transition: color .3s, border-color .3s; }
+  .role a:hover { color: var(--blue); border-color: var(--blue); }
+  .tagline { margin-top: 22px; max-width: 26ch; font-size: clamp(19px, 1.6vw, 22px); line-height: 1.45; color: var(--ink); letter-spacing: -.01em; }
+
+  .stage {
+    position: relative; grid-column: 5 / 13; height: clamp(440px, 64vh, 600px);
+    display: grid; grid-template-columns: 1.55fr 1fr;
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  }
+  .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .cell { position: relative; pointer-events: none; }
+  .dec { border-left: 1px solid var(--line); }
+  .cap { position: absolute; top: 16px; left: 18px; font-size: 11px; line-height: 1.6; letter-spacing: .04em; color: var(--ink); }
+  .cap em { font-style: normal; color: var(--ink-3); }
+  .weights { position: absolute; left: 18px; right: 18px; bottom: 16px; display: grid; gap: 6px; font-size: 10.5px; color: var(--ink-3); }
+  .weights div { display: grid; grid-template-columns: 58px 1fr 34px; align-items: center; gap: 10px; }
+  .weights dd:last-child { text-align: right; }
+  .weights i { display: block; height: 2px; background: var(--soft); transform-origin: left; transform: scaleX(0); }
+  .weights dd:nth-child(2) { height: 2px; background: var(--line); }
+  .weights .on { color: var(--blue); }
+  .weights .on i { background: var(--blue); }
+  .figcap { grid-column: 5 / 13; margin-top: 14px; display: flex; gap: 16px; font-size: 11px; line-height: 1.6; color: var(--ink-3); letter-spacing: .02em; }
+  .figcap span { color: var(--ink); white-space: nowrap; }
+
+  .sec { padding: clamp(96px, 12vw, 168px) 0 0; }
+  .label { display: flex; gap: 14px; font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+  .label span { color: var(--blue); }
+  .sec h2 { margin: 44px 0 64px; max-width: 20ch; font-weight: 500; font-size: clamp(32px, 3.6vw, 52px); line-height: 1.1; letter-spacing: -.03em; }
+
+  .areas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; }
+  .areas li { padding-top: 22px; border-top: 1px solid var(--ink); }
+  .idx { font-size: 11px; letter-spacing: .08em; color: var(--blue); }
+  .areas h3 { margin: 16px 0 12px; font-weight: 500; font-size: 21px; letter-spacing: -.015em; line-height: 1.3; }
+  .areas p { font-size: 15px; color: var(--ink-2); }
+  .areas .kw { margin-top: 18px; font-size: 11.5px; color: var(--ink-3); letter-spacing: .02em; }
+
+  .about { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; }
+  .about .lead { grid-column: 1 / 7; font-size: clamp(19px, 1.6vw, 23px); line-height: 1.5; color: var(--ink); letter-spacing: -.01em; }
+  .about > div { grid-column: 8 / 13; color: var(--ink-2); }
+  .facts { margin-top: 36px; border-top: 1px solid var(--line); }
+  .facts div { display: grid; grid-template-columns: 80px 1fr; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14.5px; }
+  .facts dt { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); line-height: 2; }
+  .facts dd { color: var(--ink); }
+
+  .rows { border-top: 1px solid var(--line); }
+  .rows li { display: grid; grid-template-columns: 140px minmax(0, 1fr) minmax(0, 1fr); gap: 32px; padding: 34px 0; border-bottom: 1px solid var(--line); }
+  .when { font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); line-height: 2.2; }
+  .rows h3 { font-weight: 500; font-size: 20px; line-height: 1.35; letter-spacing: -.012em; }
+  .org { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; margin-top: 6px; font-size: 15px; }
+  .org a { color: var(--blue); background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size .5s var(--ease); }
+  .org a:hover { background-size: 100% 1px; }
+  .org .mono { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+  .sum { color: var(--ink-2); font-size: 15px; }
+  .note { grid-template-columns: 140px minmax(0, 2fr) minmax(0, 1fr) !important; }
+  .note .sum { margin-top: 6px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; align-content: flex-start; }
+  .tags span { font-size: 11px; padding: 4px 9px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink-2); }
+
+  .contact h2 { font-size: clamp(44px, 5.6vw, 84px); letter-spacing: -.04em; }
+  .links { border-top: 1px solid var(--line); }
+  .links a { display: grid; grid-template-columns: minmax(0, 1fr) auto 40px; align-items: baseline; gap: 20px; padding: 24px 0; border-bottom: 1px solid var(--line); font-size: 22px; letter-spacing: -.015em; transition: color .3s; }
+  .links .mono { font-size: 12px; color: var(--ink-3); letter-spacing: .03em; }
+  .links .arr { text-align: right; color: var(--ink-3); transition: transform .5s var(--ease), color .3s; }
+  .links a:hover { color: var(--blue); }
+  .links a:hover .arr { color: var(--blue); transform: translate(3px, -3px); }
+
+  .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; margin-top: 140px; padding: 24px 0 0; border-top: 1px solid var(--line); font-size: 11.5px; color: var(--ink-3); letter-spacing: .03em; }
+
+  .js [data-r] { opacity: 0; transform: translateY(10px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
+  .js [data-r].in { opacity: 1; transform: none; }
+
+  @media (max-width: 1180px) {
+    .hero-text { grid-column: 1 / 13; padding-bottom: 48px; }
+    .hero h1 span { display: inline; }
+    .stage, .figcap { grid-column: 1 / 13; }
+    .hero { min-height: 0; padding-top: 72px; }
+  }
+  @media (max-width: 900px) {
+    .layout { display: block; }
+    .rail { border: 0; }
+    .rail-in {
+      position: fixed; z-index: 20; top: 0; left: 0; right: 0; height: 52px; padding: 0 16px;
+      flex-direction: row; align-items: center; background: #fff; border-bottom: 1px solid var(--line);
+      transform: translateY(-101%); transition: transform .6s var(--ease);
+    }
+    .past-hero .rail-in { transform: none; }
+    .index { display: none; }
+    .mini { display: flex; flex: 1; align-items: center; justify-content: space-between; gap: 12px; margin: 0; opacity: 1; transform: none; }
+    .mini-now { display: block; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink); white-space: nowrap; }
+    .mini canvas { order: 3; width: 128px; height: 44px; flex: none; }
+    .mini figcaption { order: 2; margin: 0 0 0 auto; padding: 0; border: 0; flex-direction: column; gap: 0; text-align: right; line-height: 1.4; font-size: 10px; }
+    .areas { grid-template-columns: 1fr; gap: 36px; }
+    .about .lead, .about > div { grid-column: 1 / 13; }
+    .about > div { margin-top: 28px; }
+    .rows li, .note { grid-template-columns: 1fr !important; gap: 8px; padding: 28px 0; }
+    .tags { justify-content: flex-start; margin-top: 6px; }
+  }
+  @media (max-width: 640px) {
+    .nav { flex-direction: column; align-items: flex-start; gap: 12px; padding-block: 20px; }
+    .nav nav { flex-wrap: wrap; gap: 6px 18px; }
+    .hero { padding-top: 32px; }
+    .hero h1 { margin: 16px 0 20px; }
+    .tagline { margin-top: 14px; }
+    .hero h1 span { display: block; }
+    .hero-text { padding-bottom: 28px; }
+    .stage { height: 400px; grid-template-columns: 1.45fr 1fr; }
+    .cap { left: 0; top: 12px; font-size: 10px; }
+    .cap em { display: none; }
+    .dec .cap { left: 12px; }
+    .weights { left: 12px; right: 0; bottom: 12px; font-size: 10px; }
+    .weights div { grid-template-columns: 1fr 30px; }
+    .weights dd:nth-child(2) { display: none; }
+    .figcap { flex-direction: column; gap: 4px; }
+    .sec h2 { margin: 32px 0 44px; }
+    .links a { grid-template-columns: minmax(0, 1fr) 24px; font-size: 19px; }
+    .links .mono { display: none; }
+    .foot { margin-top: 96px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .s15 *, .s15 *::before, .s15 *::after { transition: none !important; animation: none !important; }
+    .js [data-r] { opacity: 1; transform: none; }
+  }
+</style>

@@ -1,0 +1,707 @@
+---
+// PROTOTYPE 21 Thread: one thin line down the right side that gathers into a figure for each section.
+import { profile, areas, experience, notes, formatDate } from '../content';
+
+const links = [
+  { id: 's21-research', label: 'Research' },
+  { id: 's21-about', label: 'About' },
+  { id: 's21-experience', label: 'Work' },
+  { id: 's21-notes', label: 'Notes' },
+  { id: 's21-contact', label: 'Contact' },
+];
+const [tagA, tagB] = profile.tagline.split('learn');
+---
+<div class="s21" data-theme="light">
+  <script is:inline>
+    {
+      const root = document.querySelector('.s21');
+      try { if (root && localStorage.getItem('proto-theme') === 'dark') root.dataset.theme = 'dark'; } catch (e) {}
+    }
+  </script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+
+  <canvas class="thread" aria-hidden="true"></canvas>
+  <div class="dock" aria-hidden="true"></div>
+
+  <header class="nav">
+    <a class="brand" href="#s21-top">{profile.name}</a>
+    <nav aria-label="Primary">
+      {links.map(l => <a href={`#${l.id}`}>{l.label}</a>)}
+    </nav>
+    <button class="theme" type="button" aria-pressed="false" aria-label="Dark mode">
+      <svg class="sun" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3" /><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.4 1.4M11.6 11.6L13 13M3 13l1.4-1.4M11.6 4.4L13 3" /></svg>
+      <svg class="moon" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 9.6A5.6 5.6 0 0 1 6.4 2.5a5.6 5.6 0 1 0 7.1 7.1z" /></svg>
+    </button>
+  </header>
+
+  <main>
+    <section class="hero wrap" id="s21-top" data-figure="hero" aria-labelledby="s21-name">
+      <div class="hero-text">
+        <p class="label">{profile.location}</p>
+        <h1 id="s21-name">{profile.firstName}<br />{profile.lastName}</h1>
+        <p class="role">{profile.role} at <a href={profile.companyHref} target="_blank" rel="noopener">{profile.company}</a></p>
+        <p class="tagline">{tagA}<em>learn</em>{tagB}</p>
+        <ol class="index" aria-label="Sections">
+          {links.map((l, i) => <li><a href={`#${l.id}`}><span>0{i + 1}</span>{l.label}</a></li>)}
+        </ol>
+      </div>
+      <div class="stage" aria-hidden="true"></div>
+    </section>
+
+    <section class="block wrap" id="s21-research" data-figure="policy" aria-labelledby="s21-research-h">
+      <div class="col" data-r>
+        <p class="label"><span>01</span>Research</p>
+        <h2 id="s21-research-h">What I work on</h2>
+        <ol class="areas">
+          {areas.map((a, i) => (
+            <li>
+              <span class="idx">0{i + 1}</span>
+              <div>
+                <h3>{a.title}</h3>
+                <p>{a.summary}</p>
+                <p class="kw">{a.keywords.join(' · ')}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="block wrap" id="s21-about" data-figure="balance" aria-labelledby="s21-about-h">
+      <div class="col" data-r>
+        <p class="label"><span>02</span>About</p>
+        <h2 id="s21-about-h">Learning to move, one rollout at a time.</h2>
+        <p class="lead">{profile.bio[0]}</p>
+        <p>{profile.bio[1]}</p>
+        <dl class="facts">
+          <div><dt>Based</dt><dd>{profile.location}</dd></div>
+          <div><dt>From</dt><dd>{profile.origin}</dd></div>
+          <div><dt>Now</dt><dd>{profile.robot} at {profile.company}</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="block wrap" id="s21-experience" data-figure="reward" aria-labelledby="s21-experience-h">
+      <div class="col" data-r>
+        <p class="label"><span>03</span>Experience</p>
+        <h2 id="s21-experience-h">Where the work has been</h2>
+        <ol class="jobs">
+          {experience.map(e => (
+            <li class="job">
+              <p class="period">{e.period}</p>
+              <div>
+                <h3>{e.title}</h3>
+                <p class="org"><a href={e.href} target="_blank" rel="noopener">{e.org}<span aria-hidden="true"> ↗</span></a><span class="place">{e.place}</span></p>
+                <p class="summary">{e.summary}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="block wrap" id="s21-notes" data-figure="carry" aria-labelledby="s21-notes-h">
+      <div class="col" data-r>
+        <p class="label"><span>04</span>Notes</p>
+        <h2 id="s21-notes-h">Writing along the way</h2>
+        <ul class="notes">
+          {notes.map(n => (
+            <li>
+              <time datetime={n.date.toISOString()}>{formatDate(n.date)}</time>
+              <div>
+                <h3>{n.title}</h3>
+                <p>{n.description}</p>
+                {n.tags && <p class="tags">{n.tags.map(t => <span>{t}</span>)}</p>}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class="block wrap contact" id="s21-contact" data-figure="stand" aria-labelledby="s21-contact-h">
+      <div class="col" data-r>
+        <p class="label"><span>05</span>Contact</p>
+        <h2 id="s21-contact-h">Let's talk.</h2>
+        <p class="contact-lead">Based in {profile.location}. The fastest way to reach me is one of these.</p>
+        <ul class="links">
+          {profile.links.map(l => <li><a href={l.href} target="_blank" rel="noopener">{l.label}<span aria-hidden="true">↗</span></a></li>)}
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer wrap">
+    <div class="foot">
+      <span>© {new Date().getFullYear()} {profile.name}</span>
+      <span>{profile.location} · From {profile.origin}</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+  import { pose, blend, project, type Frame, type Vec3, type JointName, type Camera, type Skill } from '../humanoid';
+
+  type P = [number, number];
+  type Box = { x: number; y: number; w: number; h: number; g: number };
+  type Built = { pts: P[]; marks: number[]; kind: string; cap: P };
+
+  const root = document.querySelector<HTMLElement>('.s21');
+  if (root) {
+    const { sin, cos, min, max, abs, hypot, atan2, exp, round, ceil, PI } = Math;
+    const clamp = (x: number, a = 0, b = 1) => min(b, max(a, x));
+    const smooth = (a: number, b: number, x: number) => { const u = clamp((x - a) / (b - a)); return u * u * (3 - 2 * u); };
+    const ease = (u: number) => (u < 0.5 ? 4 * u * u * u : 1 - (2 - 2 * u) ** 3 / 2);
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    root.classList.add('js');
+
+    const canvas = root.querySelector<HTMLCanvasElement>('.thread')!;
+    const ctx = canvas.getContext('2d')!;
+    const dock = root.querySelector<HTMLElement>('.dock')!;
+    const stage = root.querySelector<HTMLElement>('.stage')!;
+    const foot = root.querySelector<HTMLElement>('.foot')!;
+    const sections = [...root.querySelectorAll<HTMLElement>('[data-figure]')];
+    const jobs = [...root.querySelectorAll<HTMLElement>('.job')];
+
+    // Reveals.
+    const io = new IntersectionObserver(entries => {
+      for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }, { rootMargin: '0px 0px -8% 0px' });
+    root.querySelectorAll('[data-r]').forEach(el => io.observe(el));
+
+    // Theme: colours come from CSS variables so the canvas follows the toggle.
+    let ink = '', accent = '', muted = '';
+    const readPalette = () => {
+      const cs = getComputedStyle(root);
+      [ink, accent, muted] = ['--thread-rgb', '--accent-rgb', '--muted-rgb'].map(v => cs.getPropertyValue(v).trim());
+    };
+    const toggle = root.querySelector<HTMLButtonElement>('.theme')!;
+    const setTheme = (dark: boolean) => {
+      root.dataset.theme = dark ? 'dark' : 'light';
+      toggle.setAttribute('aria-pressed', String(dark));
+      readPalette();
+    };
+    setTheme(root.dataset.theme === 'dark');
+    toggle.addEventListener('click', () => {
+      const dark = root.dataset.theme !== 'dark';
+      setTheme(dark);
+      try { localStorage.setItem('proto-theme', dark ? 'dark' : 'light'); } catch {}
+      if (reduce) render();
+    });
+
+    // Layout. The thread is N points; desktop runs it down the right column, mobile along a bottom dock.
+    const N = 900, DOCK = 96;
+    let W = 0, H = 0, mobile = false, xc = 0, colR = 0;
+    function measure() {
+      W = innerWidth; H = innerHeight; mobile = W < 860;
+      const dpr = min(devicePixelRatio || 1, 2);
+      canvas.width = round(W * dpr); canvas.height = round(H * dpr);
+      canvas.style.width = `${W}px`; canvas.style.height = `${H}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const r = stage.getBoundingClientRect();
+      xc = r.left + 36; colR = r.right;
+      primed = false;
+    }
+    const base = () => H - 18;
+    const featBox = (): Box => {
+      if (mobile) return { x: W - 156, y: H - DOCK + 14, w: 140, h: DOCK - 32, g: base() };
+      const h = min(H * 0.46, 400), x = xc + 28;
+      return { x, y: H / 2 - h / 2, w: colR - x, h, g: H / 2 + h * 0.44 };
+    };
+    const heroBox = (): Box => {
+      const r = stage.getBoundingClientRect();
+      if (mobile) return { x: r.left, y: r.top, w: r.width, h: r.height, g: r.bottom - r.height * 0.06 };
+      const x = xc + 28;
+      return { x, y: r.top, w: colR - x, h: r.height, g: r.top + r.height * 0.94 };
+    };
+
+    // Polyline helpers.
+    function fillet(pts: P[], r: number): P[] {
+      const out: P[] = [pts[0]];
+      for (let i = 1; i < pts.length - 1; i++) {
+        const [a, b, c] = [pts[i - 1], pts[i], pts[i + 1]];
+        const l1 = hypot(a[0] - b[0], a[1] - b[1]), l2 = hypot(c[0] - b[0], c[1] - b[1]), q = min(r, l1 / 2, l2 / 2);
+        if (q < 0.5) { out.push(b); continue; }
+        const p0: P = [b[0] + ((a[0] - b[0]) / l1) * q, b[1] + ((a[1] - b[1]) / l1) * q];
+        const p2: P = [b[0] + ((c[0] - b[0]) / l2) * q, b[1] + ((c[1] - b[1]) / l2) * q];
+        for (let k = 0; k <= 8; k++) {
+          const u = k / 8, v = 1 - u;
+          out.push([v * v * p0[0] + 2 * v * u * b[0] + u * u * p2[0], v * v * p0[1] + 2 * v * u * b[1] + u * u * p2[1]]);
+        }
+      }
+      out.push(pts[pts.length - 1]);
+      return out;
+    }
+    // Corner cutting keeps the endpoints, so the drawn contour flows instead of looking jointed.
+    function chaikin(pts: P[], iters: number): P[] {
+      for (let k = 0; k < iters; k++) {
+        const out: P[] = [pts[0]];
+        for (let i = 0; i < pts.length - 1; i++) {
+          const [a, b] = [pts[i], pts[i + 1]];
+          out.push([0.75 * a[0] + 0.25 * b[0], 0.75 * a[1] + 0.25 * b[1]], [0.25 * a[0] + 0.75 * b[0], 0.25 * a[1] + 0.75 * b[1]]);
+        }
+        out.push(pts[pts.length - 1]);
+        pts = out;
+      }
+      return pts;
+    }
+    const assemble = (before: P[], body: P[], after: P[], mk: number[] = []) =>
+      ({ pts: [...before, ...body, ...after], marks: mk.map(m => m + before.length) });
+
+    // Resamples a polyline to N points at equal arc length; returns where the marks landed.
+    function resample(pts: P[], mk: number[], out: Float32Array): number[] {
+      const n = pts.length, acc = new Float64Array(n);
+      for (let i = 1; i < n; i++) acc[i] = acc[i - 1] + hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
+      const total = acc[n - 1] || 1;
+      for (let i = 0, j = 0; i < N; i++) {
+        const d = (i / (N - 1)) * total;
+        while (j < n - 2 && acc[j + 1] < d) j++;
+        const u = clamp((d - acc[j]) / (acc[j + 1] - acc[j] || 1));
+        out[2 * i] = pts[j][0] + (pts[j + 1][0] - pts[j][0]) * u;
+        out[2 * i + 1] = pts[j][1] + (pts[j + 1][1] - pts[j][1]) * u;
+      }
+      return mk.map(m => round((acc[m] / total) * (N - 1)));
+    }
+
+    // Humanoid as a one-line contour: walk the skeleton's outer face and offset it by a tapered body radius.
+    const CAM: Camera = { yaw: 0.72, pitch: 0.14, dist: 6, target: [0, 0.8, 0], fov: 0.32 };
+    const RIGHT: Vec3 = [sin(CAM.yaw), 0, -cos(CAM.yaw)];
+    const WALK: [JointName, number][] = [
+      ['rToe', 0.03], ['rAnkle', 0.042], ['rKnee', 0.052], ['rHip', 0.066], ['rShoulder', 0.05], ['rElbow', 0.04], ['rHand', 0.033],
+      ['rElbow', 0.04], ['rShoulder', 0.05], ['neck', 0.04], ['head', 0.1], ['neck', 0.04], ['lShoulder', 0.05], ['lElbow', 0.04],
+      ['lHand', 0.033], ['lElbow', 0.04], ['lShoulder', 0.05], ['lHip', 0.066], ['lKnee', 0.052], ['lAnkle', 0.042], ['lToe', 0.03],
+      ['lAnkle', 0.042], ['lKnee', 0.052], ['lHip', 0.062], ['rHip', 0.062], ['rKnee', 0.052], ['rAnkle', 0.042],
+    ];
+    let side = -1;
+
+    const projector = (cx: number, gy: number, s: number) => {
+      const S = 2 * s * CAM.dist * Math.tan(CAM.fov! / 2), [ox, oy] = project([0, 0, 0], CAM, S, S);
+      return (p: Vec3): P => { const [x, y] = project(p, CAM, S, S); return [cx + x - ox, gy + y - oy]; };
+    };
+
+    function hull(pts: P[]): P[] {
+      const p = [...pts].sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+      const cross = (o: P, a: P, b: P) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+      const lo: P[] = [], hi: P[] = [];
+      for (const q of p) { while (lo.length > 1 && cross(lo[lo.length - 2], lo[lo.length - 1], q) <= 0) lo.pop(); lo.push(q); }
+      for (const q of p.reverse()) { while (hi.length > 1 && cross(hi[hi.length - 2], hi[hi.length - 1], q) <= 0) hi.pop(); hi.push(q); }
+      return [...lo.slice(0, -1), ...hi.slice(0, -1)];
+    }
+
+    // The carried box, as a silhouette loop that starts and ends at the corner nearest the hand.
+    function boxLoop(f: Frame, to: (p: Vec3) => P, from: P): P[] {
+      const { center: c, size: [sx, sy, sz], yaw } = f.box!, cy = cos(yaw), sn = sin(yaw), corners: P[] = [];
+      for (const dx of [-sx / 2, sx / 2]) for (const dy of [-sy / 2, sy / 2]) for (const dz of [-sz / 2, sz / 2])
+        corners.push(to([c[0] + cy * dx + sn * dz, c[1] + dy, c[2] - sn * dx + cy * dz]));
+      const h = hull(corners), d = (q: P) => hypot(q[0] - from[0], q[1] - from[1]);
+      let k = 0;
+      h.forEach((q, i) => { if (d(q) < d(h[k])) k = i; });
+      // Corners are repeated so the smoothing pass keeps the box crisp.
+      return [...h.slice(k), ...h.slice(0, k + 1)].flatMap(q => [q, q, q]);
+    }
+
+    function contour(f: Frame, to: (p: Vec3) => P, s: number, scale: number): P[] {
+      const n = WALK.length, p = WALK.map(([j]) => to(f.joints[j])), r = WALK.map(([, q]) => max(1.3, q * s * scale));
+      let area = 0;
+      for (let i = 0; i < n; i++) { const a = p[i], b = p[(i + 1) % n]; area += a[0] * b[1] - b[0] * a[1]; }
+      if (abs(area) > 0.02 * s * s) side = area > 0 ? -1 : 1;
+      const dir = p.map((a, i): P => {
+        const b = p[(i + 1) % n], l = hypot(b[0] - a[0], b[1] - a[1]) || 1e-6;
+        return [(b[0] - a[0]) / l, (b[1] - a[1]) / l];
+      });
+      const chunks = p.map((c, i) => {
+        const din = dir[(i - 1 + n) % n], dout = dir[i], out: P[] = [];
+        const nin: P = [-din[1] * side, din[0] * side], nout: P = [-dout[1] * side, dout[0] * side];
+        const leaf = WALK[(i - 1 + n) % n][0] === WALK[(i + 1) % n][0];
+        const phi = leaf ? -side * PI : atan2(din[0] * dout[1] - din[1] * dout[0], din[0] * dout[0] + din[1] * dout[1]);
+        if (leaf || phi * -side > 0.05) {
+          const a0 = atan2(nin[1], nin[0]), m = ceil(abs(phi) / 0.22);
+          for (let q = 0; q <= m; q++) { const a = a0 + (phi * q) / m; out.push([c[0] + cos(a) * r[i], c[1] + sin(a) * r[i]]); }
+        } else {
+          const bx = nin[0] + nout[0], by = nin[1] + nout[1], bl = hypot(bx, by) || 1, miter = r[i] / max(cos(phi / 2), 0.6);
+          out.push([c[0] + (bx / bl) * miter, c[1] + (by / bl) * miter]);
+        }
+        if (WALK[i][0] === 'rHand' && f.box) out.push(...boxLoop(f, to, out[out.length - 1]));
+        return out;
+      });
+      const tip = chunks[0], h = tip.length >> 1;
+      return chaikin([...tip.slice(h), ...chunks.slice(1).flat(), ...tip.slice(0, h + 1)], 2);
+    }
+
+    // Cursor nudges the figure: a small lean away from it on a springy torso.
+    let px = -1e4, py = -1e4, pvx = 0, lastPT = 0, lean = 0, leanV = 0, dtNow = 0.016;
+    addEventListener('pointermove', e => {
+      const now = performance.now(), dt = max(8, now - lastPT);
+      if (px > -1e3) pvx = ((e.clientX - px) / dt) * 1000;
+      px = e.clientX; py = e.clientY; lastPT = now;
+    }, { passive: true });
+    function updateLean(cx: number, cy: number, s: number) {
+      const dx = px - cx, dy = py - cy, prox = exp(-(dx * dx + dy * dy) / (1.1 * s) ** 2);
+      const target = -Math.sign(dx) * min(1, abs(dx) / (0.5 * s)) * 0.16 * prox;
+      leanV += ((target - lean) * 40 - leanV * 6) * dtNow + pvx * 0.00005 * prox;
+      pvx *= 0.8;
+      lean = clamp(lean + leanV * dtNow, -0.25, 0.25);
+    }
+
+    const heroStart = performance.now();
+    function heroFrame(perturb: Vec3): Frame {
+      if (reduce) return pose('stand', 0);
+      const t = 0.9 + (performance.now() - heroStart) / 1000, w = smooth(6.2, 7.4, t), g = pose('getup', min(t, 7));
+      return w <= 0 ? g : blend(g, pose('stand', t - 6.2, { perturb }), w);
+    }
+
+    const SKILL: Record<string, Skill> = { balance: 'balance', carry: 'carry', stand: 'stand' };
+    function humanoid(kind: string, t: number): Built {
+      const box = kind === 'hero' ? heroBox() : featBox();
+      const s = min((box.g - box.y) / 1.85, box.w / 1.5), cx = box.x + box.w / 2, gy = box.g;
+      updateLean(cx, gy - 0.9 * s, s);
+      const perturb = RIGHT.map(v => v * lean) as Vec3;
+      const f = kind === 'hero' ? heroFrame(perturb) : pose(SKILL[kind], reduce ? 0 : t, { perturb });
+      const c = contour(f, projector(cx, gy, s), s, mobile ? 1.35 : 1), tip = c[0];
+      if (mobile) {
+        const cap: P = kind === 'hero' ? [box.x, gy + 20] : [16, H - 30];
+        return { ...assemble([[-40, gy], [tip[0], gy], tip], c, [tip, [tip[0], gy], [W + 40, gy]]), kind, cap };
+      }
+      const gr = min(2 * cx - xc, colR + 12), fb = foot.getBoundingClientRect(), fy = max(fb.top, gy + 60);
+      const tail: P[] = kind === 'stand' ? [[gr, fy], [fb.left, fy]] : [[gr, H + 40]];
+      const before = fillet([[xc, -40], [xc, gy], [tip[0], gy], tip], 16);
+      const after = fillet([tip, [tip[0], gy], [gr, gy], ...tail], 16);
+      return { ...assemble(before, c, after), kind, cap: [xc + 14, gy + 24] };
+    }
+
+    // Policy network: one path weaving between consecutive layers, nodes as dots on it.
+    const LAYERS = [4, 6, 6, 3];
+    function network(): Built {
+      const box = featBox(), L = LAYERS.length;
+      const node = (k: number, j: number): P => {
+        const u = k / (L - 1), v = (j - (LAYERS[k] - 1) / 2) / 5;
+        if (mobile) return [box.x + u * box.w, box.y + box.h / 2 + v * 58];
+        return [box.x + box.w / 2 + v * min(box.w * 0.82, 300), box.y + 0.04 * box.h + u * box.h * 0.84];
+      };
+      const seq: [number, number][] = [[0, 0]];
+      for (let k = 0; k < L - 1; k++) {
+        const n = LAYERS[k], m = LAYERS[k + 1], K = max(n, m), b = (q: number) => round((q * (m - 1)) / (K - 1));
+        for (let q = 0; q < K; q++) seq.push([k, round((q * (n - 1)) / (K - 1))], [k + 1, b(q)]);
+        for (let q = K - 2; q >= 0; q--) seq.push([k, round(((K - 1 - q) * (n - 1)) / (K - 1))], [k + 1, b(q)]);
+      }
+      const pts: P[] = [], seen = new Map<string, number>();
+      for (const [k, j] of seq) {
+        pts.push(node(k, j));
+        if (!seen.has(`${k}.${j}`)) seen.set(`${k}.${j}`, pts.length - 1);
+      }
+      const a = pts[0], e = pts[pts.length - 1], g = base(), marks = [...seen.values()];
+      if (mobile) {
+        return { ...assemble(fillet([[-40, g], [a[0] - 22, g], a], 10), pts, fillet([e, [e[0] + 22, g], [W + 40, g]], 10), marks), kind: 'policy', cap: [16, H - 30] };
+      }
+      return { ...assemble(fillet([[xc, -40], [xc, a[1] - 40], a], 18), pts, [e, [e[0], H + 40]], marks), kind: 'policy', cap: [e[0] + 14, e[1] + 30] };
+    }
+
+    // Learning curve: reward rising and plateauing, the four career points on it (oldest first).
+    const sig = (v: number) => 1 / (1 + exp(-9 * (v - 0.33)));
+    const curve = (u: number, t: number) =>
+      0.04 + (0.86 * (sig(u) - sig(0))) / (sig(1) - sig(0)) +
+      0.045 * (1 - 0.7 * u) * smooth(0, 0.06, u) * (0.6 * sin(u * 57 + t * 0.7) + 0.4 * sin(u * 131 - t * 1.1));
+    function reward(t: number): Built {
+      const box = featBox(), M = 150, pts: P[] = [];
+      const x0 = mobile ? box.x : xc, x1 = mobile ? box.x + box.w : colR - 6;
+      const yb = mobile ? base() : box.y + box.h * 0.88, ht = mobile ? 56 : box.h * 0.72;
+      for (let q = 0; q < M; q++) { const u = q / (M - 1); pts.push([x0 + u * (x1 - x0), yb - ht * curve(u, reduce ? 0 : t)]); }
+      const marks = [0.12, 0.37, 0.62, 0.87].map(u => round(u * (M - 1))), e = pts[M - 1];
+      if (mobile) return { ...assemble([[-40, yb], [x0, yb]], pts, fillet([e, [e[0], yb], [W + 40, yb]], 8), marks), kind: 'reward', cap: [16, H - 30] };
+      return { ...assemble([[xc, -40]], pts, [e, [e[0], H + 40]], marks), kind: 'reward', cap: [xc + 14, yb + 26] };
+    }
+
+    const CAPTION: Record<string, string> = { hero: 'get up', policy: 'policy', balance: 'balance', reward: 'reward', carry: 'carry', stand: 'stand' };
+    const build = (i: number, t: number): Built => {
+      const kind = sections[i].dataset.figure!;
+      return kind === 'policy' ? network() : kind === 'reward' ? reward(t) : humanoid(kind, t);
+    };
+
+    // A section is featured while it holds the middle of the viewport; near its edges the thread unravels.
+    function weights(): number[] {
+      const m = mobile ? (H - DOCK) / 2 : H / 2, R = H * 0.26, d = H * 0.05, last = sections.length - 1;
+      return sections.map((el, i) => {
+        const r = el.getBoundingClientRect();
+        if (i === 0) return smooth(d, d + R, r.bottom - m);
+        const top = smooth(d, d + R, m - r.top);
+        return i === last ? top : top * smooth(d, d + R, r.bottom - m);
+      });
+    }
+
+    const cur = new Float32Array(2 * N), tgt = new Float32Array(2 * N), feat = new Float32Array(2 * N);
+    let marks: number[] = [], kind = '', cap: P = [0, 0], wFeat = 0, active = 0, amp = 2, scrollV = 0, lastY = scrollY, primed = false;
+
+    function update(t: number, dt: number) {
+      const ws = weights();
+      let k = 0;
+      ws.forEach((w, i) => { if (w > ws[k]) k = i; });
+      const w = reduce ? (ws[k] > 0.5 ? 1 : 0) : ws[k];
+      amp += (2 + min(14, abs(scrollV) * 0.012) - amp) * 0.08;
+      marks = [];
+      if (w > 0.002) { const b = build(k, t); marks = resample(b.pts, b.marks, feat); kind = b.kind; cap = b.cap; }
+      wFeat = w;
+      for (let i = 0; i < N; i++) {
+        const u = i / (N - 1);
+        let x: number, y: number;
+        if (mobile) { x = -40 + u * (W + 80); y = base() + amp * 0.35 * sin(x * 0.021 - t * 0.8); }
+        else { y = -40 + u * (H + 80); x = xc + amp * sin(y * 0.0105 + t * 0.55) * (0.6 + 0.4 * sin(y * 0.0041 - t * 0.3)); }
+        const e = w > 0.002 ? ease(clamp(w * 1.3 - abs(2 * u - 1) * 0.3)) : 0;
+        tgt[2 * i] = x + (feat[2 * i] - x) * e;
+        tgt[2 * i + 1] = y + (feat[2 * i + 1] - y) * e;
+      }
+      const a = !primed || reduce ? 1 : 1 - exp(-dt * 11);
+      for (let i = 0; i < 2 * N; i++) cur[i] += (tgt[i] - cur[i]) * a;
+      primed = true;
+      if (mobile) dock.style.opacity = (1 - ws[0]).toFixed(3);
+      let best = 1e9;
+      jobs.forEach((el, j) => { const r = el.getBoundingClientRect(), d = abs((r.top + r.bottom) / 2 - H / 2); if (d < best) { best = d; active = j; } });
+    }
+
+    const fade = (x: number, y: number) => mobile ? smooth(0, 18, x) * (1 - smooth(W - 18, W, x)) : smooth(80, 180, y) * (1 - smooth(H - 60, H, y));
+    function stroke(a: number, b: number) {
+      ctx.beginPath();
+      ctx.moveTo(cur[2 * a], cur[2 * a + 1]);
+      for (let i = a + 1; i <= b; i++) ctx.lineTo(cur[2 * i], cur[2 * i + 1]);
+      ctx.stroke();
+    }
+
+    function draw(t: number) {
+      ctx.clearRect(0, 0, W, H);
+      const col = (rgb: string, a: number) => `rgb(${rgb} / ${a.toFixed(3)})`;
+      const g = mobile ? ctx.createLinearGradient(0, 0, W, 0) : ctx.createLinearGradient(0, 0, 0, H);
+      const stops: [number, number][] = mobile ? [[0, 0], [18 / W, 1], [1 - 18 / W, 1], [1, 0]] : [[0, 0], [80 / H, 0], [180 / H, 1], [1 - 60 / H, 1], [1, 0]];
+      for (const [o, a] of stops) g.addColorStop(o, col(ink, a * 0.82));
+      ctx.lineWidth = 1;
+      ctx.lineJoin = ctx.lineCap = 'round';
+      ctx.strokeStyle = g;
+      stroke(0, N - 1);
+
+      // The signal: a faint blue pulse travelling along the thread.
+      const SIG = 80, head = reduce ? -1e3 : (t * 115) % (N + SIG);
+      if (!reduce) {
+        ctx.lineWidth = 1.5;
+        for (let q = 0; q < 8; q++) {
+          const a = max(0, round(head - SIG + (q * SIG) / 8)), b = min(N - 1, round(head - SIG + ((q + 1) * SIG) / 8));
+          if (b <= a) continue;
+          const m = (a + b) >> 1;
+          ctx.strokeStyle = col(accent, (0.1 + q * 0.09) * fade(cur[2 * m], cur[2 * m + 1]));
+          stroke(a, b);
+        }
+      }
+
+      if (wFeat > 0.01) {
+        marks.forEach((m, j) => {
+          const on = kind === 'reward' ? j === 3 - active : abs(head - SIG / 2 - m) < SIG / 2;
+          ctx.beginPath();
+          ctx.arc(cur[2 * m], cur[2 * m + 1], (mobile ? 1.7 : 2.3) + (on && kind === 'reward' ? 0.9 : 0), 0, 2 * PI);
+          ctx.fillStyle = on ? col(accent, wFeat) : col(ink, wFeat * 0.85);
+          ctx.fill();
+        });
+        ctx.font = '500 10px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.letterSpacing = '1.2px';
+        ctx.fillStyle = col(muted, wFeat * wFeat);
+        ctx.fillText(CAPTION[kind].toUpperCase(), cap[0], cap[1]);
+      }
+    }
+
+    let raf = 0, lastT = performance.now();
+    function loop(now: number) {
+      const dt = min(0.05, (now - lastT) / 1000 || 0.016);
+      lastT = now; dtNow = dt;
+      scrollV += ((scrollY - lastY) / dt - scrollV) * 0.2;
+      lastY = scrollY;
+      update(now / 1000, dt);
+      draw(now / 1000);
+      raf = requestAnimationFrame(loop);
+    }
+    function render() { update(0, 0); draw(0); }
+
+    measure();
+    addEventListener('resize', () => { measure(); if (reduce) render(); });
+    document.fonts?.ready.then(() => { measure(); if (reduce) render(); });
+    if (reduce) {
+      render();
+      addEventListener('scroll', render, { passive: true });
+    } else {
+      raf = requestAnimationFrame(loop);
+      document.addEventListener('visibilitychange', () => {
+        cancelAnimationFrame(raf);
+        if (!document.hidden) { lastT = performance.now(); raf = requestAnimationFrame(loop); }
+      });
+    }
+  }
+</script>
+
+<style>
+  .s21 {
+    --bg: #fcfcfb;
+    --ink: #1f2737;
+    --body: #545e6e;
+    --muted: #8a93a2;
+    --line: #e7e9ed;
+    --accent: #2f5fe6;
+    --thread-rgb: 31 39 55;
+    --accent-rgb: 47 95 230;
+    --muted-rgb: 138 147 162;
+    --display: 'Schibsted Grotesk', 'Inter', system-ui, sans-serif;
+    --mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+    --gutter: clamp(16px, 4vw, 48px);
+    --ease: cubic-bezier(.2, .7, .2, 1);
+    position: relative;
+    min-height: 100vh;
+    padding-bottom: 88px;
+    background: var(--bg);
+    color: var(--body);
+    font: 400 16px/1.7 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+    transition: background-color .4s, color .4s;
+  }
+  .s21[data-theme="dark"] {
+    --bg: #0f141c;
+    --ink: #e3e7ee;
+    --body: #a2abb9;
+    --muted: #6f7a8b;
+    --line: #212935;
+    --accent: #7fa3ff;
+    --thread-rgb: 214 221 233;
+    --accent-rgb: 127 163 255;
+    --muted-rgb: 120 131 148;
+  }
+  .s21 *, .s21 *::before, .s21 *::after { box-sizing: border-box; }
+  :where(.s21 h1, .s21 h2, .s21 h3, .s21 p, .s21 ol, .s21 ul, .s21 dl, .s21 dd) { margin: 0; padding: 0; }
+  :where(.s21 ol, .s21 ul) { list-style: none; }
+  :where(.s21 a) { color: inherit; text-decoration: none; }
+  .s21 a:focus-visible, .s21 button:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 3px; }
+
+  .thread { position: fixed; left: 0; top: 0; z-index: 5; pointer-events: none; }
+  .dock { display: none; }
+
+  /* nav */
+  .nav {
+    position: relative; z-index: 6;
+    display: flex; align-items: center; gap: 28px;
+    max-width: 1240px; margin: 0 auto; padding: 30px var(--gutter);
+  }
+  .brand { margin-right: auto; font: 500 15px/1 var(--display); color: var(--ink); letter-spacing: -.005em; }
+  .nav nav { display: flex; gap: clamp(16px, 2.4vw, 32px); }
+  .nav nav a { font-size: 14px; color: var(--body); transition: color .3s; }
+  .nav nav a:hover { color: var(--accent); }
+  .theme {
+    display: grid; place-items: center; width: 32px; height: 32px; padding: 0;
+    border: 1px solid var(--line); border-radius: 50%; background: transparent; color: var(--ink); cursor: pointer;
+    transition: border-color .3s, color .3s;
+  }
+  .theme:hover { border-color: var(--accent); color: var(--accent); }
+  .theme svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.3; stroke-linecap: round; }
+  .theme .moon { display: none; }
+  .s21[data-theme="dark"] .theme .sun { display: none; }
+  .s21[data-theme="dark"] .theme .moon { display: block; }
+
+  /* grid: one text column, the thread lives in the right column */
+  .wrap {
+    display: grid; grid-template-columns: minmax(0, 620px) minmax(280px, 1fr); column-gap: clamp(40px, 5vw, 72px);
+    max-width: 1240px; margin: 0 auto; padding: 0 var(--gutter);
+  }
+  .col { grid-column: 1; }
+
+  .label { display: flex; align-items: center; gap: 12px; font: 400 11.5px/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .label span { color: var(--accent); }
+  h1, h2, h3 { color: var(--ink); font-family: var(--display); font-weight: 500; }
+
+  /* hero */
+  .hero { min-height: calc(100vh - 92px); align-items: center; padding-block: 24px 72px; }
+  .hero-text { grid-column: 1; }
+  .hero h1 { margin: 26px 0 30px; font-size: clamp(54px, 7.6vw, 108px); line-height: .96; letter-spacing: -.04em; }
+  .role { font-size: 15.5px; color: var(--body); }
+  .role a { color: var(--ink); border-bottom: 1px solid var(--line); transition: color .3s, border-color .3s; }
+  .role a:hover { color: var(--accent); border-color: var(--accent); }
+  .tagline { margin-top: 14px; max-width: 27ch; font: 400 clamp(21px, 2vw, 26px)/1.4 var(--display); letter-spacing: -.012em; color: var(--ink); }
+  .tagline em { font-style: normal; color: var(--accent); }
+  .index { display: flex; flex-wrap: wrap; gap: 6px 26px; margin-top: 52px; font: 400 12px/1 var(--mono); letter-spacing: .04em; }
+  .index a { display: inline-flex; gap: 9px; padding: 6px 0; color: var(--body); transition: color .3s; }
+  .index a span { color: var(--muted); }
+  .index a:hover, .index a:hover span { color: var(--accent); }
+  .stage { grid-column: 2; height: min(520px, 60vh); }
+
+  /* sections */
+  .block { padding-block: clamp(120px, 18vh, 200px); }
+  .block h2 { margin: 20px 0 44px; font-size: clamp(30px, 3.3vw, 44px); line-height: 1.12; letter-spacing: -.028em; }
+
+  .areas li { display: grid; grid-template-columns: 56px 1fr; padding: 30px 0; border-top: 1px solid var(--line); }
+  .areas li:last-child { border-bottom: 1px solid var(--line); }
+  .idx { font: 400 12px/1.9 var(--mono); color: var(--accent); }
+  .areas h3 { font-size: 21px; line-height: 1.3; letter-spacing: -.015em; }
+  .areas p { margin-top: 8px; font-size: 15.5px; }
+  .areas .kw { margin-top: 14px; font: 400 11.5px/1.5 var(--mono); letter-spacing: .03em; color: var(--muted); }
+
+  .lead { margin-bottom: 20px; font: 400 21px/1.55 var(--display); letter-spacing: -.008em; color: var(--ink); }
+  .facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 52px; padding-top: 22px; border-top: 1px solid var(--line); }
+  .facts dt { font: 400 11px/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .facts dd { margin-top: 6px; font-size: 14.5px; color: var(--ink); }
+
+  .job { display: grid; grid-template-columns: 120px 1fr; padding: 32px 0; border-top: 1px solid var(--line); }
+  .job:last-child { border-bottom: 1px solid var(--line); }
+  .period { font: 400 11.5px/2 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .job:first-child .period { color: var(--accent); }
+  .job h3 { font-size: 20px; line-height: 1.35; letter-spacing: -.012em; }
+  .org { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin-top: 4px; font-size: 15px; }
+  .org a { color: var(--ink); background: linear-gradient(var(--accent), var(--accent)) 0 100% / 0 1px no-repeat; transition: color .3s, background-size .45s var(--ease); }
+  .org a span { color: var(--accent); }
+  .org a:hover { color: var(--accent); background-size: 100% 1px; }
+  .place { font: 400 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .summary { margin-top: 10px; font-size: 15.5px; max-width: 48ch; }
+
+  .notes li { display: grid; grid-template-columns: 120px 1fr; padding: 28px 0; border-top: 1px solid var(--line); }
+  .notes li:last-child { border-bottom: 1px solid var(--line); }
+  .notes time { font: 400 11.5px/2 var(--mono); letter-spacing: .04em; color: var(--muted); }
+  .notes h3 { font-size: 19px; line-height: 1.35; letter-spacing: -.012em; }
+  .notes p { margin-top: 6px; font-size: 15px; }
+  .notes .tags { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 12px; }
+  .tags span { font: 400 11px/1.4 var(--mono); letter-spacing: .03em; color: var(--muted); }
+  .tags span::before { content: '#'; color: var(--accent); margin-right: 2px; }
+
+  .contact { min-height: 72vh; }
+  .contact h2 { font-size: clamp(40px, 5vw, 64px); letter-spacing: -.035em; margin-bottom: 18px; }
+  .contact-lead { max-width: 40ch; }
+  .links { display: flex; flex-wrap: wrap; gap: 0 36px; margin-top: 40px; }
+  .links a { display: inline-flex; gap: 8px; padding: 10px 0; font: 500 18px/1.2 var(--display); color: var(--ink); border-bottom: 1px solid var(--line); transition: color .3s, border-color .3s; }
+  .links a span { color: var(--accent); font-size: 14px; }
+  .links a:hover { color: var(--accent); border-color: var(--accent); }
+
+  .foot {
+    grid-column: 1 / -1; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px;
+    padding-top: 24px; border-top: 1px solid var(--line);
+    font: 400 12px/1.5 var(--mono); letter-spacing: .03em; color: var(--muted);
+  }
+
+  /* reveals */
+  .js [data-r] { opacity: 0; transform: translateY(10px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
+  .js [data-r].in { opacity: 1; transform: none; }
+
+  @media (max-width: 859px) {
+    .s21 { padding-bottom: 150px; }
+    .dock {
+      display: block; position: fixed; left: 0; right: 0; bottom: 0; z-index: 4; height: 96px;
+      background: var(--bg); border-top: 1px solid var(--line); opacity: 0; transition: background-color .4s;
+    }
+    .nav { flex-wrap: wrap; gap: 14px 16px; padding-top: 22px; padding-bottom: 18px; }
+    .nav nav { order: 3; width: 100%; gap: 16px; }
+    .nav nav a { font-size: 13.5px; }
+    .wrap { grid-template-columns: minmax(0, 1fr); }
+    .hero { min-height: 0; padding-block: 28px 24px; }
+    .hero h1 { margin: 18px 0 22px; }
+    .index { display: none; }
+    .stage { grid-column: 1; height: min(34vh, 280px); margin-top: 20px; }
+    .block { padding-block: 96px; }
+    .block h2 { margin-bottom: 32px; }
+    .areas li { grid-template-columns: 40px 1fr; }
+    .job, .notes li { grid-template-columns: 1fr; gap: 4px; }
+    .facts { grid-template-columns: 1fr 1fr; }
+    .contact { min-height: 64vh; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .s21 *, .s21 *::before, .s21 *::after { transition: none !important; }
+    .js [data-r] { opacity: 1; transform: none; }
+  }
+</style>

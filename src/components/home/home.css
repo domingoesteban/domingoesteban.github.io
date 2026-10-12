@@ -1,0 +1,50 @@
+/* Home page: design tokens and base styles, all under the .home root. Component styles live in each component.
+   Base rules use :where() so any component rule overrides them. The robot canvas reads --bg, --ink, --muted,
+   --line-2, --accent, --mono and --colgap from here. */
+
+.home {
+  --bg: #fbfbfa;
+  --ink: #1f2636;
+  --body: #545e6e;
+  --muted: #8a92a0;
+  --line: #ebedf0;
+  --line-2: #dcdfe5;
+  --accent: #2b5be6;
+  --sans: 'Geist', 'Helvetica Neue', Arial, sans-serif;
+  --mono: 'Geist Mono', ui-monospace, Menlo, monospace;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  --max: 1280px;
+  --gut: clamp(16px, 4vw, 56px);
+  --colgap: 64px;
+  --nav: 64px;
+
+  position: relative;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--body);
+  font: 400 16px/1.6 var(--sans);
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: 80px;
+  overflow-x: clip;
+}
+.home *, .home *::before, .home *::after { box-sizing: border-box; }
+:where(.home a) { color: inherit; text-decoration: none; }
+.home a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+:where(.home h1, .home h2, .home h3, .home p, .home ol, .home ul, .home dl, .home dd) { margin: 0; padding: 0; }
+:where(.home ol, .home ul) { list-style: none; }
+:where(.home) .mono { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+:where(.home) h3 { font-weight: 500; font-size: 18px; line-height: 1.3; letter-spacing: -.012em; color: var(--ink); }
+.home .wrap { max-width: var(--max); margin-inline: auto; padding-inline: var(--gut); }
+.home [id] { scroll-margin-top: calc(var(--nav) + 24px); }
+
+/* Reveal on scroll (HomePage.astro adds .js and .in). data-r-each reveals each child, for rendered Markdown. */
+.home.js :is([data-r], [data-r-each] > *) { opacity: 0; transform: translateY(10px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
+.home.js :is([data-r], [data-r-each] > *).in { opacity: 1; transform: none; }
+
+@media (max-width: 900px) {
+  .home { padding-bottom: 132px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home.js :is([data-r], [data-r-each] > *) { opacity: 1; transform: none; transition: none; }
+}

@@ -1,0 +1,740 @@
+---
+// PROTOTYPE 14 Sensorium: a sticky 3D point cloud that re-forms into a new shape for every section.
+import { profile, areas, experience, notes, formatDate } from '../content';
+
+const year = new Date().getFullYear();
+const host = (href: string) => href.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+const areaShapes = [
+  { shape: 'policy', view: 'Policy network' },
+  { shape: 'wholebody', view: 'Whole-body pose' },
+  { shape: 'envs', view: 'Parallel envs' },
+];
+const jobShapes = [
+  { shape: 'aeon', view: 'Wheel-legged humanoid' },
+  { shape: 'quadruped', view: 'Quadruped' },
+  { shape: 'quadterrain', view: 'Quadruped on terrain' },
+  { shape: 'humanoid', view: 'Humanoid' },
+];
+---
+<div class="s14">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" />
+
+  <div class="layout">
+    <div class="col">
+      <header class="nav">
+        <a class="brand" href="#s14-top">{profile.name}</a>
+        <nav aria-label="Primary">
+          <a href="#s14-research">Research</a>
+          <a href="#s14-about">About</a>
+          <a href="#s14-work">Experience</a>
+          <a href="#s14-notes">Notes</a>
+          <a href="#s14-contact">Contact</a>
+        </nav>
+      </header>
+
+      <section class="hero" id="s14-top" data-shape="scan" data-name="Scan" aria-labelledby="s14-name">
+        <div data-r>
+          <p class="mono kicker">Robot learning · {profile.location}</p>
+          <h1 id="s14-name">{profile.name}</h1>
+          <p class="statement">I develop intelligent robots that <span>learn, adapt, and make decisions</span> through AI.</p>
+          <p class="role">{profile.role} at <a href={profile.companyHref} target="_blank" rel="noopener">{profile.company}</a>, working on {profile.robot}.</p>
+          <p class="mono cue"><i></i>Scroll. The cloud re-forms for every section.</p>
+        </div>
+      </section>
+
+      <section class="sec" id="s14-research" aria-labelledby="s14-research-h">
+        <header class="sec-head" data-shape="policy" data-name="Research" data-r>
+          <p class="mono num"><span>01</span>Research</p>
+          <h2 id="s14-research-h">How robots <span>learn to move</span>.</h2>
+        </header>
+        {areas.map((a, i) => (
+          <article class="area" data-shape={areaShapes[i].shape} data-name={a.short} data-r>
+            <p class="mono sub"><span>01.{String.fromCharCode(97 + i)}</span>{areaShapes[i].view}</p>
+            <h3>{a.title}</h3>
+            <p>{a.summary}</p>
+            <ul class="mono kw">{a.keywords.map(k => <li>{k}</li>)}</ul>
+          </article>
+        ))}
+      </section>
+
+      <section class="sec" id="s14-about" aria-labelledby="s14-about-h">
+        <header class="sec-head" data-shape="terrain" data-name="About" data-r>
+          <p class="mono num"><span>02</span>About</p>
+          <h2 id="s14-about-h">Skills built from <span>experience</span>, not rules.</h2>
+        </header>
+        <div data-r>
+          <p class="lead">{profile.bio[0]}</p>
+          <p class="body">{profile.bio[1]}</p>
+          <dl class="facts">
+            <div><dt class="mono">Now</dt><dd>{profile.company}</dd></div>
+            <div><dt class="mono">Based</dt><dd>{profile.location}</dd></div>
+            <div><dt class="mono">From</dt><dd>{profile.origin}</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="sec" id="s14-work" aria-labelledby="s14-work-h">
+        <header class="sec-head" data-shape="aeon" data-name="Experience" data-r>
+          <p class="mono num"><span>03</span>Experience</p>
+          <h2 id="s14-work-h">From legged robots <span>to humanoids</span>.</h2>
+        </header>
+        <ol class="jobs">
+          {experience.map((e, i) => (
+            <li data-shape={jobShapes[i].shape} data-name={e.period} data-r>
+              <p class="mono sub"><span>{e.period}</span>{e.place}</p>
+              <h3>{e.title}</h3>
+              <a class="org" href={e.href} target="_blank" rel="noopener">{e.org}<span aria-hidden="true"> ↗</span></a>
+              <p>{e.summary}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="sec" id="s14-notes" aria-labelledby="s14-notes-h">
+        <header class="sec-head" data-shape="sphere" data-name="Notes" data-r>
+          <p class="mono num"><span>04</span>Notes</p>
+          <h2 id="s14-notes-h">Notes</h2>
+        </header>
+        <ol class="notes">
+          {notes.map(n => (
+            <li data-r>
+              <a href="#s14-notes">
+                <time class="mono" datetime={n.date.toISOString()}>{formatDate(n.date)}</time>
+                <h3>{n.title}</h3>
+                <p>{n.description}</p>
+                {n.tags && <span class="mono tags">{n.tags.join(' · ')}</span>}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="sec contact" id="s14-contact" aria-labelledby="s14-contact-h">
+        <header class="sec-head" data-shape="wave" data-name="Contact" data-r>
+          <p class="mono num"><span>05</span>Contact</p>
+          <h2 id="s14-contact-h">Say <span>hello</span>.</h2>
+        </header>
+        <ul class="links" data-r>
+          {profile.links.map(l => (
+            <li><a href={l.href} target="_blank" rel="noopener"><span>{l.label}</span><span class="mono">{host(l.href)}</span><span class="arrow" aria-hidden="true">↗</span></a></li>
+          ))}
+        </ul>
+      </section>
+
+      <footer class="foot mono">
+        <span>© {year} {profile.name}</span>
+        <span>Inter Tight / Geist Mono</span>
+        <a href="#s14-top">Top ↑</a>
+      </footer>
+    </div>
+
+    <aside class="viz" aria-hidden="true">
+      <canvas></canvas>
+      <div class="hud mono">
+        <span class="tl">PTS <b data-h="pts">0</b><br />FRAME <b data-h="frame">000000</b></span>
+        <span class="tr"><b data-h="idx">00</b> / <b data-h="name">Scan</b><br /><span data-h="cap">Scan</span></span>
+        <span class="bl">YAW <b data-h="yaw">000.0</b>°<br />PITCH <b data-h="pitch">00.0</b>°</span>
+        <span class="br"><span>MORPH <b data-h="morph">100</b>%</span><span class="bar"><i data-h="bar"></i></span></span>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('.s14');
+  if (root) {
+    root.classList.add('js');
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const reveal = new IntersectionObserver(entries => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        e.target.classList.add('in');
+        reveal.unobserve(e.target);
+      }
+    }, { rootMargin: '0px 0px -8% 0px' });
+    root.querySelectorAll('[data-r]').forEach(el => reveal.observe(el));
+
+    const viz = root.querySelector<HTMLElement>('.viz')!;
+    const canvas = viz.querySelector('canvas')!;
+    const ctx = canvas.getContext('2d')!;
+    const hud = Object.fromEntries([...root.querySelectorAll<HTMLElement>('[data-h]')].map(el => [el.dataset.h!, el]));
+    const triggers = [...root.querySelectorAll<HTMLElement>('[data-shape]')];
+
+    const N = innerWidth < 900 ? 5200 : 8400;
+    const TAU = Math.PI * 2;
+    let seed = 5;
+    const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const clamp01 = (x: number) => Math.max(0, Math.min(1, x));
+    const ease = (k: number) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
+
+    // Rigid frames: origin, row-major 3x3 rotation, uniform scale.
+    type M = number[];
+    type F = { o: number[]; R: M; s: number };
+    const mul = (a: M, b: M): M => [
+      a[0] * b[0] + a[1] * b[3] + a[2] * b[6], a[0] * b[1] + a[1] * b[4] + a[2] * b[7], a[0] * b[2] + a[1] * b[5] + a[2] * b[8],
+      a[3] * b[0] + a[4] * b[3] + a[5] * b[6], a[3] * b[1] + a[4] * b[4] + a[5] * b[7], a[3] * b[2] + a[4] * b[5] + a[5] * b[8],
+      a[6] * b[0] + a[7] * b[3] + a[8] * b[6], a[6] * b[1] + a[7] * b[4] + a[8] * b[7], a[6] * b[2] + a[7] * b[5] + a[8] * b[8],
+    ];
+    const rx = (t: number): M => { const c = Math.cos(t), s = Math.sin(t); return [1, 0, 0, 0, c, -s, 0, s, c]; };
+    const ry = (t: number): M => { const c = Math.cos(t), s = Math.sin(t); return [c, 0, s, 0, 1, 0, -s, 0, c]; };
+    const rz = (t: number): M => { const c = Math.cos(t), s = Math.sin(t); return [c, -s, 0, s, c, 0, 0, 0, 1]; };
+    const W: F = { o: [0, 0, 0], R: [1, 0, 0, 0, 1, 0, 0, 0, 1], s: 1 };
+    const at = (f: F, v: number[]) => [
+      f.o[0] + f.s * (f.R[0] * v[0] + f.R[1] * v[1] + f.R[2] * v[2]),
+      f.o[1] + f.s * (f.R[3] * v[0] + f.R[4] * v[1] + f.R[5] * v[2]),
+      f.o[2] + f.s * (f.R[6] * v[0] + f.R[7] * v[1] + f.R[8] * v[2]),
+    ];
+    const child = (p: F, off: number[], R: M): F => ({ o: at(p, off), R: mul(p.R, R), s: p.s });
+
+    // Surface samplers attached to a frame index.
+    type Prim = { f: number; area: number; sample: () => number[] };
+    const unit = () => {
+      const z = rnd() * 2 - 1, a = rnd() * TAU, r = Math.sqrt(1 - z * z);
+      return [r * Math.cos(a), z, r * Math.sin(a)];
+    };
+    const cap = (f: number, a: number[], b: number[], r: number): Prim => {
+      const d = [b[0] - a[0], b[1] - a[1], b[2] - a[2]], len = Math.hypot(d[0], d[1], d[2]);
+      const u = d.map(v => v / len), t0 = Math.abs(u[1]) < 0.9 ? [0, 1, 0] : [1, 0, 0];
+      let n1 = [u[1] * t0[2] - u[2] * t0[1], u[2] * t0[0] - u[0] * t0[2], u[0] * t0[1] - u[1] * t0[0]];
+      const l1 = Math.hypot(n1[0], n1[1], n1[2]); n1 = n1.map(v => v / l1);
+      const n2 = [u[1] * n1[2] - u[2] * n1[1], u[2] * n1[0] - u[0] * n1[2], u[0] * n1[1] - u[1] * n1[0]];
+      return {
+        f, area: TAU * r * len + 2 * Math.PI * r * r,
+        sample: () => {
+          if (rnd() < r / (len + r)) {
+            const end = rnd() < 0.5, c = end ? b : a, v = unit(), sgn = end ? 1 : -1;
+            const dot = v[0] * u[0] + v[1] * u[1] + v[2] * u[2];
+            const w = dot * sgn < 0 ? v.map((x, i) => x - 2 * dot * u[i]) : v;
+            return [c[0] + w[0] * r, c[1] + w[1] * r, c[2] + w[2] * r];
+          }
+          const k = rnd(), th = rnd() * TAU, cs = Math.cos(th) * r, sn = Math.sin(th) * r;
+          return [0, 1, 2].map(i => a[i] + d[i] * k + n1[i] * cs + n2[i] * sn);
+        },
+      };
+    };
+    const ell = (f: number, c: number[], r: number[]): Prim => ({
+      f, area: 4 * Math.PI * ((r[0] * r[1] + r[1] * r[2] + r[0] * r[2]) / 3),
+      sample: () => { const v = unit(); return [c[0] + v[0] * r[0], c[1] + v[1] * r[1], c[2] + v[2] * r[2]]; },
+    });
+    const box = (f: number, c: number[], h: number[]): Prim => {
+      const faces = [h[1] * h[2], h[0] * h[2], h[0] * h[1]], sum = faces[0] + faces[1] + faces[2];
+      return {
+        f, area: 8 * (sum),
+        sample: () => {
+          let r = rnd() * sum, ax = 0;
+          while (ax < 2 && r > faces[ax]) { r -= faces[ax]; ax++; }
+          const p = [0, 1, 2].map(i => (rnd() * 2 - 1) * h[i]);
+          p[ax] = (rnd() < 0.5 ? -1 : 1) * h[ax];
+          return [c[0] + p[0], c[1] + p[1], c[2] + p[2]];
+        },
+      };
+    };
+    const wheel = (f: number, R: number, hw: number): Prim => ({
+      f, area: TAU * R * hw * 5,
+      sample: () => {
+        const r = rnd(), side = rnd() < 0.5 ? -hw : hw;
+        if (r < 0.6) { const a = rnd() * TAU; return [R * Math.cos(a), R * Math.sin(a), (rnd() * 2 - 1) * hw]; }
+        if (r < 0.85) { const a = Math.floor(rnd() * 5) * (TAU / 5), q = 0.25 * R + rnd() * 0.7 * R; return [q * Math.cos(a), q * Math.sin(a), side]; }
+        const a = rnd() * TAU; return [0.25 * R * Math.cos(a), 0.25 * R * Math.sin(a), side];
+      },
+    });
+
+    // Humanoid rig. Frames (relative): pelvis, torso, head, upper arm L/R, forearm L/R, thigh L/R, shank L/R, wheel or foot L/R.
+    type Pose = { lean: number; yaw: number; tp: number; ty: number; hp: number; hy: number; arms: number[][]; legs: number[][]; wheel: number };
+    const humanPrims = (b: number, feet: 'wheel' | 'foot'): Prim[] => [
+      box(b + 1, [0, 0, 0], [0.085, 0.065, 0.14]),
+      ell(b + 2, [0, 0.07, 0], [0.075, 0.08, 0.115]),
+      box(b + 2, [0, 0.29, 0], [0.105, 0.16, 0.165]),
+      ell(b + 2, [0, 0.42, 0.2], [0.055, 0.055, 0.055]),
+      ell(b + 2, [0, 0.42, -0.2], [0.055, 0.055, 0.055]),
+      cap(b + 3, [0, 0, 0], [0, 0.06, 0], 0.035),
+      ell(b + 3, [0.01, 0.15, 0], [0.095, 0.115, 0.085]),
+      ...[0, 1].flatMap(i => [
+        cap(b + 4 + i, [0, 0, 0], [0, -0.27, 0], 0.042),
+        cap(b + 6 + i, [0, 0, 0], [0, -0.24, 0], 0.036),
+        ell(b + 6 + i, [0, -0.28, 0], [0.03, 0.045, 0.025]),
+        cap(b + 8 + i, [0, 0, 0], [0, -0.4, 0], 0.058),
+        cap(b + 10 + i, [0, 0, 0], [0, -0.4, 0], 0.048),
+        feet === 'wheel' ? wheel(b + 12 + i, 0.09, 0.03) : box(b + 12 + i, [0.04, -0.06, 0], [0.11, 0.022, 0.05]),
+      ]),
+    ];
+    const humanFrames = (J: Pose, feet: 'wheel' | 'foot', x = 0, z = 0, s = 1, y0 = 0): F[] => {
+      const pel: F = { o: [0, 0, 0], R: mul(ry(J.yaw), rz(-J.lean)), s: 1 };
+      const torso = child(pel, [0, 0.09, 0], mul(ry(J.ty), rz(-J.tp)));
+      const head = child(torso, [0, 0.5, 0], mul(ry(J.hy), rz(-J.hp)));
+      const arms = [0, 1].map(i => {
+        const sg = i ? -1 : 1, [sp, sr, el] = J.arms[i];
+        const up = child(torso, [0, 0.42, sg * 0.2], mul(rz(sp), rx(-sg * sr)));
+        return [up, child(up, [0, -0.27, 0], rz(el))];
+      });
+      const legs = [0, 1].map(i => {
+        const sg = i ? -1 : 1, [hp, hr, k] = J.legs[i];
+        const th = child(pel, [0, -0.04, sg * 0.1], mul(rz(hp), rx(-sg * hr)));
+        const sh = child(th, [0, -0.4, 0], rz(-k));
+        const ft = feet === 'wheel' ? child(sh, [0, -0.4, sg * 0.045], rz(-J.wheel)) : child(sh, [0, -0.4, 0], rz(k - hp + J.lean));
+        return [th, sh, ft];
+      });
+      const low = Math.min(legs[0][2].o[1], legs[1][2].o[1]) - (feet === 'wheel' ? 0.09 : 0.085);
+      return [pel, torso, head, arms[0][0], arms[1][0], arms[0][1], arms[1][1], legs[0][0], legs[1][0], legs[0][1], legs[1][1], legs[0][2], legs[1][2]]
+        .map(f => ({ o: [x + s * f.o[0], y0 + s * (f.o[1] - low), z + s * f.o[2]], R: f.R, s }));
+    };
+    const idle = (t: number, ph = 0, rollRate = 0): Pose => ({
+      lean: 0.05 + 0.015 * Math.sin(0.9 * t + ph), yaw: 0, tp: 0.04, ty: 0.08 * Math.sin(0.35 * t + ph), hp: 0.05, hy: 0.3 * Math.sin(0.4 * t + ph),
+      arms: [[0.12 + 0.06 * Math.sin(0.8 * t + ph), 0.12, 0.45], [0.1 - 0.06 * Math.sin(0.8 * t + ph), 0.12, 0.5]],
+      legs: [0, 1].map(() => [0.36, 0.03, 0.72 + 0.06 * Math.sin(1.4 * t + ph)]),
+      wheel: rollRate * t,
+    });
+    const wholeBody = (t: number): Pose => {
+      const m = 0.5 - 0.5 * Math.cos(t * 0.55);
+      return {
+        lean: 0.05 + 0.32 * m, yaw: 0, tp: 0.05 + 0.35 * m, ty: 0.32 * m, hp: 0.25 * m, hy: 0.2 * m,
+        arms: [[0.1 - 0.5 * m, 0.25 + 0.2 * m, 0.55], [0.2 + 1.15 * m, 0.08, 0.35 - 0.2 * m]],
+        legs: [[0.3 + 0.75 * m, 0.04, 0.6 + 1.05 * m], [0.32 + 0.45 * m, 0.1 + 0.1 * m, 0.62 + 0.8 * m]],
+        wheel: 0,
+      };
+    };
+    const waving = (t: number): Pose => {
+      const p = idle(t);
+      p.arms[1] = [0.35, 2.45 + 0.28 * Math.sin(t * 3.4), 0.55];
+      p.hy = -0.35; p.ty = -0.12;
+      return p;
+    };
+    const biped = (t: number): Pose => {
+      const p = idle(t);
+      const sway = 0.04 * Math.sin(0.9 * t);
+      p.lean = 0.02; p.legs = [[0.14, 0.02 + sway, 0.26], [0.12, 0.02 - sway, 0.24]];
+      p.arms = [[0.06 + 0.05 * Math.sin(0.8 * t), 0.1, 0.25], [0.06 - 0.05 * Math.sin(0.8 * t), 0.1, 0.3]];
+      return p;
+    };
+
+    // Quadruped rig: base, then hip, thigh, shank for each leg.
+    const QL = [[1, 1, 0], [1, -1, Math.PI], [-1, 1, Math.PI], [-1, -1, 0]];
+    const quadPrims = (b: number): Prim[] => [
+      box(b + 1, [0, 0, 0], [0.3, 0.09, 0.12]),
+      box(b + 1, [0, 0.11, 0], [0.18, 0.02, 0.085]),
+      ell(b + 1, [0.32, 0, 0], [0.045, 0.06, 0.09]),
+      ell(b + 1, [-0.32, 0, 0], [0.045, 0.06, 0.09]),
+      ...QL.flatMap((_, j) => [
+        ell(b + 2 + j * 3, [0, 0, 0], [0.055, 0.055, 0.06]),
+        ell(b + 3 + j * 3, [0, 0, 0], [0.05, 0.05, 0.05]),
+        cap(b + 3 + j * 3, [0, 0, 0], [0, -0.3, 0], 0.05),
+        cap(b + 4 + j * 3, [0, 0, 0], [0, -0.31, 0], 0.03),
+        ell(b + 4 + j * 3, [0, -0.33, 0], [0.032, 0.032, 0.032]),
+      ]),
+    ];
+    const quadFrames = (t: number, y0 = 0, gaitAmp = 1): F[] => {
+      const base: F = { o: [0, 0, 0], R: mul(rz(0.03 * Math.sin(1.8 * t)), rx(0.02 * Math.sin(0.9 * t))), s: 1 };
+      const out = [base];
+      let low = Infinity;
+      for (const [sx, sz, ph] of QL) {
+        const lift = gaitAmp * Math.max(0, Math.sin(1.8 * t + ph));
+        const haa = child(base, [sx * 0.3, -0.02, sz * 0.1], rx(0));
+        const th = child(haa, [0, 0, sz * 0.07], rz(sx > 0 ? -0.45 - 0.15 * lift : 0.45 + 0.15 * lift));
+        const sh = child(th, [0, -0.3, 0], rz(sx > 0 ? 0.95 + 0.45 * lift : -0.95 - 0.45 * lift));
+        low = Math.min(low, at(sh, [0, -0.33, 0])[1] - 0.032);
+        out.push(haa, th, sh);
+      }
+      return out.map(f => ({ o: [f.o[0], y0 + f.o[1] - low, f.o[2]], R: f.R, s: 1 }));
+    };
+
+    // Static point sets in the world frame.
+    const disc = (n: number) => Array.from({ length: n }, (_, i) => {
+      const ring = i % 14, r = 0.3 + ring * 0.075, a = (i / n) * TAU * 14 + ring * 0.4 + rnd() * 0.02;
+      return [Math.cos(a) * r, 0, Math.sin(a) * r];
+    });
+    const lattice = (n: number, cells: number, size: number) => Array.from({ length: n }, () => {
+      const k = (Math.floor(rnd() * (cells + 1)) / cells - 0.5) * size, v = (rnd() - 0.5) * size;
+      return rnd() < 0.5 ? [k, 0, v] : [v, 0, k];
+    });
+    const hT = (x: number, z: number) => 0.09 * Math.sin(2.1 * x + 0.3) * Math.cos(1.7 * z) + 0.05 * Math.sin(4.3 * x - 2.9 * z) + 0.03 * Math.cos(6.1 * z + x);
+    const field = (n: number, size: number) => {
+      const g = Math.ceil(Math.sqrt(n));
+      return Array.from({ length: n }, (_, i) => {
+        const x = ((i % g) / (g - 1) - 0.5) * size, z = (Math.floor(i / g) / (g - 1) - 0.5) * size;
+        return [x, hT(x, z), z];
+      });
+    };
+
+    type Shape = { cap: string; kind: Uint8Array; fill: (t: number, out: Float32Array) => void; zoom: number; cy: number; pitch: number; yaw: number };
+    const rig = (prims: Prim[], frames: (t: number) => F[], statics: (n: number) => number[][], share: number) => {
+      const nR = Math.round(N * share), fi = new Uint16Array(N), loc = new Float32Array(N * 3), kind = new Uint8Array(N);
+      const total = prims.reduce((s, p) => s + p.area, 0);
+      let i = 0;
+      prims.forEach((p, j) => {
+        const c = j === prims.length - 1 ? nR - i : Math.round((nR * p.area) / total);
+        for (let k = 0; k < c && i < nR; k++, i++) { fi[i] = p.f; loc.set(p.sample(), i * 3); }
+      });
+      statics(N - i).forEach(v => { fi[i] = 0; loc.set(v, i * 3); kind[i] = 1; i++; });
+      const fill = (t: number, out: Float32Array) => {
+        const Fs = frames(t);
+        for (let k = 0; k < N; k++) {
+          const f = Fs[fi[k]], R = f.R, s = f.s, j = k * 3, x = loc[j], y = loc[j + 1], z = loc[j + 2];
+          out[j] = f.o[0] + s * (R[0] * x + R[1] * y + R[2] * z);
+          out[j + 1] = f.o[1] + s * (R[3] * x + R[4] * y + R[5] * z);
+          out[j + 2] = f.o[2] + s * (R[6] * x + R[7] * y + R[8] * z);
+        }
+      };
+      return { kind, fill };
+    };
+
+    const network = () => {
+      const layers = [[3, 3], [4, 4], [4, 4], [2, 2]], xs = [-0.95, -0.32, 0.32, 0.95];
+      const nodes: number[][][] = layers.map(([r, c], l) => Array.from({ length: r * c }, (_, k) => [xs[l], 0.85 + (Math.floor(k / c) - (r - 1) / 2) * 0.24, ((k % c) - (c - 1) / 2) * 0.24]));
+      const all = nodes.flat(), perNode = Math.floor((N * 0.36) / all.length), nN = perNode * all.length;
+      const edges: number[][][] = [];
+      for (let l = 0; l < 3; l++) for (const a of nodes[l]) for (const b of nodes[l + 1]) if (rnd() < 0.3) edges.push([a, b]);
+      const kind = new Uint8Array(N), dir = new Float32Array(nN * 3), eIdx = new Uint16Array(N), u0 = new Float32Array(N), ph = new Float32Array(all.length);
+      for (let i = 0; i < nN; i++) dir.set(unit(), i * 3);
+      for (let k = 0; k < all.length; k++) ph[k] = rnd() * TAU;
+      for (let i = nN; i < N; i++) {
+        const e = Math.floor(rnd() * edges.length), pulse = rnd() < 0.3;
+        eIdx[i] = e; kind[i] = pulse ? 0 : 1;
+        u0[i] = pulse ? (e * 0.37) % 1 + Math.floor(rnd() * 2) / 2 + rnd() * 0.05 : rnd();
+      }
+      const fill = (t: number, out: Float32Array) => {
+        for (let i = 0; i < nN; i++) {
+          const k = Math.floor(i / perNode), c = all[k], r = 0.05 * (1 + 0.25 * Math.sin(2 * t + ph[k])), j = i * 3;
+          out[j] = c[0] + dir[j] * r; out[j + 1] = c[1] + dir[j + 1] * r; out[j + 2] = c[2] + dir[j + 2] * r;
+        }
+        for (let i = nN; i < N; i++) {
+          const [a, b] = edges[eIdx[i]], u = (u0[i] + t * 0.16) % 1, j = i * 3;
+          out[j] = a[0] + (b[0] - a[0]) * u; out[j + 1] = a[1] + (b[1] - a[1]) * u; out[j + 2] = a[2] + (b[2] - a[2]) * u;
+        }
+      };
+      return { kind, fill };
+    };
+
+    const sphere = () => {
+      const kind = new Uint8Array(N), g = Math.PI * (3 - Math.sqrt(5));
+      for (let i = 0; i < N; i++) kind[i] = i % 9 === 0 ? 1 : 0;
+      const fill = (t: number, out: Float32Array) => {
+        const c = Math.cos(t * 0.12), s = Math.sin(t * 0.12);
+        for (let i = 0; i < N; i++) {
+          const y = 1 - (i / (N - 1)) * 2, r = Math.sqrt(1 - y * y), a = i * g;
+          const k = 0.82 * (1 + 0.012 * Math.sin(3 * y * Math.PI + t * 0.8));
+          const x = Math.cos(a) * r, z = Math.sin(a) * r, j = i * 3;
+          out[j] = (x * c - z * s) * k; out[j + 1] = 0.9 + y * k; out[j + 2] = (x * s + z * c) * k;
+        }
+      };
+      return { kind, fill };
+    };
+
+    const AEON = humanPrims(0, 'wheel');
+    const ENV_POS = Array.from({ length: 16 }, (_, k) => [((k % 4) - 1.5) * 0.62, (Math.floor(k / 4) - 1.5) * 0.62]);
+    type Def = { cap: string; make: () => { kind: Uint8Array; fill: Shape['fill'] }; zoom?: number; cy?: number; pitch?: number; yaw?: number };
+    const aeonRig = (pose: (t: number) => Pose, statics = disc, share = 0.8, y0 = 0) => () => rig(AEON, t => [W, ...humanFrames(pose(t), 'wheel', 0, 0, 1, y0)], statics, share);
+    const defs: Record<string, Def> = {
+      scan: { cap: 'AEON · LiDAR-style scan', make: aeonRig(t => idle(t)) },
+      policy: { cap: 'Policy · obs → action', make: network, zoom: 0.85, cy: 0.85, yaw: 0.35 },
+      wholebody: { cap: 'Whole-body motion', make: aeonRig(wholeBody), cy: 0.8, pitch: 0.24 },
+      envs: { cap: '16 parallel envs', make: () => rig(ENV_POS.flatMap((_, k) => humanPrims(k * 13, 'wheel')), t => [W, ...ENV_POS.flatMap(([x, z], k) => humanFrames(idle(t + k * 1.7, k), 'wheel', x, z, 0.34))], n => lattice(n, 4, 2.48), 0.8), zoom: 0.72, cy: 0.35, pitch: 0.5 },
+      terrain: { cap: 'Elevation map · AEON', make: aeonRig(t => idle(t), n => field(n, 2.8), 0.55, hT(0, 0)), zoom: 0.85, cy: 0.7, pitch: 0.4 },
+      aeon: { cap: 'AEON · wheel-legged humanoid', make: aeonRig(t => idle(t, 0, 2.4)) },
+      quadruped: { cap: 'Quadruped · legged locomotion', make: () => rig(quadPrims(0), t => [W, ...quadFrames(t)], disc, 0.78), zoom: 1.35, cy: 0.42, pitch: 0.24, yaw: 0.25 },
+      quadterrain: { cap: 'Quadruped · rough terrain', make: () => rig(quadPrims(0), t => [W, ...quadFrames(t, hT(0, 0), 0.6)], n => field(n, 2.6), 0.55), zoom: 1.05, cy: 0.45, pitch: 0.38, yaw: 0.25 },
+      humanoid: { cap: 'Humanoid · biped', make: () => rig(humanPrims(0, 'foot'), t => [W, ...humanFrames(biped(t), 'foot')], disc, 0.8), cy: 0.9 },
+      sphere: { cap: `Field · ${N.toLocaleString('en-US')} points`, make: sphere, cy: 0.9 },
+      wave: { cap: 'AEON · hello', make: aeonRig(waving), cy: 0.92 },
+    };
+
+    // Each shape is reindexed by height so point i keeps a similar rank in every shape.
+    const shapes: Record<string, Shape> = {};
+    const tmp = new Float32Array(N * 3);
+    for (const [name, d] of Object.entries(defs)) {
+      const s = d.make();
+      s.fill(0, tmp);
+      const perm = [...Array(N).keys()].sort((a, b) => tmp[a * 3 + 1] + (a % 7) * 0.004 - tmp[b * 3 + 1] - (b % 7) * 0.004);
+      const kind = new Uint8Array(N);
+      perm.forEach((p, k) => (kind[k] = s.kind[p]));
+      const buf = new Float32Array(N * 3);
+      shapes[name] = {
+        cap: d.cap, kind, zoom: d.zoom ?? 1, cy: d.cy ?? 0.88, pitch: d.pitch ?? 0.2, yaw: d.yaw ?? 0,
+        fill: (t, out) => {
+          s.fill(t, buf);
+          for (let k = 0; k < N; k++) { const p = perm[k] * 3, j = k * 3; out[j] = buf[p]; out[j + 1] = buf[p + 1]; out[j + 2] = buf[p + 2]; }
+        },
+      };
+    }
+
+    const cur = new Float32Array(N * 3), from = new Float32Array(N * 3), tgt = new Float32Array(N * 3);
+    const kindFrom = new Uint8Array(N).fill(1), jitter = new Float32Array(N), lift = new Float32Array(N * 3);
+    for (let i = 0; i < N; i++) {
+      jitter[i] = rnd();
+      lift.set([(rnd() - 0.5) * 0.3, 0.12 + rnd() * 0.22, (rnd() - 0.5) * 0.3], i * 3);
+      const a = rnd() * TAU, r = 0.2 + Math.sqrt(rnd()) * 1.5;
+      cur.set([Math.cos(a) * r, 0, Math.sin(a) * r], i * 3);
+    }
+    from.set(cur);
+
+    let active = 'scan', activeEl = triggers[0], morph = 0, morphDur = 2.8, scanOn = 0;
+    const view = { zoom: 1, cy: 0.88, pitch: 0.2, yaw: 0 };
+    const SPREAD = 0.55;
+    const setShape = (el: HTMLElement) => {
+      activeEl = el;
+      const name = el.dataset.shape!;
+      hud.idx.textContent = String(triggers.indexOf(el) + 1).padStart(2, '0');
+      hud.name.textContent = el.dataset.name || name;
+      if (name === active) return;
+      const old = shapes[active];
+      for (let i = 0; i < N; i++) kindFrom[i] = morph < 0.5 ? kindFrom[i] : old.kind[i];
+      from.set(cur);
+      active = name; morph = 0; morphDur = 1.9;
+      hud.cap.textContent = shapes[name].cap;
+    };
+    hud.pts.textContent = N.toLocaleString('en-US');
+    hud.cap.textContent = shapes.scan.cap;
+    hud.idx.textContent = '01';
+
+    const LEVELS = 14, KINDS = 3;
+    const bucket = new Uint16Array(N), counts = new Uint32Array(LEVELS * KINDS + 1), order = new Uint32Array(N);
+    const px = new Float32Array(N), py = new Float32Array(N), ps = new Float32Array(N);
+    const colors = ['31, 91, 255', '150, 178, 255', '24, 32, 47'];
+    const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
+    let w = 0, h = 0, dpr = 1, frame = 0, clock = 0;
+
+    const draw = (dt: number) => {
+      if (!w) return;
+      clock += dt;
+      const t = clock, S = shapes[active];
+      morph = Math.min(1, morph + dt / morphDur);
+      mouse.x += (mouse.tx - mouse.x) * 0.04; mouse.y += (mouse.ty - mouse.y) * 0.04;
+      view.zoom += (S.zoom - view.zoom) * 0.04; view.cy += (S.cy - view.cy) * 0.04; view.pitch += (S.pitch - view.pitch) * 0.04; view.yaw += (S.yaw - view.yaw) * 0.03;
+      scanOn += ((active === 'scan' ? 1 : 0) - scanOn) * 0.05;
+
+      S.fill(t, tgt);
+      const mp = morph * (1 + SPREAD);
+      for (let i = 0; i < N; i++) {
+        const j = i * 3;
+        if (morph >= 1) { cur[j] = tgt[j]; cur[j + 1] = tgt[j + 1]; cur[j + 2] = tgt[j + 2]; continue; }
+        const k = ease(clamp01(mp - SPREAD * (0.7 * (i / N) + 0.3 * jitter[i]))), arc = Math.sin(Math.PI * k);
+        cur[j] = from[j] + (tgt[j] - from[j]) * k + lift[j] * arc;
+        cur[j + 1] = from[j + 1] + (tgt[j + 1] - from[j + 1]) * k + lift[j + 1] * arc;
+        cur[j + 2] = from[j + 2] + (tgt[j + 2] - from[j + 2]) * k + lift[j + 2] * arc;
+      }
+
+      const yaw = -0.78 + view.yaw + 0.38 * Math.sin(t * 0.08) + mouse.x * 0.45, pitch = view.pitch + mouse.y * 0.12;
+      const cy = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
+      const D = 6, scale = Math.min(h * 0.36, w * 0.44) * view.zoom, f = scale * D, dot = w < 500 ? 0.8 : 1;
+      const ox = w / 2, oy = h * 0.53, scanY = 0.04 + 1.78 * (0.5 - 0.5 * Math.cos(t * 0.7));
+
+      counts.fill(0);
+      for (let i = 0; i < N; i++) {
+        const j = i * 3, x = cur[j], y = cur[j + 1] - view.cy, z = cur[j + 2];
+        const xr = x * cy - z * sy, zr = x * sy + z * cy;
+        const yr = y * cp + zr * sp, zz = -y * sp + zr * cp + D, k = f / zz;
+        px[i] = ox + xr * k; py[i] = oy - yr * k;
+        const near = clamp01((D + 1.4 - zz) / 2.8), lvl = Math.min(LEVELS - 1, Math.floor(near * LEVELS));
+        let kd = morph > 0.5 || (mp - SPREAD * (0.7 * (i / N) + 0.3 * jitter[i])) > 0.5 ? S.kind[i] : kindFrom[i];
+        const lit = scanOn > 0.05 && kd === 0 && Math.abs(cur[j + 1] - scanY) < 0.022;
+        if (lit) kd = 2;
+        ps[i] = (0.8 + near * 1.5) * (lit ? 1.6 : kd === 1 ? 0.95 : 1) * dot;
+        bucket[i] = lvl * KINDS + kd;
+        counts[bucket[i] + 1]++;
+      }
+      for (let b = 1; b <= LEVELS * KINDS; b++) counts[b] += counts[b - 1];
+      const start = counts.slice();
+      for (let i = 0; i < N; i++) order[start[bucket[i]]++] = i;
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+
+      if (scanOn > 0.02) {
+        ctx.beginPath();
+        for (let a = 0; a <= 64; a++) {
+          const th = (a / 64) * TAU, x = Math.cos(th) * 0.9, z = Math.sin(th) * 0.9, y = scanY - view.cy;
+          const xr = x * cy - z * sy, zr = x * sy + z * cy, yr = y * cp + zr * sp, zz = -y * sp + zr * cp + D;
+          const X = ox + (xr * f) / zz, Y = oy - (yr * f) / zz;
+          a ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y);
+        }
+        ctx.fillStyle = `rgba(31, 91, 255, ${0.035 * scanOn})`; ctx.fill();
+        ctx.strokeStyle = `rgba(31, 91, 255, ${0.4 * scanOn})`; ctx.lineWidth = 1; ctx.stroke();
+      }
+
+      for (let lvl = 0; lvl < LEVELS; lvl++) {
+        const near = (lvl + 0.5) / LEVELS;
+        for (let kd = 0; kd < KINDS; kd++) {
+          const b = lvl * KINDS + kd, a0 = counts[b], a1 = counts[b + 1];
+          if (a0 === a1) continue;
+          const alpha = kd === 0 ? 0.22 + near * 0.7 : kd === 1 ? 0.3 + near * 0.55 : 0.85;
+          ctx.fillStyle = `rgba(${colors[kd]}, ${alpha})`;
+          for (let o = a0; o < a1; o++) { const i = order[o], s = ps[i]; ctx.fillRect(px[i] - s / 2, py[i] - s / 2, s, s); }
+        }
+      }
+
+      if (frame++ % 6 === 0) {
+        hud.frame.textContent = String(frame).padStart(6, '0');
+        hud.yaw.textContent = ((((yaw * 180) / Math.PI) % 360 + 360) % 360).toFixed(1).padStart(5, '0');
+        hud.pitch.textContent = ((pitch * 180) / Math.PI).toFixed(1).padStart(4, '0');
+        hud.morph.textContent = String(Math.round(morph * 100)).padStart(3, '0');
+        hud.bar.style.transform = `scaleX(${morph.toFixed(3)})`;
+      }
+    };
+
+    const pick = () => {
+      const line = innerWidth < 900 ? viz.offsetHeight + (innerHeight - viz.offsetHeight) * 0.4 : innerHeight * 0.5;
+      let el = triggers[0];
+      for (const tr of triggers) if (tr.getBoundingClientRect().top <= line) el = tr;
+      if (el !== activeEl || el.dataset.shape !== active) setShape(el);
+    };
+
+    new ResizeObserver(() => {
+      w = viz.clientWidth; h = viz.clientHeight;
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+      canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+      if (reduced || !raf) draw(0);
+    }).observe(viz);
+
+    let raf = 0, last = 0;
+    const loop = (now: number) => {
+      const dt = Math.min(0.05, (now - (last || now)) / 1000);
+      last = now;
+      draw(dt);
+      raf = requestAnimationFrame(loop);
+    };
+    if (reduced) {
+      clock = 2; morph = 1;
+      addEventListener('scroll', () => { pick(); morph = 1; draw(0); }, { passive: true });
+    } else {
+      addEventListener('scroll', pick, { passive: true });
+      addEventListener('pointermove', e => { mouse.tx = e.clientX / innerWidth - 0.5; mouse.ty = e.clientY / innerHeight - 0.5; }, { passive: true });
+      new IntersectionObserver(([e]) => {
+        if (e.isIntersecting && !raf) { last = 0; raf = requestAnimationFrame(loop); }
+        if (!e.isIntersecting && raf) { cancelAnimationFrame(raf); raf = 0; }
+      }).observe(viz);
+    }
+    pick();
+  }
+</script>
+
+<style>
+  .s14 {
+    --ink: #18202f;
+    --muted: #5b6475;
+    --faint: #8d95a5;
+    --line: #e7eaf0;
+    --blue: #1f5bff;
+    --gut: clamp(16px, 4.5vw, 72px);
+    --sans: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+    --mono: 'Geist Mono', ui-monospace, Menlo, monospace;
+    --ease: cubic-bezier(.2, .7, .2, 1);
+    background: #fff;
+    color: var(--ink);
+    font: 400 16px/1.62 var(--sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+  .s14 *, .s14 *::before, .s14 *::after { box-sizing: border-box; }
+  :where(.s14 h1, .s14 h2, .s14 h3, .s14 p, .s14 ol, .s14 ul, .s14 dl, .s14 dd) { margin: 0; padding: 0; }
+  :where(.s14 ol, .s14 ul) { list-style: none; }
+  :where(.s14 a) { color: inherit; text-decoration: none; }
+  .s14 a:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 2px; }
+  .s14 .mono { font: 400 11px/1.5 var(--mono); letter-spacing: .05em; text-transform: uppercase; }
+  .s14 [id] { scroll-margin-top: 24px; }
+
+  .layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .col { grid-column: 1; grid-row: 1; padding: 0 clamp(32px, 5vw, 88px) 88px var(--gut); }
+  .viz { grid-column: 2; grid-row: 1; position: sticky; top: 0; height: 100vh; align-self: start; border-left: 1px solid var(--line); }
+  .viz canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .hud > span { position: absolute; color: var(--faint); font-size: 10px; line-height: 1.7; }
+  .hud b { color: var(--ink); font-weight: 500; font-variant-numeric: tabular-nums; }
+  .hud .tl { top: 22px; left: 24px; }
+  .hud .tr { top: 22px; right: 24px; text-align: right; }
+  .hud .tr b:first-child { color: var(--blue); }
+  .hud .bl { bottom: 22px; left: 24px; }
+  .hud .br { bottom: 22px; right: 24px; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+  .bar { display: block; width: 88px; height: 1px; background: var(--line); }
+  .bar i { display: block; height: 100%; background: var(--blue); transform-origin: left; }
+
+  .nav { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 30px 0; }
+  .brand { font-weight: 600; font-size: 15px; letter-spacing: -.01em; }
+  .nav nav { display: flex; gap: clamp(14px, 1.8vw, 26px); font-size: 14px; color: var(--muted); }
+  .nav nav a { transition: color .3s; }
+  .nav nav a:hover { color: var(--blue); }
+
+  .hero { min-height: calc(100vh - 92px); display: flex; align-items: center; padding-bottom: 80px; }
+  .kicker { color: var(--blue); }
+  .hero h1 { margin: 22px 0 30px; font-size: clamp(44px, 5.4vw, 84px); font-weight: 500; line-height: .98; letter-spacing: -.04em; }
+  .statement { font-size: clamp(22px, 2vw, 30px); line-height: 1.3; letter-spacing: -.02em; max-width: 24ch; }
+  .statement span, .s14 h2 span { color: var(--blue); }
+  .role { margin-top: 26px; color: var(--muted); font-size: 15.5px; max-width: 44ch; }
+  .role a { color: var(--ink); font-weight: 500; border-bottom: 1px solid var(--line); transition: color .3s, border-color .3s; }
+  .role a:hover { color: var(--blue); border-color: var(--blue); }
+  .cue { display: flex; align-items: center; gap: 12px; margin-top: 64px; color: var(--faint); font-size: 10.5px; }
+  .cue i { width: 32px; height: 1px; background: var(--blue); }
+
+  .sec { padding-top: clamp(88px, 16vh, 180px); }
+  .sec-head { border-top: 1px solid var(--line); padding-top: 18px; }
+  .num { display: flex; gap: 14px; color: var(--faint); }
+  .num span { color: var(--blue); }
+  .s14 h2 { margin-top: 28px; font-size: clamp(30px, 3vw, 46px); font-weight: 500; line-height: 1.08; letter-spacing: -.03em; max-width: 18ch; }
+
+  .area { min-height: 64vh; padding: clamp(56px, 10vh, 110px) 0 0; display: flex; flex-direction: column; justify-content: flex-start; }
+  .sub { display: flex; gap: 14px; color: var(--faint); }
+  .sub span { color: var(--blue); }
+  .s14 h3 { margin: 16px 0 12px; font-size: clamp(22px, 1.9vw, 28px); font-weight: 500; line-height: 1.2; letter-spacing: -.022em; }
+  .area > p:not(.sub), .jobs p:not(.sub) { color: var(--muted); max-width: 46ch; }
+  .kw { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 22px; padding-top: 14px; border-top: 1px solid var(--line); color: var(--faint); font-size: 10px; max-width: 46ch; }
+
+  .sec-head + div { margin-top: 44px; }
+  .lead { font-size: clamp(19px, 1.5vw, 22px); line-height: 1.5; letter-spacing: -.01em; }
+  .body { margin-top: 20px; color: var(--muted); }
+  .facts { margin-top: 40px; border-top: 1px solid var(--line); }
+  .facts div { display: grid; grid-template-columns: 96px 1fr; padding: 12px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+  .facts dt { color: var(--faint); }
+  .facts dd { font-size: 15px; }
+
+  .jobs { margin-top: 8px; }
+  .jobs > li { min-height: 42vh; padding: 56px 0 0; }
+  .jobs > li + li { border-top: 1px solid var(--line); margin-top: 40px; }
+  .jobs h3 { margin-bottom: 6px; }
+  .org { display: inline-block; margin-bottom: 12px; font-weight: 500; color: var(--ink); transition: color .3s; }
+  .org:hover { color: var(--blue); }
+
+  .notes { margin-top: 36px; }
+  .notes a { display: block; padding: 26px 0; border-bottom: 1px solid var(--line); }
+  .notes li:first-child a { border-top: 1px solid var(--line); }
+  .notes time { color: var(--faint); }
+  .notes h3 { margin: 8px 0 6px; font-size: 21px; transition: color .3s; }
+  .notes a:hover h3 { color: var(--blue); }
+  .notes p { color: var(--muted); font-size: 15px; }
+  .tags { display: block; margin-top: 10px; color: var(--blue); font-size: 10px; }
+
+  .contact { min-height: 70vh; }
+  .links { margin-top: 36px; border-top: 1px solid var(--line); }
+  .links a { display: grid; grid-template-columns: 1fr auto auto; gap: 20px; align-items: baseline; padding: 20px 0; border-bottom: 1px solid var(--line); }
+  .links a > span:first-child { font-size: clamp(24px, 2.2vw, 32px); font-weight: 500; letter-spacing: -.025em; transition: color .3s; }
+  .links .mono { color: var(--faint); text-transform: none; }
+  .links .arrow { color: var(--faint); transition: transform .35s var(--ease), color .3s; }
+  .links a:hover > span:first-child, .links a:hover .arrow { color: var(--blue); }
+  .links a:hover .arrow { transform: translate(3px, -3px); }
+
+  .foot { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 96px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--faint); }
+  .foot a:hover { color: var(--blue); }
+
+  .js [data-r] { opacity: 0; transform: translateY(10px); }
+  .js [data-r].in { opacity: 1; transform: none; transition: opacity .9s var(--ease), transform .9s var(--ease); }
+
+  @media (max-width: 1180px) {
+    .nav { flex-direction: column; align-items: flex-start; gap: 12px; }
+  }
+  @media (max-width: 899px) {
+    .layout { grid-template-columns: minmax(0, 1fr); }
+    .viz { grid-row: 1; grid-column: 1; height: clamp(250px, 38vh, 340px); z-index: 2; background: #fff; border-left: 0; border-bottom: 1px solid var(--line); }
+    .col { grid-row: 2; padding: 0 var(--gut) 88px; }
+    .hud > span { font-size: 9px; }
+    .hud .tl { top: 12px; left: 16px; } .hud .tr { top: 12px; right: 16px; }
+    .hud .bl { bottom: 12px; left: 16px; } .hud .br { bottom: 12px; right: 16px; }
+    .bar { width: 56px; }
+    .nav { padding: 22px 0 0; }
+    .nav nav { flex-wrap: wrap; gap: 6px 18px; }
+    .hero { min-height: 0; padding: 56px 0 24px; }
+    .cue { margin-top: 40px; }
+    .area { min-height: 0; padding-top: 64px; }
+    .jobs > li { min-height: 0; padding-top: 40px; }
+    .contact { min-height: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .js [data-r] { opacity: 1; transform: none; transition: none; }
+  }
+</style>

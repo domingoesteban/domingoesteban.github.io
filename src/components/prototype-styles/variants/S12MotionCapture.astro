@@ -1,0 +1,786 @@
+---
+// PROTOTYPE 12 Motion Capture: a marker skeleton in a slow 3D take, then a small companion that retargets per section.
+import { profile, areas, experience, notes, formatDate } from '../content';
+
+const year = new Date().getFullYear();
+const arrow = '↗';
+---
+<div class="s12">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" />
+
+  <header class="nav wrap" id="s12-top">
+    <a class="brand" href="#s12-top">{profile.name}</a>
+    <nav aria-label="Primary">
+      <a href="#s12-research">Research</a>
+      <a href="#s12-about">About</a>
+      <a href="#s12-work">Experience</a>
+      <a href="#s12-notes">Notes</a>
+      <a href="#s12-contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero" aria-labelledby="s12-name">
+    <canvas class="stage" role="img" aria-label="Motion capture of a human figure shown as reflective markers and thin bones: it walks, comes to a balanced stance, shifts its weight and turns, on a perspective ground grid with a slowly orbiting camera."></canvas>
+    <div class="hero-top reveal">
+      <h1 id="s12-name">{profile.firstName} <span>{profile.lastName}</span></h1>
+      <p class="role">{profile.role} at <a href={profile.companyHref} target="_blank" rel="noopener">{profile.company}</a></p>
+    </div>
+    <div class="hero-bottom wrap reveal">
+      <p class="tagline">{profile.tagline}</p>
+      <dl class="hud" aria-hidden="true">
+        <div><dt>Take</dt><dd>01 · walk, balance, turn</dd></div>
+        <div><dt>Markers</dt><dd>39 · 120 Hz</dd></div>
+        <div><dt>Frame</dt><dd data-frame>000000</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <div class="body wrap">
+    <main class="sections">
+      <section class="sec" id="s12-research" data-pose="step" aria-labelledby="s12-research-h">
+        <p class="label reveal"><span>01</span>Research</p>
+        <div class="content">
+          <h2 id="s12-research-h" class="reveal">Learning how robots <span>move as a whole.</span></h2>
+          <ol class="areas">
+            {areas.map((a, i) => (
+              <li class="reveal">
+                <p class="idx">0{i + 1}</p>
+                <h3>{a.title}</h3>
+                <p>{a.summary}</p>
+                <ul class="kw">{a.keywords.map(k => <li>{k}</li>)}</ul>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section class="sec" id="s12-about" data-pose="stand" aria-labelledby="s12-about-h">
+        <p class="label reveal"><span>02</span>About</p>
+        <div class="content reveal">
+          <h2 id="s12-about-h" class="sr">About</h2>
+          <p class="lead">{profile.bio[0]}</p>
+          <div class="about-foot">
+            <p>{profile.bio[1]}</p>
+            <dl class="facts">
+              <div><dt>Now</dt><dd>{profile.company}, {profile.robot}</dd></div>
+              <div><dt>Based</dt><dd>{profile.location}</dd></div>
+              <div><dt>From</dt><dd>{profile.origin}</dd></div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec" id="s12-work" data-pose="roll" aria-labelledby="s12-work-h">
+        <p class="label reveal"><span>03</span>Experience</p>
+        <div class="content">
+          <h2 id="s12-work-h" class="reveal">From legged robots <span>to wheeled humanoids.</span></h2>
+          <ol class="rows">
+            {experience.map(e => (
+              <li class="reveal">
+                <span class="when">{e.period}</span>
+                <div class="what">
+                  <h3>{e.title}</h3>
+                  <a href={e.href} target="_blank" rel="noopener">{e.org} <span aria-hidden="true">{arrow}</span></a>
+                </div>
+                <p class="sum">{e.summary}</p>
+                <span class="where">{e.place}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section class="sec" id="s12-notes" data-pose="think" aria-labelledby="s12-notes-h">
+        <p class="label reveal"><span>04</span>Notes</p>
+        <div class="content">
+          <h2 id="s12-notes-h" class="reveal">Notes on <span>learning to move.</span></h2>
+          <ol class="rows notes">
+            {notes.map(n => (
+              <li class="reveal">
+                <time class="when" datetime={n.date.toISOString()}>{formatDate(n.date)}</time>
+                <div class="what">
+                  <h3>{n.title}</h3>
+                  <p>{n.description}</p>
+                </div>
+                <p class="tags">{n.tags?.map(t => <span>{t}</span>)}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section class="sec contact" id="s12-contact" data-pose="wave" aria-labelledby="s12-contact-h">
+        <p class="label reveal"><span>05</span>Contact</p>
+        <div class="content reveal">
+          <h2 id="s12-contact-h">Say hello.</h2>
+          <ul class="links">
+            {profile.links.map(l => <li><a href={l.href} target="_blank" rel="noopener">{l.label} <span aria-hidden="true">{arrow}</span></a></li>)}
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <aside class="rail" aria-hidden="true">
+      <div class="companion">
+        <canvas class="mini"></canvas>
+        <p class="cap"><span data-pose-name>stand</span><span data-blend>retarget 100%</span></p>
+      </div>
+    </aside>
+  </div>
+
+  <footer class="foot wrap">
+    <span>© {year} {profile.name}</span>
+    <span>{profile.location} · From {profile.origin}</span>
+  </footer>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('.s12');
+  if (root) {
+    root.classList.add('js');
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const INK = '26,33,49', BLUE = '43,89,255';
+    const ink = (a: number) => `rgba(${INK},${a})`;
+    const blue = (a: number) => `rgba(${BLUE},${a})`;
+    const MONO = '"JetBrains Mono", ui-monospace, monospace';
+    const { sin, cos, max, min, abs, PI, hypot, sqrt, exp, atan2 } = Math;
+    const clamp = (v: number, lo = 0, hi = 1) => min(hi, max(lo, v));
+    const smooth = (k: number) => { k = clamp(k); return k * k * (3 - 2 * k); };
+    const ease = (k: number) => (k < 0.5 ? 4 * k * k * k : 1 - (-2 * k + 2) ** 3 / 2);
+
+    type V = [number, number, number];
+    type M3 = number[];
+    const add = (a: V, b: V): V => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
+    const sub = (a: V, b: V): V => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+    const mul = (a: V, s: number): V => [a[0] * s, a[1] * s, a[2] * s];
+    const dot = (a: V, b: V) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+    const lerp = (a: V, b: V, k: number): V => [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k, a[2] + (b[2] - a[2]) * k];
+    const unit = (a: V) => mul(a, 1 / (hypot(...a) || 1));
+    const mm = (a: M3, b: M3): M3 => {
+      const r = new Array(9).fill(0);
+      for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) for (let k = 0; k < 3; k++) r[i * 3 + j] += a[i * 3 + k] * b[k * 3 + j];
+      return r;
+    };
+    const ap = (m: M3, v: V): V => [m[0] * v[0] + m[1] * v[1] + m[2] * v[2], m[3] * v[0] + m[4] * v[1] + m[5] * v[2], m[6] * v[0] + m[7] * v[1] + m[8] * v[2]];
+    const Rx = (a: number): M3 => [1, 0, 0, 0, cos(a), -sin(a), 0, sin(a), cos(a)];
+    const Ry = (a: number): M3 => [cos(a), 0, sin(a), 0, 1, 0, -sin(a), 0, cos(a)];
+    const Rz = (a: number): M3 => [cos(a), -sin(a), 0, sin(a), cos(a), 0, 0, 0, 1];
+    const rpy = (yaw: number, pitch: number, roll: number) => mm(Rz(yaw), mm(Ry(pitch), Rx(roll)));
+
+    // Human proportions for a 1.75 m subject.
+    const THIGH = 0.44, SHANK = 0.42, ANKLE = 0.08, HIP_W = 0.09, UPPER = 0.29, FORE = 0.26, HAND = 0.09, WHEEL = 0.1;
+
+    type Angles = {
+      spine: number; twist: number; bend: number; neck: number; headYaw: number; headRoll: number;
+      sh: [number, number]; sa: [number, number]; st: [number, number]; el: [number, number];
+    };
+    type Pose = { j: Record<string, V>; Rp: M3; Rc: M3; Rh: M3; wheel: number; spin: number };
+
+    // Torso, head and arms by forward kinematics from the pelvis frame. Index 0 is left, 1 is right.
+    const upper = (j: Record<string, V>, P: V, Rp: M3, a: Angles) => {
+      const Rc = mm(Rp, mm(Ry(a.spine), mm(Rx(a.bend), Rz(a.twist))));
+      j.chest = add(P, ap(Rp, [0, 0, 0.24]));
+      j.neck = add(j.chest, ap(Rc, [0, 0, 0.24]));
+      const Rh = mm(Rc, mm(Ry(a.neck), mm(Rz(a.headYaw), Rx(a.headRoll))));
+      j.head = add(j.neck, ap(Rh, [0.01, 0, 0.13]));
+      [1, -1].forEach((side, i) => {
+        const n = i ? 'R' : 'L';
+        const sh = add(j.neck, ap(Rc, [-0.01, side * 0.18, -0.05]));
+        const A = mm(Rc, mm(Ry(-a.sh[i]), mm(Rx(side * a.sa[i]), Rz(side * a.st[i]))));
+        const el = add(sh, ap(A, [0, 0, -UPPER]));
+        const F = mm(A, Ry(-a.el[i]));
+        const wr = add(el, ap(F, [0, 0, -FORE]));
+        j['sh' + n] = sh; j['el' + n] = el; j['wr' + n] = wr; j['hd' + n] = add(wr, ap(F, [0.01, 0, -HAND]));
+        j['wrb' + n] = add(wr, ap(F, [0, side * 0.03, 0]));
+      });
+      return { Rc, Rh };
+    };
+
+    const ik = (hip: V, ankle: V, hint: V): V => {
+      const d = sub(ankle, hip), dl = hypot(...d), L = min(dl, THIGH + SHANK - 1e-3), u = mul(d, 1 / dl);
+      const x = (THIGH * THIGH - SHANK * SHANK + L * L) / (2 * L), r = sqrt(max(0, THIGH * THIGH - x * x));
+      return add(add(hip, mul(u, x)), mul(unit(sub(hint, mul(u, dot(hint, u)))), r));
+    };
+
+    const footPoints = (j: Record<string, V>, n: string, origin: V, yaw: number, pitch: number) => {
+      const R = mm(Rz(yaw), Ry(pitch));
+      j['an' + n] = add(origin, ap(R, [0, 0, ANKLE]));
+      j['he' + n] = add(origin, ap(R, [-0.06, 0, 0.025]));
+      j['to' + n] = add(origin, ap(R, [0.17, 0, 0.02]));
+    };
+
+    // Hero take: a footstep script (walk, stop, sway, turn, walk back, sway, turn) solved with leg IK.
+    type Foot = { p: [number, number]; yaw: number };
+    type Step = { foot: 0 | 1; from: Foot; to: Foot; t0: number; t1: number; lift: number };
+    const take = (() => {
+      const feet: Foot[] = [{ p: [0, HIP_W + 0.01], yaw: 0 }, { p: [0, -HIP_W - 0.01], yaw: 0 }];
+      const steps: Step[] = [], sways: [number, number][] = [];
+      let t = 1.2;
+      const place = (foot: 0 | 1, p: [number, number], yaw: number, dur: number, gap: number, lift: number) => {
+        const to = { p, yaw };
+        steps.push({ foot, from: feet[foot], to, t0: t, t1: t + dur, lift });
+        feet[foot] = to;
+        t += gap;
+      };
+      const side = (yaw: number, foot: number, w = HIP_W + 0.01): [number, number] => [-sin(yaw) * w * (foot ? -1 : 1), cos(yaw) * w * (foot ? -1 : 1)];
+      const walk = () => {
+        const yaw = feet[0].yaw, c = [(feet[0].p[0] + feet[1].p[0]) / 2, (feet[0].p[1] + feet[1].p[1]) / 2];
+        const at = (s: number, foot: number): [number, number] => {
+          const o = side(yaw, foot);
+          return [c[0] + cos(yaw) * s + o[0], c[1] + sin(yaw) * s + o[1]];
+        };
+        const seq = [0.34, 1.0, 1.66, 2.32, 2.98, 2.98];
+        seq.forEach((s, k) => place((k % 2) as 0 | 1, at(s, k % 2), yaw, 0.5, 0.58, k === seq.length - 1 ? 0.06 : 0.11));
+        t += 0.5;
+      };
+      const turn = () => {
+        const y0 = feet[0].yaw, c: [number, number] = [(feet[0].p[0] + feet[1].p[0]) / 2, (feet[0].p[1] + feet[1].p[1]) / 2];
+        [PI / 3, (2 * PI) / 3, PI, PI].forEach((d, k) => {
+          const foot = (k % 2) as 0 | 1, o = side(y0 + d, foot);
+          place(foot, [c[0] + o[0], c[1] + o[1]], y0 + d, 0.52, 0.62, 0.05);
+        });
+        t += 0.6;
+      };
+      const sway = (d: number) => { sways.push([t, t + d]); t += d + 0.3; };
+      walk(); sway(4.8); turn(); walk(); sway(2.4); turn();
+      return { steps, sways, T: t + 0.4 };
+    })();
+
+    const footAt = (foot: 0 | 1, t: number) => {
+      let cur: Foot = take.steps.find(s => s.foot === foot)!.from;
+      for (const s of take.steps) {
+        if (s.foot !== foot) continue;
+        if (t >= s.t1) { cur = s.to; continue; }
+        if (t > s.t0) {
+          const k = smooth((t - s.t0) / (s.t1 - s.t0)), arc = sin(PI * k);
+          return {
+            p: [s.from.p[0] + (s.to.p[0] - s.from.p[0]) * k, s.from.p[1] + (s.to.p[1] - s.from.p[1]) * k] as [number, number],
+            yaw: s.from.yaw + (s.to.yaw - s.from.yaw) * k,
+            lift: s.lift * arc, pitch: s.lift > 0.08 ? 0.5 * arc * (1 - 2 * k) : 0, swing: arc,
+          };
+        }
+        break;
+      }
+      return { ...cur, lift: 0, pitch: 0, swing: 0 };
+    };
+    const swayAt = (t: number) => {
+      for (const [a, b] of take.sways) if (t > a && t < b) {
+        const k = (t - a) / (b - a), win = smooth(k / 0.15) * smooth((1 - k) / 0.15);
+        return { s: win * sin(2 * PI * (t - a) / 2.4), w: win };
+      }
+      return { s: 0, w: 0 };
+    };
+
+    const heroPose = (time: number): Pose => {
+      const t = ((time % take.T) + take.T) % take.T;
+      // pelvis follows the feet, smoothed over a short window and biased to the stance foot
+      let cx = 0, cy = 0, yc = 0, ys = 0;
+      for (let k = -2; k <= 2; k++) {
+        const tt = t + k * 0.12;
+        const L = footAt(0, tt), R = footAt(1, tt);
+        const wL = 0.5 + 0.16 * (R.swing - L.swing);
+        cx += L.p[0] * wL + R.p[0] * (1 - wL); cy += L.p[1] * wL + R.p[1] * (1 - wL);
+        yc += cos(L.yaw) + cos(R.yaw); ys += sin(L.yaw) + sin(R.yaw);
+      }
+      const L = footAt(0, t), R = footAt(1, t), sw = swayAt(t);
+      const yaw = atan2(ys, yc), fwd: V = [cos(yaw), sin(yaw), 0], lat: V = [-sin(yaw), cos(yaw), 0];
+      const base: V = add([cx / 5, cy / 5, 0], mul(lat, 0.065 * sw.s));
+      const hips = [1, -1].map(s => add(base, mul(lat, s * HIP_W)));
+      const feet = [L, R];
+      const reach = feet.map((f, i) => {
+        const d = hypot(f.p[0] - hips[i][0], f.p[1] - hips[i][1]);
+        return ANKLE + f.lift + sqrt(max(0, (THIGH + SHANK - 0.012) ** 2 - d * d));
+      });
+      const kk = 0.025, hmax = 0.925 - 0.025 * sw.w;
+      const h = -kk * Math.log(exp(-hmax / kk) + exp(-reach[0] / kk) + exp(-reach[1] / kk));
+      const roll = -0.05 * sw.s + 0.03 * (L.swing - R.swing);
+      const Rp = rpy(yaw + 0.06 * (L.swing - R.swing), 0.03, roll);
+      const P: V = [base[0], base[1], h + 0.02];
+      const j: Record<string, V> = { pelvis: P };
+      feet.forEach((f, i) => {
+        const n = i ? 'R' : 'L';
+        footPoints(j, n, [f.p[0], f.p[1], f.lift], f.yaw, f.pitch);
+        j['hip' + n] = add(P, ap(Rp, [0, (i ? -1 : 1) * HIP_W, -0.02]));
+        j['kn' + n] = ik(j['hip' + n], j['an' + n], unit(add(fwd, [cos(f.yaw), sin(f.yaw), 0])));
+      });
+      const ahead = dot(sub([R.p[0], R.p[1], 0], [L.p[0], L.p[1], 0]), fwd);
+      const arm = clamp(ahead * 0.55, -0.4, 0.4);
+      const { Rc, Rh } = upper(j, P, Rp, {
+        spine: 0.04, twist: -0.1 * (L.swing - R.swing) - 0.04 * sw.s, bend: 0.03 * sw.s, neck: 0.04,
+        headYaw: 0.05 * (L.swing - R.swing), headRoll: 0.04 * sw.s,
+        sh: [arm, -arm], sa: [0.09 + 0.06 * max(0, -sw.s), 0.09 + 0.06 * max(0, sw.s)], st: [0, 0],
+        el: [0.25 + 0.3 * max(0, arm), 0.25 + 0.3 * max(0, -arm)],
+      });
+      return { j, Rp, Rc, Rh, wheel: 0, spin: 0 };
+    };
+
+    // Companion: each section is a motion defined by joint angles; poses blend by weighted angles.
+    type Dof = {
+      yaw: number; pitch: number; roll: number; hip: [number, number]; abd: [number, number]; knee: [number, number]; ank: [number, number];
+      spine: number; twist: number; bend: number; neck: number; headYaw: number; headRoll: number;
+      sh: [number, number]; sa: [number, number]; st: [number, number]; el: [number, number]; wheel: number; speed: number;
+    };
+    const g = (p: number, c: number, w: number) => { const d = ((p - c + 1.5) % 1) - 0.5; return exp(-(d * d) / (2 * w * w)); };
+    const MOTIONS: Record<string, (t: number) => Dof> = {
+      stand: t => ({
+        yaw: 0, pitch: 0.01, roll: 0.012 * sin(0.5 * t), hip: [0.02, 0.02], abd: [0.03, 0.03], knee: [0.04, 0.04], ank: [0.02, 0.02],
+        spine: 0.02 + 0.012 * sin(1.3 * t), twist: 0, bend: -0.01 * sin(0.5 * t), neck: 0.03, headYaw: 0.08 * sin(0.21 * t), headRoll: 0,
+        sh: [0.03, 0.03], sa: [0.09, 0.09], st: [0, 0], el: [0.18, 0.18], wheel: 0, speed: 0,
+      }),
+      step: t => {
+        const p = (t / 1.12) % 1, q = (p + 0.5) % 1;
+        const hip = (x: number) => 0.1 + 0.32 * cos(2 * PI * (x - 0.9));
+        const knee = (x: number) => 0.06 + 0.18 * g(x, 0.13, 0.07) + 1.05 * g(x, 0.72, 0.1);
+        const ank = (x: number) => 0.1 * g(x, 0.4, 0.12) - 0.3 * g(x, 0.6, 0.05) + 0.08 * g(x, 0.85, 0.08);
+        const arm = 0.3 * cos(2 * PI * (q - 0.9));
+        return {
+          yaw: 0.07 * sin(2 * PI * p), pitch: 0.04, roll: 0.035 * sin(2 * PI * p), hip: [hip(p), hip(q)], abd: [0.02, 0.02], knee: [knee(p), knee(q)], ank: [ank(p), ank(q)],
+          spine: 0.05, twist: -0.1 * sin(2 * PI * p), bend: 0, neck: 0.02, headYaw: 0.07 * sin(2 * PI * p), headRoll: 0,
+          sh: [arm, -arm], sa: [0.1, 0.1], st: [0, 0], el: [0.3 + max(0, arm), 0.3 + max(0, -arm)], wheel: 0, speed: 1.15,
+        };
+      },
+      roll: t => ({
+        yaw: 0.16 * sin(0.55 * t), pitch: 0.16, roll: 0.07 * sin(0.55 * t + 0.4), hip: [0.62, 0.62], abd: [0.06 + 0.04 * sin(0.55 * t), 0.06 - 0.04 * sin(0.55 * t)], knee: [1.0, 1.0], ank: [0.38, 0.38],
+        spine: 0.1, twist: -0.1 * sin(0.55 * t), bend: -0.05 * sin(0.55 * t + 0.4), neck: -0.18, headYaw: -0.08 * sin(0.55 * t), headRoll: 0,
+        sh: [0.35 + 0.08 * sin(0.55 * t), 0.35 - 0.08 * sin(0.55 * t)], sa: [0.22, 0.22], st: [0, 0], el: [0.7, 0.7], wheel: 1, speed: 1.6,
+      }),
+      think: t => ({
+        yaw: 0.25, pitch: 0.02, roll: 0.04, hip: [0.0, 0.12], abd: [0.06, -0.02], knee: [0.03, 0.3 + 0.03 * sin(0.4 * t)], ank: [0.03, 0.1],
+        spine: 0.08 + 0.015 * sin(0.9 * t), twist: 0.05, bend: -0.04, neck: 0.24 + 0.04 * sin(0.35 * t), headYaw: -0.1, headRoll: 0.1,
+        sh: [0.3, 0.6], sa: [-0.12, -0.16], st: [-0.9, -0.1], el: [1.55, 2.3 + 0.05 * sin(0.7 * t)], wheel: 0, speed: 0,
+      }),
+      wave: t => ({
+        yaw: -0.15, pitch: 0, roll: -0.02, hip: [0.03, 0.03], abd: [0.04, 0.04], knee: [0.05, 0.05], ank: [0.02, 0.02],
+        spine: 0, twist: -0.06, bend: 0.06, neck: 0.02, headYaw: -0.1, headRoll: -0.08,
+        sh: [0.05, 0.2], sa: [0.09, 1.4], st: [0, 1.45], el: [0.2, 1.25 + 0.38 * sin(4.6 * t)], wheel: 0, speed: 0,
+      }),
+    };
+    const NAMES = Object.keys(MOTIONS);
+
+    const blendDof = (t: number, w: Record<string, number>): Dof => {
+      let total = 0;
+      const acc: any = {};
+      for (const n of NAMES) {
+        if (w[n] < 1e-3) continue;
+        const d: any = MOTIONS[n](t);
+        total += w[n];
+        for (const k in d) {
+          const v = d[k];
+          if (Array.isArray(v)) { acc[k] ??= [0, 0]; acc[k][0] += v[0] * w[n]; acc[k][1] += v[1] * w[n]; }
+          else acc[k] = (acc[k] ?? 0) + v * w[n];
+        }
+      }
+      for (const k in acc) Array.isArray(acc[k]) ? (acc[k] = acc[k].map((v: number) => v / total)) : (acc[k] /= total);
+      return acc as Dof;
+    };
+
+    const fkPose = (d: Dof, spin: number): Pose => {
+      const Rp = rpy(d.yaw, d.pitch, d.roll);
+      const P: V = [0, 0, 0];
+      const j: Record<string, V> = { pelvis: P };
+      [1, -1].forEach((side, i) => {
+        const n = i ? 'R' : 'L';
+        const hip = add(P, ap(Rp, [0, side * HIP_W, -0.02]));
+        const A = mm(Rp, mm(Ry(-d.hip[i]), Rx(side * d.abd[i])));
+        const kn = add(hip, ap(A, [0, 0, -THIGH]));
+        const S = mm(A, Ry(d.knee[i]));
+        const an = add(kn, ap(S, [0, 0, -SHANK]));
+        const Fm = mm(S, Ry(-d.knee[i] + d.hip[i] - d.ank[i]));
+        j['hip' + n] = hip; j['kn' + n] = kn; j['an' + n] = an;
+        j['he' + n] = add(an, ap(Fm, [-0.06, 0, -ANKLE + 0.025]));
+        j['to' + n] = add(an, ap(Fm, [0.17, 0, -ANKLE + 0.02]));
+      });
+      const { Rc, Rh } = upper(j, P, Rp, d);
+      // ground the lowest contact point, a wheel rim when wheels are blended in
+      let low = Infinity;
+      for (const n of ['L', 'R']) {
+        const footLow = min(j['he' + n][2], j['to' + n][2]);
+        const wheelLow = j['an' + n][2] - 0.02 - WHEEL;
+        low = min(low, footLow * (1 - d.wheel) + wheelLow * d.wheel);
+      }
+      for (const k in j) j[k] = add(j[k], [0, 0, -low]);
+      return { j, Rp, Rc, Rh, wheel: d.wheel, spin };
+    };
+
+    // Marker set: joints plus a few cluster markers on segments, roughly a plug-in-gait layout.
+    const markers = (q: Pose) => {
+      const { j, Rp, Rc, Rh } = q;
+      const m: [string, V][] = [];
+      const put = (n: string, p: V) => m.push([n, p]);
+      for (const s of [1, -1]) {
+        const n = s > 0 ? 'L' : 'R';
+        put(n + 'FHD', add(j.head, ap(Rh, [0.08, s * 0.055, 0.03])));
+        put(n + 'BHD', add(j.head, ap(Rh, [-0.085, s * 0.05, 0.04])));
+        put(n + 'SHO', add(j['sh' + n], ap(Rc, [0, 0, 0.035])));
+        put(n + 'UPA', add(lerp(j['sh' + n], j['el' + n], 0.55), ap(Rc, [0, s * 0.045, 0])));
+        put(n + 'ELB', j['el' + n]);
+        put(n + 'FRM', add(lerp(j['el' + n], j['wr' + n], 0.5), ap(Rc, [0, s * 0.035, 0])));
+        put(n + 'WRA', j['wr' + n]);
+        put(n + 'WRB', j['wrb' + n]);
+        put(n + 'FIN', j['hd' + n]);
+        put(n + 'ASI', add(j.pelvis, ap(Rp, [0.08, s * 0.11, 0.04])));
+        put(n + 'PSI', add(j.pelvis, ap(Rp, [-0.1, s * 0.05, 0.06])));
+        put(n + 'THI', add(lerp(j['hip' + n], j['kn' + n], 0.55), ap(Rp, [0, s * 0.07, 0])));
+        put(n + 'KNE', add(j['kn' + n], ap(Rp, [0, s * 0.05, 0])));
+        put(n + 'TIB', add(lerp(j['kn' + n], j['an' + n], 0.5), ap(Rp, [0, s * 0.05, 0])));
+        put(n + 'ANK', add(j['an' + n], ap(Rp, [0, s * 0.035, 0])));
+        put(n + 'HEE', j['he' + n]);
+        put(n + 'TOE', j['to' + n]);
+      }
+      put('C7', add(j.neck, ap(Rc, [-0.06, 0, 0])));
+      put('T10', add(j.chest, ap(Rc, [-0.11, 0, 0.02])));
+      put('CLAV', add(j.neck, ap(Rc, [0.06, 0, -0.03])));
+      put('STRN', add(j.chest, ap(Rc, [0.11, 0, 0.06])));
+      put('RBAK', add(j.chest, ap(Rc, [-0.1, -0.09, 0.14])));
+      return m;
+    };
+    const BONES = [
+      ['pelvis', 'chest'], ['chest', 'neck'], ['neck', 'head'], ['pelvis', 'hipL'], ['pelvis', 'hipR'],
+      ['neck', 'shL'], ['neck', 'shR'], ['hipL', 'hipR'], ['shL', 'elL'], ['elL', 'wrL'], ['wrL', 'hdL'], ['shR', 'elR'], ['elR', 'wrR'], ['wrR', 'hdR'],
+      ['hipL', 'knL'], ['knL', 'anL'], ['anL', 'heL'], ['anL', 'toL'], ['heL', 'toL'],
+      ['hipR', 'knR'], ['knR', 'anR'], ['anR', 'heR'], ['anR', 'toR'], ['heR', 'toR'],
+    ];
+    const STICKS = [
+      ['LFHD', 'RFHD'], ['RFHD', 'RBHD'], ['RBHD', 'LBHD'], ['LBHD', 'LFHD'], ['LASI', 'RASI'], ['RASI', 'RPSI'], ['RPSI', 'LPSI'], ['LPSI', 'LASI'],
+      ['C7', 'CLAV'], ['CLAV', 'STRN'], ['C7', 'T10'], ['T10', 'RBAK'], ['LSHO', 'CLAV'], ['RSHO', 'CLAV'],
+      ...['L', 'R'].flatMap(n => [[n + 'HEE', n + 'TOE'], [n + 'ANK', n + 'HEE'], [n + 'ANK', n + 'TOE'], [n + 'WRA', n + 'WRB'], [n + 'WRA', n + 'FIN'], [n + 'WRB', n + 'FIN']]),
+    ];
+    const TRAILS = ['LWRA', 'RWRA', 'LTOE', 'RTOE', 'LFHD'];
+    const TAGS = ['LFHD', 'RWRA', 'LKNE', 'RTOE', 'STRN'];
+
+    type Cam = { yaw: number; elev: number; dist: number; F: number; target: V; cx: number; cy: number };
+    const projector = (c: Cam) => {
+      const C: V = add(c.target, [c.dist * cos(c.elev) * cos(c.yaw), c.dist * cos(c.elev) * sin(c.yaw), c.dist * sin(c.elev)]);
+      const r: V = [-sin(c.yaw), cos(c.yaw), 0], u: V = [-sin(c.elev) * cos(c.yaw), -sin(c.elev) * sin(c.yaw), cos(c.elev)];
+      const f = unit(sub(c.target, C));
+      return (p: V) => {
+        const d = sub(p, C), z = max(0.1, dot(d, f));
+        return { x: c.cx + (c.F * dot(d, r)) / z, y: c.cy - (c.F * dot(d, u)) / z, z };
+      };
+    };
+
+    const fit = (canvas: HTMLCanvasElement, onResize: () => void) => {
+      const ctx = canvas.getContext('2d')!;
+      const size = { w: 0, h: 0 };
+      new ResizeObserver(() => {
+        const dpr = min(devicePixelRatio || 1, 2);
+        size.w = canvas.clientWidth; size.h = canvas.clientHeight;
+        canvas.width = Math.round(size.w * dpr); canvas.height = Math.round(size.h * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        onResize();
+      }).observe(canvas);
+      return { ctx, size };
+    };
+
+    const drawGrid = (ctx: CanvasRenderingContext2D, P: ReturnType<typeof projector>, center: V, offset: number, radius: number, step: number, alpha: number) => {
+      const gx = Math.round(center[0] / step) * step, gy = Math.round(center[1] / step) * step;
+      const n = Math.ceil(radius / step);
+      ctx.lineWidth = 1;
+      for (let axis = 0; axis < 2; axis++) for (let i = -n; i <= n; i++) {
+        for (let k = -n * 2; k < n * 2; k++) {
+          const a0 = (k / 2) * step, a1 = ((k + 1) / 2) * step;
+          const pt = (a: number): V => axis ? [gx + i * step - offset, gy + a, 0] : [gx + a - offset, gy + i * step, 0];
+          const A = pt(a0), B = pt(a1), mid = lerp(A, B, 0.5);
+          const rr = hypot(mid[0] - center[0], mid[1] - center[1]) / radius;
+          if (rr >= 1) continue;
+          const a = P(A), b = P(B);
+          ctx.strokeStyle = ink(alpha * (1 - rr) ** 1.6);
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+        }
+      }
+    };
+
+    const drawFigure = (ctx: CanvasRenderingContext2D, P: ReturnType<typeof projector>, q: Pose, o: { scale: number; tags: boolean; ref: number }) => {
+      const s = o.scale;
+      const depth = (p: { z: number }) => clamp(0.6 + (o.ref - p.z) * 0.35, 0.3, 1);
+      ctx.lineCap = 'round';
+      for (const [a, b] of BONES) {
+        const A = P(q.j[a]), B = P(q.j[b]);
+        ctx.strokeStyle = ink(0.42 * depth({ z: (A.z + B.z) / 2 }));
+        ctx.lineWidth = max(0.6, 1 * s);
+        ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y); ctx.stroke();
+      }
+      if (q.wheel > 0.01) {
+        for (const n of ['L', 'R']) {
+          const c = add(q.j['an' + n], [0, 0, -0.02]);
+          const yaw = atan2(q.Rp[3], q.Rp[0]);
+          const e1: V = [cos(yaw), sin(yaw), 0], e2: V = [0, 0, 1];
+          ctx.beginPath();
+          for (let k = 0; k <= 40; k++) {
+            const a = (k / 40) * 2 * PI, p = P(add(c, add(mul(e1, WHEEL * cos(a)), mul(e2, WHEEL * sin(a)))));
+            k ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y);
+          }
+          ctx.strokeStyle = blue(0.65 * q.wheel);
+          ctx.lineWidth = max(0.8, 1.1 * s);
+          ctx.stroke();
+          for (let k = 0; k < 4; k++) {
+            const a = q.spin + (k * PI) / 2;
+            const p = P(add(c, add(mul(e1, WHEEL * 0.8 * cos(a)), mul(e2, WHEEL * 0.8 * sin(a)))));
+            ctx.fillStyle = blue(0.9 * q.wheel);
+            ctx.beginPath(); ctx.arc(p.x, p.y, 1.2 * s + 0.4, 0, 2 * PI); ctx.fill();
+          }
+        }
+      }
+      const head = P(q.j.head);
+      ctx.beginPath(); ctx.arc(head.x, head.y, abs(head.y - P(add(q.j.head, [0, 0, 0.1])).y), 0, 2 * PI);
+      ctx.strokeStyle = ink(0.2); ctx.lineWidth = max(0.6, s); ctx.stroke();
+      const ms = markers(q).map(([n, p]) => ({ n, ...P(p) }));
+      const at = Object.fromEntries(ms.map(m => [m.n, m]));
+      ctx.strokeStyle = blue(0.22);
+      ctx.lineWidth = max(0.5, 0.8 * s);
+      ctx.beginPath();
+      for (const [a, b] of STICKS) { ctx.moveTo(at[a].x, at[a].y); ctx.lineTo(at[b].x, at[b].y); }
+      ctx.stroke();
+      ms.sort((a, b) => b.z - a.z);
+      for (const m of ms) {
+        const d = depth(m), r = (2.5 * s + 0.5);
+        ctx.beginPath(); ctx.arc(m.x, m.y, r + 2.6 * s, 0, 2 * PI);
+        ctx.fillStyle = blue(0.1 * d); ctx.fill();
+        ctx.beginPath(); ctx.arc(m.x, m.y, r, 0, 2 * PI);
+        ctx.fillStyle = blue(0.95 * d); ctx.fill();
+        ctx.beginPath(); ctx.arc(m.x - r * 0.3, m.y - r * 0.3, r * 0.35, 0, 2 * PI);
+        ctx.fillStyle = `rgba(255,255,255,${0.8 * d})`; ctx.fill();
+        if (o.tags && TAGS.includes(m.n)) {
+          ctx.strokeStyle = ink(0.25); ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(m.x + 5, m.y - 3); ctx.lineTo(m.x + 22, m.y - 14); ctx.lineTo(m.x + 30, m.y - 14); ctx.stroke();
+          ctx.font = `400 10px ${MONO}`; ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
+          ctx.fillStyle = ink(0.55);
+          ctx.fillText(m.n, m.x + 34, m.y - 14);
+        }
+      }
+    };
+
+    const loop = (el: Element, draw: (t: number) => void) => {
+      let raf = 0, visible = false;
+      const t0 = performance.now();
+      const frame = (now: number) => { draw((now - t0) / 1000); raf = requestAnimationFrame(frame); };
+      const start = () => { if (!raf && visible && !document.hidden && !reduce) raf = requestAnimationFrame(frame); };
+      const stop = () => { cancelAnimationFrame(raf); raf = 0; };
+      new IntersectionObserver(([e]) => { visible = e.isIntersecting; visible ? start() : stop(); if (reduce) draw(9.5); }).observe(el);
+      document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+    };
+
+    // Hero
+    const stage = root.querySelector<HTMLCanvasElement>('.stage')!;
+    const frameEl = root.querySelector<HTMLElement>('[data-frame]');
+    let heroT = reduce ? 9.5 : 0;
+    const hs = fit(stage, () => drawHero(heroT));
+    const drawHero = (t: number) => {
+      heroT = t;
+      const { ctx, size } = hs, { w, h } = size;
+      if (!w) return;
+      ctx.clearRect(0, 0, w, h);
+      const q = heroPose(t);
+      const mobile = w < 700;
+      const figPx = min(h * (mobile ? 0.72 : 0.64), w * 1.1);
+      const target: V = [q.j.pelvis[0], q.j.pelvis[1], 0.9];
+      const cam: Cam = { yaw: 0.65 + t * 0.04, elev: 0.18, dist: 6, F: 0, target, cx: w / 2, cy: h * (mobile ? 0.5 : 0.6) };
+      cam.F = (figPx * cam.dist) / 1.75;
+      const P = projector(cam);
+      drawGrid(ctx, P, [target[0], target[1], 0], 0, 2.6, 0.5, 0.15);
+
+      // trails: the same take sampled back in time, so they bend with the motion
+      const N = 22, DT = 0.045;
+      const hist = Array.from({ length: N }, (_, k) => new Map(markers(heroPose(t - k * DT))));
+      for (const name of TRAILS) {
+        for (let k = 0; k < N - 1; k++) {
+          const a = P(hist[k].get(name)!), b = P(hist[k + 1].get(name)!);
+          ctx.strokeStyle = blue(0.3 * (1 - k / (N - 1)) ** 1.8);
+          ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+        }
+      }
+      drawFigure(ctx, P, q, { scale: mobile ? 0.85 : 1, tags: !mobile, ref: P(target).z });
+      if (frameEl) frameEl.textContent = String(Math.floor(t * 120)).padStart(6, '0');
+    };
+    loop(stage, drawHero);
+
+    // Companion
+    const mini = root.querySelector<HTMLCanvasElement>('.mini')!;
+    const poseName = root.querySelector<HTMLElement>('[data-pose-name]')!;
+    const blendEl = root.querySelector<HTMLElement>('[data-blend]')!;
+    const weights: Record<string, number> = Object.fromEntries(NAMES.map(n => [n, n === 'stand' ? 1 : 0]));
+    let active = 'stand', last = 0, travel = 0, miniT = 9.5, tick = 0;
+    const ms = fit(mini, () => drawMini(miniT));
+    const drawMini = (t: number) => {
+      miniT = t;
+      const dt = min(0.05, max(0, t - last)); last = t;
+      for (const n of NAMES) {
+        const goal = n === active ? 1 : 0;
+        weights[n] = reduce ? goal : weights[n] + (goal - weights[n]) * (1 - exp(-dt * 2.4));
+      }
+      const d = blendDof(t, weights);
+      travel += d.speed * dt;
+      const q = fkPose(d, -travel / WHEEL);
+      const { ctx, size } = ms, { w, h } = size;
+      if (!w) return;
+      ctx.clearRect(0, 0, w, h);
+      const cam: Cam = { yaw: -0.75 + 0.3 * sin(t * 0.07), elev: 0.16, dist: 6, F: 0, target: [0, 0, 0.85], cx: w / 2, cy: h * 0.5 };
+      cam.F = (h * 0.8 * cam.dist) / 1.75;
+      const P = projector(cam);
+      drawGrid(ctx, P, [0, 0, 0], travel % 0.4, 1.3, 0.4, 0.2);
+      drawFigure(ctx, P, q, { scale: w < 120 ? 0.45 : 0.7, tags: false, ref: P(cam.target).z });
+      if (++tick % 6 === 0 || reduce) blendEl.textContent = `blend ${String(Math.round(weights[active] * 100)).padStart(3, ' ')}%`;
+    };
+    loop(mini, drawMini);
+
+    const sections = [...root.querySelectorAll<HTMLElement>('[data-pose]')];
+    const rail = root.querySelector<HTMLElement>('.rail')!;
+    const body = root.querySelector<HTMLElement>('.body')!;
+    const LABEL: Record<string, string> = { stand: 'standing, calm', step: 'stepping', roll: 'rolling on wheels', think: 'thinking, idle', wave: 'waving' };
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const mid = innerHeight * 0.5;
+      let pick = 'step';
+      for (const s of sections) if (s.getBoundingClientRect().top < mid) pick = s.dataset.pose!;
+      if (pick !== active) { active = pick; poseName.textContent = LABEL[pick]; }
+      rail.classList.toggle('on', body.getBoundingClientRect().top < innerHeight * 0.7);
+      if (reduce) drawMini(9.5);
+    };
+    addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    update();
+    poseName.textContent = LABEL[active];
+
+    const reveal = new IntersectionObserver(entries => {
+      for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); reveal.unobserve(e.target); }
+    }, { rootMargin: '0px 0px -8% 0px' });
+    root.querySelectorAll('.reveal').forEach(el => reveal.observe(el));
+  }
+</script>
+
+<style>
+  .s12 {
+    --ink: #1a2131;
+    --body: #4a5568;
+    --muted: #8a93a6;
+    --line: #e6e7ea;
+    --blue: #2b59ff;
+    --bg: #fbfbfa;
+    --gutter: clamp(16px, 4vw, 40px);
+    --head: 'Schibsted Grotesk', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+    background: var(--bg);
+    color: var(--ink);
+    font: 400 16px/1.65 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+    padding-bottom: 88px;
+  }
+  .s12 *, .s12 *::before, .s12 *::after { box-sizing: border-box; }
+  :where(.s12 h1, .s12 h2, .s12 h3, .s12 p, .s12 ol, .s12 ul, .s12 dl, .s12 dd) { margin: 0; padding: 0; }
+  :where(.s12 ol, .s12 ul) { list-style: none; }
+  :where(.s12 a) { color: inherit; text-decoration: none; }
+  .s12 a:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; border-radius: 3px; }
+  .wrap { max-width: 1360px; margin: 0 auto; padding: 0 var(--gutter); }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+
+  .nav { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; gap: 24px; padding-top: 26px; padding-bottom: 26px; }
+  .brand { font: 600 15px/1 var(--head); letter-spacing: -.01em; }
+  .nav nav { display: flex; gap: clamp(14px, 2.6vw, 36px); }
+  .nav nav a { font-size: 14px; color: var(--body); transition: color .3s; }
+  .nav nav a:hover { color: var(--blue); }
+
+  .hero { position: relative; height: clamp(640px, calc(100vh - 80px), 920px); }
+  .stage { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .hero-top { position: relative; z-index: 1; text-align: center; padding: clamp(8px, 3vh, 36px) var(--gutter) 0; }
+  .hero h1 { font: 500 clamp(46px, 7vw, 100px)/1 var(--head); letter-spacing: -.045em; }
+  .hero h1 span { color: var(--blue); }
+  .role { margin-top: 16px; font-size: 15px; color: var(--body); }
+  .role a { color: var(--ink); border-bottom: 1px solid #d9dce3; transition: color .3s, border-color .3s; }
+  .role a:hover { color: var(--blue); border-color: var(--blue); }
+  .hero-bottom { position: absolute; left: 0; right: 0; bottom: 28px; z-index: 1; display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; pointer-events: none; }
+  .hero-bottom a { pointer-events: auto; }
+  .tagline { max-width: 23ch; font: 500 clamp(20px, 1.8vw, 26px)/1.3 var(--head); letter-spacing: -.02em; }
+  .hud { display: grid; grid-template-columns: auto auto; gap: 6px 16px; font: 400 11px/1.4 var(--mono); color: var(--muted); }
+  .hud div { display: contents; }
+  .hud dt { text-transform: uppercase; letter-spacing: .08em; }
+  .hud dd { color: var(--ink); }
+
+  .body { display: grid; grid-template-columns: minmax(0, 1fr) 230px; gap: clamp(40px, 6vw, 96px); margin-top: clamp(48px, 8vh, 96px); }
+  .rail { position: relative; }
+  .companion { position: sticky; top: 22vh; opacity: 0; transition: opacity 1s cubic-bezier(.2, .7, .2, 1); }
+  .rail.on .companion { opacity: 1; }
+  .mini { display: block; width: 100%; height: 340px; }
+  .cap { display: flex; justify-content: space-between; gap: 8px; padding-top: 12px; border-top: 1px solid var(--line); font: 400 11px/1.4 var(--mono); color: var(--muted); white-space: nowrap; }
+  .cap span:first-child { color: var(--blue); }
+
+  .sec { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 32px; padding: 30px 0 clamp(96px, 14vh, 150px); border-top: 1px solid var(--line); }
+  .label { display: flex; gap: 12px; font: 400 12px/1.6 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .label span { color: var(--blue); }
+  .content h2 { font: 500 clamp(32px, 3.6vw, 50px)/1.08 var(--head); letter-spacing: -.035em; margin-bottom: clamp(40px, 6vh, 64px); max-width: 18ch; }
+  .content h2 span { color: var(--blue); }
+
+  .areas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+  .areas > li { padding: 28px 28px 8px; border-left: 1px solid var(--line); }
+  .areas > li:first-child { padding-left: 0; border-left: 0; }
+  .idx { font: 400 12px/1 var(--mono); color: var(--blue); }
+  .areas h3 { margin: 18px 0 12px; font: 500 21px/1.25 var(--head); letter-spacing: -.02em; }
+  .areas p:not(.idx) { font-size: 15px; color: var(--body); }
+  .kw { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 18px; font: 400 11.5px/1.6 var(--mono); color: var(--muted); }
+
+  .lead { font: 500 clamp(22px, 2.3vw, 32px)/1.36 var(--head); letter-spacing: -.02em; max-width: 34ch; }
+  .about-foot { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 48px; margin-top: 44px; padding-top: 28px; border-top: 1px solid var(--line); }
+  .about-foot > p { color: var(--body); }
+  .facts { display: grid; gap: 16px; }
+  .facts div { display: grid; grid-template-columns: 70px 1fr; gap: 12px; }
+  .facts dt { font: 400 11px/1.9 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .facts dd { font-size: 15px; }
+
+  .rows li { display: grid; grid-template-columns: 110px minmax(0, 1.1fr) minmax(0, 1.2fr) 70px; gap: 28px; padding: 26px 0; border-top: 1px solid var(--line); align-items: baseline; }
+  .rows li:last-child { border-bottom: 1px solid var(--line); }
+  .when, .where { font: 400 12px/1.6 var(--mono); color: var(--muted); letter-spacing: .03em; }
+  .rows .when { color: var(--blue); }
+  .where { text-align: right; text-transform: uppercase; letter-spacing: .06em; font-size: 11px; }
+  .what h3 { font: 500 19px/1.3 var(--head); letter-spacing: -.015em; }
+  .what a { display: inline-block; margin-top: 4px; font-size: 15px; color: var(--blue); background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size .45s cubic-bezier(.2, .7, .2, 1); }
+  .what a:hover { background-size: 100% 1px; }
+  .sum, .what p { color: var(--body); font-size: 15px; }
+  .what p { margin-top: 6px; }
+  .notes li { grid-template-columns: 110px minmax(0, 1fr) minmax(0, 220px); }
+  .notes .when { color: var(--muted); }
+  .tags { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
+  .tags span { font: 400 11px/1 var(--mono); padding: 5px 8px; border: 1px solid #dde3fb; border-radius: 4px; color: var(--blue); }
+
+  .contact h2 { font-size: clamp(44px, 6vw, 84px); letter-spacing: -.045em; margin-bottom: 36px; }
+  .links { display: flex; flex-wrap: wrap; gap: 10px; }
+  .links a { display: inline-block; padding: 12px 22px; border: 1px solid #dcdfe5; border-radius: 999px; font-size: 15px; transition: border-color .3s, color .3s; }
+  .links a:hover { border-color: var(--blue); color: var(--blue); }
+
+  .foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font: 400 12px/1.5 var(--mono); color: var(--muted); }
+  .foot::before { content: ''; display: block; width: 100%; border-top: 1px solid var(--line); margin-bottom: 14px; }
+
+  .js .reveal { opacity: 0; transform: translateY(12px); transition: opacity .9s cubic-bezier(.2, .7, .2, 1), transform .9s cubic-bezier(.2, .7, .2, 1); }
+  .js .reveal.in { opacity: 1; transform: none; }
+
+  @media (max-width: 1100px) {
+    .sec { grid-template-columns: 1fr; gap: 20px; }
+    .rows li { grid-template-columns: 100px minmax(0, 1fr) minmax(0, 1fr); }
+    .where { display: none; }
+  }
+  @media (max-width: 900px) {
+    .body { display: block; }
+    .rail { position: fixed; right: 12px; bottom: 76px; z-index: 5; width: 84px; pointer-events: none; }
+    .companion { position: static; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; }
+    .mini { height: 112px; }
+    .cap { display: none; }
+    .areas { grid-template-columns: 1fr; }
+    .areas > li { padding: 24px 0; border-left: 0; border-bottom: 1px solid var(--line); }
+    .about-foot { grid-template-columns: 1fr; gap: 28px; }
+  }
+  @media (max-width: 640px) {
+    .nav { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .nav nav { flex-wrap: wrap; gap: 6px 18px; }
+    .hero { height: auto; display: flex; flex-direction: column; }
+    .stage { position: relative; order: 1; height: 470px; }
+    .hero-top { order: 0; }
+    .hero-bottom { position: static; order: 2; width: 100%; flex-direction: column; align-items: flex-start; gap: 18px; }
+    .rows li, .notes li { grid-template-columns: 1fr; gap: 6px; }
+    .tags { justify-content: flex-start; margin-top: 8px; }
+    .sec { padding-bottom: 72px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .js .reveal { opacity: 1; transform: none; transition: none; }
+    .companion { transition: none; }
+  }
+</style>

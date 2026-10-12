@@ -1,0 +1,703 @@
+---
+// PROTOTYPE 13 Rollouts: a grid of parallel simulated envs that converges into one robot as you scroll.
+import { profile, areas, experience, notes, formatDate } from '../content';
+
+const year = new Date().getFullYear();
+const host = (href: string) => href.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+const nav = [
+  { id: 's13-research', label: 'Research' },
+  { id: 's13-about', label: 'About' },
+  { id: 's13-work', label: 'Experience' },
+  { id: 's13-notes', label: 'Notes' },
+  { id: 's13-contact', label: 'Contact' },
+];
+---
+<div class="s13">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" />
+
+  <header class="bar">
+    <div class="bar-in">
+      <a class="brand" href="#s13-top">{profile.name}</a>
+      <nav aria-label="Primary">
+        {nav.map(n => <a href={`#${n.id}`}>{n.label}</a>)}
+      </nav>
+      <div class="train mono" aria-hidden="true">
+        <span>iter <b data-k="iter">0000</b></span>
+        <canvas class="spark"></canvas>
+        <span class="ret">R̄ <b data-k="ret">0.0</b></span>
+      </div>
+    </div>
+    <span class="progress" aria-hidden="true"><i></i></span>
+  </header>
+
+  <div class="sim" id="s13-top">
+    <div class="track" aria-hidden="true"><div class="stage"><canvas></canvas></div></div>
+
+    <section class="hero" aria-labelledby="s13-name">
+      <div class="wrap hero-text" data-r>
+        <div class="hero-main">
+          <p class="kicker mono">Robot learning · {profile.location}</p>
+          <h1 id="s13-name">{profile.firstName} <span>{profile.lastName}</span></h1>
+        </div>
+        <div class="hero-aside">
+          <p class="role">{profile.role} at <a href={profile.companyHref} target="_blank" rel="noopener">{profile.company}</a></p>
+          <p class="tagline">{profile.tagline}</p>
+        </div>
+      </div>
+      <div class="wrap hud mono" aria-hidden="true">
+        <span>Parallel envs <b data-k="envs">72</b></span>
+        <span class="hud-mid">Randomized <b>terrain · mass · timing</b></span>
+        <span class="hud-end">Resets <b data-k="resets">0</b><i></i>Iter <b data-k="iter2">0</b></span>
+      </div>
+      <div class="slot" data-slot></div>
+    </section>
+
+    <section class="research" id="s13-research" aria-labelledby="s13-research-h">
+      <div class="wrap">
+        <div class="research-in">
+          <p class="label mono" data-r><span>01</span>Research</p>
+          <h2 id="s13-research-h" data-r>Learned across thousands of simulations. <span>Deployed on one real robot.</span></h2>
+          <ol class="cols">
+            {areas.map((a, i) => (
+              <li data-r>
+                <p class="env mono">env.{a.id}<span>0{i + 1}</span></p>
+                <h3>{a.title}</h3>
+                <p>{a.summary}</p>
+                <ul class="kw mono">{a.keywords.map(k => <li>{k}</li>)}</ul>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="wrap sec" id="s13-about" aria-labelledby="s13-about-h">
+    <div class="sec-head" data-r>
+      <p class="label mono"><span>02</span>About</p>
+      <h2 id="s13-about-h">Skills built from <span>experience</span>, not rules.</h2>
+    </div>
+    <div class="sec-body" data-r>
+      <p class="lead">{profile.bio[0]}</p>
+      <p>{profile.bio[1]}</p>
+      <dl class="facts mono">
+        <div><dt>Now</dt><dd>{profile.company} · {profile.robot}</dd></div>
+        <div><dt>Based</dt><dd>{profile.location}</dd></div>
+        <div><dt>From</dt><dd>{profile.origin}</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="wrap sec" id="s13-work" aria-labelledby="s13-work-h">
+    <div class="sec-head" data-r>
+      <p class="label mono"><span>03</span>Experience</p>
+      <h2 id="s13-work-h">Experience</h2>
+    </div>
+    <ol class="sec-body list">
+      {experience.map(e => (
+        <li data-r>
+          <a href={e.href} target="_blank" rel="noopener">
+            <span class="when mono">{e.period}</span>
+            <span class="what">
+              <span class="title">{e.title}</span>
+              <span class="org">{e.org}<span class="arrow" aria-hidden="true">↗</span></span>
+              <span class="sum">{e.summary}</span>
+            </span>
+            <span class="place mono">{e.place}</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="wrap sec" id="s13-notes" aria-labelledby="s13-notes-h">
+    <div class="sec-head" data-r>
+      <p class="label mono"><span>04</span>Notes</p>
+      <h2 id="s13-notes-h">Notes</h2>
+    </div>
+    <ol class="sec-body list notes">
+      {notes.map(n => (
+        <li data-r>
+          <a href="#s13-notes">
+            <time class="when mono" datetime={n.date.toISOString()}>{formatDate(n.date)}</time>
+            <span class="what">
+              <span class="title">{n.title}</span>
+              <span class="sum">{n.description}</span>
+            </span>
+            {n.tags && <span class="tags mono">{n.tags.map(t => <span>{t}</span>)}</span>}
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="wrap sec" id="s13-contact" aria-labelledby="s13-contact-h">
+    <div class="sec-head" data-r>
+      <p class="label mono"><span>05</span>Contact</p>
+      <h2 id="s13-contact-h">Get in <span>touch</span>.</h2>
+    </div>
+    <ul class="sec-body links">
+      {profile.links.map(l => (
+        <li data-r>
+          <a href={l.href} target="_blank" rel="noopener">
+            <span class="name">{l.label}</span>
+            <span class="mono">{host(l.href)}</span>
+            <span class="arrow" aria-hidden="true">↗</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <footer class="wrap">
+    <div class="foot mono">
+      <span>© {year} {profile.name}</span>
+      <span>{profile.location}</span>
+      <span>Instrument Sans / JetBrains Mono</span>
+      <a href="#s13-top">Top ↑</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('.s13');
+  if (root) {
+    root.classList.add('js');
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const reveal = new IntersectionObserver(entries => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        e.target.classList.add('in');
+        reveal.unobserve(e.target);
+      }
+    }, { rootMargin: '0px 0px -8% 0px' });
+    root.querySelectorAll('[data-r]').forEach(el => reveal.observe(el));
+
+    const sim = root.querySelector<HTMLElement>('.sim')!;
+    const stage = root.querySelector<HTMLElement>('.stage')!;
+    const slot = root.querySelector<HTMLElement>('[data-slot]')!;
+    const canvas = stage.querySelector('canvas')!;
+    const ctx = canvas.getContext('2d')!;
+    const spark = root.querySelector<HTMLCanvasElement>('.spark')!;
+    const sctx = spark.getContext('2d')!;
+    const fillBar = root.querySelector<HTMLElement>('.progress i')!;
+    const out = Object.fromEntries([...root.querySelectorAll<HTMLElement>('[data-k]')].map(el => [el.dataset.k!, el]));
+
+    const INK = '21, 28, 44', BLUE = '42, 92, 255';
+    const TAU = Math.PI * 2;
+    const clamp01 = (x: number) => Math.max(0, Math.min(1, x));
+    const lerp = (a: number, b: number, k: number) => a + (b - a) * k;
+    const smooth = (a: number, b: number, x: number) => { const k = clamp01((x - a) / (b - a)); return k * k * (3 - 2 * k); };
+    const ease = (k: number) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
+    let seed = 13;
+    const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+
+    // Robot dimensions in metres (sagittal view, x forward, y up).
+    const L1 = 0.4, L2 = 0.4, WR = 0.085, TORSO = 0.5, UA = 0.27, FA = 0.25, HEAD = 0.085, TW = 3.6;
+    const ITER_MAX = 3000;
+
+    type Env = {
+      size: number; freq: number; ph: number; v: number; ta: number; tf: number; tp: number; steps: boolean;
+      payload: number; n1: number; n2: number; x: number; hy: number;
+      fall: number; fallA: number; fallV: number; dir: number; lie: number; fade: number; flash: number;
+    };
+    const pool: Env[] = Array.from({ length: 96 }, () => ({
+      size: 0.93 + rnd() * 0.14, freq: 0.82 + rnd() * 0.36, ph: rnd() * TAU, v: 0.45 + rnd() * 0.35,
+      ta: 0.015 + rnd() * 0.09, tf: 0.8 + rnd() * 1.8, tp: rnd() * 10, steps: rnd() < 0.22,
+      payload: rnd() < 0.35 ? 0.05 + rnd() * 0.05 : 0, n1: rnd() * 10, n2: rnd() * 10, x: rnd() * 20, hy: 0,
+      fall: 0, fallA: 0, fallV: 0, dir: 1, lie: 0, fade: 1, flash: 0,
+    }));
+
+    const ground = (e: Env, x: number, amp: number) => {
+      const step = e.steps ? 0.05 * (((Math.floor(x / 1.1) % 3) + 3) % 3) : 0;
+      return amp * (e.ta * (0.7 * Math.sin(e.tf * x + e.tp) + 0.3 * Math.sin(2.3 * e.tf * x + 1.7 * e.tp)) + step);
+    };
+
+    let w = 0, h = 0, dpr = 1, cols = 12, rows = 6, TH = 2.6, s0 = 1, s1 = 1, slotTop = 0;
+    let chosen = 0, OB = [0, 0], C = [0, 0], clock = reduced ? 40 : 0, resets = 0;
+
+    const layout = () => {
+      w = stage.clientWidth; h = stage.clientHeight;
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+      canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+      const sr = slot.getBoundingClientRect();
+      slotTop = sr.top + scrollY - (sim.getBoundingClientRect().top + scrollY);
+      cols = w >= 1100 ? 12 : w >= 700 ? 8 : 4;
+      const tileW = w / cols;
+      rows = Math.max(2, Math.min(7, Math.round(sr.height / (tileW / 1.42))));
+      TH = TW * (sr.height / rows) / tileW;
+      s0 = tileW / TW;
+      const cc = cols === 4 ? 2 : cols - 4, rr = Math.min(rows - 1, Math.floor(rows * 0.45));
+      chosen = rr * cols + cc;
+      C = [cc * TW + TW * 0.45, rr * TH + TH * 0.8 - 0.8];
+      const wide = w >= 1100, mid = w >= 760;
+      const px = wide ? Math.min(h * 0.5, 470) : mid ? Math.min(h * 0.5, w * 0.42) : Math.min(h * 0.32, 290);
+      s1 = px / 1.6;
+      const gy = wide ? h * 0.8 : mid ? h * 0.78 : h * 0.56;
+      OB = [wide ? w * 0.81 : mid ? w * 0.77 : w * 0.5, gy - 0.8 * s1];
+      out.envs.textContent = String(cols * rows);
+      spark.width = Math.round(spark.clientWidth * dpr); spark.height = Math.round(spark.clientHeight * dpr);
+    };
+
+    const progress = () => clamp01(scrollY / Math.max(1, document.documentElement.scrollHeight - innerHeight));
+    const iterAt = () => 640 * (1 - Math.exp(-clock / 28)) + 2360 * progress();
+    const meanReturn = (i: number) => 300 * (1 - Math.exp(-i / 700)) + (10 * Math.sin(i * 0.021) + 6 * Math.sin(i * 0.0071 + 1)) * (1 - 0.7 * i / ITER_MAX);
+
+    let shownIter = -1;
+    const updateTrain = () => {
+      fillBar.style.transform = `scaleX(${progress().toFixed(4)})`;
+      const I = Math.round(iterAt());
+      if (I === shownIter) return;
+      shownIter = I;
+      const txt = I.toLocaleString('en-US').padStart(5, '0');
+      out.iter.textContent = txt; out.iter2.textContent = txt;
+      out.ret.textContent = Math.max(0, meanReturn(I)).toFixed(1);
+      out.resets.textContent = String(resets);
+      const sw = spark.width, sh = spark.height;
+      sctx.clearRect(0, 0, sw, sh);
+      sctx.fillStyle = 'rgba(238, 241, 245, 1)';
+      sctx.fillRect(0, sh - dpr, sw, dpr);
+      const yOf = (i: number) => sh - dpr * 2 - (Math.max(0, meanReturn(i)) / 320) * (sh - dpr * 4);
+      const end = (I / ITER_MAX) * sw;
+      sctx.beginPath();
+      for (let x = 0; x <= end; x += dpr) sctx.lineTo(x, yOf((x / sw) * ITER_MAX));
+      sctx.strokeStyle = `rgb(${BLUE})`; sctx.lineWidth = 1.25 * dpr; sctx.lineJoin = 'round';
+      sctx.stroke();
+      sctx.fillStyle = `rgb(${BLUE})`;
+      sctx.beginPath(); sctx.arc(end, yOf(I), 2 * dpr, 0, TAU); sctx.fill();
+    };
+
+    const stepEnv = (e: Env, dt: number, q: number, best: boolean, gph: number) => {
+      const qq = best ? Math.max(q, 0.8) : q;
+      if (e.fall === 0) {
+        e.x += e.v * dt;
+        e.ph += dt * TAU * 0.85 * (1 + (e.freq - 1) * (1 - qq)) + dt * 3 * qq * Math.sin(gph - e.ph);
+        if (!best && dt > 0 && rnd() < dt * (0.07 * (1 - q) ** 2 + 0.0015)) {
+          e.fall = 1; e.fallA = 0; e.fallV = 0.3; e.dir = rnd() < 0.62 ? 1 : -1;
+        }
+      } else if (e.fall === 1) {
+        e.fallV += dt * 7 * Math.sin(e.fallA + 0.25);
+        e.fallA = Math.min(1.42, e.fallA + e.fallV * dt);
+        if (e.fallA >= 1.42) { e.fall = 2; e.lie = 0; }
+      } else {
+        e.lie += dt;
+        e.fade = clamp01(1 - (e.lie - 0.7) / 0.3);
+        if (e.lie > 1) {
+          e.fall = 0; e.fallA = 0; e.fade = 0; e.flash = 1; resets++;
+          e.ph = gph + (rnd() - 0.5) * (1 - q) * 4;
+        }
+      }
+      if (e.fall === 0 && e.fade < 1) e.fade = Math.min(1, e.fade + dt / 0.35);
+      e.flash = Math.max(0, e.flash - dt * 1.4);
+    };
+
+    type V = [number, number];
+    const solve = (e: Env, t: number, gait: number, wob: number, amp: number, calm = 0) => {
+      const sz = e.size, n = wob * (0.6 * Math.sin(t * 1.7 + e.n1) + 0.4 * Math.sin(t * 3.1 + e.n2));
+      const buckle = e.fallA / 1.42;
+      const legs = [0, Math.PI].map(o => {
+        const a = e.ph + o;
+        const hp = 0.3 + 0.12 * calm + 0.32 * gait * Math.sin(a) + n * 0.2;
+        const k = 0.6 + 0.25 * calm + 0.45 * gait * Math.max(0, Math.cos(a)) + 0.5 * buckle;
+        const knee: V = [L1 * sz * Math.sin(hp), -L1 * sz * Math.cos(hp)];
+        const ankle: V = [knee[0] + L2 * sz * Math.sin(hp - k), knee[1] - L2 * sz * Math.cos(hp - k)];
+        return [knee, ankle];
+      });
+      const target = Math.max(...legs.map(([, an]) => ground(e, e.x + an[0], amp) + WR * sz - an[1]));
+      e.hy = e.hy ? lerp(e.hy, target, 0.35) : target;
+      const pel: V = [0, e.hy];
+      const b = 0.12 + 0.04 * gait * Math.sin(2 * e.ph) + n * 0.9;
+      const up: V = [Math.sin(b), Math.cos(b)];
+      const along = (d: number): V => [pel[0] + up[0] * d * sz, pel[1] + up[1] * d * sz];
+      const sh = along(0.43);
+      const arm = (sa: number, el: number) => {
+        const elbow: V = [sh[0] + UA * sz * Math.sin(sa), sh[1] - UA * sz * Math.cos(sa)];
+        return [elbow, [elbow[0] + FA * sz * Math.sin(sa + el), elbow[1] - FA * sz * Math.cos(sa + el)] as V];
+      };
+      const swing = 0.32 * gait * Math.sin(e.ph);
+      const P = {
+        pel, neck: along(TORSO), head: along(TORSO + 0.15), sh, up,
+        legs: legs.map(([kn, an]) => [[pel[0] + kn[0], pel[1] + kn[1]] as V, [pel[0] + an[0], pel[1] + an[1]] as V]),
+        arms: [arm(0.12 + 0.12 * calm - swing + n * 1.6, 0.55 + 0.35 * calm + 0.15 * gait * Math.sin(e.ph + 1)), arm(0.12 + swing - n * 1.2, 0.5 + 0.2 * calm)],
+        pack: e.payload ? along(0.3) : null,
+      };
+      if (e.fallA > 0) {
+        const c: V = [P.legs[0][1][0] + e.dir * 0.08, ground(e, e.x, amp)];
+        const th = -e.dir * e.fallA, ct = Math.cos(th), st = Math.sin(th);
+        const rot = (p: V): V => [c[0] + (p[0] - c[0]) * ct - (p[1] - c[1]) * st, c[1] + (p[0] - c[0]) * st + (p[1] - c[1]) * ct];
+        P.pel = rot(P.pel); P.neck = rot(P.neck); P.head = rot(P.head); P.sh = rot(P.sh);
+        P.up = [P.up[0] * ct - P.up[1] * st, P.up[0] * st + P.up[1] * ct];
+        P.legs = P.legs.map(l => l.map(rot));
+        P.arms = P.arms.map(a => a.map(rot));
+        if (P.pack) P.pack = rot(P.pack);
+      }
+      return P;
+    };
+
+    const line = (pts: number[][]) => {
+      ctx.beginPath();
+      pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
+      ctx.stroke();
+    };
+    const circle = (x: number, y: number, r: number) => { ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); };
+    const capsule = (a: number[], b: number[], r: number) => {
+      const th = Math.atan2(b[1] - a[1], b[0] - a[0]);
+      ctx.beginPath();
+      ctx.arc(b[0], b[1], r, th - Math.PI / 2, th + Math.PI / 2);
+      ctx.arc(a[0], a[1], r, th + Math.PI / 2, th + Math.PI * 1.5);
+      ctx.closePath();
+      ctx.fill(); ctx.stroke();
+    };
+
+    const drawRobot = (P: ReturnType<typeof solve>, map: (p: V) => number[], s: number, sz: number, alpha: number, color: string, wheelA: number) => {
+      const big = smooth(110, 240, 1.6 * s);
+      const fw: V = [P.up[1], -P.up[0]];
+      const at = (f: number, u: number): V => [P.pel[0] + (fw[0] * f + P.up[0] * u) * sz, P.pel[1] + (fw[1] * f + P.up[1] * u) * sz];
+      const pel = map(P.pel), head = map(P.head);
+      const legs = P.legs.map(l => [pel, ...l.map(map)]);
+      const arms = P.arms.map(a => [map(P.sh), ...a.map(map)]);
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      if (big < 1) {
+        const a = alpha * (1 - big), lw = (m: number, min: number) => Math.max(min, m * s * sz);
+        ctx.strokeStyle = `rgba(${color}, ${a * 0.3})`;
+        ctx.lineWidth = lw(0.06, 1); line(arms[1]);
+        ctx.lineWidth = lw(0.07, 1); line(legs[1]);
+        ctx.lineWidth = 1; circle(legs[1][2][0], legs[1][2][1], WR * sz * s); ctx.stroke();
+        ctx.strokeStyle = `rgba(${color}, ${a * 0.88})`;
+        ctx.fillStyle = `rgba(${color}, ${a * 0.88})`;
+        ctx.lineWidth = lw(0.075, 1.3); line(legs[0]);
+        ctx.lineWidth = 1; circle(legs[0][2][0], legs[0][2][1], WR * sz * s); ctx.stroke();
+        ctx.lineWidth = lw(0.17, 2.6); line([map(at(0, 0.05)), map(at(0.01, 0.4))]);
+        ctx.lineWidth = lw(0.04, 1); line([map(at(0, 0.44)), map(at(0, 0.52))]);
+        circle(head[0], head[1], HEAD * sz * s); ctx.fill();
+        ctx.lineWidth = lw(0.06, 1.1); line(arms[0]);
+        if (P.pack) {
+          const pk = map(at(-0.14, 0.3)), r = Math.max(1.5, 0.05 * s);
+          ctx.fillStyle = `rgba(${color}, ${a * 0.5})`;
+          ctx.fillRect(pk[0] - r, pk[1] - r, r * 2, r * 2);
+        }
+      }
+      if (big > 0) {
+        const a = alpha * big;
+        const ink = (k: number) => `rgba(${INK}, ${a * k})`;
+        const white = `rgba(255, 255, 255, ${a})`;
+        const shape = (pts: V[], k: number) => {
+          const q = pts.map(map), n = q.length, mid = (i: number) => [(q[i][0] + q[(i + 1) % n][0]) / 2, (q[i][1] + q[(i + 1) % n][1]) / 2];
+          ctx.beginPath();
+          ctx.moveTo(...(mid(n - 1) as [number, number]));
+          for (let i = 0; i < n; i++) { const m = mid(i); ctx.quadraticCurveTo(q[i][0], q[i][1], m[0], m[1]); }
+          ctx.closePath(); ctx.fillStyle = white; ctx.fill(); ctx.strokeStyle = ink(k); ctx.stroke();
+        };
+        const limb = (pts: number[][], r1: number, r2: number, k: number) => {
+          ctx.fillStyle = white; ctx.strokeStyle = ink(k);
+          capsule(pts[0], pts[1], r1 * s); capsule(pts[1], pts[2], r2 * s);
+        };
+        const wheel = (c: number[], k: number) => {
+          ctx.fillStyle = white; ctx.strokeStyle = ink(k);
+          circle(c[0], c[1], WR * s); ctx.fill(); ctx.stroke();
+          circle(c[0], c[1], WR * 0.7 * s); ctx.stroke();
+          ctx.beginPath();
+          for (let i = 0; i < 6; i++) {
+            const an = wheelA + (i * TAU) / 6;
+            ctx.moveTo(c[0] + Math.cos(an) * WR * 0.18 * s, c[1] + Math.sin(an) * WR * 0.18 * s);
+            ctx.lineTo(c[0] + Math.cos(an) * WR * 0.66 * s, c[1] + Math.sin(an) * WR * 0.66 * s);
+          }
+          ctx.stroke();
+        };
+        const joint = (p: number[], k: number) => {
+          ctx.fillStyle = white; ctx.strokeStyle = ink(k);
+          circle(p[0], p[1], 0.028 * s); ctx.fill(); ctx.stroke();
+          ctx.fillStyle = `rgba(${BLUE}, ${a * k})`;
+          circle(p[0], p[1], 1.8); ctx.fill();
+        };
+        ctx.lineWidth = 1.2;
+        limb(arms[1], 0.036, 0.03, 0.3);
+        limb(legs[1], 0.046, 0.04, 0.3);
+        wheel(legs[1][2], 0.3);
+        joint(legs[1][1], 0.3);
+        shape([at(-0.09, -0.08), at(0.1, -0.08), at(0.11, 0.08), at(-0.1, 0.08)], 1);
+        shape([at(-0.08, 0.06), at(0.09, 0.06), at(0.13, 0.3), at(0.11, 0.48), at(-0.1, 0.49), at(-0.13, 0.3)], 1);
+        shape([at(-0.02, 0.47), at(0.03, 0.47), at(0.03, 0.53), at(-0.02, 0.53)], 1);
+        shape([at(-0.09, 0.53), at(0.08, 0.53), at(0.11, 0.63), at(0.09, 0.75), at(-0.07, 0.76), at(-0.1, 0.65)], 1);
+        ctx.strokeStyle = `rgba(${BLUE}, ${a})`; ctx.lineWidth = 2;
+        line([map(at(0.1, 0.6)), map(at(0.09, 0.69))]);
+        ctx.lineWidth = 1.2;
+        limb(legs[0], 0.046, 0.04, 1);
+        wheel(legs[0][2], 1);
+        joint(pel, 1); joint(legs[0][1], 1);
+        limb(arms[0], 0.036, 0.03, 1);
+        joint(arms[0][0], 1); joint(arms[0][1], 1);
+      }
+    };
+
+    let last = 0;
+    const draw = (dt: number) => {
+      if (!w) return;
+      clock += dt;
+      const t = clock, I = iterAt(), q = 1 - Math.exp(-I / 320);
+      const p = clamp01(scrollY / (h * 0.8)), e = ease(p);
+      const s = Math.exp(lerp(Math.log(s0), Math.log(s1), e));
+      const OA = [s0 * C[0], slotTop - scrollY + s0 * C[1]];
+      const O = [lerp(OA[0], OB[0], e), lerp(OA[1], OB[1], e)];
+      const gx = (x: number) => O[0] + s * (x - C[0]), gy = (y: number) => O[1] + s * (y - C[1]);
+      const others = 1 - smooth(0.04, 0.5, p);
+      const gph = t * TAU * 0.85;
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+
+      if (others > 0) {
+        ctx.strokeStyle = `rgba(226, 231, 238, ${others})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        for (let c = 0; c <= cols; c++) { const x = Math.round(gx(c * TW)) + 0.5; ctx.moveTo(x, gy(0)); ctx.lineTo(x, gy(rows * TH)); }
+        for (let r = 0; r <= rows; r++) { const y = Math.round(gy(r * TH)) + 0.5; ctx.moveTo(gx(0), y); ctx.lineTo(gx(cols * TW), y); }
+        ctx.stroke();
+      }
+
+      ctx.font = '500 9px "JetBrains Mono", ui-monospace, monospace';
+      for (let k = 0; k < cols * rows; k++) {
+        const env = pool[k], best = k === chosen;
+        stepEnv(env, dt, q, best, gph);
+        const alpha = best ? 1 : others;
+        if (alpha < 0.01) continue;
+        const col = k % cols, row = Math.floor(k / cols);
+        const x0 = gx(col * TW), y0 = gy(row * TH), x1 = gx((col + 1) * TW), y1 = gy((row + 1) * TH);
+        if (!best && (x1 < 0 || x0 > w || y1 < 0 || y0 > h)) continue;
+        const ax = col * TW + TW * 0.45, ay = row * TH + TH * 0.8;
+        const map = (pt: V) => [gx(ax + pt[0]), gy(ay - pt[1])];
+        const amp = best ? 1 - e : 1;
+        const gait = best ? lerp(1, 0.12, e) : 1;
+        const wob = (best ? 0.15 : 0.32) * (1 - (best ? Math.max(q, 0.8) : q)) * (1 - e);
+
+        ctx.save();
+        if (!best || p < 0.02) { ctx.beginPath(); ctx.rect(x0, y0, x1 - x0, y1 - y0); ctx.clip(); }
+        if (env.flash > 0 && !best) { ctx.fillStyle = `rgba(${BLUE}, ${0.05 * env.flash * alpha})`; ctx.fillRect(x0, y0, x1 - x0, y1 - y0); }
+        ctx.fillStyle = best ? `rgba(${BLUE}, ${0.9 * (1 - e)})` : `rgba(${INK}, ${0.3 * alpha})`;
+        ctx.fillText(String(k).padStart(3, '0'), x0 + 7, y0 + 13);
+
+        const half = best ? lerp(TW * 0.55, 1.05, e) : TW * 0.55;
+        const xa = best ? -half : -TW * 0.45, xb = best ? half : TW * 0.55;
+        ctx.lineWidth = 1;
+        if (best && e > 0.01) {
+          const gr = ctx.createLinearGradient(gx(ax + xa), 0, gx(ax + xb), 0);
+          gr.addColorStop(0, `rgba(${INK}, 0)`); gr.addColorStop(0.25, `rgba(${INK}, 0.5)`);
+          gr.addColorStop(0.75, `rgba(${INK}, 0.5)`); gr.addColorStop(1, `rgba(${INK}, 0)`);
+          ctx.strokeStyle = gr;
+        } else ctx.strokeStyle = `rgba(160, 170, 186, ${alpha})`;
+        ctx.beginPath();
+        for (let x = xa; x <= xb + 0.001; x += 0.08) {
+          const pt = map([x, ground(env, env.x + x, amp)]);
+          x === xa ? ctx.moveTo(pt[0], pt[1]) : ctx.lineTo(pt[0], pt[1]);
+        }
+        ctx.stroke();
+        if (best && e > 0.3) {
+          ctx.strokeStyle = `rgba(${INK}, ${0.35 * smooth(0.3, 1, e)})`;
+          ctx.beginPath();
+          const off = env.x % 0.2;
+          for (let x = -0.8 - off; x <= 0.8; x += 0.2) {
+            const fade = 1 - Math.abs(x) / 0.85;
+            if (fade <= 0) continue;
+            const a = map([x, 0]), b = map([x - 0.05, -0.05]);
+            ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]);
+          }
+          ctx.stroke();
+        }
+
+        const P = solve(env, t, gait, wob, amp, best ? e : 0);
+        drawRobot(P, map, s, env.size, alpha * env.fade, best ? BLUE : INK, env.x / WR);
+        ctx.restore();
+
+        if (best && e > 0.7) {
+          const la = smooth(0.7, 1, e), hd = map([P.head[0] + 0.32, P.head[1] + 0.12]);
+          ctx.font = '500 10.5px "JetBrains Mono", ui-monospace, monospace';
+          ctx.fillStyle = `rgba(${BLUE}, ${la})`;
+          ctx.fillText(`ENV ${String(k).padStart(3, '0')}`, hd[0], hd[1]);
+          ctx.fillStyle = `rgba(${INK}, ${0.55 * la})`;
+          ctx.fillText('sim → real', hd[0], hd[1] + 15);
+          ctx.font = '500 9px "JetBrains Mono", ui-monospace, monospace';
+        }
+      }
+      updateTrain();
+    };
+
+    let raf = 0;
+    const loop = (now: number) => {
+      const dt = Math.min(0.05, (now - (last || now)) / 1000);
+      last = now;
+      draw(dt);
+      raf = requestAnimationFrame(loop);
+    };
+    const start = () => { if (!raf && !reduced) { last = 0; raf = requestAnimationFrame(loop); } };
+    const stop = () => { cancelAnimationFrame(raf); raf = 0; };
+
+    if (reduced) pool.forEach(e => (e.ph = 0));
+    new ResizeObserver(() => { layout(); draw(0); }).observe(stage);
+    new ResizeObserver(() => { layout(); draw(0); }).observe(slot);
+    document.fonts?.ready.then(() => { layout(); draw(0); });
+    new IntersectionObserver(([en]) => (en.isIntersecting ? start() : stop())).observe(sim);
+    addEventListener('scroll', () => { if (reduced) draw(0); else updateTrain(); }, { passive: true });
+  }
+</script>
+
+<style>
+  .s13 {
+    --ink: #151c2c;
+    --body: #4a5568;
+    --muted: #8a93a3;
+    --line: #eef1f5;
+    --line-2: #e2e7ee;
+    --blue: #2a5cff;
+    --gut: clamp(16px, 4vw, 56px);
+    --bar: 64px;
+    --sans: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+    --ease: cubic-bezier(.2, .7, .2, 1);
+    position: relative;
+    background: #fff;
+    color: var(--ink);
+    font: 400 16px/1.6 var(--sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+    padding-bottom: 88px;
+  }
+  .s13 *, .s13 *::before, .s13 *::after { box-sizing: border-box; }
+  :where(.s13 h1, .s13 h2, .s13 h3, .s13 p, .s13 ol, .s13 ul, .s13 dl, .s13 dd) { margin: 0; padding: 0; }
+  :where(.s13 ol, .s13 ul) { list-style: none; }
+  :where(.s13 a) { color: inherit; text-decoration: none; }
+  .s13 a:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 2px; }
+  .s13 .mono { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; }
+  .s13 .wrap { max-width: 1360px; margin-inline: auto; padding-inline: var(--gut); }
+  .s13 [id] { scroll-margin-top: var(--bar); }
+
+  .bar { position: fixed; z-index: 20; top: 0; left: 0; right: 0; background: #fff; }
+  .bar-in {
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px;
+    height: var(--bar); max-width: 1360px; margin: 0 auto; padding: 0 var(--gut);
+  }
+  .brand { font-weight: 600; font-size: 15px; letter-spacing: -.01em; }
+  .bar nav { display: flex; gap: clamp(16px, 2.4vw, 34px); font-size: 14px; color: var(--body); }
+  .bar nav a { transition: color .3s; }
+  .bar nav a:hover { color: var(--blue); }
+  .train { justify-self: end; display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 10.5px; }
+  .train b { color: var(--ink); font-weight: 500; font-variant-numeric: tabular-nums; }
+  .spark { width: 84px; height: 20px; display: block; }
+  .progress { position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--line-2); }
+  .progress i { position: absolute; inset: -0.5px 0; background: var(--blue); transform-origin: left; transform: scaleX(0); }
+
+  .sim { position: relative; }
+  .track { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  .stage { position: sticky; top: 0; height: 100vh; }
+  .stage canvas { display: block; width: 100%; height: 100%; }
+
+  .hero { position: relative; z-index: 1; height: 100vh; min-height: 640px; max-height: 1100px; display: flex; flex-direction: column; padding-top: calc(var(--bar) + clamp(32px, 6vh, 72px)); }
+  .hero-text { width: 100%; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; align-items: end; }
+  .hero-main { grid-column: 1 / span 8; }
+  .kicker { color: var(--blue); margin-bottom: 18px; }
+  .hero h1 { font: 500 clamp(46px, 6.5vw, 100px)/.95 var(--sans); letter-spacing: -.045em; margin-left: -.04em; }
+  .hero h1 span { color: var(--blue); }
+  .hero-aside { grid-column: 9 / -1; padding-bottom: 8px; }
+  .role { font-size: 15px; color: var(--body); }
+  .role a { color: var(--ink); font-weight: 500; border-bottom: 1px solid var(--line-2); transition: color .3s, border-color .3s; }
+  .role a:hover { color: var(--blue); border-color: var(--blue); }
+  .tagline { margin-top: 12px; font-size: clamp(19px, 1.6vw, 23px); line-height: 1.35; letter-spacing: -.012em; font-weight: 500; }
+  .hud { width: 100%; display: flex; justify-content: space-between; gap: 16px; margin-top: clamp(28px, 5vh, 56px); padding-block: 12px; color: var(--muted); font-size: 10.5px; }
+  .hud b { color: var(--ink); font-weight: 500; font-variant-numeric: tabular-nums; }
+  .hud-end i { display: inline-block; width: 18px; }
+  .slot { flex: 1; min-height: 220px; }
+
+  .research { position: relative; z-index: 1; min-height: 100vh; padding: clamp(120px, 22vh, 220px) 0 40px; }
+  .research-in { width: min(64%, 900px); }
+  .label { display: flex; gap: 12px; color: var(--muted); }
+  .label span { color: var(--blue); }
+  .s13 h2 { margin-top: 18px; font: 500 clamp(30px, 3.2vw, 46px)/1.1 var(--sans); letter-spacing: -.03em; max-width: 22ch; }
+  .s13 h2 span { color: var(--blue); }
+  .cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; margin-top: clamp(48px, 7vh, 80px); }
+  .cols > li { border-top: 1px solid var(--line-2); padding-top: 16px; }
+  .env { display: flex; justify-content: space-between; color: var(--blue); text-transform: none; }
+  .env span { color: var(--muted); }
+  .cols h3 { margin: 26px 0 10px; font-size: 21px; font-weight: 500; letter-spacing: -.02em; line-height: 1.2; }
+  .cols p:not(.env) { font-size: 14.5px; color: var(--body); }
+  .kw { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 6px 14px; color: var(--muted); font-size: 10px; }
+
+  .sec { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; padding-top: clamp(96px, 14vh, 160px); }
+  .sec-head { grid-column: 1 / span 4; padding-right: 24px; }
+  .sec-head h2 { font-size: clamp(28px, 2.6vw, 38px); }
+  .sec-body { grid-column: 5 / -1; }
+  .lead { max-width: 40ch; font-size: clamp(20px, 1.75vw, 25px); line-height: 1.42; letter-spacing: -.015em; font-weight: 500; margin-top: 40px; }
+  .sec-body > p:not(.lead) { margin-top: 22px; color: var(--body); max-width: 62ch; }
+  .facts { margin-top: 40px; border-top: 1px solid var(--line-2); display: grid; grid-template-columns: repeat(3, 1fr); }
+  .facts div { padding: 14px 0; }
+  .facts dt { color: var(--muted); margin-bottom: 4px; }
+  .facts dd { color: var(--ink); text-transform: none; font-size: 12px; }
+
+  .list { margin-top: 40px; border-top: 1px solid var(--line-2); }
+  .list > li { border-bottom: 1px solid var(--line); }
+  .list a { display: grid; grid-template-columns: 130px minmax(0, 1fr) auto; gap: 24px; align-items: baseline; padding: 26px 0; transition: background-color .4s var(--ease); }
+  .when { color: var(--blue); }
+  .what { display: flex; flex-direction: column; gap: 4px; }
+  .title { font-size: 20px; font-weight: 500; letter-spacing: -.015em; line-height: 1.3; transition: color .3s; }
+  .org { color: var(--ink); font-size: 15px; }
+  .arrow { display: inline-block; margin-left: 6px; color: var(--muted); transition: transform .35s var(--ease), color .3s; }
+  .sum { color: var(--body); font-size: 15px; max-width: 58ch; margin-top: 4px; }
+  .place { color: var(--muted); }
+  .list a:hover .title { color: var(--blue); }
+  .list a:hover .arrow { color: var(--blue); transform: translate(2px, -2px); }
+  .notes .when { color: var(--muted); }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; max-width: 220px; }
+  .tags span { padding: 3px 8px; border: 1px solid var(--line-2); border-radius: 999px; font-size: 9.5px; color: var(--body); white-space: nowrap; }
+
+  .links { margin-top: 40px; border-top: 1px solid var(--line-2); }
+  .links a { display: grid; grid-template-columns: 1fr auto auto; gap: 24px; align-items: baseline; padding: 22px 0; border-bottom: 1px solid var(--line); }
+  .links .name { font-size: clamp(26px, 2.6vw, 36px); font-weight: 500; letter-spacing: -.025em; transition: color .3s; }
+  .links .mono { color: var(--muted); text-transform: none; }
+  .links .arrow { font-size: 20px; }
+  .links a:hover .name, .links a:hover .arrow { color: var(--blue); }
+  .links a:hover .arrow { transform: translate(3px, -3px); }
+
+  .foot { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: clamp(96px, 14vh, 160px); padding-top: 18px; border-top: 1px solid var(--line-2); color: var(--muted); }
+  .foot a:hover { color: var(--blue); }
+
+  .js [data-r] { opacity: 0; transform: translateY(10px); }
+  .js [data-r].in { opacity: 1; transform: none; transition: opacity .85s var(--ease), transform .85s var(--ease); }
+
+  @media (max-width: 1099px) {
+    .research-in { width: 58%; }
+    .cols { grid-template-columns: 1fr; gap: 0; }
+    .cols > li { padding: 16px 0 32px; }
+    .cols h3 { margin-top: 14px; }
+    .hero-main { grid-column: 1 / -1; }
+    .hero-aside { grid-column: 1 / span 8; margin-top: 28px; }
+  }
+  @media (max-width: 860px) {
+    .bar nav { display: none; }
+    .bar-in { grid-template-columns: 1fr auto; }
+  }
+  @media (max-width: 759px) {
+    .s13 { --bar: 92px; }
+    .bar-in { grid-template-columns: 1fr auto; grid-template-rows: 52px 40px; row-gap: 0; }
+    .bar nav { display: flex; grid-column: 1 / -1; grid-row: 2; gap: 18px; font-size: 13px; overflow-x: auto; scrollbar-width: none; align-self: start; padding-top: 6px; }
+    .spark { width: 56px; }
+    .train .ret { display: none; }
+    .hero { padding-top: calc(var(--bar) + 28px); min-height: 700px; }
+    .hero-aside { grid-column: 1 / -1; margin-top: 22px; }
+    .tagline { font-size: 18px; }
+    .hud { flex-wrap: wrap; row-gap: 4px; margin-top: 24px; }
+    .hud-mid { display: none; }
+    .research { padding-top: 50vh; }
+    .research-in { width: 100%; background: #fff; padding-top: 28px; box-shadow: 0 -1px 0 var(--line-2); }
+    .sec { display: block; padding-top: 88px; }
+    .facts { grid-template-columns: 1fr; }
+    .facts div { display: grid; grid-template-columns: 80px 1fr; padding: 10px 0; border-bottom: 1px solid var(--line); }
+    .list a { grid-template-columns: 1fr; gap: 8px; padding: 22px 0; }
+    .tags { justify-content: flex-start; }
+    .links a { grid-template-columns: 1fr auto; gap: 4px 16px; }
+    .links .mono { grid-row: 2; }
+    .links .arrow { grid-row: 1 / span 2; align-self: center; }
+    .foot { flex-direction: column; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .js [data-r] { opacity: 1; transform: none; transition: none; }
+  }
+</style>

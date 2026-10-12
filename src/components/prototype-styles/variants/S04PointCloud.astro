@@ -1,0 +1,606 @@
+---
+// PROTOTYPE: style 04 Point Cloud. Swiss grid, a LiDAR scan of terrain and a quadruped that folds into a sphere.
+import { profile, areas, experience, notes, formatDate } from '../content';
+
+const pad = (i: number) => String(i + 1).padStart(2, '0');
+const host = (href: string) => href.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+const year = new Date().getFullYear();
+---
+<div class="s04">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&display=swap" />
+
+  <header class="top grid">
+    <a class="brand" href="#top">{profile.name}</a>
+    <span class="mono loc">Zurich, CH · 47.37° N 8.54° E</span>
+    <nav aria-label="Primary">
+      <a href="#research"><span class="mono">01</span>Research</a>
+      <a href="#about"><span class="mono">02</span>About</a>
+      <a href="#work"><span class="mono">03</span>Work</a>
+      <a href="#notes"><span class="mono">04</span>Notes</a>
+      <a href="#contact"><span class="mono">05</span>Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero grid" id="top">
+    <h1 aria-label={profile.name}>
+      <span class="ln"><span>{profile.firstName}</span></span>
+      <span class="ln" style="--d:1"><span>{profile.lastName}<i>.</i></span></span>
+    </h1>
+    <div class="hero-aside">
+      <div data-r style="--d:2">
+        <p class="mono label">Role</p>
+        <p>{profile.role}<br />at <a href={profile.companyHref}>{profile.company}</a></p>
+      </div>
+      <div data-r style="--d:3">
+        <p class="mono label">Statement</p>
+        <p class="statement">{profile.tagline}</p>
+      </div>
+    </div>
+  </section>
+
+  <figure class="scan">
+    <div class="stage">
+      <canvas aria-label="Rotating 3D point cloud: a LiDAR scan of rough terrain and stairs around a quadruped robot, periodically folding into a sphere" role="img"></canvas>
+      <div class="hud mono" aria-hidden="true">
+        <span class="tl">PTS <b>12,288</b><br />RINGS <b>34</b></span>
+        <span class="tr">FRAME <b data-k="frame">000000</b><br />YAW <b data-k="yaw">000.0</b>°</span>
+        <span class="bl">SCAN X <b data-k="scan">+0.000</b> m<br />PLANE <b>YZ</b></span>
+        <span class="br">STATE <b data-k="state">WORLD</b><span class="bar"><span data-k="bar"></span></span></span>
+      </div>
+    </div>
+    <figcaption class="grid">
+      <span class="mono">Fig. 01</span>
+      <span class="cap">A LiDAR-style scan of rough ground and stairs around a quadruped. Every few seconds the world folds into a model and back.</span>
+      <span class="legend mono"><i class="k-robot"></i>Robot <i class="k-world"></i>Terrain <i class="k-plane"></i>Scan</span>
+    </figcaption>
+  </figure>
+
+  <section class="sec grid" id="research">
+    <p class="mono idx" data-r>01 / Research</p>
+    <h2 data-r>Three areas, one question: how robots learn to move.</h2>
+    <ol class="areas">
+      {areas.map((a, i) => (
+        <li data-r style={`--d:${i}`}>
+          <span class="big">{pad(i)}</span>
+          <h3>{a.title}</h3>
+          <p>{a.summary}</p>
+          <ul class="mono kw">{a.keywords.map(k => <li>{k}</li>)}</ul>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="sec grid" id="about">
+    <p class="mono idx" data-r>02 / About</p>
+    <p class="lead" data-r>{profile.bio[0]}</p>
+    <p class="second" data-r style="--d:1">{profile.bio[1]}</p>
+    <dl class="facts" data-r style="--d:2">
+      <div><dt class="mono">Current</dt><dd>{experience[0].org}</dd></div>
+      <div><dt class="mono">Based</dt><dd>{profile.location}</dd></div>
+      <div><dt class="mono">Origin</dt><dd>{profile.origin}</dd></div>
+    </dl>
+  </section>
+
+  <section class="sec grid" id="work">
+    <p class="mono idx" data-r>03 / Experience</p>
+    <h2 data-r>Experience</h2>
+    <div class="table" role="table" aria-label="Experience">
+      <div class="row head mono" role="row">
+        <span role="columnheader">Period</span>
+        <span role="columnheader">Role</span>
+        <span role="columnheader">Organisation</span>
+        <span role="columnheader">Place</span>
+      </div>
+      {experience.map((e, i) => (
+        <a class="row" role="row" href={e.href} data-r style={`--d:${i}`}>
+          <span class="mono period" role="cell">{e.period}</span>
+          <span class="role" role="cell"><strong>{e.title}</strong><em>{e.summary}</em></span>
+          <span class="org" role="cell">{e.org}</span>
+          <span class="mono place" role="cell">{e.place}</span>
+          <span class="arrow" aria-hidden="true">↗</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="sec grid" id="notes">
+    <p class="mono idx" data-r>04 / Notes</p>
+    <h2 data-r>Notes</h2>
+    <ol class="notes">
+      {notes.map((n, i) => (
+        <li data-r style={`--d:${i}`}>
+          <time class="mono" datetime={n.date.toISOString()}>{formatDate(n.date)}</time>
+          <div class="note">
+            <h3>{n.title}</h3>
+            <p>{n.description}</p>
+          </div>
+          {n.tags && <ul class="pills mono">{n.tags.map(t => <li>{t}</li>)}</ul>}
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="sec grid" id="contact">
+    <p class="mono idx" data-r>05 / Contact</p>
+    <h2 data-r>Elsewhere</h2>
+    <ul class="links">
+      {profile.links.map((l, i) => (
+        <li data-r style={`--d:${i}`}>
+          <a href={l.href}>
+            <span class="name">{l.label}</span>
+            <span class="mono">{host(l.href)}</span>
+            <span class="arrow" aria-hidden="true">↗</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <footer class="foot grid mono">
+    <span>© {year} {profile.name}</span>
+    <span>{profile.location}</span>
+    <span>Inter Tight / Geist / Geist Mono</span>
+    <a href="#top">Top ↑</a>
+  </footer>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('.s04');
+  if (root) {
+    root.classList.add('js');
+    const reveal = new IntersectionObserver(entries => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        e.target.classList.add('in');
+        reveal.unobserve(e.target);
+      }
+    }, { rootMargin: '0px 0px -6% 0px' });
+    root.querySelectorAll('[data-r], .ln').forEach(el => reveal.observe(el));
+
+    const canvas = root.querySelector('canvas')!;
+    const stage = root.querySelector<HTMLElement>('.stage')!;
+    const ctx = canvas.getContext('2d')!;
+    const hud = Object.fromEntries([...root.querySelectorAll<HTMLElement>('[data-k]')].map(el => [el.dataset.k!, el]));
+
+    const N = 12288, ROBOT = 2560, RISERS = 1024, RINGS = 34, PER_RING = (N - ROBOT - RISERS) / RINGS, DISC = 1.9;
+    const STEP = 0.11, RUN = 0.2, X0 = 0.62;
+    const world = new Float32Array(N * 3), model = new Float32Array(N * 3);
+    const delay = new Float32Array(N), isRobot = new Uint8Array(N);
+    let seed = 11;
+    const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+
+    const ground = (x: number, z: number) => x > X0
+      ? STEP * Math.min(6, Math.floor((x - X0) / RUN) + 1)
+      : 0.035 * Math.sin(3.1 * x + 0.7) * Math.cos(2.3 * z) + 0.022 * Math.sin(6.3 * x - 4.1 * z + 1.1) + 0.012 * Math.sin(11 * z + 2 * x);
+
+    let n = 0;
+    const put = (x: number, y: number, z: number, robot = 0) => {
+      world[n * 3] = x; world[n * 3 + 1] = y; world[n * 3 + 2] = z; isRobot[n++] = robot;
+    };
+    for (let k = 0; k < RINGS; k++) {
+      const r = 0.34 + 1.56 * Math.pow(k / (RINGS - 1), 1.25);
+      for (let j = 0; j < PER_RING; j++) {
+        const a = ((j + rnd() * 0.3) / PER_RING) * Math.PI * 2 + k * 0.07;
+        const rr = r + (rnd() - 0.5) * 0.012;
+        const x = Math.cos(a) * rr, z = Math.sin(a) * rr;
+        put(x, ground(x, z), z);
+      }
+    }
+    for (let i = 0; i < RISERS; i++) {
+      const k = i % 6, x = X0 + k * RUN, zr = Math.sqrt(DISC * DISC - x * x) * 0.96;
+      put(x, STEP * (k + rnd()), (rnd() * 2 - 1) * zr);
+    }
+    const box = (c: number[], half: number[], step: number) => {
+      for (let axis = 0; axis < 3; axis++) {
+        const [ua, va] = [0, 1, 2].filter(k => k !== axis);
+        const nu = Math.round((half[ua] * 2) / step), nv = Math.round((half[va] * 2) / step);
+        for (const side of [-1, 1]) for (let i = 0; i <= nu; i++) for (let j = 0; j <= nv; j++) {
+          const p = [0, 0, 0];
+          p[axis] = side * half[axis];
+          p[ua] = -half[ua] + (i / nu) * half[ua] * 2;
+          p[va] = -half[va] + (j / nv) * half[va] * 2;
+          put(c[0] + p[0], c[1] + p[1], c[2] + p[2], 1);
+        }
+      }
+    };
+    const limb = (a: number[], b: number[], r: number, count: number) => {
+      const d = [b[0] - a[0], b[1] - a[1]], len = Math.hypot(d[0], d[1]), u = [-d[1] / len, d[0] / len];
+      for (let i = 0; i < count; i++) {
+        const t = rnd(), th = rnd() * Math.PI * 2, c = Math.cos(th) * r, s = Math.sin(th) * r;
+        put(a[0] + d[0] * t + u[0] * c, a[1] + d[1] * t + u[1] * c, a[2] + (b[2] - a[2]) * t + s, 1);
+      }
+    };
+    box([0, 0.5, 0], [0.36, 0.075, 0.15], 0.032);
+    for (const sx of [1, -1]) for (const sz of [1, -1]) {
+      const hip = [0.27 * sx, 0.45, 0.2 * sz];
+      const foot = [hip[0] + 0.02 * sx, 0, hip[2] + 0.02 * sz];
+      foot[1] = ground(foot[0], foot[2]) + 0.03;
+      const knee = [hip[0] - 0.1 * sx, 0.25, hip[2] + 0.01 * sz];
+      limb(hip, knee, 0.042, 170);
+      limb(knee, foot, 0.03, 140);
+      limb([foot[0], foot[1] - 0.02, foot[2]], [foot[0], foot[1] + 0.03, foot[2]], 0.035, 30);
+    }
+    for (let i = n; i < N; i++) {
+      const a = rnd() * Math.PI * 2;
+      put(-0.12 + Math.cos(a) * 0.065, 0.585 + rnd() * 0.07, Math.sin(a) * 0.065, 1);
+    }
+
+    const golden = Math.PI * (3 - Math.sqrt(5));
+    const sphere = new Float32Array(N * 3);
+    for (let i = 0; i < N; i++) {
+      const y = 1 - (i / (N - 1)) * 2, r = Math.sqrt(1 - y * y), a = i * golden;
+      sphere[i * 3] = Math.cos(a) * r * 0.95; sphere[i * 3 + 1] = 0.42 + y * 0.95; sphere[i * 3 + 2] = Math.sin(a) * r * 0.95;
+    }
+    const byAzimuth = (src: Float32Array) =>
+      [...Array(N).keys()].sort((a, b) => Math.atan2(src[a * 3 + 2], src[a * 3]) - Math.atan2(src[b * 3 + 2], src[b * 3]));
+    const ws = byAzimuth(world), ss = byAzimuth(sphere);
+    for (let i = 0; i < N; i++) {
+      const w = ws[i], s = ss[i];
+      model.set(sphere.subarray(s * 3, s * 3 + 3), w * 3);
+      delay[w] = Math.min(1, Math.hypot(world[w * 3], world[w * 3 + 2]) / DISC) * 0.8 + rnd() * 0.2;
+    }
+
+    const LEVELS = 12, GROUPS = 3;
+    const bucketOf = new Uint16Array(N), counts = new Uint32Array(LEVELS * GROUPS + 1), order = new Uint32Array(N);
+    const sx = new Float32Array(N), sy = new Float32Array(N), ss2 = new Float32Array(N);
+    const colors = [
+      (a: number) => `rgba(14, 34, 92, ${a})`,
+      (a: number) => `rgba(0, 87, 255, ${a})`,
+      (a: number) => `rgba(0, 87, 255, ${Math.min(1, a + 0.35)})`,
+    ];
+    const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+    const clamp01 = (t: number) => Math.max(0, Math.min(1, t));
+
+    let w = 0, h = 0, dpr = 1;
+    const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
+    const CYCLE = 26;
+    const morphAt = (t: number) => {
+      const c = t % CYCLE;
+      if (c < 11) return 0;
+      if (c < 14.5) return (c - 11) / 3.5;
+      if (c < 21) return 1;
+      if (c < 24.5) return 1 - (c - 21) / 3.5;
+      return 0;
+    };
+
+    let frame = 0;
+    const draw = (t: number) => {
+      if (!w) return;
+      mouse.x += (mouse.tx - mouse.x) * 0.04;
+      mouse.y += (mouse.ty - mouse.y) * 0.04;
+      const g = morphAt(t);
+      const yaw = -0.6 + t * 0.045 + mouse.x * 0.5, pitch = 0.42 + mouse.y * 0.16;
+      const cy = Math.cos(yaw), sy0 = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
+      const scale = Math.min(w / (w < 640 ? 3.9 : 5), h / 2.6), D = 7, f = scale * D, dot = w < 640 ? 0.75 : 1;
+      const ox = w / 2, oy = h * 0.43;
+      const scanX = DISC * Math.sin(t * 0.33), scanOn = 1 - ease(clamp01(g * 1.4));
+
+      counts.fill(0);
+      for (let i = 0; i < N; i++) {
+        const p = ease(clamp01((g - 0.4 * delay[i]) / 0.6));
+        const j = i * 3;
+        let x = world[j], y = world[j + 1], z = world[j + 2];
+        if (p > 0) {
+          const mx = model[j], my = model[j + 1] - 0.42, mz = model[j + 2];
+          const k = 1 + 0.035 * Math.sin(4 * my + 2 * mx + t * 0.8) + 0.02 * Math.sin(5 * mz - t * 0.6);
+          x += (mx * k - x) * p; y += (0.42 + my * k - y) * p; z += (mz * k - z) * p;
+        }
+        y -= 0.3;
+        const xr = x * cy - z * sy0, zr = x * sy0 + z * cy;
+        const yr = y * cp + zr * sp, zz = -y * sp + zr * cp + D;
+        const k = f / zz;
+        sx[i] = ox + xr * k; sy[i] = oy - yr * k;
+        const near = clamp01((D + 1.7 - zz) / 3.4);
+        const level = Math.min(LEVELS - 1, Math.floor(near * LEVELS));
+        const lit = scanOn > 0.05 && p < 0.5 && Math.abs(x - scanX) < 0.035;
+        const group = lit ? 2 : isRobot[i] || p > 0.5 ? 1 : 0;
+        ss2[i] = (0.9 + near * 1.5) * (lit ? 1.5 : 1) * dot;
+        bucketOf[i] = level * GROUPS + group;
+        counts[bucketOf[i] + 1]++;
+      }
+      for (let b = 1; b <= LEVELS * GROUPS; b++) counts[b] += counts[b - 1];
+      const start = counts.slice();
+      for (let i = 0; i < N; i++) order[start[bucketOf[i]]++] = i;
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+
+      if (scanOn > 0.02) {
+        const zr = Math.sqrt(Math.max(0, DISC * DISC - scanX * scanX));
+        const corner = (y: number, z: number) => {
+          const xr = scanX * cy - z * sy0, zw = scanX * sy0 + z * cy;
+          const yy = y * cp + zw * sp, zz = -y * sp + zw * cp + D;
+          return [ox + (xr * f) / zz, oy - (yy * f) / zz];
+        };
+        const q = [corner(-0.32, -zr), corner(0.42, -zr), corner(0.42, zr), corner(-0.32, zr)];
+        ctx.beginPath();
+        q.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
+        ctx.closePath();
+        ctx.fillStyle = `rgba(0, 87, 255, ${0.035 * scanOn})`;
+        ctx.fill();
+        ctx.strokeStyle = `rgba(0, 87, 255, ${0.35 * scanOn})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      for (let level = 0; level < LEVELS; level++) {
+        const near = (level + 0.5) / LEVELS;
+        for (let gIdx = 0; gIdx < GROUPS; gIdx++) {
+          const b = level * GROUPS + gIdx, from = counts[b], to = counts[b + 1];
+          if (from === to) continue;
+          const alpha = gIdx === 0 ? 0.1 + near * 0.55 : 0.3 + near * 0.65;
+          ctx.fillStyle = colors[gIdx](alpha * (gIdx === 2 ? scanOn : 1));
+          for (let o = from; o < to; o++) {
+            const i = order[o], s = ss2[i];
+            ctx.fillRect(sx[i] - s / 2, sy[i] - s / 2, s, s);
+          }
+        }
+      }
+
+      if (frame++ % 6 === 0) {
+        hud.frame.textContent = String(frame).padStart(6, '0');
+        hud.yaw.textContent = ((((yaw * 180) / Math.PI) % 360 + 360) % 360).toFixed(1).padStart(5, '0');
+        hud.scan.textContent = (scanX >= 0 ? '+' : '-') + Math.abs(scanX).toFixed(3);
+        hud.state.textContent = g > 0.5 ? 'MODEL' : 'WORLD';
+        hud.bar.style.transform = `scaleX(${((t % CYCLE) / CYCLE).toFixed(3)})`;
+      }
+    };
+
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const STATIC_T = 8.6;
+    new ResizeObserver(() => {
+      const r = stage.getBoundingClientRect();
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+      w = r.width; h = r.height;
+      canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+      if (reduced || !raf) draw(clock);
+    }).observe(stage);
+
+    let raf = 0, last = 0, clock = STATIC_T;
+    const loop = (now: number) => {
+      clock += Math.min(0.05, (now - (last || now)) / 1000);
+      last = now;
+      draw(clock);
+      raf = requestAnimationFrame(loop);
+    };
+    if (!reduced) {
+      stage.addEventListener('pointermove', e => {
+        const r = stage.getBoundingClientRect();
+        mouse.tx = (e.clientX - r.left) / r.width - 0.5;
+        mouse.ty = (e.clientY - r.top) / r.height - 0.5;
+      });
+      stage.addEventListener('pointerleave', () => { mouse.tx = 0; mouse.ty = 0; });
+      new IntersectionObserver(([e]) => {
+        if (e.isIntersecting && !raf) { last = 0; raf = requestAnimationFrame(loop); }
+        if (!e.isIntersecting && raf) { cancelAnimationFrame(raf); raf = 0; }
+      }).observe(stage);
+    }
+  }
+</script>
+
+<style>
+  .s04 {
+    --ink: #0a0a0a;
+    --muted: #6b6b6b;
+    --hair: #e4e4e4;
+    --blue: #0057ff;
+    --pad: clamp(16px, 3vw, 40px);
+    --sans: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+    --body: 'Geist', 'Helvetica Neue', Arial, sans-serif;
+    --mono: 'Geist Mono', ui-monospace, monospace;
+    --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+    background: #fff;
+    color: var(--ink);
+    font: 400 16px/1.55 var(--body);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+    padding-bottom: 84px;
+  }
+  .s04 a { color: inherit; text-decoration: none; }
+  .s04 a:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+  .s04 h1, .s04 h2, .s04 h3, .s04 p, .s04 ol, .s04 ul, .s04 dl, .s04 dd, .s04 figure { margin: 0; padding: 0; }
+  .s04 ol, .s04 ul { list-style: none; }
+  .s04 h3, .s04 .brand, .s04 .top nav, .s04 .lead, .s04 .statement, .s04 .role strong { font-family: var(--sans); }
+  .s04 .mono { font: 400 11px/1.4 var(--mono); letter-spacing: 0.02em; text-transform: uppercase; }
+
+  .s04 .grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 20px;
+    padding-inline: var(--pad);
+  }
+
+  .s04 .top { align-items: baseline; padding-block: 20px; border-bottom: 1px solid var(--ink); }
+  .s04 .brand { grid-column: 1 / span 3; font-weight: 700; font-size: 15px; letter-spacing: -0.02em; }
+  .s04 .loc { grid-column: 4 / span 4; color: var(--muted); }
+  .s04 .top nav { grid-column: 8 / -1; display: flex; justify-content: flex-end; gap: clamp(14px, 2.2vw, 32px); font-size: 14px; font-weight: 500; }
+  .s04 .top nav a { display: inline-flex; gap: 6px; align-items: baseline; transition: color 0.3s; }
+  .s04 .top nav .mono { color: var(--muted); font-size: 10px; transition: color 0.3s; }
+  .s04 .top nav a:hover, .s04 .top nav a:hover .mono { color: var(--blue); }
+
+  .s04 .hero { padding-top: clamp(48px, 7vw, 104px); align-items: end; row-gap: 40px; }
+  .s04 h1 {
+    grid-column: 1 / span 8;
+    font: 700 clamp(72px, 13.2vw, 212px)/0.84 var(--sans);
+    letter-spacing: -0.065em;
+    margin-left: -0.05em;
+  }
+  .s04 h1 .ln { display: block; overflow: hidden; padding-bottom: 0.2em; margin-bottom: -0.16em; }
+  .s04 h1 .ln > span { display: block; }
+  .s04 h1 i { font-style: normal; color: var(--blue); }
+  .s04 .hero-aside { grid-column: 9 / -1; display: grid; gap: 28px; padding-bottom: 0.6vw; }
+  .s04 .label { color: var(--muted); margin-bottom: 8px; }
+  .s04 .hero-aside p:not(.label) { font-size: 15px; font-weight: 500; }
+  .s04 .hero-aside a { border-bottom: 1px solid var(--ink); transition: color 0.3s, border-color 0.3s; }
+  .s04 .hero-aside a:hover { color: var(--blue); border-color: var(--blue); }
+  .s04 .hero-aside .statement { font-size: clamp(20px, 1.7vw, 26px); font-weight: 500; line-height: 1.2; letter-spacing: -0.008em; }
+
+  .s04 .scan { margin-top: clamp(40px, 5vw, 72px); }
+  .s04 .stage {
+    position: relative;
+    height: clamp(420px, 50vw, 760px);
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--hair);
+    background:
+      linear-gradient(var(--hair), var(--hair)) 50% 0 / 1px 100% no-repeat,
+      linear-gradient(var(--hair), var(--hair)) 0 50% / 100% 1px no-repeat;
+    cursor: crosshair;
+  }
+  .s04 canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .s04 .hud > span { position: absolute; color: var(--muted); font-size: 10.5px; line-height: 1.6; pointer-events: none; }
+  .s04 .hud b { font-weight: 500; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .s04 .hud .tl { top: 16px; left: var(--pad); }
+  .s04 .hud .tr { top: 16px; right: var(--pad); text-align: right; }
+  .s04 .hud .bl { bottom: 16px; left: var(--pad); }
+  .s04 .hud .br { bottom: 16px; right: var(--pad); text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+  .s04 .hud .br b { color: var(--blue); }
+  .s04 .bar { display: block; width: 96px; height: 2px; background: var(--hair); }
+  .s04 .bar > span { display: block; height: 100%; background: var(--blue); transform-origin: left; transform: scaleX(0); }
+  .s04 figcaption { padding-block: 14px; align-items: baseline; }
+  .s04 figcaption > .mono:first-child { grid-column: 1 / span 2; color: var(--muted); }
+  .s04 .cap { grid-column: 3 / span 6; font-size: 13px; color: var(--muted); }
+  .s04 .legend { grid-column: 9 / -1; display: flex; justify-content: flex-end; align-items: center; gap: 8px; color: var(--muted); }
+  .s04 .legend i { width: 7px; height: 7px; display: inline-block; margin-left: 10px; }
+  .s04 .k-robot { background: var(--blue); }
+  .s04 .k-world { background: #0e225c; opacity: 0.6; }
+  .s04 .k-plane { border: 1px solid var(--blue); box-sizing: border-box; }
+
+  .s04 .sec { border-top: 1px solid var(--ink); padding: 18px 0 0; margin-inline: var(--pad); margin-top: clamp(96px, 11vw, 168px); row-gap: 0; }
+  .s04 #research { margin-top: clamp(72px, 8vw, 120px); }
+  .s04 .idx { grid-column: 1 / span 3; color: var(--ink); font-weight: 500; }
+  .s04 h2 {
+    grid-column: 4 / -1;
+    font: 700 clamp(36px, 4.6vw, 72px)/0.98 var(--sans);
+    letter-spacing: -0.045em;
+    max-width: 16ch;
+    margin-bottom: clamp(48px, 6vw, 96px);
+  }
+
+  .s04 .areas { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 20px; }
+  .s04 .areas > li { border-top: 1px solid var(--ink); padding-top: 14px; display: flex; flex-direction: column; gap: 14px; }
+  .s04 .big {
+    font: 700 clamp(88px, 11vw, 176px)/0.8 var(--sans); letter-spacing: -0.07em; margin: 8px 0 28px -0.04em;
+    transition: color 0.5s var(--ease);
+  }
+  .s04 .areas > li:hover .big { color: var(--blue); }
+  .s04 .areas h3 { font-size: clamp(22px, 1.9vw, 28px); font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; }
+  .s04 .areas p { color: var(--muted); font-size: 15px; max-width: 36ch; }
+  .s04 .kw { display: flex; flex-direction: column; gap: 0; margin-top: 8px; border-top: 1px solid var(--hair); }
+  .s04 .kw li { padding: 7px 0; border-bottom: 1px solid var(--hair); display: flex; align-items: center; gap: 8px; }
+  .s04 .kw li::before { content: ''; width: 5px; height: 5px; background: var(--blue); }
+
+  .s04 .lead {
+    grid-column: 4 / span 8;
+    font-size: clamp(26px, 2.7vw, 42px); font-weight: 500; line-height: 1.12; letter-spacing: -0.035em;
+    margin-bottom: clamp(40px, 5vw, 72px);
+  }
+  .s04 .second { grid-column: 4 / span 4; color: var(--muted); }
+  .s04 .facts { grid-column: 9 / -1; border-top: 1px solid var(--ink); }
+  .s04 .facts div { display: grid; grid-template-columns: 80px 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--hair); align-items: baseline; }
+  .s04 .facts dt { color: var(--muted); }
+  .s04 .facts dd { font-weight: 500; font-size: 15px; }
+
+  .s04 .table { grid-column: 1 / -1; }
+  .s04 .row {
+    display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px;
+    padding: 20px 0; align-items: baseline;
+    border-top: 1px solid var(--hair);
+    transition: background-color 0.35s var(--ease), color 0.35s var(--ease), box-shadow 0.35s var(--ease);
+  }
+  .s04 .row.head { color: var(--muted); padding-block: 10px; border-top-color: var(--ink); }
+  .s04 .row > :nth-child(1) { grid-column: 1 / span 2; }
+  .s04 .row > :nth-child(2) { grid-column: 3 / span 5; }
+  .s04 .row > :nth-child(3) { grid-column: 8 / span 3; }
+  .s04 .row > :nth-child(4) { grid-column: 11 / span 1; }
+  .s04 .row .arrow { grid-column: 12; justify-self: end; transition: transform 0.35s var(--ease); }
+  .s04 a.row:last-child { border-bottom: 1px solid var(--ink); }
+  .s04 .role strong { display: block; font-size: clamp(20px, 1.8vw, 26px); font-weight: 600; letter-spacing: -0.03em; line-height: 1.15; }
+  .s04 .role em { display: block; font-style: normal; color: var(--muted); font-size: 14px; margin-top: 6px; max-width: 46ch; transition: color 0.35s; }
+  .s04 .org { font-weight: 500; }
+  .s04 .period, .s04 .place { color: var(--muted); transition: color 0.35s; }
+  .s04 a.row:hover { background: var(--ink); color: #fff; box-shadow: -12px 0 0 var(--ink), 12px 0 0 var(--ink); }
+  .s04 a.row:hover em, .s04 a.row:hover .period, .s04 a.row:hover .place { color: #a8a8a8; }
+  .s04 a.row:hover .arrow { color: var(--blue); transform: translate(2px, -2px); }
+
+  .s04 .notes { grid-column: 1 / -1; border-top: 1px solid var(--ink); }
+  .s04 .notes > li {
+    display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; align-items: baseline;
+    padding: 22px 0; border-bottom: 1px solid var(--hair);
+    transition: box-shadow 0.4s var(--ease), padding 0.4s var(--ease);
+  }
+  .s04 .notes > li:hover { box-shadow: inset 3px 0 0 var(--blue); padding-left: 18px; }
+  .s04 .notes time { grid-column: 1 / span 2; color: var(--muted); }
+  .s04 .note { grid-column: 3 / span 6; }
+  .s04 .note h3 { font-size: clamp(22px, 2vw, 30px); font-weight: 600; letter-spacing: -0.035em; line-height: 1.1; transition: color 0.3s; }
+  .s04 .notes > li:hover h3 { color: var(--blue); }
+  .s04 .note p { color: var(--muted); font-size: 15px; margin-top: 6px; }
+  .s04 .pills { grid-column: 9 / -1; display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
+  .s04 .pills li { border: 1px solid var(--ink); border-radius: 999px; padding: 3px 9px 2px; font-size: 10px; white-space: nowrap; }
+
+  .s04 .links { grid-column: 1 / -1; border-top: 1px solid var(--ink); }
+  .s04 .links a {
+    display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; align-items: baseline;
+    padding: 14px 0; border-bottom: 1px solid var(--hair);
+    transition: background-color 0.35s var(--ease), color 0.35s var(--ease), box-shadow 0.35s var(--ease);
+  }
+  .s04 .links .name { grid-column: 1 / span 7; font: 700 clamp(44px, 6.4vw, 104px)/0.95 var(--sans); letter-spacing: -0.06em; }
+  .s04 .links .mono { grid-column: 8 / span 4; color: var(--muted); text-transform: none; font-size: 12px; transition: color 0.35s; }
+  .s04 .links .arrow { grid-column: 12; justify-self: end; font-size: 28px; transition: transform 0.35s var(--ease), color 0.35s; }
+  .s04 .links a:hover { background: var(--blue); color: #fff; box-shadow: -12px 0 0 var(--blue), 12px 0 0 var(--blue); }
+  .s04 .links a:hover .mono { color: #fff; }
+  .s04 .links a:hover .arrow { transform: translate(4px, -4px); }
+
+  .s04 .foot { margin-inline: var(--pad); padding-inline: 0; margin-top: clamp(96px, 10vw, 160px); padding-block: 16px; border-top: 1px solid var(--ink); color: var(--muted); }
+  .s04 .foot > :nth-child(1) { grid-column: 1 / span 3; }
+  .s04 .foot > :nth-child(2) { grid-column: 4 / span 3; }
+  .s04 .foot > :nth-child(3) { grid-column: 7 / span 3; }
+  .s04 .foot > :nth-child(4) { grid-column: 10 / -1; justify-self: end; }
+  .s04 .foot a:hover { color: var(--blue); }
+
+  .s04.js h1 .ln > span { transform: translateY(102%); }
+  .s04.js h1 .ln.in > span { transform: none; transition: transform 1.1s var(--ease) calc(var(--d, 0) * 90ms); }
+  .s04.js [data-r] { opacity: 0; transform: translateY(16px); }
+  .s04.js [data-r].in {
+    opacity: 1; transform: none;
+    transition: opacity 0.9s var(--ease) calc(var(--d, 0) * 80ms), transform 0.9s var(--ease) calc(var(--d, 0) * 80ms);
+  }
+
+  @media (max-width: 900px) {
+    .s04 .loc { display: none; }
+    .s04 .brand { grid-column: 1 / span 5; }
+    .s04 .top nav { grid-column: 6 / -1; }
+    .s04 h1, .s04 .hero-aside, .s04 .idx, .s04 h2, .s04 .lead, .s04 .second, .s04 .facts { grid-column: 1 / -1; }
+    .s04 .hero-aside { grid-template-columns: 1fr 1.6fr; gap: 20px; }
+    .s04 .idx { margin-bottom: 20px; }
+    .s04 .facts { margin-top: 40px; }
+    .s04 .areas { grid-template-columns: 1fr; row-gap: 48px; }
+    .s04 .cap { grid-column: 3 / -1; }
+    .s04 .legend { grid-column: 1 / -1; justify-content: flex-start; margin-top: 10px; }
+    .s04 .legend i:first-child { margin-left: 0; }
+  }
+  @media (max-width: 640px) {
+    .s04 .top { row-gap: 12px; }
+    .s04 .brand, .s04 .top nav { grid-column: 1 / -1; }
+    .s04 .top nav { justify-content: space-between; }
+    .s04 .hero-aside { grid-template-columns: 1fr; }
+    .s04 .cap { grid-column: 1 / -1; margin-top: 6px; }
+    .s04 figcaption > .mono:first-child { grid-column: 1 / -1; }
+    .s04 .hud .tr, .s04 .hud .bl { display: none; }
+    .s04 .row.head { display: none; }
+    .s04 .row > :nth-child(n) { grid-column: 1 / -1; }
+    .s04 .row { row-gap: 8px; }
+    .s04 .row .arrow { position: absolute; right: 0; }
+    .s04 .row { position: relative; }
+    .s04 .notes time, .s04 .note, .s04 .pills { grid-column: 1 / -1; }
+    .s04 .pills { justify-content: flex-start; margin-top: 14px; }
+    .s04 .note { margin-top: 8px; }
+    .s04 .links .name { grid-column: 1 / span 10; }
+    .s04 .links .mono { grid-column: 1 / span 10; grid-row: 2; margin-top: 6px; }
+    .s04 .links .arrow { grid-row: 1; }
+    .s04 .foot { row-gap: 8px; }
+    .s04 .foot > :nth-child(n) { grid-column: 1 / -1; justify-self: start; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .s04.js [data-r], .s04.js h1 .ln > span { opacity: 1; transform: none; transition: none; }
+  }
+</style>

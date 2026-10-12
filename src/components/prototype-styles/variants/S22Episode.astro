@@ -1,0 +1,846 @@
+---
+// PROTOTYPE 22 Episode: the page is one continuous simulated episode. Scrolling moves time and the camera.
+import { profile, areas, experience, notes, formatDate } from '../content';
+
+const year = new Date().getFullYear();
+const host = (href: string) => href.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+const nav = [
+  { id: 's22-research', label: 'Research' },
+  { id: 's22-about', label: 'About' },
+  { id: 's22-work', label: 'Experience' },
+  { id: 's22-notes', label: 'Notes' },
+  { id: 's22-contact', label: 'Contact' },
+];
+---
+<div class="s22" data-theme="light">
+  <script is:inline>
+    {
+      const root = document.querySelector('.s22');
+      try { if (root && localStorage.getItem('proto-theme') === 'dark') root.dataset.theme = 'dark'; } catch (e) {}
+    }
+  </script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" />
+
+  <header class="nav">
+    <div class="nav-in">
+      <a class="brand" href="#s22-hero">{profile.name}</a>
+      <nav aria-label="Primary">
+        {nav.map(n => <a href={`#${n.id}`}>{n.label}</a>)}
+      </nav>
+      <button class="theme mono" type="button" aria-pressed="false" aria-label="Dark mode">
+        <svg class="sun" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3" /><path d="M8 1.5v1.5M8 13v1.5M1.5 8H3M13 8h1.5M3.4 3.4l1 1M11.6 11.6l1 1M3.4 12.6l1-1M11.6 4.4l1-1" /></svg>
+        <svg class="moon" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.3 9.8A5.6 5.6 0 0 1 6.2 2.7a5.6 5.6 0 1 0 7.1 7.1z" /></svg>
+        <span class="theme-label">Light</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="frame">
+    <main class="content">
+      <section class="hero" id="s22-hero" aria-labelledby="s22-name">
+        <div class="hero-text">
+          <p class="kicker mono" data-r><span class="dot"></span>Robot learning · {profile.location}</p>
+          <h1 id="s22-name" data-r><span>{profile.firstName}</span> <span>{profile.lastName}</span></h1>
+          <p class="role" data-r>{profile.role} at <a href={profile.companyHref} target="_blank" rel="noopener">{profile.company}</a></p>
+          <p class="tagline" data-r>{profile.tagline}</p>
+          <p class="hint mono" data-r>
+            <span class="desk">Push the robot with your cursor. Scroll to run the episode.</span>
+            <span class="mob">Tap the robot to push it. Scroll to run the episode.</span>
+          </p>
+        </div>
+        <div class="slot" aria-hidden="true"></div>
+      </section>
+
+      <section class="sec" id="s22-research" aria-labelledby="s22-research-h">
+        <p class="label mono" data-r><span class="idx">01</span>Research</p>
+        <h2 id="s22-research-h" data-r>Robots that build their skills from experience.</h2>
+        <ol class="areas">
+          {areas.map((a, i) => (
+            <li class="area" data-r>
+              <span class="n mono">0{i + 1}</span>
+              <div>
+                <h3>{a.title}</h3>
+                <p>{a.summary}</p>
+                <ul class="kw mono">{a.keywords.map(k => <li>{k}</li>)}</ul>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="sec" id="s22-about" aria-labelledby="s22-about-h">
+        <p class="label mono" data-r><span class="idx">02</span>About</p>
+        <h2 id="s22-about-h" data-r>Learning, adapting, deciding.</h2>
+        <p class="lead" data-r>{profile.bio[0]}</p>
+        <p class="bio" data-r>{profile.bio[1]}</p>
+        <dl class="facts" data-r>
+          <div><dt class="mono">Based in</dt><dd>{profile.location}</dd></div>
+          <div><dt class="mono">From</dt><dd>{profile.origin}</dd></div>
+          <div><dt class="mono">Now</dt><dd>{profile.robot}, {profile.company}</dd></div>
+        </dl>
+      </section>
+
+      <section class="sec" id="s22-work" aria-labelledby="s22-work-h">
+        <p class="label mono" data-r><span class="idx">03</span>Experience</p>
+        <h2 id="s22-work-h" data-r>From simulation to the real robot.</h2>
+        <ol class="timeline">
+          {experience.map(e => (
+            <li class="job" data-r>
+              <p class="when mono">{e.period}</p>
+              <span class="node" aria-hidden="true"></span>
+              <div>
+                <h3>{e.title}</h3>
+                <p class="org"><a href={e.href} target="_blank" rel="noopener">{e.org}</a><span>{e.place}</span></p>
+                <p class="sum">{e.summary}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="sec" id="s22-notes" aria-labelledby="s22-notes-h">
+        <p class="label mono" data-r><span class="idx">04</span>Notes</p>
+        <h2 id="s22-notes-h" data-r>Notes from the lab.</h2>
+        <ol class="notes">
+          {notes.map(n => (
+            <li class="note" data-r>
+              <time class="mono" datetime={n.date.toISOString()}>{formatDate(n.date)}</time>
+              <div>
+                <h3>{n.title}</h3>
+                <p>{n.description}</p>
+                {n.tags && <ul class="tags mono">{n.tags.map(t => <li>{t}</li>)}</ul>}
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="sec contact" id="s22-contact" aria-labelledby="s22-contact-h">
+        <p class="label mono" data-r><span class="idx">05</span>Contact</p>
+        <h2 id="s22-contact-h" data-r>Let's talk about robots that learn.</h2>
+        <ul class="links" data-r>
+          {profile.links.map(l => (
+            <li><a href={l.href} target="_blank" rel="noopener"><span>{l.label}</span><span class="host mono">{host(l.href)}</span></a></li>
+          ))}
+        </ul>
+      </section>
+
+      <footer class="foot mono">
+        <span>© {year} {profile.name}</span>
+        <span>{profile.location}</span>
+      </footer>
+    </main>
+
+    <aside class="rail" aria-hidden="true">
+      <div class="stage"><canvas></canvas></div>
+    </aside>
+  </div>
+</div>
+
+<script>
+  import { pose, blend, project, BONES, BOX_SIZE, BALL_RADIUS, HEAD_RADIUS, type Frame, type Vec3, type Camera, type Skill, type JointName } from '../humanoid';
+
+  const root = document.querySelector<HTMLElement>('.s22');
+  if (root) {
+    type V = number[];
+    type Prim = { z: number; draw: () => void };
+    const { sin, cos, PI, min, max, abs, hypot, atan2, acos, exp, floor, ceil, round, sqrt } = Math;
+    const add = (a: V, b: V): V => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
+    const sub = (a: V, b: V): V => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+    const mul = (a: V, s: number): V => [a[0] * s, a[1] * s, a[2] * s];
+    const dot = (a: V, b: V) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+    const cross = (a: V, b: V): V => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+    const len = (a: V) => sqrt(dot(a, a));
+    const norm = (a: V) => mul(a, 1 / (len(a) || 1));
+    const mix = (a: V, b: V, w: number) => a.map((v, i) => v + (b[i] - v) * w);
+    const lerp = (a: number, b: number, w: number) => a + (b - a) * w;
+    const clamp = (x: number, a: number, b: number) => min(b, max(a, x));
+    const smooth = (a: number, b: number, x: number) => { const u = clamp((x - a) / (b - a), 0, 1); return u * u * (3 - 2 * u); };
+    const perp = (n: V) => norm(cross(n, abs(n[1]) < 0.9 ? [0, 1, 0] : [1, 0, 0]));
+
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const mq = matchMedia('(max-width: 860px)');
+    const stage = root.querySelector<HTMLElement>('.stage')!;
+    const canvas = stage.querySelector('canvas')!;
+    const ctx = canvas.getContext('2d')!;
+    const slot = root.querySelector<HTMLElement>('.slot')!;
+    const timeline = root.querySelector<HTMLElement>('.timeline')!;
+    const secs = ['hero', 'research', 'about', 'work', 'notes', 'contact'].map(id => root.querySelector<HTMLElement>(`#s22-${id}`)!);
+
+    // Theme: light by default, colours come from the CSS variables.
+    const C = { bg: '', ink: '', muted: '', line: '', accent: '', visor: '' };
+    const readColors = () => { const cs = getComputedStyle(root); (Object.keys(C) as (keyof typeof C)[]).forEach(k => (C[k] = cs.getPropertyValue(`--${k}`).trim())); };
+    const btn = root.querySelector<HTMLButtonElement>('.theme')!;
+    const themeLabel = root.querySelector<HTMLElement>('.theme-label')!;
+    const setTheme = (dark: boolean) => {
+      root.dataset.theme = dark ? 'dark' : 'light';
+      btn.setAttribute('aria-pressed', String(dark));
+      themeLabel.textContent = dark ? 'Dark' : 'Light';
+      readColors();
+      schedule();
+    };
+    btn.addEventListener('click', () => {
+      const dark = root.dataset.theme !== 'dark';
+      setTheme(dark);
+      try { localStorage.setItem('proto-theme', dark ? 'dark' : 'light'); } catch {}
+    });
+    const rgba = (hex: string, a: number) => {
+      const n = parseInt(hex.replace('#', ''), 16);
+      return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
+    };
+
+    // Reveals.
+    root.classList.add('js');
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -6% 0px' });
+    root.querySelectorAll('[data-r]').forEach(el => io.observe(el));
+
+    // The episode: one station per section, each a skill and a camera; scroll blends between neighbours.
+    const STATIONS: { skill: Skill | 'research'; label: string; cam: Camera }[] = [
+      { skill: 'stand', label: 'stand', cam: { yaw: 0.62, pitch: 0.3, dist: 5.4, target: [0, 0.8, 0] } },
+      { skill: 'research', label: 'carry', cam: { yaw: 1.08, pitch: 0.2, dist: 4.4, target: [0.15, 0.74, 0] } },
+      { skill: 'balance', label: 'balance', cam: { yaw: 0.15, pitch: 0.26, dist: 4.8, target: [0, 0.8, -0.05] } },
+      { skill: 'push', label: 'recover', cam: { yaw: 0.34, pitch: 0.3, dist: 5.1, target: [0, 0.78, 0] } },
+      { skill: 'kick', label: 'kick', cam: { yaw: 0.95, pitch: 0.32, dist: 5.6, target: [0.45, 0.62, -0.35] } },
+      { skill: 'stand', label: 'stand', cam: { yaw: 0.72, pitch: 0.42, dist: 7.4, target: [0, 0.72, 0] } },
+    ];
+    const LAST = STATIONS.length - 1;
+    const REP = [0, 0, 2.3, 1.62, 3.0, 0];
+    const clocks = STATIONS.map(() => 0);
+    let active = new Set<number>();
+
+    // Research: walk until a box on the floor arrives, lift it, carry it, put it down, walk on.
+    const BOX_X = 0.42, LIFT_UP = 2.8, CARRY = 5, PLACE = 2.5, BL = 0.5;
+    const R = { seg: 0, t: 0, prev: -1, prevT: 0, box: 2, approach: true };
+    const resetResearch = () => Object.assign(R, { seg: reduced ? 2 : 0, t: 0, prev: -1, prevT: 0, box: 2, approach: true });
+    const boxAlpha = (x: number) => smooth(-1.6, -0.9, x) * (1 - smooth(1.9, 2.6, x));
+    function segFrame(seg: number, t: number, P?: Vec3): Frame {
+      if (seg === 1) return pose('lift', 0.8 + min(t, LIFT_UP), { perturb: P });
+      if (seg === 2) return pose('carry', T, { perturb: P });
+      if (seg === 3) return pose('lift', 5.7 + min(t, PLACE), { perturb: P });
+      const f = pose('walk', T, { perturb: P });
+      f.box = { center: [R.box, BOX_SIZE[1] / 2, 0], size: [...BOX_SIZE], yaw: 0, alpha: boxAlpha(R.box) };
+      return f;
+    }
+    const researchFrame = (P?: Vec3) => {
+      const f = segFrame(R.seg, R.t, P);
+      return R.prev >= 0 && R.t < BL ? blend(segFrame(R.prev, R.prevT + R.t, P), f, smooth(0, BL, R.t)) : f;
+    };
+    function stepResearch(dt: number, speed: number) {
+      R.t += dt;
+      if (R.seg === 0 || (R.prev === 0 && R.t < BL)) R.box -= speed * dt;
+      const next = (s: number) => Object.assign(R, { prev: R.seg, prevT: R.t, seg: s, t: 0 });
+      if (R.seg === 0) {
+        if (R.box < -1.6) Object.assign(R, { box: 2.6, approach: true });
+        if (R.approach && R.box - BOX_X <= 0.2) next(1);
+      } else if (R.seg === 1 && R.t >= LIFT_UP) next(2);
+      else if (R.seg === 2 && R.t >= CARRY) next(3);
+      else if (R.seg === 3 && R.t >= PLACE) { next(0); Object.assign(R, { box: BOX_X, approach: false }); }
+    }
+    const stationFrame = (k: number, P?: Vec3) => {
+      const s = STATIONS[k].skill;
+      return s === 'research' ? researchFrame(P) : pose(s, clocks[k], { perturb: P });
+    };
+    const camOf = (k: number): Camera => {
+      const c = STATIONS[k].cam;
+      return k === 2 && !reduced ? { ...c, yaw: c.yaw + 0.55 * sin(T * 0.13) } : c;
+    };
+
+    // Parallel rollouts around the robot in the hero, placed behind it as seen from the hero camera.
+    const gy = STATIONS[0].cam.yaw, gBack = [-cos(gy), 0, -sin(gy)], gSide = [-sin(gy), 0, cos(gy)];
+    const GHOSTS = [[-1.15, 0.7], [1.15, 0.7], [-0.75, 2.1], [0.75, 2.1]].map(([s, b]) => add(mul(gSide, s), mul(gBack, b)));
+
+    // Render state.
+    let cw = 0, ch = 0, dpr = 1, T = 0, last = 0, raf = 0;
+    let ps = -1, real = -1, floorX = 0, lastSpeed = 0, lastY = scrollY, sv = 0;
+    let cam: Camera = STATIONS[0].cam, eye: V = [0, 0, 0], focal = 1, rect = { x: 0, y: 0, w: 1, h: 1 };
+    const Pv: V = [0, 0, 0], PVel: V = [0, 0, 0];
+    let arrowA = 0, arrowDir: V = [0, 0, 1];
+    let ballRoll = 0, ballPrev: V | null = null, ballDir: V = [1, 0, 0];
+    let capText = '', capA = 0;
+    let torso = { a: [0, 0], b: [0, 1] };
+
+    const P3 = (p: V) => { const q = project(p as Vec3, cam, rect.w, rect.h); return [q[0] + rect.x, q[1] + rect.y, q[2]]; };
+    const px = (r: number, z: number) => (r * focal) / z;
+    const facing = (n: V, p: V) => dot(n, sub(eye, p)) > 0;
+    const pen = (color: string, a: number, w = 1) => { ctx.strokeStyle = color; ctx.globalAlpha = a; ctx.lineWidth = w; };
+    const fillStroke = (color = C.ink, a = 1) => { ctx.globalAlpha = a; ctx.fillStyle = C.bg; ctx.fill(); pen(color, 0.85 * a); ctx.stroke(); };
+    const poly = (pts: V[]) => { ctx.beginPath(); pts.forEach((s, i) => (i ? ctx.lineTo(s[0], s[1]) : ctx.moveTo(s[0], s[1]))); ctx.closePath(); };
+
+    function stadium(g: CanvasPath, a: V, b: V, ra: number, rb: number) {
+      const dx = b[0] - a[0], dy = b[1] - a[1], L = hypot(dx, dy);
+      if (L <= abs(ra - rb) + 0.01) {
+        const [c, r] = ra > rb ? [a, ra] : [b, rb];
+        g.moveTo(c[0] + r, c[1]);
+        g.arc(c[0], c[1], r, 0, 2 * PI);
+        return;
+      }
+      const th = atan2(dy, dx), al = acos(clamp((ra - rb) / L, -1, 1));
+      g.moveTo(a[0] + ra * cos(th + al), a[1] + ra * sin(th + al));
+      g.arc(a[0], a[1], ra, th + al, th + 2 * PI - al);
+      g.arc(b[0], b[1], rb, th - al, th + al);
+      g.closePath();
+    }
+
+    // Front half of a ring of radius r around axis n.
+    function ring(c: V, n: V, r: number, a: number, color = C.ink) {
+      const u = perp(n), v = cross(n, u);
+      let down = false;
+      ctx.beginPath();
+      for (let k = 0; k <= 24; k++) {
+        const ph = (k / 24) * 2 * PI, d = add(mul(u, cos(ph)), mul(v, sin(ph))), q = add(c, mul(d, r));
+        if (!facing(d, q)) { down = false; continue; }
+        const s = P3(q);
+        down ? ctx.lineTo(s[0], s[1]) : ctx.moveTo(s[0], s[1]);
+        down = true;
+      }
+      pen(color, a, 0.7);
+      ctx.stroke();
+    }
+
+    function capsule(prims: Prim[], A: V, B: V, r: number, rings: boolean) {
+      const pa = P3(A), pb = P3(B);
+      prims.push({ z: (pa[2] + pb[2]) / 2, draw: () => {
+        ctx.beginPath();
+        stadium(ctx, pa, pb, px(r, pa[2]), px(r, pb[2]));
+        fillStroke();
+        if (!rings) return;
+        const n = norm(sub(B, A)), k = max(1, round(len(sub(B, A)) / 0.1));
+        for (let j = 1; j <= k; j++) ring(mix(A, B, j / (k + 1)), n, r, 0.28);
+      } });
+    }
+
+    function sphere(prims: Prim[], c: V, r: number, color?: string, a = 1, extra?: () => void) {
+      const p = P3(c);
+      prims.push({ z: p[2], draw: () => {
+        ctx.beginPath();
+        ctx.arc(p[0], p[1], px(r, p[2]), 0, 2 * PI);
+        fillStroke(color, a);
+        extra?.();
+      } });
+    }
+
+    function disc(prims: Prim[], c: V, n: V, r: number) {
+      const p = P3(c), u = perp(n), v = cross(n, u);
+      const circle = (rr: number) => poly(Array.from({ length: 20 }, (_, k) => { const ph = (k / 20) * 2 * PI; return P3(add(c, add(mul(u, rr * cos(ph)), mul(v, rr * sin(ph))))); }));
+      prims.push({ z: p[2], draw: () => {
+        circle(r);
+        fillStroke();
+        circle(r * 0.42);
+        pen(C.ink, 0.4, 0.7);
+        ctx.stroke();
+      } });
+    }
+
+    function box(prims: Prim[], c: V, ax: V[], h: number[], color?: string, a = 1, panel = false) {
+      const p = P3(c);
+      prims.push({ z: p[2], draw: () => {
+        for (let i = 0; i < 3; i++) for (const s of [1, -1]) {
+          const n = mul(ax[i], s), fc = add(c, mul(n, h[i]));
+          if (!facing(n, fc)) continue;
+          const j = (i + 1) % 3, k = (i + 2) % 3;
+          const quad = (m: number) => poly([[1, 1], [1, -1], [-1, -1], [-1, 1]].map(([x, y]) => P3(add(fc, add(mul(ax[j], x * h[j] * m), mul(ax[k], y * h[k] * m))))));
+          quad(1);
+          fillStroke(color, a);
+          if (panel && i === 0 && s === 1) { quad(0.6); pen(color ?? C.ink, 0.32 * a, 0.7); ctx.stroke(); }
+        }
+      } });
+    }
+
+    function head(prims: Prim[], H: V, up: V, fwd: V, detail: boolean) {
+      const lat = cross(fwd, up), r = HEAD_RADIUS * 1.08;
+      const at = (az: number, el: number) => add(H, mul(add(add(mul(fwd, cos(el) * cos(az)), mul(up, sin(el))), mul(lat, cos(el) * sin(az))), r));
+      sphere(prims, H, r, undefined, 1, () => {
+        if (detail) ring(H, up, r, 0.28);
+        ctx.fillStyle = C.visor;
+        pen(C.visor, 1, 0.6);
+        const N = 10, A0 = -0.95, A1 = 0.95, E0 = -0.22, E1 = 0.3;
+        for (let i = 0; i < N; i++) for (let e = 0; e < 2; e++) {
+          const a0 = lerp(A0, A1, i / N), a1 = lerp(A0, A1, (i + 1) / N), e0 = lerp(E0, E1, e / 2), e1 = lerp(E0, E1, (e + 1) / 2);
+          const mid = at((a0 + a1) / 2, (e0 + e1) / 2);
+          if (!facing(sub(mid, H), mid)) continue;
+          poly([at(a0, e0), at(a1, e0), at(a1, e1), at(a0, e1)].map(P3));
+          ctx.fill();
+          ctx.stroke();
+        }
+        ctx.beginPath();
+        let down = false;
+        for (let k = 0; k <= 8; k++) {
+          const q = at(lerp(-0.7, 0.15, k / 8), 0.17);
+          if (!facing(sub(q, H), q)) { down = false; continue; }
+          const s = P3(q);
+          down ? ctx.lineTo(s[0], s[1]) : ctx.moveTo(s[0], s[1]);
+          down = true;
+        }
+        pen(C.bg, 0.5, 1);
+        ctx.stroke();
+      });
+    }
+
+    function robot(f: Frame, prims: Prim[], detail: boolean) {
+      const J = f.joints as Record<JointName, V>;
+      const upC = norm(sub(J.neck, J.chest)), fwdC = norm(cross(upC, sub(J.rShoulder, J.lShoulder))), latC = cross(fwdC, upC);
+      const upP = norm(sub(J.chest, J.pelvis)), fwdP = norm(cross(upP, sub(J.rHip, J.lHip))), latP = cross(fwdP, upP);
+      box(prims, add(J.chest, mul(upC, 0.09)), [fwdC, upC, latC], [0.1, 0.135, 0.172], undefined, 1, detail);
+      box(prims, add(J.pelvis, mul(upP, 0.02)), [fwdP, upP, latP], [0.085, 0.065, 0.125]);
+      capsule(prims, add(J.pelvis, mul(upP, 0.07)), sub(J.chest, mul(upC, 0.03)), 0.06, detail);
+      const hUp = norm(sub(J.head, J.neck));
+      capsule(prims, J.neck, sub(J.head, mul(hUp, 0.08)), 0.032, false);
+      head(prims, J.head, hUp, norm(sub(fwdC, mul(hUp, dot(fwdC, hUp)))), detail);
+      for (const [l, s] of [['l', -1], ['r', 1]] as const) {
+        const j = (n: string) => J[`${l}${n}` as JointName];
+        const sh = j('Shoulder'), el = j('Elbow'), ha = j('Hand'), hip = j('Hip'), kn = j('Knee'), an = j('Ankle'), to = j('Toe');
+        disc(prims, add(sh, mul(latC, s * 0.035)), latC, 0.062);
+        capsule(prims, sh, el, 0.045, detail);
+        capsule(prims, el, ha, 0.037, detail);
+        sphere(prims, ha, 0.042);
+        const eAx = cross(sub(el, sh), sub(ha, el));
+        if (detail) disc(prims, add(el, mul(latC, s * 0.03)), len(eAx) > 1e-3 ? norm(eAx) : latC, 0.048);
+        disc(prims, add(hip, mul(latP, s * 0.035)), latP, 0.066);
+        capsule(prims, hip, kn, 0.06, detail);
+        capsule(prims, kn, an, 0.048, detail);
+        const kAx = cross(sub(kn, hip), sub(an, kn));
+        disc(prims, add(kn, mul(latP, s * 0.035)), len(kAx) > 1e-3 ? norm(kAx) : latP, 0.056);
+        const fd = norm(sub(to, an)), lat = norm(cross(fd, [0, 1, 0])), up0 = cross(lat, fd);
+        const fwd = add(mul(fd, cos(0.29)), mul(up0, sin(0.29))), up = cross(lat, fwd);
+        box(prims, add(an, add(mul(fwd, 0.05), mul(up, -0.047))), [fwd, up, lat], [0.12, 0.023, 0.045]);
+      }
+    }
+
+    function ghost(f: Frame, off: V, a: number) {
+      const path = new Path2D(), J = f.joints;
+      for (const [x, y, r] of BONES) {
+        const pa = P3(add(J[x], off)), pb = P3(add(J[y], off));
+        stadium(path, pa, pb, px(r, pa[2]), px(r, pb[2]));
+      }
+      const ph = P3(add(J.head, off)), hr = px(HEAD_RADIUS, ph[2]);
+      path.moveTo(ph[0] + hr, ph[1]);
+      path.arc(ph[0], ph[1], hr, 0, 2 * PI);
+      pen(C.ink, a, 0.7);
+      ctx.stroke(path);
+    }
+
+    // Edge fade so the floor and rollouts dissolve inside the stage instead of being clipped.
+    const edge = (x: number, y: number) =>
+      smooth(rect.x, rect.x + rect.w * 0.18, x) * (1 - smooth(rect.x + rect.w * 0.82, rect.x + rect.w, x)) *
+      smooth(rect.y + rect.h * 0.05, rect.y + rect.h * 0.3, y) * (1 - smooth(rect.y + rect.h * 0.88, rect.y + rect.h * 1.04, y));
+
+    function floorGrid(c: V, realness: number, simple: number) {
+      const Rr = lerp(2.2, 2.6, realness) * (1 - 0.4 * simple), step = 0.25, off = ((floorX % 1) + 1) % 1, LV = 12, TOP = 0.36;
+      const minorA = 0.2 * (1 - realness), majorA = lerp(0.34, 0.15, realness) * (1 - 0.7 * simple);
+      const paths = [Array.from({ length: LV }, () => new Path2D()), Array.from({ length: LV }, () => new Path2D())];
+      const seg = (a: V, b: V, major: boolean) => {
+        const d = hypot((a[0] + b[0]) / 2 - c[0], (a[2] + b[2]) / 2 - c[2]);
+        if (d > Rr) return;
+        const pa = P3(a), pb = P3(b);
+        const al = (major ? majorA : minorA) * (1 - smooth(Rr * 0.2, Rr, d)) * edge((pa[0] + pb[0]) / 2, (pa[1] + pb[1]) / 2);
+        const lv = min(LV - 1, round((al / TOP) * LV));
+        if (lv < 1) return;
+        const p = paths[major ? 1 : 0][lv];
+        p.moveTo(pa[0], pa[1]);
+        p.lineTo(pb[0], pb[1]);
+      };
+      const z0 = floor((c[2] - Rr) / step) * step, x0 = floor((c[0] - Rr + off) / step) * step - off;
+      for (let k = ceil((c[0] - Rr + off) / step); k * step - off <= c[0] + Rr; k++) {
+        const x = k * step - off, major = ((k % 4) + 4) % 4 === 0;
+        if (!major && minorA < 0.005) continue;
+        for (let z = z0; z < c[2] + Rr; z += step) seg([x, 0, z], [x, 0, z + step], major);
+      }
+      for (let k = ceil((c[2] - Rr) / step); k * step <= c[2] + Rr; k++) {
+        const z = k * step, major = ((k % 4) + 4) % 4 === 0;
+        if (!major && minorA < 0.005) continue;
+        for (let x = x0; x < c[0] + Rr; x += step) seg([x, 0, z], [x + step, 0, z], major);
+      }
+      ctx.strokeStyle = C.ink;
+      paths.forEach((set, major) => set.forEach((p, lv) => {
+        if (!lv) return;
+        ctx.globalAlpha = (lv / LV) * TOP;
+        ctx.lineWidth = major ? 0.9 : 0.6;
+        ctx.stroke(p);
+      }));
+    }
+
+    // Soft ellipse on the floor, as a radial gradient squashed by the view pitch.
+    function softSpot(c: V, r: number, a: number) {
+      const p = P3([c[0], 0, c[2]]), rx = px(r, p[2]), ry = rx * max(0.15, sin(cam.pitch) * 1.1);
+      ctx.save();
+      ctx.translate(p[0], p[1]);
+      ctx.scale(1, ry / rx);
+      const g = ctx.createRadialGradient(0, 0, 0, 0, 0, rx);
+      g.addColorStop(0, rgba(C.ink, a));
+      g.addColorStop(0.55, rgba(C.ink, a * 0.45));
+      g.addColorStop(1, rgba(C.ink, 0));
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(0, 0, rx, 0, 2 * PI);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function arrow(at: V, dir: V, a: number, length = 0.5) {
+      if (a < 0.02) return;
+      const p0 = P3(sub(at, mul(dir, length))), p1 = P3(at), dx = p1[0] - p0[0], dy = p1[1] - p0[1], L = hypot(dx, dy);
+      if (L < 8) return;
+      const ux = dx / L, uy = dy / L, hl = min(7, L * 0.3);
+      ctx.beginPath();
+      ctx.moveTo(p0[0], p0[1]);
+      ctx.lineTo(p1[0], p1[1]);
+      ctx.moveTo(p1[0] - ux * hl - uy * hl * 0.5, p1[1] - uy * hl + ux * hl * 0.5);
+      ctx.lineTo(p1[0], p1[1]);
+      ctx.lineTo(p1[0] - ux * hl + uy * hl * 0.5, p1[1] - uy * hl - ux * hl * 0.5);
+      pen(C.accent, a, 1);
+      ctx.stroke();
+    }
+
+    function hud(label: string, la: number, progress: number, mobile: boolean) {
+      const yy = round(mobile ? ch - 13 : rect.y + rect.h + 22) + 0.5;
+      const x0 = mobile ? 14 : rect.x + rect.w * 0.1, x1 = mobile ? cw - 14 : rect.x + rect.w * 0.9, t0 = x0 + 74;
+      ctx.font = '500 10px "IBM Plex Mono", ui-monospace, monospace';
+      (ctx as any).letterSpacing = '1.2px';
+      ctx.textBaseline = 'middle';
+      ctx.globalAlpha = la;
+      ctx.fillStyle = C.muted;
+      ctx.fillText(label.toUpperCase(), x0, yy);
+      const xp = lerp(t0, x1, progress);
+      ctx.beginPath(); ctx.moveTo(t0, yy); ctx.lineTo(x1, yy); pen(C.line, 1); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(t0, yy); ctx.lineTo(xp, yy); pen(C.ink, 0.4); ctx.stroke();
+      ctx.beginPath();
+      for (let k = 0; k <= LAST; k++) { const x = round(lerp(t0, x1, k / LAST)) + 0.5; ctx.moveTo(x, yy - 2.5); ctx.lineTo(x, yy + 2.5); }
+      pen(C.muted, 0.55); ctx.stroke();
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = C.accent;
+      ctx.beginPath(); ctx.arc(xp, yy, 2.4, 0, 2 * PI); ctx.fill();
+    }
+
+    function fit(w: number, h: number) {
+      const d = min(devicePixelRatio || 1, 2);
+      if (w === cw && h === ch && d === dpr) return;
+      cw = w; ch = h; dpr = d;
+      canvas.width = round(w * d);
+      canvas.height = round(h * d);
+    }
+
+    function tick(now: number) {
+      raf = 0;
+      const dt = reduced ? 0 : last ? min(0.05, (now - last) / 1000) : 1 / 60;
+      last = now;
+      T += dt;
+      const vh = innerHeight, y = scrollY, mobile = mq.matches;
+      root!.classList.toggle('scrolled', y > 8);
+
+      // Layout reads first.
+      const maxScroll = max(1, document.documentElement.scrollHeight - vh);
+      const anchors = secs.map((s, k) => { if (!k) return 0; const r = s.getBoundingClientRect(); return clamp(r.top + y + r.height / 2 - vh / 2, 0, maxScroll); });
+      for (let k = 1; k < anchors.length; k++) anchors[k] = max(anchors[k], anchors[k - 1] + 1);
+      const tr = timeline.getBoundingClientRect(), sr = slot.getBoundingClientRect(), stR = stage.getBoundingClientRect();
+
+      let pt = LAST;
+      for (let k = 0; k < LAST; k++) if (y < anchors[k + 1]) { pt = k + max(0, y - anchors[k]) / (anchors[k + 1] - anchors[k]); break; }
+      const rt = clamp((vh * 0.62 - tr.top) / max(1, tr.height), 0, 1);
+      if (reduced) { ps = round(pt); real = round(rt); }
+      else if (ps < 0) { ps = pt; real = rt; }
+      else { ps += (pt - ps) * (1 - exp(-dt * 7)); real += (rt - real) * (1 - exp(-dt * 5)); }
+      if (dt > 0) sv += ((y - lastY) / dt - sv) * (1 - exp(-dt * 6));
+      lastY = y;
+
+      // Stage geometry: sticky right column on desktop, a bottom dock that grows out of the hero slot on mobile.
+      let visTop = 0, dock = 0;
+      if (mobile) {
+        const maxH = round(min(vh * 0.38, 340)), bottom = vh - 12, DOCK = 96;
+        const h = clamp(maxH + sr.bottom - bottom, DOCK, maxH);
+        stage.style.height = `${h}px`;
+        canvas.style.height = `${maxH}px`;
+        fit(round(stR.width), maxH);
+        visTop = maxH - h;
+        dock = clamp(1 - (h - DOCK) / (maxH - DOCK), 0, 1);
+      } else {
+        if (stage.style.height) { stage.style.height = ''; canvas.style.height = ''; }
+        fit(round(stR.width), round(stR.height));
+      }
+
+      const i = min(floor(ps), LAST - 1), u = clamp(ps - i, 0, 1), w = smooth(0.2, 0.8, u), ue = smooth(0, 1, u);
+      const now2 = new Set([i, i + 1]);
+      for (const k of now2) if (!active.has(k)) { clocks[k] = reduced ? REP[k] : 0; if (STATIONS[k].skill === 'research') resetResearch(); }
+      active = now2;
+      for (const k of active) clocks[k] += dt;
+      if (active.has(1)) stepResearch(dt, lastSpeed);
+
+      const feat = reduced ? 1 : 1 - smooth(0.12, 0.42, abs(ps - round(ps)));
+      if (mobile) rect = { x: 0, y: visTop + 4, w: cw, h: ch - visTop - 30 };
+      else {
+        const SW = min(cw, 620), SH = min(520, vh * 0.6, ch - 96), sc = lerp(0.62, 1, feat);
+        rect = { w: SW * sc, h: SH * sc, x: (cw - SW * sc) / 2, y: ch * 0.47 - (SH * sc) / 2 };
+      }
+      const ca = camOf(i), cb = camOf(i + 1);
+      const distMul = mobile ? lerp(1.04, 0.96, feat) * lerp(1, 0.6, dock) : lerp(1.12, 0.96, feat);
+      cam = {
+        yaw: lerp(ca.yaw, cb.yaw, ue), pitch: lerp(ca.pitch, cb.pitch, ue) - 0.08 * dock,
+        dist: lerp(ca.dist, cb.dist, ue) * distMul, target: mix(ca.target, cb.target, ue) as Vec3, fov: 0.6,
+      };
+      focal = rect.h / 2 / Math.tan(0.3);
+      const cp = cos(cam.pitch);
+      eye = add(cam.target, mul([cp * cos(cam.yaw), sin(cam.pitch), cp * sin(cam.yaw)], cam.dist));
+
+      // Pushes: a damped spring on the perturbation, fed by the cursor and by scroll velocity.
+      const toward = [cos(cam.yaw), 0, sin(cam.yaw)], svF = clamp(sv / 2500, -1, 1) * 2.2;
+      for (const a of [0, 2]) {
+        PVel[a] += (-36 * Pv[a] - 6.5 * PVel[a] + toward[a] * svF) * dt;
+        Pv[a] += PVel[a] * dt;
+      }
+      arrowA *= exp(-dt * 2.5);
+      const P = hypot(Pv[0], Pv[2]) > 1e-4 ? (Pv as Vec3) : undefined;
+
+      const frame = w <= 0 ? stationFrame(i, P) : w >= 1 ? stationFrame(i + 1, P) : blend(stationFrame(i, P), stationFrame(i + 1, P), w);
+      lastSpeed = frame.speed;
+      floorX += lastSpeed * dt;
+      const J = frame.joints;
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, cw, ch);
+      const simple = smooth(4.2, 5, ps), base = [J.pelvis[0], 0, J.pelvis[2]];
+      if (real > 0.01) softSpot(base, 1.9, 0.035 * real * (1 - simple));
+      floorGrid(base, real, simple);
+      softSpot(mix(base, mix(J.lAnkle, J.rAnkle, 0.5), 0.5), 0.5, lerp(0.07, 0.11, real));
+      for (const an of [J.lAnkle, J.rAnkle]) softSpot(an, 0.16, 0.08 * (1 - smooth(0.08, 0.22, an[1])));
+
+      const g = i === 0 ? 1 - smooth(0.03, 0.32, ps) : 0;
+      if (g > 0.01) GHOSTS.forEach((off, j) => {
+        const k = 0.5 + 0.12 * ((j * 3) % 5), o = mul(off, lerp(0.55, 1, g));
+        const jitter: Vec3 = [Pv[0] * k + 0.05 * sin(T * 0.7 + j), 0, Pv[2] * k + 0.05 * cos(T * 0.9 + j * 1.7)];
+        const sp = P3(add(base, o));
+        ghost(pose('stand', clocks[0] + j * 0.9, { perturb: jitter }), o, 0.11 * g * edge(sp[0], sp[1] - rect.h * 0.2));
+      });
+
+      const detail = focal / cam.dist > 70, prims: Prim[] = [];
+      robot(frame, prims, detail);
+      if (frame.box && (frame.box.alpha ?? 1) > 0.02) {
+        const b = frame.box, yw = b.yaw;
+        box(prims, b.center, [[cos(yw), 0, -sin(yw)], [0, 1, 0], [sin(yw), 0, cos(yw)]], mul(b.size, 0.5), C.accent, b.alpha ?? 1, true);
+      }
+      if (frame.ball) {
+        const b = frame.ball;
+        if (ballPrev) { const mv = sub(b, ballPrev), d = hypot(mv[0], mv[2]); if (d > 1e-4 && d < 0.5) { ballRoll += d / BALL_RADIUS; ballDir = norm([mv[0], 0, mv[2]]); } }
+        ballPrev = [...b];
+        const a = (frame.ballAlpha ?? 1) * (1 - smooth(2.2, 3.4, hypot(b[0] - J.pelvis[0], b[2] - J.pelvis[2])));
+        const axis = norm(cross([0, 1, 0], ballDir)), seam = add(mul([0, 1, 0], cos(ballRoll)), mul(ballDir, sin(ballRoll)));
+        if (a > 0.02) sphere(prims, b, BALL_RADIUS, C.accent, a, () => { ring(b, seam, BALL_RADIUS, 0.55 * a, C.accent); ring(b, axis, BALL_RADIUS, 0.3 * a, C.accent); });
+      } else ballPrev = null;
+      prims.sort((a, b) => b.z - a.z).forEach(p => p.draw());
+
+      if (frame.push) {
+        const { at, dir, strength } = frame.push;
+        arrow(sub(at, mul(dir, 0.1)), dir, strength);
+        for (const dy of [-0.13, 0.13]) arrow(add(sub(at, mul(dir, 0.1)), [0, dy, 0]), dir, strength * 0.4, 0.34);
+      }
+      arrow(sub(J.chest, mul(arrowDir, 0.16)), arrowDir, arrowA);
+
+      const k = w < 0.5 ? i : i + 1;
+      const want = STATIONS[k].skill === 'research' ? ['walk', 'lift', 'carry', 'place'][R.seg] : STATIONS[k].label;
+      if (want !== capText) { capA -= dt * 6; if (capA <= 0 || reduced) capText = want; }
+      else capA = reduced ? 1 : min(1, capA + dt * 4);
+      hud(capText, max(0, capA) * lerp(0.7, 1, feat), ps / LAST, mobile);
+
+      const pa = P3(J.pelvis), ph = P3(J.head);
+      torso = { a: [pa[0], pa[1]], b: [ph[0], ph[1]] };
+      if (!reduced && !document.hidden) schedule();
+    }
+
+    function schedule() { if (!raf) raf = requestAnimationFrame(tick); }
+
+    function pushAt(x: number, y: number, dx: number, dy: number) {
+      if (reduced) return;
+      const [ax, ay] = torso.a, ex = torso.b[0] - ax, ey = torso.b[1] - ay, L2 = ex * ex + ey * ey || 1;
+      const s = clamp(((x - ax) * ex + (y - ay) * ey) / L2, -0.15, 1.15);
+      const wgt = 1 - smooth(0.12, 0.42, hypot(x - ax - ex * s, y - ay - ey * s) / sqrt(L2));
+      if (wgt <= 0) return;
+      const m = cam.dist / focal, right = [sin(cam.yaw), 0, -cos(cam.yaw)], toward = [cos(cam.yaw), 0, sin(cam.yaw)];
+      const imp = add(mul(right, dx * m), mul(toward, dy * m * 0.7)), il = hypot(imp[0], imp[2]);
+      PVel[0] += imp[0] * 4.5 * wgt;
+      PVel[2] += imp[2] * 4.5 * wgt;
+      const vl = hypot(PVel[0], PVel[2]);
+      if (vl > 1.4) { PVel[0] *= 1.4 / vl; PVel[2] *= 1.4 / vl; }
+      if (il > 1e-4) { arrowDir = norm([imp[0], 0, imp[2]]); arrowA = min(1, arrowA + il * 5 * wgt); }
+    }
+    let ptr: number[] | null = null;
+    const local = (e: PointerEvent) => { const r = canvas.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+    canvas.addEventListener('pointermove', e => {
+      const [x, y] = local(e);
+      if (ptr && e.pointerType === 'mouse') pushAt(x, y, x - ptr[0], y - ptr[1]);
+      ptr = [x, y];
+    });
+    canvas.addEventListener('pointerleave', () => (ptr = null));
+    canvas.addEventListener('pointerdown', e => {
+      const [x, y] = local(e), cx = (torso.a[0] + torso.b[0]) / 2, cy = (torso.a[1] + torso.b[1]) / 2, d = hypot(cx - x, cy - y) || 1;
+      pushAt(x, y, ((cx - x) / d) * 26, ((cy - y) / d) * 12);
+    });
+
+    readColors();
+    setTheme(root.dataset.theme === 'dark');
+    addEventListener('scroll', schedule, { passive: true });
+    addEventListener('resize', schedule);
+    document.addEventListener('visibilitychange', () => { last = 0; if (!document.hidden) schedule(); });
+    document.fonts?.ready.then(schedule);
+    schedule();
+  }
+</script>
+
+<style>
+  .s22 {
+    --bg: #fbfbfa;
+    --ink: #1f2737;
+    --body: #556072;
+    --muted: #8a92a0;
+    --line: #e4e6ea;
+    --accent: #2f5fd6;
+    --visor: #2a3448;
+    --sans: 'IBM Plex Sans', system-ui, sans-serif;
+    --mono: 'IBM Plex Mono', ui-monospace, monospace;
+    --ease: cubic-bezier(.2, .7, .2, 1);
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--body);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color .3s, color .3s;
+  }
+  .s22[data-theme="dark"] {
+    --bg: #0f141b;
+    --ink: #e3e7ee;
+    --body: #a2abb9;
+    --muted: #6d7787;
+    --line: #232b36;
+    --accent: #7ea2ff;
+    --visor: #7ea2ff;
+  }
+  .s22 *, .s22 *::before, .s22 *::after { box-sizing: border-box; }
+  .mono { font-family: var(--mono); }
+  a { color: inherit; }
+
+  .nav { position: sticky; top: 0; z-index: 30; background: var(--bg); border-bottom: 1px solid transparent; transition: border-color .3s, background-color .3s; }
+  .s22.scrolled .nav { border-bottom-color: var(--line); }
+  .nav-in { max-width: 1320px; margin: 0 auto; padding: 0 40px; height: 64px; display: flex; align-items: center; gap: 30px; }
+  .brand { margin-right: auto; color: var(--ink); text-decoration: none; font-weight: 500; font-size: 15px; letter-spacing: -.005em; }
+  .nav nav { display: flex; gap: 26px; }
+  .nav nav a { text-decoration: none; font-size: 14px; color: var(--body); transition: color .2s; }
+  .nav nav a:hover { color: var(--ink); }
+  .theme { display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 12px 0 10px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--body); font-size: 10.5px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; transition: border-color .2s, color .2s; }
+  .theme:hover { border-color: var(--accent); color: var(--ink); }
+  .theme svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.3; stroke-linecap: round; }
+  .theme .moon { display: none; }
+  .s22[data-theme="dark"] .theme .sun { display: none; }
+  .s22[data-theme="dark"] .theme .moon { display: block; }
+
+  .frame { max-width: 1320px; margin: 0 auto; padding: 0 40px; display: grid; grid-template-columns: minmax(0, 1fr) 42%; column-gap: 3.5%; }
+  .rail { position: relative; }
+  .stage { position: sticky; top: 64px; height: calc(100vh - 64px); }
+  .stage canvas { display: block; width: 100%; height: 100%; touch-action: pan-y; }
+  .slot { display: none; }
+
+  .hero { min-height: calc(100vh - 64px); display: flex; flex-direction: column; justify-content: center; padding: 40px 0 64px; }
+  .kicker { display: flex; align-items: center; gap: 10px; margin: 0 0 30px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .kicker .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  h1 { margin: 0; font-weight: 300; font-size: clamp(56px, 6.4vw, 94px); line-height: .98; letter-spacing: -.035em; color: var(--ink); }
+  h1 span { display: block; }
+  .role { margin: 34px 0 0; font-size: 17px; color: var(--ink); }
+  .role a { color: var(--accent); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); transition: border-color .2s; }
+  .role a:hover { border-bottom-color: var(--accent); }
+  .tagline { margin: 12px 0 0; max-width: 29ch; font-size: clamp(19px, 1.55vw, 22px); line-height: 1.5; font-weight: 300; color: var(--body); }
+  .hint { display: flex; align-items: center; gap: 12px; margin: 56px 0 0; font-size: 11px; letter-spacing: .03em; color: var(--muted); }
+  .hint::before { content: ''; width: 28px; height: 1px; background: var(--line); }
+  .hint .mob { display: none; }
+
+  .sec { padding: 22vh 0 16vh; }
+  .label { display: flex; gap: 14px; margin: 0 0 20px; font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .label .idx { color: var(--accent); }
+  h2 { margin: 0 0 56px; max-width: 20ch; font-weight: 300; font-size: clamp(32px, 3.1vw, 44px); line-height: 1.14; letter-spacing: -.022em; color: var(--ink); }
+  h3 { margin: 0; font-weight: 400; color: var(--ink); letter-spacing: -.008em; }
+
+  .areas, .timeline, .notes, .links, .kw, .tags { list-style: none; margin: 0; padding: 0; }
+  .areas { border-bottom: 1px solid var(--line); }
+  .area { display: grid; grid-template-columns: 64px minmax(0, 1fr); padding: 30px 0 32px; border-top: 1px solid var(--line); }
+  .area .n { padding-top: 5px; font-size: 12px; color: var(--accent); }
+  .area h3 { margin-bottom: 10px; font-size: 22px; }
+  .area p { margin: 0; max-width: 54ch; }
+  .kw, .tags { display: flex; flex-wrap: wrap; gap: 6px 20px; margin-top: 16px; font-size: 11.5px; color: var(--muted); }
+
+  .lead { margin: 0 0 22px; max-width: 34ch; font-size: clamp(20px, 1.7vw, 23px); line-height: 1.5; font-weight: 300; color: var(--ink); }
+  .bio { margin: 0; max-width: 58ch; }
+  .facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 52px 0 0; border-top: 1px solid var(--line); }
+  .facts div { padding: 16px 16px 0 0; }
+  .facts dt { font-size: 10.5px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .facts dd { margin: 6px 0 0; font-size: 15px; color: var(--ink); }
+
+  .timeline { position: relative; }
+  .timeline::before { content: ''; position: absolute; left: 107.5px; top: 12px; bottom: 56px; width: 1px; background: var(--line); }
+  .job { display: grid; grid-template-columns: 96px 24px minmax(0, 1fr); padding-bottom: 52px; }
+  .job:last-child { padding-bottom: 0; }
+  .when { margin: 0; padding-top: 4px; font-size: 10.5px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .node { position: relative; z-index: 1; width: 7px; height: 7px; margin: 9px 0 0 8px; border: 1px solid var(--muted); border-radius: 50%; background: var(--bg); }
+  .job:first-child .node { border-color: var(--accent); background: var(--accent); }
+  .job h3 { font-size: 20px; }
+  .org { display: flex; flex-wrap: wrap; gap: 0 14px; margin: 4px 0 10px; font-size: 14.5px; color: var(--muted); }
+  .org a { color: var(--body); text-decoration: none; border-bottom: 1px solid var(--line); transition: color .2s, border-color .2s; }
+  .org a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  .sum { margin: 0; max-width: 54ch; }
+
+  .notes { border-bottom: 1px solid var(--line); }
+  .note { display: grid; grid-template-columns: 120px minmax(0, 1fr); padding: 28px 0; border-top: 1px solid var(--line); }
+  .note time { padding-top: 5px; font-size: 11.5px; color: var(--muted); }
+  .note h3 { margin-bottom: 6px; font-size: 20px; }
+  .note p { margin: 0; max-width: 54ch; }
+  .tags { margin-top: 12px; }
+
+  .links { border-top: 1px solid var(--line); }
+  .links a { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--line); text-decoration: none; font-size: 21px; font-weight: 300; color: var(--ink); transition: color .2s; }
+  .links .host { font-size: 12px; color: var(--muted); transition: color .2s; }
+  .links a:hover .host { color: var(--accent); }
+  .contact { padding-bottom: 20vh; }
+
+  .foot { display: flex; justify-content: space-between; gap: 16px; padding: 28px 0 96px; border-top: 1px solid var(--line); font-size: 11px; color: var(--muted); }
+
+  .s22.js [data-r] { opacity: 0; transform: translateY(10px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
+  .s22.js [data-r].in { opacity: 1; transform: none; }
+
+  @media (max-width: 1080px) {
+    .nav nav { gap: 18px; }
+    .nav nav a:nth-child(3) { display: none; }
+  }
+
+  @media (max-width: 860px) {
+    .s22 { padding-bottom: 116px; }
+    .nav-in { height: 56px; padding: 0 20px; gap: 16px; }
+    .nav nav { display: none; }
+    .theme { width: 30px; padding: 0; justify-content: center; }
+    .theme-label { display: none; }
+    .frame { display: block; padding: 0 20px; }
+    .rail { position: static; }
+    .stage { position: fixed; top: auto; left: 12px; right: 12px; bottom: 12px; z-index: 25; height: 96px; overflow: hidden; border: 1px solid var(--line); border-radius: 14px; background: var(--bg); }
+    .stage canvas { position: absolute; left: 0; bottom: 0; height: min(38vh, 340px); }
+    .hero { min-height: calc(100svh - 56px); justify-content: space-between; padding: 36px 0 12px; }
+    .slot { display: block; flex: none; height: min(38vh, 340px); margin-top: 28px; }
+    h1 { font-size: clamp(46px, 13vw, 60px); }
+    .role { margin-top: 24px; font-size: 16px; }
+    .tagline { font-size: 18px; }
+    .hint { margin-top: 24px; }
+    .hint .desk { display: none; }
+    .hint .mob { display: inline; }
+    .sec { padding: 104px 0 64px; }
+    h2 { margin-bottom: 40px; font-size: 30px; }
+    .area { grid-template-columns: 40px minmax(0, 1fr); }
+    .facts { grid-template-columns: 1fr; }
+    .facts div { display: grid; grid-template-columns: 96px 1fr; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--line); }
+    .facts dd { margin: 0; }
+    .timeline::before { left: 83.5px; }
+    .job { grid-template-columns: 72px 24px minmax(0, 1fr); }
+    .note { grid-template-columns: 1fr; gap: 6px; }
+    .links a { font-size: 19px; }
+    .contact { padding-bottom: 96px; }
+    .foot { padding-bottom: 32px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .s22.js [data-r] { opacity: 1; transform: none; transition: none; }
+  }
+</style>

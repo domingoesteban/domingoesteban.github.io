@@ -1,0 +1,52 @@
+---
+// The home page: hero, then the sections with a transition band between each pair, where the robot walks.
+// Section order must match SECTIONS in src/lib/robot/story.ts (one band per entry in TRANSITIONS).
+import './home.css';
+import Nav from './Nav.astro';
+import RobotCanvas from './RobotCanvas.astro';
+import Hero from './Hero.astro';
+import Footer from './Footer.astro';
+import Research from './sections/Research.astro';
+import About from './sections/About.astro';
+import Experience from './sections/Experience.astro';
+import Notes from './sections/Notes.astro';
+import Contact from './sections/Contact.astro';
+---
+<div class="home">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&display=swap" />
+  <Nav />
+  <RobotCanvas />
+  <Hero />
+  <main class="wrap">
+    <Research />
+    <div class="band" aria-hidden="true"></div>
+    <About />
+    <div class="band" aria-hidden="true"></div>
+    <Experience />
+    <div class="band" aria-hidden="true"></div>
+    <Notes />
+    <div class="band" aria-hidden="true"></div>
+    <Contact />
+  </main>
+  <Footer />
+</div>
+
+<script>
+  // Reveal [data-r] elements (and each child of [data-r-each]) as they scroll into view.
+  const root = document.querySelector<HTMLElement>('.home');
+  if (root) {
+    root.classList.add('js');
+    const reveal = new IntersectionObserver(entries => {
+      for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); reveal.unobserve(e.target); }
+    }, { rootMargin: '0px 0px -6% 0px' });
+    root.querySelectorAll('[data-r], [data-r-each] > *').forEach(el => reveal.observe(el));
+  }
+</script>
+
+<style>
+  /* Desktop band heights are set by the robot (src/lib/robot/app.ts) so a walk fits in view. */
+  .band { height: 80vh; }
+  @media (max-width: 900px) {
+    .band { height: 28vh; }
+  }
+</style>

@@ -1,0 +1,18 @@
+---
+import { profile } from '@/data/profile';
+
+const year = new Date().getFullYear();
+---
+<footer class="wrap">
+  <div class="foot-in mono">
+    <span>© {year} {profile.name}</span>
+    <span>{profile.location}</span>
+    <a href="#top">Top ↑</a>
+  </div>
+</footer>
+
+<style>
+  .foot-in { display: flex; gap: 28px; margin-top: 24px; padding: 26px 0 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 10.5px; }
+  .foot-in a { margin-left: auto; transition: color .2s; }
+  .foot-in a:hover { color: var(--accent); }
+</style>

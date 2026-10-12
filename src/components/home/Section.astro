@@ -1,0 +1,37 @@
+---
+// A page section: index and label, heading, then the slot, in the half of the page the robot does not use.
+// The side and the number come from story.ts, so the page and the robot agree on the layout.
+import { SECTIONS } from '@/lib/robot/story';
+
+interface Props { id: string; label: string; heading: string }
+const { id, label, heading } = Astro.props;
+const index = SECTIONS.findIndex(s => s.id === id);
+if (index < 0) throw new Error(`Section "${id}" is not in SECTIONS (src/lib/robot/story.ts)`);
+const { side } = SECTIONS[index];
+---
+<section class="sec" data-side={side} id={id} aria-labelledby={`${id}-h`}>
+  <div class="col">
+    <header class="head" data-r>
+      <p class="idx mono"><span>{String(index + 1).padStart(2, '0')}</span>{label}</p>
+      <h2 id={`${id}-h`}>{heading}</h2>
+    </header>
+    <slot />
+  </div>
+</section>
+
+<style>
+  .sec { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--colgap); padding-block: clamp(72px, 10vh, 112px); }
+  .sec[data-side="R"] .col { grid-column: 1; }
+  .sec[data-side="L"] .col { grid-column: 2; }
+  .sec:first-child { padding-top: clamp(48px, 8vh, 96px); }
+  .head { margin-bottom: 44px; }
+  .idx { display: flex; align-items: center; gap: 12px; color: var(--muted); }
+  .idx span { color: var(--accent); }
+  .idx::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+  h2 { margin-top: 24px; font-weight: 500; font-size: clamp(30px, 2.9vw, 42px); line-height: 1.08; letter-spacing: -.03em; color: var(--ink); max-width: 18ch; }
+
+  @media (max-width: 900px) {
+    .sec { grid-template-columns: 1fr; padding-block: 56px; }
+    .sec[data-side] .col { grid-column: 1; }
+  }
+</style>

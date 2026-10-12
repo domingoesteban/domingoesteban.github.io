@@ -1,0 +1,33 @@
+---
+import { getCollection, render } from 'astro:content';
+import Section from '../Section.astro';
+
+const entries = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order);
+const areas = await Promise.all(entries.map(async e => ({ ...e.data, Summary: (await render(e)).Content })));
+---
+<Section id="research" label="Research" heading="Robots that learn their own skills.">
+  <ol class="areas">
+    {areas.map(({ title, keywords, Summary }, i) => (
+      <li class="area" data-r>
+        <p class="a-idx mono">0{i + 1}</p>
+        <div>
+          <h3>{title}</h3>
+          <div class="a-sum"><Summary /></div>
+          <ul class="kw mono">{keywords.map(k => <li>{k}</li>)}</ul>
+        </div>
+      </li>
+    ))}
+  </ol>
+</Section>
+
+<style>
+  .areas { border-top: 1px solid var(--line-2); }
+  .area { display: grid; grid-template-columns: 48px minmax(0, 1fr); padding: 24px 0 26px; border-bottom: 1px solid var(--line); }
+  .a-idx { color: var(--accent); padding-top: 4px; }
+  .a-sum { margin-top: 8px; font-size: 15px; line-height: 1.62; }
+  .kw { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 14px; color: var(--muted); font-size: 10.5px; }
+
+  @media (max-width: 900px) {
+    .area { grid-template-columns: 36px minmax(0, 1fr); }
+  }
+</style>

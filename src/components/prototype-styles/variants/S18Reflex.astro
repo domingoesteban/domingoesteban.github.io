@@ -1,0 +1,758 @@
+---
+// PROTOTYPE 18 Reflex: a small responsive policy beside a research humanoid. The hero stage docks on the right
+// (bottom on mobile), grows at each section and switches skill with blend().
+import { profile, areas, experience, notes, formatDate } from '../content';
+
+const year = new Date().getFullYear();
+---
+<div class="s18">
+  <script is:inline>
+    {
+      const root = document.querySelector('.s18');
+      if (root) { try { if (localStorage.getItem('proto-theme') === 'dark') root.dataset.theme = 'dark'; } catch (e) {} }
+    }
+  </script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" />
+
+  <nav class="nav" aria-label="Primary">
+    <div class="nav-in">
+      <a class="brand" href="#s18-top">{profile.name}</a>
+      <ul class="nav-links">
+        <li><a href="#s18-research">Research</a></li>
+        <li><a href="#s18-about">About</a></li>
+        <li><a href="#s18-experience">Experience</a></li>
+        <li><a href="#s18-notes">Notes</a></li>
+        <li><a href="#s18-contact">Contact</a></li>
+      </ul>
+      <button class="theme" type="button" aria-pressed="false" aria-label="Toggle dark mode">
+        <svg class="sun" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3" /><path d="M8 1.5v1.6M8 12.9v1.6M1.5 8h1.6M12.9 8h1.6M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1" /></svg>
+        <svg class="moon" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.2 9.8A5.4 5.4 0 0 1 6.2 2.8a5.4 5.4 0 1 0 7 7z" /></svg>
+      </button>
+    </div>
+  </nav>
+
+  <header class="hero grid" id="s18-top">
+    <div class="hero-copy" data-r>
+      <p class="eyebrow mono">{profile.location}</p>
+      <h1 class="name"><span>{profile.firstName}</span> <span>{profile.lastName}</span></h1>
+      <p class="role">{profile.role} at <a href={profile.companyHref} target="_blank" rel="noopener">{profile.company}</a></p>
+      <p class="tagline">{profile.tagline}</p>
+    </div>
+    <div class="slot" aria-hidden="true"></div>
+  </header>
+
+  <div class="dock" aria-hidden="true"><canvas></canvas></div>
+
+  <main>
+    <section class="sec grid" id="s18-research" aria-labelledby="s18-research-h">
+      <div class="col">
+        <header class="head" data-r>
+          <p class="label mono"><span class="idx">01</span>Research</p>
+          <h2 id="s18-research-h">What I work on</h2>
+        </header>
+        <ol class="areas">
+          {areas.map((a, i) => (
+            <li class="row" data-r>
+              <span class="meta mono idx">0{i + 1}</span>
+              <div>
+                <h3>{a.title}</h3>
+                <p>{a.summary}</p>
+                <ul class="kw mono">{a.keywords.map(k => <li>{k}</li>)}</ul>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="sec grid" id="s18-about" aria-labelledby="s18-about-h">
+      <div class="col">
+        <header class="head" data-r>
+          <p class="label mono"><span class="idx">02</span>About</p>
+          <h2 id="s18-about-h">Skills learned in simulation, deployed on real robots</h2>
+        </header>
+        <div class="about" data-r>
+          <p class="lead">{profile.bio[0]}</p>
+          <p>{profile.bio[1]}</p>
+          <dl class="facts">
+            <div><dt class="mono">Based in</dt><dd>{profile.location}</dd></div>
+            <div><dt class="mono">From</dt><dd>{profile.origin}</dd></div>
+            <div><dt class="mono">Now</dt><dd>{profile.robot} at {profile.company}</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec grid" id="s18-experience" aria-labelledby="s18-exp-h">
+      <div class="col">
+        <header class="head" data-r>
+          <p class="label mono"><span class="idx">03</span>Experience</p>
+          <h2 id="s18-exp-h">Where I have worked</h2>
+        </header>
+        <ol class="timeline">
+          {experience.map((e, i) => (
+            <li class:list={['step', { now: i === 0 }]} data-r data-step={i}>
+              <span class="meta mono">{e.period}</span>
+              <div class="step-body">
+                <h3>{e.title}</h3>
+                <p class="org"><a href={e.href} target="_blank" rel="noopener">{e.org}</a><span>{e.place}</span></p>
+                <p>{e.summary}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="sec grid" id="s18-notes" aria-labelledby="s18-notes-h">
+      <div class="col">
+        <header class="head" data-r>
+          <p class="label mono"><span class="idx">04</span>Notes</p>
+          <h2 id="s18-notes-h">Short notes on robot learning</h2>
+        </header>
+        <ol class="notes">
+          {notes.map(n => (
+            <li class="row" data-r>
+              <time class="meta mono" datetime={n.date.toISOString()}>{formatDate(n.date)}</time>
+              <div>
+                <h3>{n.title}</h3>
+                <p>{n.description}</p>
+                {n.tags && <ul class="kw mono">{n.tags.map(t => <li>{t}</li>)}</ul>}
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="sec grid contact" id="s18-contact" aria-labelledby="s18-contact-h">
+      <div class="col">
+        <header class="head" data-r>
+          <p class="label mono"><span class="idx">05</span>Contact</p>
+          <h2 id="s18-contact-h">Get in touch</h2>
+        </header>
+        <ul class="links" data-r>
+          {profile.links.map(l => (
+            <li><a href={l.href} target="_blank" rel="noopener"><span>{l.label}</span><span class="arrow" aria-hidden="true">↗</span></a></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot grid">
+    <p class="col mono">© {year} {profile.name} · {profile.location}</p>
+  </footer>
+</div>
+
+<script>
+  import { pose, blend, project, BONES, type Camera, type Frame, type JointName, type Skill, type Vec3 } from '../humanoid';
+
+  const root = document.querySelector<HTMLElement>('.s18');
+  if (root) {
+    const { min, max, abs, sin, cos, exp, hypot, tanh, PI } = Math;
+    const clamp = (v: number, a = 0, b = 1) => min(b, max(a, v));
+    const lerp = (a: number, b: number, k: number) => a + (b - a) * k;
+    const smooth = (a: number, b: number, x: number) => { const u = clamp((x - a) / (b - a)); return u * u * (3 - 2 * u); };
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const touch = matchMedia('(hover: none)').matches;
+
+    const dock = root.querySelector<HTMLElement>('.dock')!;
+    const canvas = dock.querySelector('canvas')!;
+    const ctx = canvas.getContext('2d')!;
+    const slot = root.querySelector<HTMLElement>('.slot')!;
+    const nav = root.querySelector<HTMLElement>('.nav')!;
+
+    // One state per section; experience has two (walk, then push further down the timeline).
+    const STATES: { skill: Skill; caption: string; yaw: number }[] = [
+      { skill: 'stand', caption: touch ? 'policy · tap to push' : 'policy · push it with the cursor', yaw: -0.72 },
+      { skill: 'carry', caption: 'carry', yaw: -1.0 },
+      { skill: 'balance', caption: 'balance', yaw: -0.5 },
+      { skill: 'walk', caption: 'walk', yaw: -1.1 },
+      { skill: 'push', caption: 'push recovery', yaw: -0.3 },
+      { skill: 'lift', caption: 'lift', yaw: -0.9 },
+      { skill: 'stand', caption: 'stand', yaw: -0.62 },
+    ];
+
+    // The policy: 4 inputs, 5 hidden, 4 outputs. Same nodes in every section, new arrangement each time.
+    const COLS = [4, 5, 4];
+    const NODES = COLS.flatMap((n, c) => Array.from({ length: n }, (_, r) => ({ c, r, o: r - (n - 1) / 2 })));
+    type Layout = (c: number, o: number) => [number, number];
+    const LAYOUTS: Layout[] = [
+      (c, o) => [0.12 + c * 0.38, 0.5 + o * 0.17],
+      (c, o) => [0.08 + c * 0.4, 0.48 + o * 0.13 + (1 - c) * 0.13],
+      (c, o) => { const R = 1.12 - c * 0.34, a = o * 0.3; return [1.2 - R * cos(a), 0.5 + R * sin(a) * 0.95]; },
+      (c, o) => [0.24 + c * 0.27, 0.5 + o * 0.21],
+      (c, o) => [0.06 + c * 0.44, 0.5 + o * 0.15 + (c === 1 ? -0.08 : 0.06)],
+      (c, o) => [0.5 + o * 0.21, 0.8 - c * 0.3],
+      (c, o) => [0.1 + c * 0.4, 0.5 + o * (0.2 - c * 0.055)],
+    ];
+    let seed = 7;
+    const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const W1 = Array.from({ length: 5 }, () => Array.from({ length: 8 }, () => (rand() * 2 - 1) * 1.1));
+    const EDGES: [number, number][] = [];
+    for (let c = 0, start = 0; c < 2; start += COLS[c++]) {
+      for (let a = 0; a < COLS[c]; a++) for (let b = 0; b < COLS[c + 1]; b++) if (rand() < 0.5 || a === b) EDGES.push([start + a, start + COLS[c] + b]);
+    }
+    const TAU = [0.05, 0.12, 0.22];
+    const act = new Float32Array(NODES.length);
+
+    // Colours from CSS variables, re-read on theme change.
+    const C = { stage: '', robot: '', visor: '', line: '', line2: '', muted: '', accent: '' };
+    const readColors = () => {
+      const cs = getComputedStyle(root);
+      for (const k of Object.keys(C) as (keyof typeof C)[]) C[k] = cs.getPropertyValue(`--cv-${k}`).trim();
+    };
+
+    // Page geometry, measured on load and resize.
+    type Rect = [number, number, number, number];
+    const geo = { slot: [0, 0, 0, 0] as Rect, right: 0, rail: 0, navH: 64, marks: [] as { b: number; hw: number; shrink: boolean }[] };
+    const measure = () => {
+      const y = scrollY, vh = innerHeight, sr = slot.getBoundingClientRect();
+      geo.slot = [sr.left, sr.top + y, sr.width, sr.height];
+      geo.right = sr.right;
+      geo.rail = ((sr.width - 4 * 24) / 5) * 4 + 3 * 24;
+      geo.navH = nav.offsetHeight;
+      const top = (sel: string) => (root.querySelector(sel)?.getBoundingClientRect().top ?? 0) + y;
+      const hw = vh * 0.18;
+      geo.marks = [
+        { b: top('#s18-research'), hw, shrink: true },
+        { b: top('#s18-about'), hw, shrink: true },
+        { b: top('#s18-experience'), hw, shrink: true },
+        { b: top('[data-step="2"]') - 60, hw: vh * 0.14, shrink: false },
+        { b: top('#s18-notes'), hw, shrink: true },
+        { b: top('#s18-contact'), hw, shrink: true },
+      ];
+      const last = geo.marks[geo.marks.length - 1], maxX = document.documentElement.scrollHeight - vh / 2;
+      last.b = min(last.b, maxX - last.hw - 20);
+    };
+
+    // Perturbation spring: the cursor (or a tap, or scrolling) pushes, the robot recovers.
+    const P = [0, 0, 0], V = [0, 0, 0];
+    const ptr = { x: -1e4, y: -1e4, vx: 0, vy: 0, t: 0 };
+    let chest = [0, 0], rect: Rect = [0, 0, 0, 0], camYaw = 0, lastInput = -10, autoAt = 1.2;
+    const toWorld = (sx: number, sy: number, s: number) => {
+      const rx = sin(camYaw), rz = -cos(camYaw), fx = -cos(camYaw), fz = -sin(camYaw);
+      return [(rx * sx - fx * sy * 0.3) * s, 0, (rz * sx - fz * sy * 0.3) * s];
+    };
+    const kick = (sx: number, sy: number, s: number) => { const w = toWorld(sx, sy, s); V[0] += w[0]; V[2] += w[2]; };
+
+    addEventListener('pointermove', e => {
+      const now = performance.now();
+      if (ptr.t && now - ptr.t < 200) { const d = max(8, now - ptr.t) / 1000; ptr.vx = (e.clientX - ptr.x) / d; ptr.vy = (e.clientY - ptr.y) / d; }
+      Object.assign(ptr, { x: e.clientX, y: e.clientY, t: now });
+    }, { passive: true });
+    addEventListener('pointerdown', e => {
+      if (e.pointerType === 'mouse') return;
+      const lx = e.clientX - rect[0], ly = e.clientY - rect[1];
+      if (lx < 0 || ly < 0 || lx > rect[2] || ly > rect[3]) return;
+      const dx = chest[0] - lx, dy = chest[1] - ly, d = hypot(dx, dy) || 1;
+      kick(dx / d, dy / d * 0.4, 0.8);
+      lastInput = time;
+    }, { passive: true });
+
+    let time = 0, lastScroll = scrollY, prevJ: Frame['joints'] | null = null;
+
+    function spring(dt: number, h: number) {
+      const lx = ptr.x - rect[0], ly = ptr.y - rect[1], dx = chest[0] - lx, dy = chest[1] - ly, d = hypot(dx, dy), R = 0.36 * h;
+      let F = [0, 0, 0];
+      if (d < R) {
+        // A resting cursor lets go after a moment, so the robot recovers.
+        const fall = (1 - d / R) ** 2, idle = (performance.now() - ptr.t) / 1000;
+        F = toWorld(dx / (d || 1), dy / (d || 1), 0.15 * fall * smooth(1.6, 0.5, idle));
+        kick(ptr.vx / h, ptr.vy / h, 0.5 * fall * dt);
+        lastInput = time;
+      }
+      ptr.vx *= exp(-dt * 12); ptr.vy *= exp(-dt * 12);
+      // A light nudge now and then while nobody is interacting, so the reflex is visible from the start.
+      if (time > autoAt) {
+        if (time - lastInput > 4) kick(time % 2 < 1 ? 1 : -1, 0, 0.55);
+        autoAt = time + 7;
+      }
+      const sv = (scrollY - lastScroll) / dt / innerHeight;
+      lastScroll = scrollY;
+      V[0] += clamp(sv, -3, 3) * 0.03;
+      const K = 30, D = 3.3;
+      for (const i of [0, 2]) { V[i] += (K * (F[i] - P[i]) - D * V[i]) * dt; P[i] += V[i] * dt; }
+      const m = hypot(P[0], P[2]);
+      if (m > 0.18) { P[0] *= 0.18 / m; P[2] *= 0.18 / m; }
+    }
+
+    // Node brightness comes from the real perturbation and joint velocities.
+    function think(f: Frame, dt: number, wave: number) {
+      const J = f.joints;
+      const sp = (k: JointName) => prevJ ? hypot(J[k][0] - prevJ[k][0], J[k][1] - prevJ[k][1], J[k][2] - prevJ[k][2]) / dt : 0;
+      const leg = (s: 'l' | 'r') => (sp(`${s}Knee`) + sp(`${s}Ankle`) + sp(`${s}Toe`)) / 3;
+      const inp = [P[0] / 0.1, P[2] / 0.1, hypot(V[0], V[2]) / 0.35, sp('pelvis') / 0.35];
+      const out = [leg('l') / 1.6, leg('r') / 1.6, (sp('lHand') + sp('rHand') + sp('lElbow') + sp('rElbow')) / 3.2, (sp('chest') + sp('head')) / 0.9];
+      const hid = W1.map(w => tanh(w.reduce((s, x, j) => s + x * (j < 4 ? inp[j] : out[j - 4]), 0)));
+      const target = [...inp, ...hid, ...out].map(v => tanh(abs(v)) * 0.95);
+      NODES.forEach((n, i) => {
+        const wv = wave * (0.5 + 0.5 * sin(time * 1.1 - n.c * 1.3 - n.r * 0.5)) ** 2 * 0.6;
+        act[i] += (max(target[i], wv) - act[i]) * (1 - exp(-dt / TAU[n.c]));
+      });
+      prevJ = J;
+    }
+
+    // Convex hull, for the torso shells.
+    function hull(pts: number[][]) {
+      pts.sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+      const cr = (o: number[], a: number[], b: number[]) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+      const lo: number[][] = [], up: number[][] = [];
+      for (const p of pts) { while (lo.length > 1 && cr(lo[lo.length - 2], lo[lo.length - 1], p) <= 0) lo.pop(); lo.push(p); }
+      for (let i = pts.length - 1; i >= 0; i--) { const p = pts[i]; while (up.length > 1 && cr(up[up.length - 2], up[up.length - 1], pts[i]) <= 0) up.pop(); up.push(p); }
+      return lo.slice(0, -1).concat(up.slice(0, -1));
+    }
+
+    function drawRobot(f: Frame, cam: Camera, cw: number, h: number, lw: number) {
+      const focal = h / 2 / Math.tan(0.3);
+      const pr = (v: number[]) => project(v as Vec3, cam, cw, h);
+      const S = {} as Record<JointName, number[]>;
+      for (const k in f.joints) S[k as JointName] = pr(f.joints[k as JointName]);
+      const px = (r: number, z: number) => (r * focal) / z;
+      const J = f.joints;
+      const cp = cos(cam.pitch), eye = [cam.target[0] + cp * cos(cam.yaw) * cam.dist, cam.target[1] + sin(cam.pitch) * cam.dist, cam.target[2] + cp * sin(cam.yaw) * cam.dist];
+      const sub = (a: number[], b: number[]) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+      const nrm = (a: number[]) => { const l = hypot(a[0], a[1], a[2]) || 1; return [a[0] / l, a[1] / l, a[2] / l]; };
+      const dot = (a: number[], b: number[]) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+      const lat = nrm(sub(J.rShoulder, J.lShoulder)), up = nrm(sub(J.neck, J.chest));
+      const fwd = nrm([up[1] * lat[2] - up[2] * lat[1], up[2] * lat[0] - up[0] * lat[2], up[0] * lat[1] - up[1] * lat[0]]);
+
+      const outlined = (path: () => void) => {
+        path(); ctx.fillStyle = C.stage; ctx.fill(); ctx.strokeStyle = C.robot; ctx.lineWidth = lw; ctx.stroke();
+      };
+      const capsule = (a: number[], b: number[], r: number) => {
+        const w = 2 * px(r, (a[2] + b[2]) / 2);
+        ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]);
+        ctx.strokeStyle = C.robot; ctx.lineWidth = w + 2 * lw; ctx.stroke();
+        ctx.strokeStyle = C.stage; ctx.lineWidth = w; ctx.stroke();
+      };
+      const shell = (parts: [number[], number][]) => {
+        const pts: number[][] = [];
+        for (const [p, r] of parts) { const s = pr(p), rr = px(r, s[2]); for (let a = 0; a < 20; a++) pts.push([s[0] + rr * cos((a / 20) * 2 * PI), s[1] + rr * sin((a / 20) * 2 * PI)]); }
+        const hl = hull(pts);
+        outlined(() => { ctx.beginPath(); hl.forEach((p, i) => (i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]))); ctx.closePath(); });
+      };
+      const mid = (a: number[], b: number[], k: number) => a.map((v, i) => v + (b[i] - v) * k);
+      const torsoZ = (S.pelvis[2] + S.chest[2]) / 2;
+      const items: { z: number; draw: () => void }[] = [];
+      // Limbs use the rig's bone radii, slightly slimmed; thighs always sit under the hip housing.
+      for (const [a, b, r] of BONES) {
+        if (a === 'lHip' && b === 'rHip') continue;
+        if (!/(Knee|Elbow|Ankle|Hand|Toe)$/.test(b)) continue;
+        const z = (S[a][2] + S[b][2]) / 2;
+        items.push({ z: b.endsWith('Knee') ? max(z, torsoZ + 0.01) : z, draw: () => capsule(S[a], S[b], r * 0.86) });
+      }
+      items.push({
+        z: torsoZ,
+        draw: () => {
+          capsule(S.pelvis, mid(S.pelvis, S.chest, 0.8), 0.058);
+          const side = (p: number[], k: number) => p.map((v, i) => v + lat[i] * k);
+          const waist = mid(J.pelvis, J.chest, 0.2), rib = mid(J.pelvis, J.chest, 0.78), sternum = mid(J.chest, J.neck, 0.45);
+          shell([[J.lHip, 0.058], [J.rHip, 0.058], [side(waist, -0.06), 0.05], [side(waist, 0.06), 0.05]]);
+          shell([[J.lShoulder, 0.058], [J.rShoulder, 0.058], [side(sternum, -0.07), 0.085], [side(sternum, 0.07), 0.085], [side(rib, -0.06), 0.055], [side(rib, 0.06), 0.055]]);
+          const light = mid(J.chest, J.neck, 0.55).map((v, i) => v + fwd[i] * 0.1 + lat[i] * 0.05);
+          if (dot(fwd, nrm(sub(eye, light))) > 0.15) {
+            const s = pr(light);
+            ctx.beginPath(); ctx.arc(s[0], s[1], max(1.1, px(0.012, s[2])), 0, 2 * PI); ctx.fillStyle = C.accent; ctx.fill();
+          }
+        },
+      });
+      items.push({
+        z: S.head[2],
+        draw: () => {
+          capsule(S.neck, mid(S.neck, S.head, 0.6), 0.036);
+          const s = S.head, rr = px(0.095, s[2]);
+          outlined(() => { ctx.beginPath(); ctx.ellipse(s[0], s[1], rr * 0.96, rr * 1.06, 0, 0, 2 * PI); });
+          // Face plate: the part of a spherical band in front of the head that faces the camera.
+          const hu = nrm(sub(J.head, J.neck)), toEye = nrm(sub(eye, J.head));
+          const at = (a: number, b: number) => fwd.map((v, i) => (v * cos(a) + lat[i] * sin(a)) * cos(b) + hu[i] * sin(b));
+          const edge = (b: number) => {
+            const out: number[][] = [];
+            for (let a = -1.15; a <= 1.151; a += 0.05) { const n = at(a, b); if (dot(n, toEye) > 0.05) out.push(pr(J.head.map((v, i) => v + n[i] * 0.093))); }
+            return out;
+          };
+          const top = edge(0.3), bot = edge(-0.34), mid0 = edge(-0.02);
+          if (top.length > 2 && bot.length > 2) {
+            ctx.beginPath();
+            [...top, ...bot.reverse()].forEach((p, i) => (i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])));
+            ctx.closePath(); ctx.fillStyle = C.visor; ctx.fill();
+            if (mid0.length > 2) {
+              ctx.beginPath(); mid0.slice(2, -2).forEach((p, i) => (i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])));
+              ctx.strokeStyle = C.accent; ctx.lineWidth = max(0.7, px(0.006, s[2])); ctx.stroke();
+            }
+          }
+        },
+      });
+      if (f.box) {
+        const { center: c, size, yaw } = f.box, alpha = f.box.alpha ?? 1, cy = cos(yaw), sy = sin(yaw);
+        const corner = (x: number, y: number, z: number) => { const lx = (x * size[0]) / 2, lz = (z * size[2]) / 2; return [c[0] + cy * lx + sy * lz, c[1] + (y * size[1]) / 2, c[2] - sy * lx + cy * lz]; };
+        const faces: [number, number, number][] = [[1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], [0, 0, -1]];
+        items.push({
+          z: pr(c)[2],
+          draw: () => {
+            ctx.globalAlpha = alpha;
+            for (const [ax, ay, az] of faces) {
+              const fc = corner(ax, ay, az);
+              if (dot(sub(fc, c), sub(eye, fc)) <= 0) continue;
+              const quad = ax ? [[ax, -1, -1], [ax, 1, -1], [ax, 1, 1], [ax, -1, 1]] : ay ? [[-1, ay, -1], [1, ay, -1], [1, ay, 1], [-1, ay, 1]] : [[-1, -1, az], [1, -1, az], [1, 1, az], [-1, 1, az]];
+              ctx.beginPath();
+              quad.forEach((q, i) => { const s = pr(corner(q[0], q[1], q[2])); i ? ctx.lineTo(s[0], s[1]) : ctx.moveTo(s[0], s[1]); });
+              ctx.closePath(); ctx.fillStyle = C.stage; ctx.fill(); ctx.strokeStyle = C.accent; ctx.lineWidth = lw; ctx.lineJoin = 'round'; ctx.stroke();
+            }
+            ctx.globalAlpha = 1;
+          },
+        });
+      }
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      items.sort((a, b) => b.z - a.z).forEach(it => it.draw());
+      if (f.push && f.push.strength > 0.01) {
+        const { at, dir, strength } = f.push, a = pr(at.map((v, i) => v - dir[i] * 0.42)), b = pr(at.map((v, i) => v - dir[i] * 0.06));
+        const ang = Math.atan2(b[1] - a[1], b[0] - a[0]), hd = max(4, h * 0.018);
+        ctx.globalAlpha = strength; ctx.strokeStyle = C.accent; ctx.lineWidth = lw;
+        ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]);
+        ctx.moveTo(b[0] - hd * cos(ang - 0.5), b[1] - hd * sin(ang - 0.5)); ctx.lineTo(b[0], b[1]); ctx.lineTo(b[0] - hd * cos(ang + 0.5), b[1] - hd * sin(ang + 0.5));
+        ctx.stroke(); ctx.globalAlpha = 1;
+      }
+      chest = S.chest;
+    }
+
+    function drawGround(cam: Camera, cw: number, h: number, speed: number, lw: number) {
+      ctx.beginPath();
+      for (let i = 0; i <= 48; i++) { const a = (i / 48) * 2 * PI, s = project([0.55 * cos(a), 0, 0.55 * sin(a)], cam, cw, h); i ? ctx.lineTo(s[0], s[1]) : ctx.moveTo(s[0], s[1]); }
+      ctx.strokeStyle = C.line2; ctx.lineWidth = lw; ctx.stroke();
+      if (speed < 0.02) return;
+      // Treadmill marks slide back at the gait speed.
+      const off = (time * speed) % 0.3;
+      for (const z of [-0.34, 0.34]) for (let x = 0.9 - off; x > -0.9; x -= 0.3) {
+        const a = project([x, 0, z], cam, cw, h), b = project([x - 0.1, 0, z], cam, cw, h);
+        ctx.globalAlpha = clamp(speed / 0.8) * (1 - abs(x) / 0.9);
+        ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    function drawPolicy(box: Rect, i: number, w: number, h: number, lw: number) {
+      const A = LAYOUTS[i], B = LAYOUTS[min(i + 1, LAYOUTS.length - 1)];
+      const pos = NODES.map(n => { const a = A(n.c, n.o), b = B(n.c, n.o); return [box[0] + lerp(a[0], b[0], w) * box[2], box[1] + lerp(a[1], b[1], w) * box[3]]; });
+      const quiet = 0.35 + 0.65 * smooth(150, 300, h);
+      ctx.lineWidth = lw * 0.75;
+      for (const [a, b] of EDGES) {
+        ctx.beginPath(); ctx.moveTo(pos[a][0], pos[a][1]); ctx.lineTo(pos[b][0], pos[b][1]);
+        ctx.globalAlpha = quiet; ctx.strokeStyle = C.line; ctx.stroke();
+        const e = act[a] * act[b];
+        if (e > 0.02) { ctx.globalAlpha = e * 0.85 * quiet; ctx.strokeStyle = C.accent; ctx.stroke(); }
+      }
+      const rn = clamp(h * 0.0105, 1.7, 3.6);
+      NODES.forEach((_, k) => {
+        const [x, y] = pos[k];
+        ctx.beginPath(); ctx.arc(x, y, rn, 0, 2 * PI);
+        ctx.globalAlpha = 1; ctx.fillStyle = C.stage; ctx.fill();
+        ctx.globalAlpha = 0.9; ctx.strokeStyle = C.muted; ctx.lineWidth = lw * 0.75; ctx.stroke();
+        if (act[k] > 0.01) { ctx.globalAlpha = act[k]; ctx.fillStyle = C.accent; ctx.fill(); ctx.strokeStyle = C.accent; ctx.stroke(); }
+      });
+      ctx.globalAlpha = 1;
+    }
+
+    function render(dt: number) {
+      const vw = innerWidth, vh = innerHeight, y = scrollY, x = y + vh / 2, mobile = vw < 900;
+      let u = 0, dip = 0;
+      for (const m of geo.marks) {
+        u += smooth(m.b - m.hw, m.b + m.hw, x);
+        if (m.shrink) dip = max(dip, 1 - smooth(0, m.hw * 1.1, abs(x - m.b)));
+      }
+      if (reduced) { u = Math.round(u); dip = 0; }
+      const feature = 1 - dip;
+
+      let hero: Rect, dk: Rect, k: number;
+      if (!mobile) {
+        const dw = lerp(140, min(370, geo.rail), feature), dh = dw * 1.1;
+        dk = [geo.right - dw, geo.navH + (vh - geo.navH - dh) / 2, dw, dh];
+        hero = [geo.slot[0], geo.slot[1] - y * 0.35, geo.slot[2], geo.slot[3]];
+        k = smooth(0, 1, y / (vh * 0.75));
+      } else {
+        const dh = lerp(76, 100, feature);
+        dk = [12, vh - dh - 12, vw - 24, dh];
+        hero = [geo.slot[0], geo.slot[1] - y, geo.slot[2], geo.slot[3]];
+        k = smooth(0, 1, y / max(240, geo.slot[1] + geo.slot[3] - vh * 0.4));
+      }
+      if (reduced) k = k > 0.5 ? 1 : 0;
+      rect = hero.map((v, i) => lerp(v, dk[i], k)) as Rect;
+      const [, , cw, ch] = rect;
+      if (cw < 2 || ch < 2) return;
+      dock.style.transform = `translate3d(${rect[0]}px, ${rect[1]}px, 0)`;
+      dock.style.width = `${cw}px`;
+      dock.style.height = `${ch}px`;
+      const dpr = min(2, devicePixelRatio || 1), bw = Math.round(cw * dpr), bh = Math.round(ch * dpr);
+      if (canvas.width !== bw || canvas.height !== bh) { canvas.width = bw; canvas.height = bh; }
+      ctx.setTransform(bw / cw, 0, 0, bh / ch, 0, 0);
+      ctx.clearRect(0, 0, cw, ch);
+      nav.classList.toggle('scrolled', y > 8);
+
+      const i = min(STATES.length - 1, Math.floor(u)), w = i + 1 < STATES.length ? u - i : 0;
+      const A = STATES[i], B = STATES[min(i + 1, STATES.length - 1)];
+      camYaw = lerp(A.yaw, B.yaw, w) + (reduced ? 0 : 0.12 * sin(time * 0.07));
+      const cam: Camera = { yaw: camYaw, pitch: 0.13 + 0.02 * sin(time * 0.05), dist: 3.85, target: [0, 0.8, 0] };
+      if (!reduced && dt > 0) spring(dt, ch);
+      const opts = { perturb: [P[0], 0, P[2]] as Vec3 };
+      const fa = pose(A.skill, time, opts), f = w > 0.001 ? blend(fa, pose(B.skill, time, opts), w) : fa;
+      if (dt > 0) think(f, dt, smooth(5, 6, u));
+
+      // Robot on the right of the stage, policy to its left; the split adapts to wide mobile docks.
+      const q = smooth(1.3, 2.8, cw / ch), rcx = lerp(0.61 * cw, cw - 0.42 * ch, q);
+      const bx = lerp(0.07 * cw, 0.05 * cw, q), by = lerp(0.2, 0.24, q) * ch;
+      const box: Rect = [bx, by, lerp(0.36 * cw, rcx - 0.5 * ch - bx, q), lerp(0.6, 0.5, q) * ch];
+      const lw = clamp(ch / 360, 0.75, 1.15);
+      drawPolicy(box, i, w, ch, lw);
+      drawGround(cam, 2 * rcx, ch, f.speed, lw);
+      drawRobot(f, cam, 2 * rcx, ch, lw);
+
+      const fs = clamp(ch * 0.023, 9, 11), pad = clamp(ch * 0.05, 10, 18);
+      ctx.font = `500 ${fs}px "Geist Mono", ui-monospace, monospace`;
+      ctx.textBaseline = 'alphabetic';
+      const level = act.reduce((s, v) => s + v, 0) / act.length;
+      [[A, 1 - w], [B, w]].forEach(([s, a]) => {
+        const alpha = (a as number) * smooth(0.55, 0.95, feature);
+        if (alpha < 0.01) return;
+        ctx.globalAlpha = alpha;
+        ctx.beginPath(); ctx.arc(pad + 2.5, ch - pad - fs * 0.33, 2.5, 0, 2 * PI);
+        ctx.fillStyle = C.line2; ctx.fill();
+        ctx.globalAlpha = alpha * clamp(0.3 + level * 2.5); ctx.fillStyle = C.accent; ctx.fill();
+        ctx.globalAlpha = alpha; ctx.fillStyle = C.muted;
+        ctx.fillText((s as typeof A).caption, pad + 11, ch - pad);
+      });
+      ctx.globalAlpha = 1;
+    }
+
+    let raf = 0, last = 0;
+    const loop = (now: number) => {
+      const dt = min(0.05, (now - last) / 1000 || 1 / 60);
+      last = now; time += dt;
+      render(dt);
+      raf = requestAnimationFrame(loop);
+    };
+    const start = () => { if (!raf && !reduced) { last = performance.now(); raf = requestAnimationFrame(loop); } };
+    const stop = () => { cancelAnimationFrame(raf); raf = 0; };
+    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+
+    readColors();
+    measure();
+    time = 1.6;
+    render(0);
+    new ResizeObserver(() => { measure(); render(0); }).observe(root);
+    document.fonts?.ready.then(() => { measure(); render(0); });
+    if (reduced) addEventListener('scroll', () => requestAnimationFrame(() => render(0)), { passive: true });
+    else start();
+
+    // Theme toggle.
+    const btn = root.querySelector<HTMLButtonElement>('.theme')!;
+    const setTheme = (dark: boolean) => {
+      root.dataset.theme = dark ? 'dark' : 'light';
+      btn.setAttribute('aria-pressed', String(dark));
+      readColors();
+      render(0);
+    };
+    setTheme(root.dataset.theme === 'dark');
+    btn.addEventListener('click', () => {
+      const dark = root.dataset.theme !== 'dark';
+      setTheme(dark);
+      try { localStorage.setItem('proto-theme', dark ? 'dark' : 'light'); } catch {}
+    });
+
+    // Subtle reveals.
+    root.classList.add('js');
+    const io = new IntersectionObserver(entries => {
+      for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }, { rootMargin: '0px 0px -8% 0px' });
+    root.querySelectorAll('[data-r]').forEach(el => (reduced ? el.classList.add('in') : io.observe(el)));
+  }
+</script>
+
+<style>
+  .s18 {
+    --bg: #fcfcfb;
+    --stage: #f6f7f8;
+    --ink: #1f2737;
+    --body: #535d6d;
+    --muted: #8a92a0;
+    --line: #e7e9ed;
+    --line2: #d6dae1;
+    --accent: #2f5ae0;
+    --cv-stage: var(--stage);
+    --cv-robot: #2b3445;
+    --cv-visor: #252e3e;
+    --cv-line: #e2e5ea;
+    --cv-line2: #d0d5dd;
+    --cv-muted: #9aa2af;
+    --cv-accent: #2f5ae0;
+    --pad: 40px;
+    --gap: 24px;
+    background: var(--bg);
+    color: var(--body);
+    min-height: 100vh;
+    padding-bottom: 80px;
+    font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color .4s, color .4s;
+  }
+  .s18[data-theme="dark"] {
+    --bg: #0e131a;
+    --stage: #121922;
+    --ink: #e3e7ee;
+    --body: #a3acba;
+    --muted: #6f7988;
+    --line: #1e2631;
+    --line2: #2a3441;
+    --accent: #7f9dff;
+    --cv-robot: #c9d1dd;
+    --cv-visor: #06090e;
+    --cv-line: #232c38;
+    --cv-line2: #303b49;
+    --cv-muted: #5e6877;
+    --cv-accent: #7f9dff;
+  }
+  .s18 *, .s18 *::before, .s18 *::after { box-sizing: border-box; }
+  a { color: inherit; text-decoration: none; }
+  h1, h2, h3, p, ol, ul, dl, dd { margin: 0; padding: 0; }
+  ol, ul { list-style: none; }
+  .mono { font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: .02em; }
+
+  .grid, .nav-in {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 var(--pad);
+  }
+  .grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); }
+  .col { grid-column: 1 / span 7; }
+
+  /* Nav */
+  .nav { position: fixed; inset: 0 0 auto; z-index: 10; background: var(--bg); border-bottom: 1px solid transparent; transition: border-color .4s, background-color .4s; }
+  .nav.scrolled { border-bottom-color: var(--line); }
+  .nav-in { height: 64px; display: flex; align-items: center; gap: 40px; }
+  .brand { color: var(--ink); font-weight: 500; font-size: 15px; letter-spacing: -.01em; margin-right: auto; }
+  .nav-links { display: flex; gap: 30px; font-size: 14px; }
+  .nav-links a { color: var(--body); transition: color .25s; }
+  .nav-links a:hover { color: var(--ink); }
+  .theme {
+    width: 32px; height: 32px; display: grid; place-items: center; padding: 0; cursor: pointer;
+    background: transparent; color: var(--body); border: 1px solid var(--line2); border-radius: 999px;
+    transition: color .25s, border-color .25s;
+  }
+  .theme:hover { color: var(--accent); border-color: var(--accent); }
+  .theme svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+  .theme .moon, .s18[data-theme="dark"] .theme .sun { display: none; }
+  .s18[data-theme="dark"] .theme .moon { display: block; }
+
+  /* Hero */
+  .hero { min-height: min(100vh, 940px); padding-top: 64px; align-items: center; }
+  .hero-copy { grid-column: 1 / span 7; padding-right: 24px; }
+  .eyebrow { color: var(--muted); margin-bottom: 28px; }
+  .name {
+    color: var(--ink); font-weight: 500; font-size: clamp(56px, 7.6vw, 116px);
+    line-height: .94; letter-spacing: -.045em;
+  }
+  .name span { display: block; }
+  .role { margin-top: 36px; font-size: 18px; color: var(--ink); font-weight: 500; letter-spacing: -.01em; }
+  .role a { color: var(--accent); }
+  .role a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .tagline { margin-top: 14px; font-size: 20px; line-height: 1.5; max-width: 30ch; color: var(--body); }
+  .slot { grid-column: 8 / -1; height: min(520px, 60vh); }
+
+  .dock {
+    position: fixed; left: 0; top: 0; z-index: 5; width: 0; height: 0; pointer-events: none;
+    background: var(--stage); border-radius: 12px; overflow: hidden;
+    will-change: transform; transition: background-color .4s;
+  }
+  .dock::after { content: ''; position: absolute; inset: 0; border: 1px solid var(--line); border-radius: inherit; }
+  .dock canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+
+  /* Sections */
+  .sec { padding-top: 150px; padding-bottom: 150px; }
+  .head { display: grid; grid-template-columns: 112px 1fr; column-gap: var(--gap); align-items: baseline; margin-bottom: 64px; }
+  .label { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; font-size: 11px; }
+  .idx { color: var(--accent); margin-right: 10px; }
+  h2 { color: var(--ink); font-weight: 500; font-size: 38px; line-height: 1.15; letter-spacing: -.025em; max-width: 20ch; }
+  h3 { color: var(--ink); font-weight: 500; font-size: 20px; line-height: 1.35; letter-spacing: -.01em; }
+
+  .row { display: grid; grid-template-columns: 112px 1fr; column-gap: var(--gap); padding: 34px 0 36px; border-top: 1px solid var(--line); }
+  .row:last-child { border-bottom: 1px solid var(--line); }
+  .meta { color: var(--muted); padding-top: 5px; }
+  .meta.idx { color: var(--accent); margin: 0; }
+  .row p { margin-top: 10px; max-width: 56ch; }
+  .kw { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 18px; color: var(--muted); font-size: 11.5px; }
+
+  .about { margin-left: calc(112px + var(--gap)); }
+  .about p { max-width: 58ch; }
+  .about p + p { margin-top: 20px; }
+  .lead { font-size: 21px; line-height: 1.55; color: var(--body); }
+  .facts { margin-top: 48px; border-top: 1px solid var(--line); }
+  .facts div { display: grid; grid-template-columns: 112px 1fr; gap: var(--gap); padding: 14px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+  .facts dt { color: var(--muted); }
+  .facts dd { color: var(--ink); font-size: 15px; }
+
+  .step { display: grid; grid-template-columns: 112px 1fr; column-gap: var(--gap); }
+  .step-body { position: relative; padding: 0 0 52px 32px; border-left: 1px solid var(--line2); }
+  .step:last-child .step-body { padding-bottom: 0; border-left-color: transparent; }
+  .step-body::before {
+    content: ''; position: absolute; left: -4.5px; top: 9px; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--bg); border: 1px solid var(--line2);
+  }
+  .step.now .step-body::before { background: var(--accent); border-color: var(--accent); }
+  .step:last-child .step-body::after { content: ''; position: absolute; left: -1px; top: 0; height: 9px; border-left: 1px solid var(--line2); }
+  .step .meta { padding-top: 4px; }
+  .org { margin-top: 4px; display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 15px; }
+  .org a { color: var(--accent); }
+  .org a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .org span { color: var(--muted); }
+  .step-body p:last-child { margin-top: 12px; max-width: 54ch; }
+
+  .contact { min-height: 70vh; }
+  .links { margin-left: calc(112px + var(--gap)); border-top: 1px solid var(--line); }
+  .links a { display: flex; justify-content: space-between; align-items: baseline; padding: 22px 0; border-bottom: 1px solid var(--line); color: var(--ink); font-size: 22px; letter-spacing: -.015em; transition: color .25s; }
+  .links .arrow { color: var(--muted); font-size: 16px; transition: color .25s, transform .3s; }
+  .links a:hover { color: var(--accent); }
+  .links a:hover .arrow { color: var(--accent); transform: translate(2px, -2px); }
+
+  .foot { padding-top: 40px; color: var(--muted); }
+
+  /* Reveals */
+  .js [data-r] { opacity: 0; transform: translateY(10px); transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+  .js [data-r].in { opacity: 1; transform: none; }
+
+  @media (max-width: 1100px) {
+    .nav-links { gap: 22px; }
+    .col, .hero-copy { grid-column: 1 / span 8; }
+    .slot { grid-column: 9 / -1; }
+  }
+  @media (max-width: 899px) {
+    .s18 { --pad: 20px; padding-bottom: 136px; }
+    .grid { grid-template-columns: minmax(0, 1fr); }
+    .col, .hero-copy, .slot { grid-column: 1; }
+    .nav-links { display: none; }
+    .nav-in { height: 56px; }
+    .hero { min-height: 0; padding-top: 112px; padding-bottom: 96px; align-items: start; }
+    .hero-copy { padding-right: 0; }
+    .eyebrow { margin-bottom: 20px; }
+    .name { font-size: clamp(52px, 15vw, 88px); }
+    .role { margin-top: 26px; font-size: 16px; }
+    .tagline { font-size: 18px; }
+    .slot { height: min(38vh, 320px); margin-top: 40px; }
+    .sec { padding-top: 88px; padding-bottom: 88px; }
+    .head, .row, .step, .facts div { grid-template-columns: minmax(0, 1fr); }
+    .head { margin-bottom: 40px; row-gap: 14px; }
+    h2 { font-size: 30px; }
+    .row { row-gap: 10px; padding: 28px 0; }
+    .meta { padding-top: 0; }
+    .about, .links { margin-left: 0; }
+    .lead { font-size: 19px; }
+    .facts div { gap: 2px; }
+    .step { row-gap: 8px; }
+    .step .meta { padding-left: 32px; }
+    .step-body { padding-bottom: 40px; }
+    .step .meta { position: relative; border-left: 1px solid var(--line2); margin-bottom: -8px; padding-bottom: 8px; }
+    .step:first-child .meta { border-left-color: transparent; }
+    .contact { min-height: 60vh; }
+  }
+</style>

@@ -1,0 +1,858 @@
+---
+// PROTOTYPE 11 Policy: a policy network maps observations to actions that drive a wheel-legged humanoid.
+import { profile, areas, experience, notes, formatDate } from '../content';
+
+const year = new Date().getFullYear();
+const orgs = ['Hexagon Robotics', 'ANYbotics', 'DLS Lab, IIT', 'LIG, IIT'];
+const tags = [...new Set(notes.flatMap(n => n.tags ?? []))].slice(0, 4);
+const robotIn = ['proprioception', 'base velocity', 'joint positions', 'height scan'];
+const robotOut = ['joint targets, legs', 'wheel velocity', 'joint targets, arms'];
+
+// Labels and lit groups the sticky network shows for each part of the page.
+const states = {
+  hero: { cap: 'actor network', in: robotIn, out: robotOut, on: [0, 1, 2, 3], outOn: [0, 1, 2], motion: 'balance' },
+  research: { cap: '01 research', in: ['observation', 'reward', 'value estimate', 'advantage'], out: ['policy gradient', 'value loss', 'entropy'], on: [0, 1, 2, 3], outOn: [0, 1, 2], motion: 'crouch' },
+  'area-0': { cap: '01 learning signal', in: ['observation', 'reward', 'value estimate', 'advantage'], out: ['policy gradient', 'value loss', 'entropy'], on: [1, 3], outOn: [0, 1], motion: 'crouch' },
+  'area-1': { cap: '01 whole-body motion', in: robotIn, out: robotOut, on: [0, 1, 2], outOn: [0, 1, 2], motion: 'shift' },
+  'area-2': { cap: '01 sim to real', in: ['randomized physics', 'sensor noise', 'actuator latency', 'terrain'], out: ['robust actions', 'real robot', ''], on: [0, 1, 2, 3], outOn: [0, 1], motion: 'balance' },
+  about: { cap: '02 about', in: ['robots', 'learning', 'simulation', 'hardware'], out: ['decisions', 'skills', 'deployment'], on: [0, 1], outOn: [0, 1, 2], motion: 'idle' },
+  ...Object.fromEntries(experience.map((e, i) => [`job-${i}`, {
+    cap: `03 experience · ${e.period.toLowerCase()}`, in: orgs, out: ['policy', 'motion', 'robot'], on: [i], outOn: [0, 1, 2], motion: i === 0 ? 'roll' : 'balance',
+  }])),
+  notes: { cap: '04 notes', in: [...tags, '', '', ''].slice(0, 4), out: ['notes', '', ''], on: tags.map((_, i) => i), outOn: [0], motion: 'idle' },
+  contact: { cap: '05 contact', in: [...profile.links.map(l => l.label), ''], out: ['conversation', '', ''], on: [0, 1, 2], outOn: [0], motion: 'wave' },
+};
+const arrow = '↗';
+---
+<div class="s11" data-states={JSON.stringify(states)}>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&display=swap" />
+
+  <header class="nav wrap" id="s11-top">
+    <a class="brand" href="#s11-top">{profile.name}</a>
+    <nav aria-label="Primary">
+      <a href="#s11-research">Research</a>
+      <a href="#s11-about">About</a>
+      <a href="#s11-work">Experience</a>
+      <a href="#s11-notes">Notes</a>
+      <a href="#s11-contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero" aria-labelledby="s11-name">
+    <div class="hero-text wrap reveal">
+      <div>
+        <p class="kicker">{profile.location}</p>
+        <h1 id="s11-name">{profile.firstName} <span>{profile.lastName}</span></h1>
+      </div>
+      <div class="hero-side">
+        <p class="role">{profile.role} at <a href={profile.companyHref} target="_blank" rel="noopener">{profile.company}</a></p>
+        <p class="tagline">{profile.tagline}</p>
+      </div>
+    </div>
+    <canvas class="hero-canvas" role="img" aria-label="A policy network: observations such as proprioception, base velocity, joint positions and a height scan flow through hidden layers into joint targets that drive a wheel-legged humanoid balancing on its wheels."></canvas>
+  </section>
+
+  <div class="body wrap">
+    <aside class="rail" aria-hidden="true"><canvas class="rail-canvas"></canvas></aside>
+
+    <main class="sections">
+      <section class="sec" id="s11-research" data-state="research" aria-labelledby="s11-research-h">
+        <header class="sec-head reveal">
+          <p class="kicker"><span>01</span>Research</p>
+          <h2 id="s11-research-h">From observations <span>to actions.</span></h2>
+        </header>
+        <ol class="areas">
+          {areas.map((a, i) => (
+            <li class="reveal" data-state={`area-${i}`}>
+              <p class="idx">0{i + 1} · {a.short}</p>
+              <h3>{a.title}</h3>
+              <p>{a.summary}</p>
+              <p class="kw">{a.keywords.join('  ·  ')}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="sec" id="s11-about" data-state="about" aria-labelledby="s11-about-h">
+        <header class="sec-head reveal">
+          <p class="kicker"><span>02</span>About</p>
+          <h2 id="s11-about-h">Robots that learn, <span>adapt and decide.</span></h2>
+        </header>
+        <div class="about reveal">
+          <p class="lead">{profile.bio[0]}</p>
+          <p>{profile.bio[1]}</p>
+          <dl class="facts">
+            <div><dt>Now</dt><dd>{profile.company}, {profile.robot}</dd></div>
+            <div><dt>Based</dt><dd>{profile.location}</dd></div>
+            <div><dt>From</dt><dd>{profile.origin}</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="sec" id="s11-work" aria-labelledby="s11-work-h">
+        <header class="sec-head reveal" data-state="job-0">
+          <p class="kicker"><span>03</span>Experience</p>
+          <h2 id="s11-work-h">Where the policy <span>was trained.</span></h2>
+        </header>
+        <ol class="jobs">
+          {experience.map((e, i) => (
+            <li class="reveal" data-state={`job-${i}`}>
+              <p class="idx">{e.period}</p>
+              <div>
+                <h3>{e.title}</h3>
+                <p class="org"><a href={e.href} target="_blank" rel="noopener">{e.org} <span aria-hidden="true">{arrow}</span></a><span>{e.place}</span></p>
+                <p class="summary">{e.summary}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="sec" id="s11-notes" data-state="notes" aria-labelledby="s11-notes-h">
+        <header class="sec-head reveal">
+          <p class="kicker"><span>04</span>Notes</p>
+          <h2 id="s11-notes-h">Notes from <span>training runs.</span></h2>
+        </header>
+        <ul class="notes">
+          {notes.map(n => (
+            <li class="reveal">
+              <time datetime={n.date.toISOString()}>{formatDate(n.date)}</time>
+              <div>
+                <h3>{n.title}</h3>
+                <p>{n.description}</p>
+                {n.tags && <p class="tags">{n.tags.map(t => <span>{t}</span>)}</p>}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="sec contact" id="s11-contact" data-state="contact" aria-labelledby="s11-contact-h">
+        <div class="reveal">
+          <p class="kicker"><span>05</span>Contact</p>
+          <h2 id="s11-contact-h">Let's talk <span>robot learning.</span></h2>
+          <ul class="links">
+            {profile.links.map(l => <li><a href={l.href} target="_blank" rel="noopener">{l.label} <span aria-hidden="true">{arrow}</span></a></li>)}
+          </ul>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="foot wrap">
+    <span>© {year} {profile.name}</span>
+    <span>{profile.location} · From {profile.origin}</span>
+  </footer>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('.s11');
+  if (root) {
+    root.classList.add('js');
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    type State = { cap: string; in: string[]; out: string[]; on: number[]; outOn: number[]; motion: string };
+    const STATES: Record<string, State> = JSON.parse(root.dataset.states!);
+    const INK = '22,29,46', BLUE = '47,91,255';
+    const ink = (a: number) => `rgba(${INK},${a})`;
+    const blue = (a: number) => `rgba(${BLUE},${a})`;
+    const MONO = '"Geist Mono", ui-monospace, monospace';
+    const { sin, cos, max, min, abs, PI, hypot, sqrt, tanh, exp } = Math;
+    const clamp = (v: number, lo = -1, hi = 1) => min(hi, max(lo, v));
+    const ease = (k: number) => (k < 0.5 ? 4 * k * k * k : 1 - (-2 * k + 2) ** 3 / 2);
+
+    type V = [number, number, number];
+    type M3 = number[];
+    const add = (a: V, b: V): V => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
+    const sub = (a: V, b: V): V => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+    const mul = (a: V, s: number): V => [a[0] * s, a[1] * s, a[2] * s];
+    const dot = (a: V, b: V) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+    const unit = (a: V) => mul(a, 1 / (hypot(...a) || 1));
+    const mm = (a: M3, b: M3): M3 => {
+      const r = new Array(9).fill(0);
+      for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) for (let k = 0; k < 3; k++) r[i * 3 + j] += a[i * 3 + k] * b[k * 3 + j];
+      return r;
+    };
+    const ap = (m: M3, v: V): V => [m[0] * v[0] + m[1] * v[1] + m[2] * v[2], m[3] * v[0] + m[4] * v[1] + m[5] * v[2], m[6] * v[0] + m[7] * v[1] + m[8] * v[2]];
+    const Rx = (a: number): M3 => [1, 0, 0, 0, cos(a), -sin(a), 0, sin(a), cos(a)];
+    const Ry = (a: number): M3 => [cos(a), 0, sin(a), 0, 1, 0, -sin(a), 0, cos(a)];
+    const Rz = (a: number): M3 => [cos(a), -sin(a), 0, sin(a), cos(a), 0, 0, 0, 1];
+
+    // Wheel-legged humanoid: forward kinematics for torso and arms, two-link IK from hip to wheel.
+    type Motion = { crouch: number; sway: number; arms: number; balance: number; roll: number; wave: number; lean: number };
+    const PRESETS: Record<string, Motion> = {
+      balance: { crouch: 0.45, sway: 0.7, arms: 0.7, balance: 1, roll: 0, wave: 0, lean: 0 },
+      crouch: { crouch: 1, sway: 0.35, arms: 0.5, balance: 0.7, roll: 0, wave: 0, lean: 0 },
+      shift: { crouch: 0.3, sway: 1.5, arms: 1.1, balance: 0.8, roll: 0, wave: 0, lean: 0 },
+      roll: { crouch: 0.25, sway: 0.4, arms: 0.5, balance: 0.5, roll: 1, wave: 0, lean: 0.07 },
+      idle: { crouch: 0.15, sway: 0.35, arms: 0.3, balance: 0.5, roll: 0, wave: 0, lean: 0 },
+      wave: { crouch: 0.1, sway: 0.3, arms: 0.3, balance: 0.4, roll: 0, wave: 1, lean: 0 },
+    };
+    const RW = 0.11, L1 = 0.36, L2 = 0.36;
+
+    const ik = (hip: V, foot: V, hint: V): V => {
+      const d = sub(foot, hip), dl = hypot(...d), L = min(dl, L1 + L2 - 1e-3), u = mul(d, 1 / dl);
+      const x = (L1 * L1 - L2 * L2 + L * L) / (2 * L), r = sqrt(max(0, L1 * L1 - x * x));
+      const p = unit(sub(hint, mul(u, dot(hint, u))));
+      return add(add(hip, mul(u, x)), mul(p, r));
+    };
+
+    const pose = (t: number, m: Motion, spin: number) => {
+      const c = 0.5 - 0.5 * cos(0.55 * t);
+      const h = 0.77 - m.crouch * 0.13 * c - m.roll * 0.05;
+      const s = m.sway * 0.045 * sin(0.37 * t);
+      const bal = m.balance * sin(1.1 * t + 0.8);
+      const pitch = 0.035 * bal + m.lean + 0.03 * m.crouch * c;
+      const bx = m.balance * 0.02 * sin(1.1 * t);
+      const wx = bx + m.balance * 0.045 * sin(1.1 * t - 0.6) - m.lean * 0.5;
+      const R = mm(Ry(pitch), Rx(-s * 1.2));
+      const B: V = [bx, s, h];
+      const fwd = ap(R, [1, 0, 0]);
+      const legs = [1, -1].map(side => {
+        const hip = add(B, ap(R, [0, side * 0.1, -0.03]));
+        const wheel: V = [wx, side * 0.155 + s * 0.25, RW];
+        return { hip, knee: ik(hip, wheel, fwd), wheel, side };
+      });
+      const T = mm(R, mm(Ry(0.05 * m.arms * sin(0.8 * t) - 0.02 * m.crouch * c), Rz(0.08 * m.sway * sin(0.37 * t - 0.4))));
+      const neck = add(B, ap(T, [0, 0, 0.5]));
+      const H = mm(T, mm(Ry(0.05 * sin(0.45 * t) + 0.03 * m.crouch * c), Rz(-0.12 * m.sway * sin(0.37 * t))));
+      const swing = m.arms * 0.3 * sin(0.8 * t);
+      const arms = [1, -1].map(side => {
+        const w = side < 0 ? m.wave : 0;
+        const p = (1 - w) * (0.12 + side * swing - pitch * 2.5) + w * 0.2;
+        const abd = (1 - w) * (0.13 + max(0, -side * s) * 4) + w * 1.35;
+        const tw = w * 1.45;
+        const el = (1 - w) * (0.45 + 0.15 * sin(0.8 * t + side)) + w * (1.35 + 0.4 * sin(5 * t));
+        const shoulder = add(B, ap(T, [0, side * 0.225, 0.42]));
+        const A = mm(T, mm(Ry(-p), mm(Rx(side * abd), Rz(side * tw))));
+        const elbow = add(shoulder, ap(A, [0, 0, -0.27]));
+        const F = mm(A, Ry(-el));
+        const wrist = add(elbow, ap(F, [0, 0, -0.25]));
+        return { shoulder, elbow, wrist, hand: add(wrist, ap(F, [0, 0, -0.07])), p, el, side };
+      });
+      const wheelVel = (m.roll * 0.6 + m.balance * 0.02 * 1.1 * cos(1.1 * t) + m.balance * 0.045 * 1.1 * cos(1.1 * t - 0.6)) / RW;
+      const act = [
+        ...legs.flatMap(l => {
+          const th = unit(sub(l.knee, l.hip)), sh = unit(sub(l.wheel, l.knee));
+          return [clamp((dot(th, fwd) - 0.35) * 3), clamp((Math.acos(clamp(dot(th, sh))) - 1.1) * 2.2)];
+        }),
+        clamp(wheelVel / 4), clamp(wheelVel / 4 + 0.1 * sin(t)),
+        ...arms.map(a => clamp((a.p - 0.15) * 2.2)),
+      ];
+      const obs = [
+        pitch * 14, bal * 0.8, -s * 14,
+        m.roll * 0.8 + bx * 10, s * 10 * cos(0.37 * t), 0.3 * sin(0.2 * t),
+        act[0], act[1], act[6],
+        0.6 * sin(spin * 0.3), 0.6 * sin(spin * 0.3 + 1.3), 0.6 * sin(spin * 0.3 + 2.6),
+      ].map(v => clamp(v));
+      return { B, T, H, neck, legs, arms, act, obs, spin: spin + wx / RW };
+    };
+
+    // Fixed random weights so the hidden activations are a real forward pass of the observations.
+    let seed = 7;
+    const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const gauss = () => sqrt(-2 * Math.log(rnd() + 1e-9)) * cos(2 * PI * rnd());
+    const SIZES = [12, 16, 16, 8];
+    const W = SIZES.slice(0, -1).map((n, l) => Float32Array.from({ length: n * SIZES[l + 1] }, () => gauss() / sqrt(n)));
+    const IN_GROUP = (i: number) => Math.floor(i / 3);
+    const OUT_GROUP = (i: number) => (i < 4 ? 0 : i < 6 ? 1 : 2);
+
+    type P2 = { x: number; y: number };
+    type Mode = 'h' | 'v' | 's';
+    type Layout = { nodes: P2[][]; robot: { cx: number; gy: number; px: number }; mode: Mode };
+
+    const layout = (mode: Mode, w: number, h: number): Layout => {
+      const nodes: P2[][] = [];
+      const place = (n: number, groups: (i: number) => number, a: number, b: number, gap: number) => {
+        const ng = groups(n - 1) + 1, step = (b - a - gap * (ng - 1)) / (n - 1);
+        return Array.from({ length: n }, (_, i) => a + i * step + groups(i) * gap);
+      };
+      const groupFn = (l: number) => (l === 0 ? IN_GROUP : l === 3 ? OUT_GROUP : () => 0);
+      if (mode === 'v') {
+        const top = 150, bottom = top + clamp(h * 0.36, 190, 300);
+        SIZES.forEach((n, l) => {
+          const y = top + ((bottom - top) * l) / (SIZES.length - 1);
+          const pad = l === 0 || l === 3 ? 10 : 18;
+          const xs = place(n, groupFn(l), pad, w - pad, l === 0 ? 14 : l === 3 ? 18 : 0);
+          nodes.push(xs.map(x => ({ x, y })));
+        });
+        const gy = h - 50;
+        return { nodes, mode, robot: { cx: w * 0.3, gy, px: clamp(gy - bottom - 50, 120, 320) } };
+      }
+      const full = mode === 'h';
+      const cw = min(w, 1320) - (full ? 64 : 0), left = (w - cw) / 2;
+      const x0 = left + (full ? 170 : 10), x1 = left + cw * (full ? 0.56 : 0.6);
+      const y0 = h * (full ? 0.13 : 0.34), y1 = h * (full ? 0.84 : 0.9);
+      SIZES.forEach((n, l) => {
+        const x = x0 + ((x1 - x0) * l) / (SIZES.length - 1);
+        const ys = place(n, groupFn(l), y0, y1, l === 0 ? (full ? 22 : 4) : l === 3 ? (full ? 30 : 6) : 0);
+        nodes.push(ys.map(y => ({ x, y })));
+      });
+      return { nodes, mode, robot: { cx: left + cw * (full ? 0.8 : 0.84), gy: h * (full ? 0.9 : 0.92), px: h * (full ? 0.86 : 0.82) } };
+    };
+
+    const makeView = (canvas: HTMLCanvasElement, opts: { mode: () => Mode; labels: boolean }) => {
+      const ctx = canvas.getContext('2d')!;
+      let w = 0, h = 0, lay: Layout | null = null;
+      let key = 'hero', fromKey = 'hero', switchAt = -10, spread = 1, spreadTarget = 1;
+      const motion: Motion = { ...PRESETS.balance };
+      let spin = 0, travel = 0, last = 0, clock = 0;
+
+      new ResizeObserver(() => {
+        const dpr = min(devicePixelRatio || 1, 2);
+        w = canvas.clientWidth; h = canvas.clientHeight;
+        canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        lay = layout(opts.mode(), w, h);
+        draw(clock);
+      }).observe(canvas);
+
+      const setState = (k: string) => {
+        if (k === key || !STATES[k]) return;
+        fromKey = key; key = k; switchAt = clock;
+      };
+
+      const project = (cx: number, gy: number, px: number, yaw: number) => {
+        const elev = 0.2, dist = 4.2, F = (px * dist) / 1.62, target: V = [0, 0, 0.78];
+        const C: V = add(target, [dist * cos(elev) * cos(yaw), dist * cos(elev) * sin(yaw), dist * sin(elev)]);
+        const r: V = [-sin(yaw), cos(yaw), 0], u: V = [-sin(elev) * cos(yaw), -sin(elev) * sin(yaw), cos(elev)];
+        const f: V = mul(sub(target, C), 1 / dist);
+        const raw = (p: V) => {
+          const d = sub(p, C), z = dot(d, f);
+          return { x: (F * dot(d, r)) / z, y: (-F * dot(d, u)) / z, z, s: F / z };
+        };
+        const g0 = raw([0, 0, 0]);
+        return (p: V) => {
+          const q = raw(p);
+          return { x: cx + q.x, y: gy - g0.y + q.y, z: q.z, s: q.s };
+        };
+      };
+
+      const capsule = (P: ReturnType<ReturnType<typeof project>>, Q: typeof P, r: number) => {
+        const ra = r * P.s, rb = r * Q.s, dx = Q.x - P.x, dy = Q.y - P.y, L = hypot(dx, dy) || 1;
+        const an = Math.atan2(dx / L, -dy / L);
+        ctx.beginPath();
+        ctx.arc(Q.x, Q.y, rb, an, an - PI, true);
+        ctx.arc(P.x, P.y, ra, an - PI, an - 2 * PI, true);
+        ctx.closePath();
+      };
+
+      const drawRobot = (t: number, st: State, wave: number) => {
+        if (!lay) return null;
+        const { cx, gy, px } = lay.robot;
+        const yaw = lay.mode === 'v' ? 0.75 + 0.35 * sin(t * 0.09) : 0.95 + 0.38 * sin(t * 0.08);
+        const P = project(cx, gy, px, yaw);
+        const q = pose(t, motion, spin);
+        const depth0 = P([0, 0, 0.78]).z;
+        const fade = (p: { z: number }) => clamp(0.55 + (depth0 - p.z) * 0.5, 0.25, 1);
+        const lw = lay.mode === 's' ? 0.8 : 1;
+
+        // ground: dotted disc that streams backwards while rolling
+        const sp = 0.22, off = travel % sp;
+        for (let i = -6; i <= 6; i++) for (let j = -6; j <= 6; j++) {
+          const x = i * sp - off, y = j * sp, rr = hypot(x, y) / 1.35;
+          if (rr > 1) continue;
+          const g = P([x, y, 0]);
+          ctx.fillStyle = ink(0.22 * (1 - rr) ** 1.5);
+          ctx.fillRect(g.x - 0.6, g.y - 0.6, 1.2, 1.2);
+        }
+        ctx.beginPath();
+        for (let k = 0; k <= 64; k++) {
+          const a = (k / 64) * 2 * PI, g = P([0.55 * cos(a), 0.55 * sin(a), 0]);
+          k ? ctx.lineTo(g.x, g.y) : ctx.moveTo(g.x, g.y);
+        }
+        ctx.strokeStyle = ink(0.07);
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        const seg = (a: V, b: V, r: number, alpha = 1) => {
+          const A = P(a), Bp = P(b);
+          capsule(A, Bp, r);
+          ctx.fillStyle = 'rgba(255,255,255,0.82)';
+          ctx.fill();
+          ctx.strokeStyle = ink(0.62 * alpha * fade({ z: (A.z + Bp.z) / 2 }));
+          ctx.lineWidth = lw;
+          ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(Bp.x, Bp.y);
+          ctx.strokeStyle = blue(0.18 * alpha);
+          ctx.stroke();
+        };
+        const loop = (pts: V[]) => {
+          ctx.beginPath();
+          pts.forEach((p, k) => { const s = P(p); k ? ctx.lineTo(s.x, s.y) : ctx.moveTo(s.x, s.y); });
+          ctx.closePath();
+        };
+        const shell = (frame: M3, origin: V, rings: [number, number, number][], spokes = 8) => {
+          const N = 28;
+          const ringPts = rings.map(([z, rx, ry]) => Array.from({ length: N }, (_, k) => {
+            const a = (k / N) * 2 * PI, c = cos(a), s = sin(a);
+            const ex = 2 / 3.2;
+            return add(origin, ap(frame, [rx * Math.sign(c) * abs(c) ** ex, ry * Math.sign(s) * abs(s) ** ex, z]));
+          }));
+          const zc = P(origin).z;
+          ringPts.forEach((pts, i) => {
+            loop(pts);
+            ctx.strokeStyle = ink((i === 0 || i === ringPts.length - 1 ? 0.55 : 0.32) * fade({ z: zc }));
+            ctx.lineWidth = lw;
+            ctx.stroke();
+          });
+          for (let sk = 0; sk < spokes; sk++) {
+            const k = Math.round((sk * N) / spokes) % N;
+            ctx.beginPath();
+            ringPts.forEach((pts, i) => { const s = P(pts[k]); i ? ctx.lineTo(s.x, s.y) : ctx.moveTo(s.x, s.y); });
+            const front = P(ringPts[0][k]).z < zc;
+            ctx.strokeStyle = ink((front ? 0.42 : 0.16) * fade({ z: zc }));
+            ctx.stroke();
+          }
+        };
+
+        const joints: Record<string, { x: number; y: number }> = {};
+        const jointDot = (name: string, p: V, flash: number) => {
+          const s = P(p);
+          joints[name] = s;
+          const r = lay!.mode === 's' ? 1.3 : 2.1;
+          if (flash > 0.02) {
+            ctx.beginPath(); ctx.arc(s.x, s.y, r + (lay!.mode === 's' ? 1 + flash * 2 : 2 + flash * 5), 0, 2 * PI);
+            ctx.fillStyle = blue(flash * 0.25); ctx.fill();
+          }
+          ctx.beginPath(); ctx.arc(s.x, s.y, r, 0, 2 * PI);
+          ctx.fillStyle = '#fff'; ctx.fill();
+          ctx.strokeStyle = blue(0.75); ctx.lineWidth = 1.1; ctx.stroke();
+        };
+
+        // far side first so the near limbs read on top
+        const sideOrder = [...q.legs.keys()].sort((a, b) => P(q.legs[b].hip).z - P(q.legs[a].hip).z);
+        const disc = (c: V, e1: V, e2: V, r: number) => {
+          loop(Array.from({ length: 24 }, (_, k): V => {
+            const a = (k / 24) * 2 * PI;
+            return add(c, add(mul(e1, r * cos(a)), mul(e2, r * sin(a))));
+          }));
+          ctx.strokeStyle = ink(0.5 * fade(P(c)));
+          ctx.lineWidth = lw;
+          ctx.stroke();
+        };
+        const ex = ap(q.T, [1, 0, 0]), ez = ap(q.T, [0, 0, 1]);
+        const drawLeg = (i: number) => {
+          const l = q.legs[i];
+          seg(l.hip, l.knee, 0.055);
+          seg(l.knee, l.wheel, 0.045);
+          disc(add(l.hip, [0, l.side * 0.035, 0]), ex, ez, 0.062);
+          disc(add(l.knee, [0, l.side * 0.03, 0]), ex, ez, 0.052);
+          const axis: V = [0, 1, 0];
+          for (const o of [-0.032, 0.032]) {
+            const rim = Array.from({ length: 36 }, (_, k): V => {
+              const a = (k / 36) * 2 * PI;
+              return add(l.wheel, [RW * cos(a), o, RW * sin(a)]);
+            });
+            loop(rim);
+            ctx.strokeStyle = ink(0.6 * fade(P(l.wheel)));
+            ctx.lineWidth = lw;
+            ctx.stroke();
+          }
+          ctx.beginPath();
+          for (let k = 0; k < 5; k++) {
+            const a = q.spin + (k / 5) * 2 * PI;
+            const a0 = P(add(l.wheel, mul(axis, l.side * 0.03))), b0 = P(add(l.wheel, [RW * 0.82 * cos(a), l.side * 0.03, RW * 0.82 * sin(a)]));
+            ctx.moveTo(a0.x, a0.y); ctx.lineTo(b0.x, b0.y);
+          }
+          ctx.strokeStyle = blue(0.55);
+          ctx.stroke();
+        };
+        const drawArm = (i: number) => {
+          const a = q.arms[i];
+          seg(a.shoulder, a.elbow, 0.042);
+          disc(a.elbow, ex, ez, 0.04);
+          seg(a.elbow, a.wrist, 0.034);
+          seg(a.wrist, a.hand, 0.028, 0.8);
+        };
+        const farArm = P(q.arms[0].shoulder).z > P(q.arms[1].shoulder).z ? 0 : 1;
+        drawLeg(sideOrder[0]);
+        drawArm(farArm);
+        shell(q.T, q.B, [[-0.07, 0.09, 0.15], [0.03, 0.085, 0.13]], 8);
+        shell(q.T, q.B, [[0.09, 0.09, 0.13], [0.2, 0.11, 0.17], [0.33, 0.12, 0.195], [0.45, 0.1, 0.17]]);
+        q.arms.forEach(a => disc(a.shoulder, ap(q.T, [1, 0, 0]), ap(q.T, [0, 0, 1]), 0.055));
+        seg(q.neck, add(q.neck, ap(q.H, [0, 0, 0.06])), 0.03);
+        shell(q.H, add(q.neck, ap(q.H, [0, 0, 0.05])), [[0, 0.06, 0.055], [0.05, 0.095, 0.085], [0.11, 0.1, 0.09], [0.17, 0.085, 0.078], [0.21, 0.05, 0.045]], 8);
+        const visor = Array.from({ length: 9 }, (_, k): V => {
+          const a = -1.1 + (k / 8) * 2.2;
+          return add(q.neck, ap(q.H, [0.104 * cos(a), 0.094 * sin(a), 0.15]));
+        });
+        ctx.beginPath();
+        visor.forEach((p, k) => { const s = P(p); k ? ctx.lineTo(s.x, s.y) : ctx.moveTo(s.x, s.y); });
+        ctx.strokeStyle = blue(0.85); ctx.lineWidth = 1.6 * lw; ctx.stroke();
+        drawLeg(sideOrder[1]);
+        drawArm(1 - farArm);
+
+        const names = ['hipL', 'kneeL', 'hipR', 'kneeR', 'wheelL', 'wheelR', 'shoulderL', 'shoulderR'];
+        const pts: V[] = [q.legs[0].hip, q.legs[0].knee, q.legs[1].hip, q.legs[1].knee, q.legs[0].wheel, q.legs[1].wheel, q.arms[0].shoulder, q.arms[1].shoulder];
+        names.forEach((n, i) => jointDot(n, pts[i], st.outOn.includes(OUT_GROUP(i)) ? wave : 0));
+        jointDot('elbowL', q.arms[0].elbow, 0);
+        jointDot('elbowR', q.arms[1].elbow, 0);
+        return { joints, names, q };
+      };
+
+      const text = (s: string, x: number, y: number, a: number, align: CanvasTextAlign = 'left', size = 11, color = ink) => {
+        if (!s || a <= 0.01) return;
+        ctx.font = `400 ${size}px ${MONO}`;
+        ctx.textAlign = align;
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = color(a);
+        ctx.fillText(s, x, y);
+      };
+
+      const draw = (t: number) => {
+        if (!lay || !w) return;
+        const dt = min(0.05, max(0, t - last)); last = t;
+        const st = STATES[key], prev = STATES[fromKey];
+        const k = reduce ? 1 : ease(clamp((t - switchAt) / 0.9, 0, 1));
+        const target = PRESETS[st.motion];
+        const blend = reduce ? 1 : 1 - exp(-dt * 1.6);
+        (Object.keys(motion) as (keyof Motion)[]).forEach(n => (motion[n] += (target[n] - motion[n]) * blend));
+        travel += motion.roll * 0.6 * dt;
+        spin = travel / RW;
+        spread += (spreadTarget - spread) * (reduce ? 1 : 1 - exp(-dt * 3));
+
+        ctx.clearRect(0, 0, w, h);
+        const q = pose(t, motion, spin);
+        const mask = (l: number, i: number) => {
+          if (l === 0) { const g = IN_GROUP(i); return k * +st.on.includes(g) + (1 - k) * +prev.on.includes(g); }
+          if (l === 3) { const g = OUT_GROUP(i); return k * +st.outOn.includes(g) + (1 - k) * +prev.outOn.includes(g); }
+          return 1;
+        };
+        const acts: number[][] = [q.obs.map((v, i) => v * (0.12 + 0.88 * mask(0, i)))];
+        for (let l = 0; l < 2; l++) {
+          const n = SIZES[l], m = SIZES[l + 1], src = acts[l];
+          acts.push(Array.from({ length: m }, (_, j) => {
+            let s = 0;
+            for (let i = 0; i < n; i++) s += W[l][j * n + i] * src[i];
+            return tanh(1.8 * s);
+          }));
+        }
+        acts.push(q.act.map((v, i) => v * (0.15 + 0.85 * mask(3, i))));
+
+        // pulse travelling observation -> action -> joints, once per control step
+        const PERIOD = 2.2, L = SIZES.length;
+        const front = reduce ? -1 : ((t / PERIOD) % 1) * (L + 0.4) - 0.2;
+        const flashAt = (l: number) => exp(-((front - l) ** 2) / 0.05);
+
+        const cx0 = lay.mode === 'v' ? w / 2 : 0;
+        const nodes = lay.nodes.map(layer => layer.map(p => (lay!.mode === 'v'
+          ? { x: cx0 + (p.x - cx0) * spread, y: p.y }
+          : p)));
+        const ga = clamp(spread * 1.4, 0, 1);
+
+        // edges
+        ctx.lineWidth = lay.mode === 's' ? 0.5 : 0.7;
+        for (let l = 0; l < L - 1; l++) {
+          const A = nodes[l], Bn = nodes[l + 1], n = A.length;
+          const wt = W[l];
+          for (let j = 0; j < Bn.length; j++) for (let i = 0; i < n; i++) {
+            const c = abs(wt[j * n + i] * acts[l][i]) * (l === 2 ? mask(3, j) : 1);
+            const a = (0.018 + min(0.3, c * 0.5)) * ga;
+            ctx.strokeStyle = c > 0.22 ? blue(a) : ink(a * 0.8);
+            ctx.beginPath(); ctx.moveTo(A[i].x, A[i].y); ctx.lineTo(Bn[j].x, Bn[j].y); ctx.stroke();
+          }
+          if (front > l && front < l + 1) {
+            const f = ease(front - l);
+            for (let j = 0; j < Bn.length; j++) for (let i = 0; i < n; i++) {
+              const c = abs(wt[j * n + i] * acts[l][i]);
+              if (c < 0.35) continue;
+              ctx.fillStyle = blue(min(0.9, c) * ga);
+              ctx.beginPath();
+              ctx.arc(A[i].x + (Bn[j].x - A[i].x) * f, A[i].y + (Bn[j].y - A[i].y) * f, 1.4, 0, 2 * PI);
+              ctx.fill();
+            }
+          }
+        }
+
+        // robot and wires from action nodes to the joints they command
+        const wave = flashAt(L - 1 + 0.9);
+        const rb = drawRobot(t, st, wave);
+        if (rb && lay.mode !== 's' && ga > 0) {
+          const out = nodes[L - 1];
+          rb.names.forEach((n, i) => {
+            const p = out[i], j = rb.joints[n];
+            if (!j) return;
+            const on = mask(3, i);
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            if (lay!.mode === 'v') ctx.bezierCurveTo(p.x, p.y + 60, j.x, j.y - 80, j.x, j.y);
+            else ctx.bezierCurveTo(p.x + (j.x - p.x) * 0.5, p.y, j.x - (j.x - p.x) * 0.35, j.y, j.x, j.y);
+            ctx.strokeStyle = blue((0.05 + 0.16 * on) * ga);
+            ctx.lineWidth = 0.8;
+            ctx.setLineDash([2, 4]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+          });
+          if (front > L - 1 && front < L - 1 + 0.9) {
+            const f = ease((front - (L - 1)) / 0.9);
+            rb.names.forEach((n, i) => {
+              const p = out[i], j = rb.joints[n];
+              if (!j || mask(3, i) < 0.5) return;
+              const u = 1 - f;
+              const [c1, c2] = lay!.mode === 'v'
+                ? [{ x: p.x, y: p.y + 60 }, { x: j.x, y: j.y - 80 }]
+                : [{ x: p.x + (j.x - p.x) * 0.5, y: p.y }, { x: j.x - (j.x - p.x) * 0.35, y: j.y }];
+              const x = u ** 3 * p.x + 3 * u * u * f * c1.x + 3 * u * f * f * c2.x + f ** 3 * j.x;
+              const y = u ** 3 * p.y + 3 * u * u * f * c1.y + 3 * u * f * f * c2.y + f ** 3 * j.y;
+              ctx.fillStyle = blue(0.9 * ga);
+              ctx.beginPath(); ctx.arc(x, y, 1.8, 0, 2 * PI); ctx.fill();
+            });
+          }
+        }
+
+        // nodes
+        nodes.forEach((layer, l) => layer.forEach((p, i) => {
+          const a = acts[l][i], on = mask(l, i), fl = flashAt(l) * on;
+          const r = lay!.mode === 's' ? 1.8 : l === 0 || l === L - 1 ? 3.4 : 3;
+          const lit = abs(a) * (l === 0 || l === L - 1 ? on : 1);
+          ctx.beginPath(); ctx.arc(p.x, p.y, r + 3 + fl * 3, 0, 2 * PI);
+          ctx.fillStyle = blue((lit > 0.5 ? 0.08 : 0) * ga + fl * 0.14);
+          ctx.fill();
+          ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, 2 * PI);
+          ctx.fillStyle = '#fff'; ctx.fill();
+          ctx.fillStyle = blue(clamp(lit * 0.95 + fl * 0.3, 0, 1) * ga);
+          ctx.fill();
+          ctx.strokeStyle = lit > 0.25 ? blue(0.9 * ga) : ink((0.22 + 0.25 * on) * ga);
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }));
+
+        if (opts.labels) drawLabels(nodes, st, prev, k, ga, t, q.act);
+        else {
+          text('π(a | o)', 10, 12, 0.85, 'left', 10, blue);
+          if (k < 1) text(prev.cap, 66, 12 - 3 * k, 0.7 * (1 - k), 'left', 10);
+          text(st.cap, 66, 12 + 3 * (1 - k), 0.7 * k, 'left', 10);
+        }
+      };
+
+      const drawLabels = (nodes: P2[][], st: State, prev: State, k: number, ga: number, t: number, act: number[]) => {
+        const L = SIZES.length, inN = nodes[0], outN = nodes[L - 1];
+        const groups = (arr: P2[], fn: (i: number) => number) => {
+          const g: P2[][] = [];
+          arr.forEach((p, i) => (g[fn(i)] ??= []).push(p));
+          return g;
+        };
+        const ig = groups(inN, IN_GROUP), og = groups(outN, OUT_GROUP);
+        const both = (fn: (s: State, a: number, dy: number) => void) => {
+          if (k < 1) fn(prev, (1 - k) * ga, -4 * k);
+          fn(st, k * ga, 4 * (1 - k));
+        };
+        const steps = String(Math.floor(t * 50)).padStart(6, '0');
+        if (lay!.mode === 'h') {
+          both((s, a, dy) => {
+            ig.forEach((g, i) => {
+              const on = s.on.includes(i);
+              text(s.in[i], g[0].x - 18, (g[0].y + g[g.length - 1].y) / 2 + dy, a * (on ? 0.85 : 0.35), 'right', 12);
+            });
+            og.forEach((g, i) => {
+              const on = s.outOn.includes(i);
+              text(s.out[i], g[0].x + 14, g[0].y - 13 + dy, a * (on ? 0.85 : 0.35), 'left', 12, on ? blue : ink);
+            });
+          });
+          const by = h * 0.955;
+          ['observation  oₜ', 'hidden 256', 'hidden 256', 'action  aₜ'].forEach((s, l) => text(s, nodes[l][0].x, by, 0.45, 'center', 10.5));
+          text(`π(a | o)   ·   step ${steps}`, nodes[0][0].x - 170, h * 0.045, 0.5, 'left', 10.5);
+          text(`${act.length} joint commands  ·  50 Hz`, lay!.robot.cx, by, 0.45, 'center', 10.5);
+        } else if (lay!.mode === 'v') {
+          text(`π(a | o)`, 0, 14, 0.85 * ga, 'left', 11, blue);
+          text(`step ${steps}`, w, 14, 0.45 * ga, 'right', 10.5);
+          both((s, a, dy) => {
+            text(s.cap, 0, 38 + dy, a * 0.8, 'left', 11);
+            s.in.forEach((label, i) => {
+              const on = s.on.includes(i);
+              const y = 64 + i * 17 + dy;
+              text(String(i + 1), 0, y, a * (on ? 0.9 : 0.3), 'left', 10.5, on ? blue : ink);
+              text(label || '·', 18, y, a * (on ? 0.85 : 0.3), 'left', 11);
+            });
+            const rx = w - 140, ry = lay!.robot.gy - lay!.robot.px * 0.62;
+            text('actions', rx, ry - 22, a * 0.45, 'left', 10.5);
+            s.out.forEach((label, i) => {
+              const on = s.outOn.includes(i);
+              const y = ry + i * 17 + dy;
+              text(String.fromCharCode(65 + i), rx, y, a * (on ? 0.9 : 0.3), 'left', 10.5, on ? blue : ink);
+              text(label || '·', rx + 14, y, a * (on ? 0.85 : 0.3), 'left', 10.5);
+            });
+          });
+          ig.forEach((g, i) => text(String(i + 1), (g[0].x + g[g.length - 1].x) / 2, g[0].y - 14, 0.45 * ga, 'center', 10));
+          og.forEach((g, i) => text(String.fromCharCode(65 + i), (g[0].x + g[g.length - 1].x) / 2, g[0].y - 14, 0.45 * ga, 'center', 10));
+        }
+      };
+
+      return {
+        draw: (t: number) => { clock = t; draw(t); },
+        setState,
+        setSpread: (v: number) => (spreadTarget = v),
+        snap: (k: string) => { key = fromKey = k; switchAt = -10; Object.assign(motion, PRESETS[STATES[k].motion]); },
+        relayout: () => { lay = layout(opts.mode(), w, h); },
+      };
+    };
+
+    const loop = (el: Element, draw: (t: number) => void) => {
+      let raf = 0, visible = false;
+      const t0 = performance.now();
+      const frame = (now: number) => { draw((now - t0) / 1000); raf = requestAnimationFrame(frame); };
+      const start = () => { if (!raf && visible && !document.hidden && !reduce) raf = requestAnimationFrame(frame); };
+      const stop = () => { cancelAnimationFrame(raf); raf = 0; };
+      new IntersectionObserver(([e]) => { visible = e.isIntersecting; visible ? start() : stop(); if (reduce) draw(6); }).observe(el);
+      document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+    };
+
+    const narrow = matchMedia('(max-width: 900px)');
+    const heroCanvas = root.querySelector<HTMLCanvasElement>('.hero-canvas')!;
+    const railCanvas = root.querySelector<HTMLCanvasElement>('.rail-canvas')!;
+    const hero = makeView(heroCanvas, { mode: () => (heroCanvas.clientWidth < 760 ? 'v' : 'h'), labels: true });
+    const rail = makeView(railCanvas, { mode: () => (narrow.matches ? 's' : 'v'), labels: !narrow.matches });
+    narrow.addEventListener('change', () => location.reload());
+    loop(heroCanvas, hero.draw);
+    loop(railCanvas, rail.draw);
+
+    // The section crossing the middle of the viewport sets which nodes light up in the rail.
+    const triggers = [...root.querySelectorAll<HTMLElement>('[data-state]')];
+    const body = root.querySelector<HTMLElement>('.body')!;
+    const strip = root.querySelector<HTMLElement>('.rail')!;
+    let first = true, ticking = false;
+    const update = () => {
+      ticking = false;
+      const mid = innerHeight * 0.5;
+      let pick = '';
+      for (const el of triggers) {
+        const r = el.getBoundingClientRect();
+        if (r.top <= mid && r.bottom >= mid) pick = el.dataset.state!;
+        else if (r.top <= mid && !pick) pick = el.dataset.state!;
+      }
+      const into = body.getBoundingClientRect().top < innerHeight * 0.75;
+      strip.classList.toggle('on', into);
+      rail.setSpread(into ? 1 : 0);
+      if (!pick) pick = 'research';
+      if (first) { rail.snap(pick); first = false; } else rail.setState(pick);
+      if (reduce) rail.draw(6);
+    };
+    const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onScroll);
+    update();
+    document.fonts?.ready.then(() => { hero.draw(reduce ? 6 : 0.01); rail.draw(reduce ? 6 : 0.01); });
+
+    const reveal = new IntersectionObserver(entries => {
+      for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); reveal.unobserve(e.target); }
+    }, { rootMargin: '0px 0px -8% 0px' });
+    root.querySelectorAll('.reveal').forEach(el => reveal.observe(el));
+  }
+</script>
+
+<style>
+  .s11 {
+    --ink: #161d2e;
+    --body: #4a5568;
+    --muted: #8a93a6;
+    --line: #e8ebf1;
+    --blue: #2f5bff;
+    --gutter: clamp(16px, 4vw, 32px);
+    --sans: 'Geist', system-ui, sans-serif;
+    --mono: 'Geist Mono', ui-monospace, Menlo, monospace;
+    background: #fff;
+    color: var(--ink);
+    font: 400 16px/1.65 var(--sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+    padding-bottom: 88px;
+  }
+  .s11 *, .s11 *::before, .s11 *::after { box-sizing: border-box; }
+  :where(.s11 h1, .s11 h2, .s11 h3, .s11 p, .s11 ol, .s11 ul, .s11 dl, .s11 dd) { margin: 0; padding: 0; }
+  :where(.s11 ol, .s11 ul) { list-style: none; }
+  :where(.s11 a) { color: inherit; text-decoration: none; }
+  .s11 a:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; border-radius: 3px; }
+  .wrap { max-width: 1320px; margin: 0 auto; padding: 0 var(--gutter); }
+
+  .nav { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding-top: 26px; padding-bottom: 26px; }
+  .brand { font-weight: 500; font-size: 15px; letter-spacing: -.01em; }
+  .nav nav { display: flex; gap: clamp(14px, 2.6vw, 36px); }
+  .nav nav a { font-size: 14px; color: var(--body); transition: color .3s; }
+  .nav nav a:hover { color: var(--blue); }
+
+  .kicker { display: flex; gap: 12px; font: 400 12px/1.4 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .kicker span { color: var(--blue); }
+
+  .hero { position: relative; }
+  .hero-text { display: grid; grid-template-columns: 1.25fr 1fr; gap: 48px; align-items: end; padding-top: clamp(16px, 4vh, 48px); }
+  .hero h1 { margin-top: 18px; font: 500 clamp(48px, 6.6vw, 92px)/.96 var(--sans); letter-spacing: -.045em; }
+  .hero h1 span { color: var(--blue); }
+  .hero-side { padding-bottom: 10px; max-width: 470px; }
+  .role { font-size: 15px; color: var(--body); }
+  .role a { color: var(--ink); border-bottom: 1px solid var(--line); transition: color .3s, border-color .3s; }
+  .role a:hover { color: var(--blue); border-color: var(--blue); }
+  .tagline { margin-top: 12px; font: 400 clamp(20px, 1.9vw, 25px)/1.38 var(--sans); letter-spacing: -.015em; }
+  .hero-canvas { display: block; width: 100%; height: clamp(400px, 60vh, 580px); margin-top: clamp(4px, 1vh, 16px); }
+
+  .body { display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: clamp(56px, 8vw, 136px); margin-top: clamp(60px, 10vh, 120px); }
+  .rail { position: sticky; top: 36px; height: min(calc(100vh - 72px), 820px); opacity: 0; transition: opacity 1s cubic-bezier(.2, .7, .2, 1); }
+  .rail.on { opacity: 1; }
+  .rail-canvas { display: block; width: 100%; height: 100%; }
+
+  .sec { padding: clamp(40px, 7vh, 72px) 0 clamp(90px, 13vh, 150px); max-width: 760px; }
+  .sec-head h2 { margin: 18px 0 48px; font: 500 clamp(32px, 3.6vw, 48px)/1.08 var(--sans); letter-spacing: -.035em; }
+  .sec-head h2 span { color: var(--blue); }
+  .idx { font: 400 12px/1.4 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--blue); }
+
+  .areas li { padding: 34px 0 38px; border-top: 1px solid var(--line); }
+  .areas li:last-child { border-bottom: 1px solid var(--line); }
+  .areas h3 { margin: 12px 0 10px; font: 500 24px/1.25 var(--sans); letter-spacing: -.02em; }
+  .areas p:not(.idx):not(.kw) { color: var(--body); max-width: 58ch; }
+  .kw { margin-top: 14px; font: 400 12px/1.5 var(--mono); color: var(--muted); }
+
+  .lead { font-size: clamp(19px, 1.6vw, 22px); line-height: 1.55; letter-spacing: -.01em; margin-bottom: 20px; }
+  .about > p:not(.lead) { color: var(--body); }
+  .facts { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 12px 56px; margin-top: 44px; padding-top: 24px; border-top: 1px solid var(--line); }
+  .facts dt { font: 400 11px/1.4 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .facts dd { margin-top: 6px; font-size: 15px; }
+
+  .jobs li { display: grid; grid-template-columns: 130px 1fr; gap: 24px; padding: 34px 0; border-top: 1px solid var(--line); }
+  .jobs li:last-child { border-bottom: 1px solid var(--line); }
+  .jobs .idx { padding-top: 6px; }
+  .jobs h3 { font: 500 22px/1.3 var(--sans); letter-spacing: -.02em; }
+  .org { display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: baseline; margin-top: 6px; }
+  .org a { color: var(--blue); font-weight: 500; font-size: 15px; background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size .45s cubic-bezier(.2, .7, .2, 1); }
+  .org a:hover { background-size: 100% 1px; }
+  .org > span { font: 400 11px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .summary { margin-top: 12px; color: var(--body); max-width: 56ch; }
+
+  .notes li { display: grid; grid-template-columns: 130px 1fr; gap: 24px; padding: 30px 0; border-top: 1px solid var(--line); }
+  .notes li:last-child { border-bottom: 1px solid var(--line); }
+  .notes time { font: 400 12px/2 var(--mono); color: var(--muted); }
+  .notes h3 { font: 500 20px/1.3 var(--sans); letter-spacing: -.015em; }
+  .notes p { margin-top: 6px; color: var(--body); font-size: 15px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px !important; }
+  .tags span { font: 400 11px/1 var(--mono); padding: 5px 8px; border: 1px solid #dfe5ff; border-radius: 4px; color: var(--blue); }
+
+  .contact h2 { margin: 18px 0 36px; font: 500 clamp(40px, 5vw, 68px)/1.04 var(--sans); letter-spacing: -.04em; }
+  .contact h2 span { color: var(--blue); }
+  .links { display: flex; flex-wrap: wrap; gap: 10px; }
+  .links a { display: inline-block; padding: 12px 22px; border: 1px solid var(--line); border-radius: 999px; font-size: 15px; transition: border-color .3s, color .3s; }
+  .links a:hover { border-color: var(--blue); color: var(--blue); }
+
+  .foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding-top: 26px; font: 400 12px/1.5 var(--mono); color: var(--muted); }
+  .foot::before { content: ''; position: absolute; }
+  .foot { border-top: 1px solid var(--line); max-width: calc(1320px - 2 * var(--gutter)); padding-left: 0; padding-right: 0; margin-inline: auto; width: calc(100% - 2 * var(--gutter)); }
+
+  .js .reveal { opacity: 0; transform: translateY(12px); transition: opacity .9s cubic-bezier(.2, .7, .2, 1), transform .9s cubic-bezier(.2, .7, .2, 1); }
+  .js .reveal.in { opacity: 1; transform: none; }
+
+  @media (max-width: 900px) {
+    .hero-text { grid-template-columns: 1fr; gap: 20px; }
+    .body { display: block; margin-top: 40px; }
+    .rail { top: 0; height: 104px; z-index: 5; background: #fff; border-bottom: 1px solid var(--line); margin: 0 calc(-1 * var(--gutter)); padding: 0 var(--gutter); }
+    .sec { padding: 56px 0 72px; }
+  }
+  @media (max-width: 760px) {
+    .nav { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .nav nav { flex-wrap: wrap; gap: 6px 18px; }
+    .hero-canvas { height: 620px; width: calc(100% - 2 * var(--gutter)); margin-inline: auto; }
+    .jobs li, .notes li { grid-template-columns: 1fr; gap: 8px; }
+    .facts { grid-template-columns: 1fr 1fr; gap: 16px 32px; }
+    .sec-head h2 { margin-bottom: 32px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .js .reveal { opacity: 1; transform: none; transition: none; }
+    .rail { transition: none; }
+  }
+</style>

@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content';
+import Section from '../Section.astro';
+
+const notes = (await getCollection('notes', n => !n.data.draft)).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const formatDate = (d: Date) => d.toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: '2-digit' });
+---
+<Section id="notes" label="Notes" heading="Notes on robot learning.">
+  <ol class="notes">
+    {notes.map(({ data: n }) => (
+      <li data-r>
+        <!-- No note pages yet: links stay on the section. -->
+        <a class="note" href="#notes">
+          <time class="mono" datetime={n.pubDate.toISOString()}>{formatDate(n.pubDate)}</time>
+          <span class="n-title">{n.title}</span>
+          <span class="n-desc">{n.description}</span>
+          {n.tags && <span class="n-tags mono">{n.tags.map(t => <span>{t}</span>)}</span>}
+        </a>
+      </li>
+    ))}
+  </ol>
+</Section>
+
+<style>
+  .notes { border-top: 1px solid var(--line-2); }
+  .note { display: grid; grid-template-columns: 112px minmax(0, 1fr); column-gap: 0; row-gap: 6px; padding: 24px 0; border-bottom: 1px solid var(--line); }
+  .note time { color: var(--muted); font-size: 10.5px; padding-top: 4px; grid-row: span 3; }
+  .n-title { color: var(--ink); font-weight: 500; font-size: 18px; letter-spacing: -.012em; line-height: 1.3; transition: color .2s; }
+  .note:hover .n-title { color: var(--accent); }
+  .n-desc { font-size: 15px; line-height: 1.55; }
+  .n-tags { display: flex; flex-wrap: wrap; gap: 4px 16px; color: var(--muted); font-size: 10px; margin-top: 4px; }
+
+  @media (max-width: 900px) {
+    .note { grid-template-columns: 1fr; }
+    .note time { padding-top: 0; margin-bottom: 6px; grid-row: auto; }
+  }
+</style>

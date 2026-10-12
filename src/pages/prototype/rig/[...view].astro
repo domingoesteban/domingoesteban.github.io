@@ -1,0 +1,148 @@
+---
+// PROTOTYPE: dev-only viewer for the shared humanoid rig. ?t=1.2 freezes time, ?view=side, ?skill=walk, ?perturb=0.1,0,0.1.
+export function getStaticPaths() { return import.meta.env.DEV ? [{ params: { view: undefined } }] : []; }
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Humanoid rig</title>
+  </head>
+  <body style="margin:0;background:#fff">
+    <main class="rig">
+      <header>
+        <strong>Humanoid rig</strong>
+        <a href="?">3/4</a><a href="?view=side">side</a><a href="?view=front">front</a>
+        <span class="hint">hover a cell to push the robot with the cursor</span>
+      </header>
+      <div class="grid"></div>
+    </main>
+  </body>
+</html>
+<style>
+  .rig { font: 13px/1.4 system-ui, sans-serif; color: #2a3140; padding: 16px; }
+  header { display: flex; gap: 14px; align-items: baseline; margin-bottom: 12px; }
+  header a { color: #2563eb; }
+  .hint { color: #8a93a3; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--cell, 360px), 1fr)); gap: 10px; }
+  .grid :global(figure) { margin: 0; border: 1px solid #e6e9ef; }
+  .grid :global(figcaption) { padding: 6px 10px; border-top: 1px solid #e6e9ef; color: #5a6475; font-family: ui-monospace, monospace; font-size: 12px; }
+  .grid :global(canvas) { display: block; width: 100%; aspect-ratio: 1; }
+</style>
+<script>
+  import { pose, blend, project, SKILLS, DURATION, BONES, HEAD_RADIUS, BALL_RADIUS, type Camera, type Frame, type Skill, type Vec3 } from '../../../components/prototype-styles/humanoid';
+  import { movePose, MOVES, MOVE_DURATION, type Move, type Prop } from '../../../components/prototype-styles/humanoid-extra';
+  const isMove = (n: string): n is Move => (MOVES as string[]).includes(n);
+  const dur = (n: string) => (isMove(n) ? MOVE_DURATION[n] : DURATION[n as Skill]);
+
+  const q = new URLSearchParams(location.search);
+  const frozen = q.has('t') ? Number(q.get('t')) : null;
+  const view = q.get('view') ?? '34';
+  const only = q.get('skill') as Skill | Move | null;
+  const fixedPerturb = q.get('perturb')?.split(',').map(Number) as Vec3 | undefined;
+  const grid = document.querySelector<HTMLElement>('.grid')!;
+  if (q.has('cell')) grid.style.setProperty('--cell', q.get('cell') + 'px');
+  const times = q.get('times')?.split(',').map(Number);
+  const strip = times?.length ?? Number(q.get('strip') ?? 0);
+  const items = strip && only ? Array.from({ length: strip }, () => only) : [...(only ? [only] : [...SKILLS, ...MOVES]), ...(only ? [] : ['blend' as const])];
+  const cells = items.map((name, index) => {
+    const fig = document.createElement('figure');
+    const canvas = document.createElement('canvas');
+    const cap = document.createElement('figcaption');
+    fig.append(canvas, cap);
+    grid.append(fig);
+    const cell = { name, canvas, cap, perturb: [0, 0, 0] as Vec3, offset: times ? times[index] : strip ? (index / strip) * dur(name) : 0 };
+    canvas.addEventListener('pointermove', e => {
+      const r = canvas.getBoundingClientRect();
+      cell.perturb = [(0.5 - (e.clientY - r.top) / r.height) * 0.3, 0, ((e.clientX - r.left) / r.width - 0.5) * 0.3];
+    });
+    canvas.addEventListener('pointerleave', () => { cell.perturb = [0, 0, 0]; });
+    return cell;
+  });
+
+  const yaw = view === 'side' ? Math.PI / 2 : view === 'front' ? 0 : 0.85;
+  let props: Prop[] = [];
+  const frameAt = (name: string, t: number, perturb: Vec3): [Frame, string] => {
+    props = [];
+    if (isMove(name)) { const m = movePose(name, t, perturb); props = m.props; return [m.frame, `${name}  t=${(t % dur(name)).toFixed(2)} / ${dur(name).toFixed(1)}s`]; }
+    if (name !== 'blend') return [pose(name as Skill, t, { perturb }), `${name}  t=${(t % DURATION[name as Skill]).toFixed(2)} / ${DURATION[name as Skill]}s`];
+    const seq: Skill[] = ['stand', 'walk', 'carry', 'lift', 'push', 'balance'];
+    const i = Math.floor(t / 4) % seq.length, u = (t % 4) / 4, w = Math.min(1, Math.max(0, (u - 0.8) / 0.2));
+    const a = seq[i], b = seq[(i + 1) % seq.length];
+    return [blend(pose(a, t, { perturb }), pose(b, t, { perturb }), w * w * (3 - 2 * w)), `blend ${a} -> ${b} w=${w.toFixed(2)}`];
+  };
+
+  function draw(cell: typeof cells[number], t: number) {
+    const { canvas } = cell, dpr = devicePixelRatio || 1, W = canvas.clientWidth, H = canvas.clientHeight;
+    if (canvas.width !== Math.round(W * dpr)) { canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr); }
+    const ctx = canvas.getContext('2d')!;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    t += cell.offset;
+    const [f, label] = frameAt(cell.name, t, fixedPerturb ?? cell.perturb);
+    cell.cap.textContent = label;
+    const tgt: Vec3 = cell.name === 'getup' ? [-0.25, 0.55, 0] : [0, 0.78, 0];
+    const cam: Camera = { yaw, pitch: view === '34' ? 0.2 : 0.06, dist: (cell.name === 'getup' ? 4.4 : 4) * Number(q.get('zoom') ?? 1), target: tgt, fov: 0.62 };
+    const P = (p: Vec3) => project(p, cam, W, H);
+    const line = (a: Vec3, b: Vec3) => { const [x1, y1] = P(a), [x2, y2] = P(b); ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke(); };
+
+    const scroll = (f.speed * t) % 0.5;
+    ctx.strokeStyle = '#e3e7ee'; ctx.lineWidth = 1;
+    for (let i = -6; i <= 6; i++) {
+      const x = i * 0.5 - scroll;
+      line([x, 0, -3], [x, 0, 3]);
+      line([-3, 0, i * 0.5], [3, 0, i * 0.5]);
+    }
+    if (f.box) {
+      const { center: c, size: s, yaw: by } = f.box, cy = Math.cos(by), sy = Math.sin(by);
+      const corner = (i: number): Vec3 => {
+        const lx = (i & 1 ? 0.5 : -0.5) * s[0], ly = (i & 2 ? 0.5 : -0.5) * s[1], lz = (i & 4 ? 0.5 : -0.5) * s[2];
+        return [c[0] + lx * cy + lz * sy, c[1] + ly, c[2] - lx * sy + lz * cy];
+      };
+      ctx.strokeStyle = `rgba(37,99,235,${f.box.alpha ?? 1})`;
+      for (const [a, b] of [[0, 1], [2, 3], [4, 5], [6, 7], [0, 2], [1, 3], [4, 6], [5, 7], [0, 4], [1, 5], [2, 6], [3, 7]]) line(corner(a), corner(b));
+    }
+    if (f.ball) {
+      const [x, y, z] = P(f.ball), r = (BALL_RADIUS * (H / 2 / Math.tan(0.31))) / z;
+      ctx.strokeStyle = `rgba(37,99,235,${f.ballAlpha ?? 1})`;
+      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.stroke();
+    }
+    if (f.target) {
+      const [x, y] = P(f.target);
+      ctx.strokeStyle = `rgba(37,99,235,${f.targetAlpha ?? 1})`;
+      ctx.beginPath(); ctx.arc(x, y, 5, 0, Math.PI * 2); ctx.stroke();
+    }
+    if (f.push) {
+      const { at, dir, strength } = f.push, from: Vec3 = [at[0] - dir[0] * 0.5, at[1], at[2] - dir[2] * 0.5];
+      ctx.strokeStyle = `rgba(220,38,38,${strength})`; ctx.lineWidth = 1.5;
+      line(from, at);
+    }
+    ctx.strokeStyle = 'rgba(37,99,235,.8)'; ctx.lineWidth = 1;
+    for (const p of props) {
+      if ((p.alpha ?? 1) < 0.05) continue;
+      const corner = (i: number): Vec3 => p.c.map((v, k) => v + p.ax[0][k] * (i & 1 ? 1 : -1) + p.ax[1][k] * (i & 2 ? 1 : -1) + p.ax[2][k] * (i & 4 ? 1 : -1)) as Vec3;
+      for (const [a, b] of [[0, 1], [2, 3], [4, 5], [6, 7], [0, 2], [1, 3], [4, 6], [5, 7], [0, 4], [1, 5], [2, 6], [3, 7]]) line(corner(a), corner(b));
+    }
+    if (q.has('body')) {
+      ctx.strokeStyle = 'rgba(27,35,51,.14)'; ctx.lineCap = 'round';
+      for (const [a, b, r] of BONES) { ctx.lineWidth = (2 * r * (H / 2 / Math.tan(0.31))) / P(f.joints[a])[2]; line(f.joints[a], f.joints[b]); }
+      ctx.lineCap = 'butt';
+    }
+    ctx.strokeStyle = '#1b2333'; ctx.lineWidth = 1.2;
+    for (const [a, b] of BONES) line(f.joints[a], f.joints[b]);
+    const [hx, hy, hz] = P(f.joints.head);
+    ctx.beginPath(); ctx.arc(hx, hy, (HEAD_RADIUS * (H / 2 / Math.tan(0.31))) / hz, 0, Math.PI * 2); ctx.stroke();
+    ctx.fillStyle = '#2563eb';
+    for (const p of Object.values(f.joints)) { const [x, y] = P(p); ctx.beginPath(); ctx.arc(x, y, 2, 0, Math.PI * 2); ctx.fill(); }
+  }
+
+  const t0 = performance.now();
+  function loop(now: number) {
+    const t = frozen ?? Math.max(0, now - t0) / 1000;
+    for (const c of cells) draw(c, t);
+    if (frozen === null) requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+</script>

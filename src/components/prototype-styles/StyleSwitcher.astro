@@ -1,0 +1,37 @@
+---
+// PROTOTYPE: floating bar to flip between style explorations (dev only).
+import { styles } from './styles';
+interface Props { current: string }
+const { current } = Astro.props;
+const index = styles.findIndex(s => s.id === current);
+const prev = styles[(index - 1 + styles.length) % styles.length];
+const next = styles[(index + 1) % styles.length];
+const style = styles[index];
+---
+{import.meta.env.DEV && (
+  <nav class="proto-switcher" aria-label="Style prototypes" data-prev={`/prototype/styles/${prev.id}/`} data-next={`/prototype/styles/${next.id}/`}>
+    <a href={`/prototype/styles/${prev.id}/`} aria-label="Previous style">←</a>
+    <a class="proto-label" href="/prototype/styles/">{style.id} · {style.name}</a>
+    <a href={`/prototype/styles/${next.id}/`} aria-label="Next style">→</a>
+  </nav>
+)}
+<script>
+  const bar = document.querySelector<HTMLElement>('.proto-switcher');
+  document.addEventListener('keydown', e => {
+    const target = e.target as HTMLElement;
+    if (!bar || target.closest('input, textarea, [contenteditable]')) return;
+    if (e.key === 'ArrowLeft') location.href = bar.dataset.prev!;
+    if (e.key === 'ArrowRight') location.href = bar.dataset.next!;
+  });
+</script>
+<style>
+  .proto-switcher {
+    position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 9999;
+    display: flex; align-items: center; gap: 4px; padding: 5px;
+    background: #111; color: #fff; border-radius: 999px; box-shadow: 0 8px 30px rgb(0 0 0 / .35);
+    font: 500 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .04em;
+  }
+  .proto-switcher a { color: inherit; text-decoration: none; padding: 9px 13px; border-radius: 999px; }
+  .proto-switcher a:hover { background: #ffffff22; }
+  .proto-label { min-width: 150px; text-align: center; }
+</style>

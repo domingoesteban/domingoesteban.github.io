@@ -1,0 +1,1144 @@
+---
+// PROTOTYPE 23 Curriculum: nine robots learn nine whole-body skills in parallel tiles. One of them is picked,
+// grows into the first section and then walks (or runs, if you scroll fast) across the page between sections.
+import { profile, areas, experience, notes, formatDate } from '../content';
+
+const year = new Date().getFullYear();
+const host = (href: string) => href.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+const nav = [
+  { id: 's23-research', label: 'Research', keep: true },
+  { id: 's23-about', label: 'About' },
+  { id: 's23-work', label: 'Experience' },
+  { id: 's23-notes', label: 'Notes', keep: true },
+  { id: 's23-contact', label: 'Contact' },
+];
+---
+<div class="s23">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&display=swap" />
+
+  <header class="nav">
+    <div class="wrap nav-in">
+      <a class="brand" href="#s23-top">{profile.name}</a>
+      <nav aria-label="Primary">
+        {nav.map(n => <a class:list={[{ opt: !n.keep }]} href={`#${n.id}`}>{n.label}</a>)}
+      </nav>
+    </div>
+  </header>
+
+  <canvas class="view" aria-hidden="true"></canvas>
+  <div class="dock" aria-hidden="true">
+    <span class="dock-cap mono"></span>
+    <div class="dock-fig"></div>
+    <span class="dock-bar"><i></i></span>
+  </div>
+
+  <section class="hero" id="s23-top" aria-labelledby="s23-name">
+    <div class="wrap hero-in">
+      <div class="hero-text" data-r>
+        <p class="kicker mono">Robot learning <span aria-hidden="true">/</span> {profile.location}</p>
+        <h1 id="s23-name">{profile.firstName}<br />{profile.lastName}</h1>
+        <p class="role">{profile.role} at <a href={profile.companyHref} target="_blank" rel="noopener">{profile.company}</a></p>
+        <p class="tagline">{profile.tagline}</p>
+        <ul class="hero-links mono">
+          {profile.links.map(l => <li><a href={l.href} target="_blank" rel="noopener">{l.label}</a></li>)}
+        </ul>
+      </div>
+      <div class="stage" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <main class="wrap">
+    <section class="sec" data-side="R" id="s23-research" aria-labelledby="s23-research-h">
+      <div class="col">
+        <header class="head" data-r>
+          <p class="idx mono"><span>01</span>Research</p>
+          <h2 id="s23-research-h">Robots that learn their own skills.</h2>
+        </header>
+        <ol class="areas">
+          {areas.map((a, i) => (
+            <li class="area" data-r>
+              <p class="a-idx mono">0{i + 1}</p>
+              <div>
+                <h3>{a.title}</h3>
+                <p class="a-sum">{a.summary}</p>
+                <ul class="kw mono">{a.keywords.map(k => <li>{k}</li>)}</ul>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <div class="band" aria-hidden="true"></div>
+
+    <section class="sec" data-side="L" id="s23-about" aria-labelledby="s23-about-h">
+      <div class="col">
+        <header class="head" data-r>
+          <p class="idx mono"><span>02</span>About</p>
+          <h2 id="s23-about-h">Skills from experience, not rules.</h2>
+        </header>
+        <p class="lead" data-r>{profile.bio[0]}</p>
+        <p class="body" data-r>{profile.bio[1]}</p>
+        <dl class="facts" data-r>
+          <div><dt class="mono">Now</dt><dd>{profile.company}, {profile.robot}</dd></div>
+          <div><dt class="mono">Based</dt><dd>{profile.location}</dd></div>
+          <div><dt class="mono">From</dt><dd>{profile.origin}</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <div class="band" aria-hidden="true"></div>
+
+    <section class="sec" data-side="R" id="s23-work" aria-labelledby="s23-work-h">
+      <div class="col">
+        <header class="head" data-r>
+          <p class="idx mono"><span>03</span>Experience</p>
+          <h2 id="s23-work-h">From legged robots to humanoids.</h2>
+        </header>
+        <ol class="tl">
+          {experience.map((e, i) => (
+            <li class:list={['tl-row', { now: i === 0 }]} data-r>
+              <p class="period mono">{e.period}</p>
+              <div class="tl-what">
+                <h3>{e.title}</h3>
+                <p class="org"><a href={e.href} target="_blank" rel="noopener">{e.org}</a><span class="mono">{e.place}</span></p>
+                <p class="tl-sum">{e.summary}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <div class="band" aria-hidden="true"></div>
+
+    <section class="sec" data-side="L" id="s23-notes" aria-labelledby="s23-notes-h">
+      <div class="col">
+        <header class="head" data-r>
+          <p class="idx mono"><span>04</span>Notes</p>
+          <h2 id="s23-notes-h">Notes on robot learning.</h2>
+        </header>
+        <ol class="notes">
+          {notes.map(n => (
+            <li data-r>
+              <a class="note" href="#s23-notes">
+                <time class="mono" datetime={n.date.toISOString()}>{formatDate(n.date)}</time>
+                <span class="n-title">{n.title}</span>
+                <span class="n-desc">{n.description}</span>
+                {n.tags && <span class="n-tags mono">{n.tags.map(t => <span>{t}</span>)}</span>}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <div class="band" aria-hidden="true"></div>
+
+    <section class="sec" data-side="R" id="s23-contact" aria-labelledby="s23-contact-h">
+      <div class="col">
+        <header class="head" data-r>
+          <p class="idx mono"><span>05</span>Contact</p>
+          <h2 id="s23-contact-h">Say hello.</h2>
+        </header>
+        <p class="body" data-r>For research, collaborations or a conversation about robot learning.</p>
+        <ul class="links">
+          {profile.links.map(l => (
+            <li data-r>
+              <a href={l.href} target="_blank" rel="noopener">
+                <span class="l-name">{l.label}</span>
+                <span class="l-host mono">{host(l.href)}</span>
+                <span class="l-arrow" aria-hidden="true">↗</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap foot">
+    <div class="foot-in mono">
+      <span>© {year} {profile.name}</span>
+      <span>{profile.location}</span>
+      <a href="#s23-top">Top ↑</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+  import { pose, blend, project, skillSpec, solve, BOX_SIZE } from '../humanoid';
+  import type { Frame, Vec3, Camera, JointName, Spec } from '../humanoid';
+  import { gaitSpec, standSpec, strideFor, dutyFor, jumpSpec, JUMP, jumpObstacle, sitSpec, sitBlock, drillScene, poiseSpec, waveSpec, mixSpec, place, moveScene, MOVE_DURATION, SIT_DURATION, DRILL_DURATION, POISE_DURATION, WAVE_DURATION } from '../humanoid-extra';
+  import type { Prop } from '../humanoid-extra';
+
+  const root = document.querySelector<HTMLElement>('.s23');
+  if (root) {
+    root.classList.add('js');
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const narrow = matchMedia('(max-width: 900px)');
+    const { min, max, abs, sin, cos, PI, hypot, exp, log, atan2, acos, floor, sign } = Math;
+    const TAU = PI * 2;
+    const clamp = (x: number, a = 0, b = 1) => min(b, max(a, x));
+    const lerp = (a: number, b: number, k: number) => a + (b - a) * k;
+    const smooth = (a: number, b: number, x: number) => { const k = clamp((x - a) / (b - a)); return k * k * (3 - 2 * k); };
+    const ease = (k: number) => (k < 0.5 ? 4 * k * k * k : 1 - (-2 * k + 2) ** 3 / 2);
+    const mod = (a: number, n: number) => ((a % n) + n) % n;
+    const wrapA = (a: number) => mod(a + PI, TAU) - PI;
+    const follow = (x: number, to: number, rate: number, dt: number) => x + (to - x) * (1 - exp(-rate * dt));
+    let seed = 23;
+    const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+
+    const reveal = new IntersectionObserver(entries => {
+      for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); reveal.unobserve(e.target); }
+    }, { rootMargin: '0px 0px -6% 0px' });
+    root.querySelectorAll('[data-r]').forEach(el => reveal.observe(el));
+
+    // Palette from CSS variables (kept as variables so a dark theme can be added later).
+    const rgb = (hex: string) => {
+      const h = hex.replace('#', ''), f = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+      return [0, 2, 4].map(i => parseInt(f.slice(i, i + 2), 16)).join(', ');
+    };
+    const cs = getComputedStyle(root), cv = (n: string) => rgb(cs.getPropertyValue(n).trim());
+    const pal = { bg: cv('--bg'), ink: cv('--ink'), muted: cv('--muted'), line: cv('--line-2'), accent: cv('--accent') };
+    const col = (c: string, a = 1) => `rgba(${c}, ${a})`;
+
+    const canvas = root.querySelector<HTMLCanvasElement>('.view')!;
+    const ctx = canvas.getContext('2d')!;
+    const layer = document.createElement('canvas');
+    const lctx = layer.getContext('2d')!;
+    const hero = root.querySelector<HTMLElement>('.hero')!;
+    const stage = root.querySelector<HTMLElement>('.stage')!;
+    const dock = root.querySelector<HTMLElement>('.dock')!;
+    const dockFig = root.querySelector<HTMLElement>('.dock-fig')!;
+    const dockCap = root.querySelector<HTMLElement>('.dock-cap')!;
+    const dockBar = root.querySelector<HTMLElement>('.dock-bar i')!;
+    const bands = [...root.querySelectorAll<HTMLElement>('.band')];
+    const mainWrap = root.querySelector<HTMLElement>('main.wrap')!;
+    const navEl = root.querySelector<HTMLElement>('.nav')!;
+
+    // Camera: one yaw for everything, so the hero grid, the sections and the walks read as one scene.
+    type Rect = { x: number; y: number; w: number; h: number };
+    type Fit = { cam: Camera; ox: number; oy: number };
+    const YAW = -0.82, FOV = 0.42;
+    const HR = atan2(cos(YAW), sin(YAW)), HL = HR - PI; // headings that walk screen-right and screen-left
+    const GRID = 1.95, TILE = 1.75;
+
+    const fitCam = (cam: Camera, pts: Vec3[], aspect: number, [mt, mr, mb, ml]: number[]): Fit => {
+      const box = (dist: number) => {
+        let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
+        for (const p of pts) {
+          const [x, y] = project(p, { ...cam, dist }, aspect, 1);
+          x0 = min(x0, x); x1 = max(x1, x); y0 = min(y0, y); y1 = max(y1, y);
+        }
+        return [x0, x1, y0, y1];
+      };
+      let lo = 1, hi = 80;
+      for (let i = 0; i < 32; i++) {
+        const mid = (lo + hi) / 2, [x0, x1, y0, y1] = box(mid);
+        if (x1 - x0 <= aspect - ml - mr && y1 - y0 <= 1 - mt - mb) hi = mid; else lo = mid;
+      }
+      const [x0, x1, y0, y1] = box(hi);
+      return { cam: { ...cam, dist: hi }, ox: (ml + aspect - mr) / 2 - (x0 + x1) / 2, oy: (mt + 1 - mb) / 2 - (y0 + y1) / 2 };
+    };
+    const camAt = (pitch: number, target: Vec3): Camera => ({ yaw: YAW, pitch, fov: FOV, target, dist: 10 });
+    const heroPts: Vec3[] = [];
+    for (const sx of [-1, 1]) for (const sz of [-1, 1]) heroPts.push([sx * (GRID + TILE * 0.36), 0, sz * (GRID + TILE * 0.36)], [sx * GRID, 1.7, sz * GRID]);
+    const folPts: Vec3[] = [];
+    for (let i = 0; i < 16; i++) folPts.push([0.82 * cos((i / 16) * TAU), 0, 0.82 * sin((i / 16) * TAU)], [0.3 * cos((i / 16) * TAU), 1.9, 0.3 * sin((i / 16) * TAU)]);
+    const dockPts: Vec3[] = folPts.map(p => (p[1] === 0 ? [p[0] * 0.62, 0, p[2] * 0.62] : p));
+    const FOL_PITCH = 0.24, FOL_TARGET: Vec3 = [0, 0.85, 0];
+
+    // Tasks: a scene (spec + props in the task frame) per clock time.
+    type Scene = { spec: Spec; props: Prop[]; world?: Prop[]; root?: number[] };
+    type TaskName = 'lift' | 'poise' | 'drill' | 'sit' | 'wave' | 'walk' | 'carry' | 'jump' | 'push';
+    const BOX_REST = [0.42, 0.17, 0];
+    const liftScene = (t: number): Scene => ({ spec: skillSpec('lift', t), props: [] });
+    const TASK: Record<TaskName, { D: number; scene: (t: number) => Scene; risk: number[] }> = {
+      lift: { D: 9, scene: liftScene, risk: [3.1] },
+      poise: { D: POISE_DURATION, scene: t => ({ spec: poiseSpec(t), props: [] }), risk: [2.7, 5.7] },
+      drill: { D: DRILL_DURATION, scene: t => drillScene(t), risk: [3.5] },
+      sit: { D: SIT_DURATION, scene: t => ({ spec: sitSpec(t), props: [sitBlock()] }), risk: [3.2, 5.8] },
+      wave: { D: WAVE_DURATION, scene: t => ({ spec: waveSpec(t), props: [] }), risk: [1.6] },
+      walk: { D: MOVE_DURATION.walkturn, scene: t => moveScene('walkturn', t), risk: [1.3, 3.9] },
+      carry: { D: MOVE_DURATION.carryturn, scene: t => moveScene('carryturn', t), risk: [2.7, 6.3] },
+      jump: { D: MOVE_DURATION.jump, scene: t => moveScene('jump', t), risk: [1.6, 4.9] },
+      push: { D: 8, scene: t => ({ spec: skillSpec('push', t), props: [] }), risk: [1.4, 5.4] },
+    };
+    const live = (name: TaskName, t: number, perturb?: Vec3) => {
+      if (name === 'push') return { frame: pose('push', t, { perturb }), props: [] as Prop[] };
+      const sc = TASK[name].scene(mod(t, TASK[name].D)), f = solve(sc.spec, perturb), r = sc.root ?? [0, 0, 0];
+      const out = place(f, sc.props, r[2], r[0], r[1]);
+      return { frame: out.frame, props: [...out.props, ...(sc.world ?? [])] };
+    };
+    const facing = (f: Frame) => { const s = f.joints.rHip, l = f.joints.lHip; return atan2(s[0] - l[0], s[2] - l[2]); };
+
+    // Two specs mixed with stepping: each foot that has to move is lifted in turn instead of sliding.
+    const stepMix = (a: Spec, b: Spec, w: number): Spec => {
+      if (w <= 0) return a;
+      if (w >= 1) return b;
+      const s = mixSpec(a, b, smooth(0, 1, w));
+      for (const [k, w0, w1] of [['lf', 0, 0.6], ['rf', 0.4, 1]] as const) {
+        const d = hypot(b[k][0] - a[k][0], b[k][1] - a[k][1]);
+        if (d < 0.025) continue;
+        const u = clamp((w - w0) / (w1 - w0)), e = smooth(0, 1, u), f = a[k].map((v, i) => v + (b[k][i] - v) * e);
+        f[2] += min(0.08, 0.5 * d + 0.02) * sin(PI * u);
+        s[k] = f;
+      }
+      return s;
+    };
+
+    // Story: one skill per section; between sections the robot carries, walks, jumps and recovers from a push.
+    type Sec = { task: TaskName; side: number; heading: number; cap: string; I: number; L: number; fwd: number | null; back: number | null; events: number[] };
+    const SEC: Sec[] = [
+      { task: 'lift', side: 1, heading: -0.45, cap: 'pick up', I: 0, L: 9, fwd: 3.75, back: null, events: [2.4, 3.1, 7.2] },
+      { task: 'poise', side: -1, heading: 0.25, cap: 'balance', I: 3.3, L: POISE_DURATION, fwd: 3.3, back: 0, events: [1.1, 1.5, 5.9, 8.9, 11.9] },
+      { task: 'drill', side: 1, heading: 2.0, cap: 'drill', I: 0, L: DRILL_DURATION, fwd: 0, back: 0, events: [1.2, 3.2, 3.5, 5.2, 5.5, 8.1] },
+      { task: 'sit', side: -1, heading: 1.7, cap: 'sit to stand', I: 0, L: SIT_DURATION, fwd: 0, back: 0, events: [3.1, 5.6] },
+      { task: 'wave', side: 1, heading: 0.55, cap: 'hello', I: 0, L: WAVE_DURATION, fwd: null, back: 0, events: [1.3, 1.95, 2.6, 3.3] },
+    ];
+    const withBox = (s: Spec): Spec => ({ ...s, box: [BOX_REST[0], BOX_REST[1], BOX_REST[2], 0, 0, 0] });
+    const secScene = (k: number, t: number): Scene => {
+      if (k === 0) return liftScene(t);
+      if (k === 1) {
+        if (t < 2.5) return liftScene(5.7 + t);
+        if (t < 3.3) return { spec: withBox(stepMix(skillSpec('lift', 8.2), poiseSpec(0), (t - 2.5) / 0.8)), props: [] };
+        return { spec: withBox(poiseSpec(t - 3.3)), props: [] };
+      }
+      return TASK[SEC[k].task].scene(t);
+    };
+    const norm = (k: number, t: number) => { const { I, L } = SEC[k]; return t < I ? max(0, t) : I + mod(t - I, L); };
+
+    // Moves a clock toward an exit state: forward through the loop (or back a little), rewinding an intro.
+    const steer = (k: number, t: number, T: number | null, dt: number) => {
+      const { I, L } = SEC[k];
+      if (T === null) return norm(k, t + dt);
+      if (T >= I) {
+        if (t < I) return t + dt * 4;
+        const d = mod(T - t, L);
+        if (d < 0.04 || L - d < 0.04) return T;
+        if (L - d < 1.2) return norm(k, t - min(L - d, dt * 2));
+        return norm(k, t + min(d, dt * 4));
+      }
+      if (t >= I) { const d = mod(I - t, L); return d < 0.04 ? I - 0.001 : norm(k, t + min(d, dt * 4)); }
+      return t > T ? max(T, t - dt * 3) : min(T, t + dt * 3);
+    };
+
+    // Hero tiles: each learns its own skill; early attempts are faint, wobble and sometimes fall, then converge.
+    const LIE = pose('getup', 0.5);
+    const TILES: { task: TaskName; yaw: number; t0: number }[] = [
+      { task: 'lift', yaw: SEC[0].heading, t0: 0 }, { task: 'sit', yaw: 1.6, t0: 1.6 }, { task: 'walk', yaw: 0, t0: 0.6 },
+      { task: 'drill', yaw: -0.32, t0: 2.4 }, { task: 'poise', yaw: 0.5, t0: 1.0 }, { task: 'jump', yaw: HR, t0: 2.9 },
+      { task: 'wave', yaw: 0.82, t0: 2.0 }, { task: 'push', yaw: 0.25, t0: 0.3 }, { task: 'carry', yaw: 0.4, t0: 1.3 },
+    ];
+    const SEL = 0;
+    const envs = TILES.map((tile, i) => ({
+      ...tile, i, gx: (floor(i / 3) - 1) * GRID, gz: ((i % 3) - 1) * GRID,
+      clock: rnd() * TASK[tile.task].D, rate: 0.82 + rnd() * 0.34, ph: rnd() * TAU,
+      fallT: -1, from: LIE, fallTo: LIE, flash: 0, p: 0, frame: LIE, props: [] as Prop[], sx: 0, sy: 0,
+      sp: { x: 0, z: 0, vx: 0, vz: 0 },
+    }));
+    type Spring = { x: number; z: number; vx: number; vz: number };
+    const stepSpring = (s: Spring, dt: number, k = 40, c = 9) => { s.vx += (-k * s.x - c * s.vx) * dt; s.vz += (-k * s.z - c * s.vz) * dt; s.x += s.vx * dt; s.z += s.vz * dt; };
+    const kick = (s: Spring, dx: number, dz: number) => { s.vx += dx; s.vz += dz; const m = hypot(s.vx, s.vz); if (m > 2.4) { s.vx *= 2.4 / m; s.vz *= 2.4 / m; } };
+    const toLocal = (x: number, z: number, yaw: number): Vec3 => [x * cos(yaw) - z * sin(yaw), 0, x * sin(yaw) + z * cos(yaw)];
+
+    const stepEnv = (e: typeof envs[number], dt: number, c: number) => {
+      e.flash = max(0, e.flash - dt * 1.1);
+      e.p = reduced ? 1 : max(e.p, lerp(0.2, 1, smooth(e.t0, e.t0 + 14, time)));
+      if (c > 0.02) e.p = min(1, e.p + dt * 0.6);
+      stepSpring(e.sp, dt);
+      if (e.fallT >= 0) {
+        e.fallT += dt;
+        const w = min(1, e.fallT / 0.85);
+        e.frame = blend(e.from, e.fallTo, w * w);
+        if (e.fallT > 1.6) { e.fallT = -1; e.clock = 0.05; e.flash = 1; }
+        return;
+      }
+      const D = TASK[e.task].D, prev = e.clock, q = 1 - e.p;
+      e.clock += dt * lerp(e.rate, 1, e.p);
+      const wob: Vec3 = [0.13 * q * sin(time * 1.9 + e.ph) + e.sp.x, 0, 0.15 * q * sin(time * 2.6 + 2 * e.ph) + e.sp.z];
+      const l = live(e.task, e.clock, wob);
+      e.frame = l.frame; e.props = l.props;
+      const risk = 0.75 * q ** 1.5;
+      for (const t of TASK[e.task].risk) {
+        if (prev < t && e.clock >= t && rnd() < risk) {
+          e.fallT = 0; e.from = e.frame;
+          const yaw = facing(e.frame), pel = e.frame.joints.pelvis;
+          e.fallTo = place(LIE, [], yaw, pel[0] + 0.3 * cos(yaw), pel[2] - 0.3 * sin(yaw)).frame;
+        }
+      }
+      if (e.clock >= D) e.clock -= D;
+    };
+
+    // Follower state. G is the page position: k for section k, k + s inside the transition band after it.
+    const clocks = [1.2, 0, 0, 0, 0];
+    const F = {
+      g: 0, gv: 0, theta: SEC[0].heading, phase: 0, run: 0, amp: 0, stride: 0.5, wTask: 1, task: 0, dir: 1, v: 0,
+      lastX: 0, lastSeg: '', lastS: 0, jumpDir: 0, jw: 0, pz: 0, pv: 0, pushT: -9, pushA: 0, offL: 0, offR: 0,
+      sp: { x: 0, z: 0, vx: 0, vz: 0 } as Spring, snapFrom: null as Frame | null, snapT: 9, frame: LIE,
+    };
+    const pulses: { t: number; k: number; w: number[] }[] = [];
+    const pulse = (k = 1) => { pulses.push({ t: time, k, w: Array.from({ length: 30 }, () => rnd()) }); if (pulses.length > 6) pulses.shift(); };
+
+    // Layout.
+    let W = 0, H = 0, dpr = 1, mobile = false, vh = 0, navH = 64;
+    let heroFit: Fit, folFit: Fit, folRect: Rect = { x: 0, y: 0, w: 1, h: 1 }, ppm = 100, heroH = 600;
+    let X = [0, 0, 0, 0, 0], A = [0, 0, 0, 0], B = [0, 0, 0, 0], gDoc = [0, 0, 0, 0, 0];
+    const toRect = (d: DOMRect): Rect => ({ x: d.left, y: d.top, w: d.width, h: d.height });
+
+    type View = { cam: Camera; r: Rect; ox: number; oy: number; focal: number; eye: number[]; dx: number };
+    const makeView = (cam: Camera, r: Rect, ox: number, oy: number, dx = 0): View => {
+      const cp = cos(cam.pitch), t = cam.target;
+      return { cam, r, ox, oy, dx, focal: r.h / 2 / Math.tan(FOV / 2), eye: [t[0] + cam.dist * cp * cos(cam.yaw), t[1] + cam.dist * sin(cam.pitch), t[2] + cam.dist * cp * sin(cam.yaw)] };
+    };
+    const P = (v: View, p: number[]) => {
+      const [x, y, z] = project(p as Vec3, v.cam, v.r.w, v.r.h);
+      return [x + v.r.x + v.ox * v.r.h + v.dx, y + v.r.y + v.oy * v.r.h, z];
+    };
+    const folView = (dx = 0) => makeView(folFit.cam, folRect, folFit.ox, folFit.oy, dx);
+
+    const resize = () => {
+      W = canvas.clientWidth; H = canvas.clientHeight; vh = innerHeight;
+      dpr = min(2, devicePixelRatio || 1);
+      for (const c of [canvas, layer]) { c.width = Math.round(W * dpr); c.height = Math.round(H * dpr); }
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      lctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      mobile = narrow.matches;
+      navH = navEl.offsetHeight;
+      const s = stage.getBoundingClientRect();
+      heroFit = fitCam(camAt(0.62, [0, 0.4, 0]), heroPts, s.width / s.height, [0.03, 0.02, 0.1, 0.02]);
+      if (mobile) {
+        folRect = toRect(dockFig.getBoundingClientRect());
+        folFit = fitCam(camAt(FOL_PITCH, FOL_TARGET), dockPts, folRect.w / folRect.h, [0.07, 0.04, 0.12, 0.04]);
+        ppm = folRect.h / 2 / Math.tan(FOV / 2) / folFit.cam.dist;
+        X = SEC.map((_, i) => i * 3.2);
+        bands.forEach(b => (b.style.height = ''));
+      } else {
+        const m = mainWrap.getBoundingClientRect(), pcs = getComputedStyle(mainWrap);
+        const left = m.left + parseFloat(pcs.paddingLeft), cw = m.width - parseFloat(pcs.paddingLeft) - parseFloat(pcs.paddingRight);
+        const gap = parseFloat(getComputedStyle(root).getPropertyValue('--colgap')) || 64, colW = (cw - gap) / 2;
+        const size = min(450, vh * 0.54, colW * 0.95), cy = navH + (vh - navH) / 2 + 6;
+        const rcx = left + colW + gap + colW / 2, lcx = left + colW / 2;
+        folRect = { x: rcx - size / 2, y: cy - size / 2, w: size, h: size };
+        folFit = fitCam(camAt(FOL_PITCH, FOL_TARGET), folPts, 1, [0.04, 0.05, 0.12, 0.05]);
+        ppm = size / 2 / Math.tan(FOV / 2) / folFit.cam.dist;
+        X = SEC.map(s => (s.side > 0 ? 0 : (lcx - rcx) / ppm));
+        const v = folView(), gy = P(v, [0, 0, 0])[1], top = P(v, [0, 2.08, 0])[1];
+        const fig = gy + 12 - (top - 4), M = 26, walk = clamp(vh * 0.42, 320, 470);
+        bands.forEach(b => (b.style.height = `${Math.round(fig + 2 * M + walk)}px`));
+        gDoc = [top - 4 - M, gy + 12 + M];
+      }
+      bands.forEach((b, k) => {
+        const r = b.getBoundingClientRect(), top = r.top + scrollY, bot = r.bottom + scrollY;
+        if (mobile) { A[k] = top - vh * 0.72; B[k] = bot - vh * 0.3; }
+        else { A[k] = top - gDoc[0]; B[k] = bot - gDoc[1]; }
+      });
+      heroH = hero.offsetHeight;
+      root.dataset.ab = JSON.stringify([A.map(Math.round), B.map(Math.round)]);
+    };
+
+    // Band paths in meters: one eased walk, or approach / jump / departure around the obstacle.
+    type Seg = { s0: number; s1: number; x0: number; x1: number; jump?: boolean };
+    const JZ = 0.24;
+    const pathOf = (k: number): Seg[] => {
+      const a = X[k], b = X[k + 1];
+      if (k !== 2) return [{ s0: 0, s1: 1, x0: a, x1: b }];
+      const d = sign(b - a) || 1, m = (a + b) / 2, h = JUMP.length / 2, sA = (1 - JZ) / 2;
+      return [{ s0: 0, s1: sA, x0: a, x1: m - d * h }, { s0: sA, s1: sA + JZ, x0: m - d * h, x1: m + d * h, jump: true }, { s0: sA + JZ, s1: 1, x0: m + d * h, x1: b }];
+    };
+    const trap = (w: number, a = 0.22) => (w < a ? (w * w) / (2 * a) : w < 1 - a ? w - a / 2 : 1 - a - (1 - w) ** 2 / (2 * a)) / (1 - a);
+    const segAt = (k: number, s: number) => {
+      const segs = pathOf(k), i = segs.findIndex(g => s <= g.s1), g = segs[i < 0 ? segs.length - 1 : i], w = clamp((g.s1 - g.s0) > 0 ? (s - g.s0) / (g.s1 - g.s0) : 0);
+      return { g, i, w, x: g.jump ? g.x0 : lerp(g.x0, g.x1, trap(w)) };
+    };
+    const gStar = () => {
+      const y = scrollY;
+      for (let k = 0; k < 4; k++) { if (y < A[k]) return k; if (y < B[k]) return k + (y - A[k]) / (B[k] - A[k]); }
+      return 4;
+    };
+
+    // ---- update ----
+    let time = 0, c = 0;
+    let scene = { frame: LIE, x: 0, props: [] as { props: Prop[]; x: number; a: number; k: number }[], cap: '', capA: 0, k: 0, s: 0 };
+
+    const update = (dt: number) => {
+      time += dt;
+      const heroSpan = mobile ? max(140, heroH * 0.45) : heroH * 0.7;
+      c = clamp(scrollY / heroSpan);
+      if (reduced) c = c > 0.5 ? 1 : 0;
+      if (c < 1) for (const e of envs) if (e.i !== SEL) stepEnv(e, dt, c);
+
+      // Page position with a critically damped follower, a speed cap and a bounded lag.
+      const target = c < 1 ? 0 : gStar();
+      if (reduced) { F.g = Math.round(target); F.gv = 0; }
+      else {
+        if (abs(target - F.g) > 1.3) { F.g = target; F.gv = 0; F.task = min(4, Math.round(target)); clocks[F.task] = SEC[F.task].fwd ?? 0; const kk = min(3, floor(target)); F.dir = sign(X[kk + 1] - X[kk]) || 1; snap(); }
+        const k0 = min(3, floor(F.g)), s0 = F.g - k0, here = segAt(k0, s0), ahead = segAt(k0, min(1, s0 + 0.01));
+        const mPerS = here.g.jump ? 0 : abs(ahead.x - here.x) / 0.01;
+        const cap = here.g.jump ? JZ * 1.15 : mPerS > 1e-3 ? 5.2 / mPerS : 50;
+        const om = 8.5;
+        F.gv += (om * om * (target - F.g) - 2 * om * F.gv) * dt;
+        F.gv = clamp(F.gv, -cap, cap);
+        F.g = clamp(F.g + F.gv * dt, max(0, target - 0.3), min(4, target + 0.3));
+      }
+      const k = min(3, floor(F.g)), s = F.g - k, seg = segAt(k, s);
+      const parked = s < 0.004 ? k : s > 0.996 ? k + 1 : -1;
+      const segKey = `${k}:${seg.i}`;
+      let dX = 0;
+      if (!seg.g.jump && segKey === F.lastSeg) dX = seg.x - F.lastX;
+      F.lastSeg = segKey; F.lastX = seg.x;
+      F.v = follow(F.v, dt > 0 ? dX / dt : 0, 10, dt);
+      const speed = abs(F.v);
+      if (speed > 0.12) F.dir = sign(F.v);
+
+      // Jump zone: the direction is locked when entering, so scrolling back mid-air rewinds the same jump.
+      const bandDir = sign(X[k + 1] - X[k]) || 1;
+      if (seg.g.jump) { if (!F.jumpDir) F.jumpDir = F.lastS <= seg.g.s0 + 0.02 ? 1 : -1; }
+      else F.jumpDir = 0;
+      F.jw = follow(F.jw, seg.g.jump ? 1 : 0, 12, dt);
+      const travel = (seg.g.jump ? F.jumpDir * bandDir : F.dir) > 0 ? HR : HL;
+
+      // Arrival at a section: pick up its clock where the story left it.
+      if (parked >= 0 && parked !== F.task) {
+        const from = F.task;
+        F.task = parked;
+        clocks[parked] = from < parked ? 0 : SEC[parked].fwd ?? 0;
+        if (F.wTask > 0.05) snap();
+      }
+      const sec = SEC[F.task];
+      const thetaT = parked >= 0 && speed < 0.12 && !seg.g.jump ? SEC[parked].heading : travel;
+      const dTh = reduced ? wrapA(thetaT - F.theta) : clamp(wrapA(thetaT - F.theta), -4.2 * dt, 4.2 * dt);
+      F.theta = wrapA(F.theta + dTh);
+      const settled = parked >= 0 && speed < 0.15 && abs(wrapA(F.theta - SEC[parked].heading)) < 0.3;
+      F.wTask = reduced ? (parked >= 0 ? 1 : 0) : clamp(F.wTask + (settled ? 2.4 : -3.6 - 3 * speed) * dt);
+
+      // Task clock: runs while featured, steers to the exit state when the reader is about to leave.
+      const j = F.task, y = scrollY, soon = mobile ? vh * 0.2 : vh * 0.45;
+      const fwdSoon = j < 4 && (y > A[j] - soon || F.g > j + 0.001);
+      const backSoon = j > 0 && (y < B[j - 1] + soon || F.g < j - 0.001);
+      const T = fwdSoon ? sec.fwd : backSoon ? sec.back : null;
+      const prevClock = clocks[j];
+      if (reduced) clocks[j] = T ?? (j === 0 ? 3.75 : j === 1 ? 6.5 : j === 2 ? 5.4 : j === 3 ? 4.3 : 2.2);
+      else clocks[j] = F.wTask > 0 || parked === j ? steer(j, clocks[j], T, dt) : clocks[j];
+      if (!reduced && T !== null && F.wTask < 0.98 && abs(clocks[j] - T) > 0.05 && parked !== j) { clocks[j] = T; snap(); }
+      if (clocks[j] > prevClock) for (const t of sec.events) if (prevClock < t && clocks[j] >= t) pulse(1);
+      if (c < 1) envs[SEL].clock = clocks[0];
+
+      // Locomotion: phase advances with distance (and with turning), so stance feet do not skate.
+      const run = smooth(1.9, 2.9, speed);
+      F.run = follow(F.run, run, 4, dt);
+      const S = strideFor(speed, F.run), adv = abs(dX) + 0.22 * abs(dTh);
+      const before = F.phase;
+      F.phase += adv / S;
+      if (floor(before * 2) !== floor(F.phase * 2) && c >= 1) pulse(0.45);
+      F.stride = follow(F.stride, adv > 1e-5 ? (S * abs(dX)) / adv : F.stride, 8, dt);
+      F.amp = follow(F.amp, smooth(0.03, 0.3, speed + 0.4 * abs(dTh) / max(dt, 1e-3)), 7, dt);
+      const tsc = secScene(j, clocks[j]);
+      const holding = (k === 0 && s > 0.004 && s < 0.996) || (!!tsc.spec.box && tsc.spec.box[4] > 0.5);
+      let loco = mixSpec(standSpec(time, holding), gaitSpec(F.phase, { stride: F.stride, run: F.run, carry: holding }), F.amp);
+      if (F.jw > 0.001) loco = mixSpec(loco, jumpSpec(seg.g.jump ? (F.jumpDir > 0 ? seg.w : 1 - seg.w) : 0), F.jw);
+
+      // Push in the last band: a shove in the back when crossing the middle, caught with a longer step.
+      if (k === 3 && (F.lastS - 0.5) * (s - 0.5) < 0 && speed > 0.25 && time - F.pushT > 1.5 && !reduced) {
+        F.pv += 1.6; F.pushT = time; F.pushA = 1; pulse(1.2);
+      }
+      F.lastS = s;
+      F.pv += (-30 * F.pz - 6 * F.pv) * dt; F.pz += F.pv * dt;
+      F.pushA = max(0, F.pushA - dt * 1.4);
+      const B0 = dutyFor(F.run), swing = (u: number) => mod(u, 1) >= B0;
+      if (swing(F.phase)) F.offL = follow(F.offL, F.pz * 0.9, 14, dt);
+      if (swing(F.phase + 0.5)) F.offR = follow(F.offR, F.pz * 0.9, 14, dt);
+      loco = { ...loco, lf: [loco.lf[0] + F.offL, ...loco.lf.slice(1)], rf: [loco.rf[0] + F.offR, ...loco.rf.slice(1)] };
+
+      let spec = stepMix(loco, tsc.spec, F.wTask);
+      const boxDown = spec.box && spec.box[4] < 0.02;
+      if (boxDown) { spec = { ...spec }; delete spec.box; }
+      stepSpring(F.sp, dt);
+      const hand = toLocal(F.sp.x, F.sp.z, F.theta);
+      let frame = place(solve(spec, [hand[0] + F.pz, 0, hand[2]]), [], F.theta, 0, 0).frame;
+      F.snapT += dt;
+      if (F.snapFrom && F.snapT < 0.35) frame = blend(F.snapFrom, frame, smooth(0, 0.35, F.snapT));
+      F.frame = frame;
+      const ax = seg.g.jump ? (F.jumpDir > 0 ? seg.g.x0 : seg.g.x1) : seg.x;
+
+      // Props of nearby sections (with the box left where it was put down) and the obstacle of the jump band.
+      const props: { props: Prop[]; x: number; a: number; k: number }[] = [];
+      for (let i = 0; i < 5; i++) {
+        const near = 1 - smooth(0.06, 0.3, abs(F.g - i));
+        if (near <= 0.01) continue;
+        const sc = i === j ? tsc : secScene(i, clocks[i]);
+        const list = [...sc.props];
+        if (sc.spec.box && sc.spec.box[4] < 0.02) list.push(crate(sc.spec.box));
+        if (list.length) props.push({ props: place(LIE, list, SEC[i].heading, 0, 0).props, x: X[i], a: near, k: i });
+      }
+      if (k === 2) props.push({ props: place(LIE, [jumpObstacle(-JUMP.obstacle.x)], HR, 0, 0).props, x: (X[2] + X[3]) / 2, a: smooth(0.02, 0.16, s) * (1 - smooth(0.84, 0.98, s)), k: -1 });
+
+      const inBand = parked < 0;
+      const gaitCap = k === 0 ? 'carry' : F.run > 0.6 ? 'run' : 'walk';
+      const cap = !inBand ? SEC[parked].cap : seg.g.jump ? 'jump' : k === 3 && time - F.pushT < 2 ? 'push recovery' : gaitCap;
+      scene = { frame, x: ax, props, cap, capA: inBand ? smooth(0.12, 0.3, s) * (1 - smooth(0.7, 0.88, s)) : F.wTask, k, s };
+      root.dataset.dbg = `g=${F.g.toFixed(3)} v=${F.v.toFixed(2)} run=${F.run.toFixed(2)} task=${j} w=${F.wTask.toFixed(2)} clk=${clocks[j].toFixed(2)} th=${F.theta.toFixed(2)} cap=${cap}`;
+    };
+    const crate = (b: number[]): Prop => ({ kind: 'block', c: [b[0], b[1], b[2]] as Vec3, ax: [[BOX_SIZE[0] / 2, 0, 0], [0, BOX_SIZE[1] / 2, 0], [0, 0, BOX_SIZE[2] / 2]], alpha: 1, crate: true } as Prop);
+    const snap = () => { F.snapFrom = F.frame; F.snapT = 0; };
+
+    // ---- drawing ----
+    const sub = (a: number[], b: number[]) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+    const addv = (a: number[], b: number[], s = 1) => [a[0] + b[0] * s, a[1] + b[1] * s, a[2] + b[2] * s];
+    const nrm = (a: number[]) => { const l = hypot(a[0], a[1], a[2]) || 1; return [a[0] / l, a[1] / l, a[2] / l]; };
+    const crs = (a: number[], b: number[]) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+    const dot = (a: number[], b: number[]) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+
+    const capsule = (g: CanvasRenderingContext2D, a: number[], b: number[], ra: number, rb: number) => {
+      const dx = b[0] - a[0], dy = b[1] - a[1], d = hypot(dx, dy);
+      g.beginPath();
+      if (d <= abs(ra - rb) + 0.01) g.arc(ra > rb ? a[0] : b[0], ra > rb ? a[1] : b[1], max(ra, rb), 0, TAU);
+      else {
+        const th = atan2(dy, dx), ph = acos((ra - rb) / d);
+        g.arc(a[0], a[1], ra, th + ph, th - ph + TAU);
+        g.arc(b[0], b[1], rb, th - ph, th + ph);
+        g.closePath();
+      }
+      g.fill(); g.stroke();
+    };
+    const hull = (pts: number[][]) => {
+      const p = [...pts].sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+      const cr = (o: number[], a: number[], b: number[]) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+      const lo: number[][] = [], up: number[][] = [];
+      for (const q of p) { while (lo.length > 1 && cr(lo[lo.length - 2], lo[lo.length - 1], q) <= 0) lo.pop(); lo.push(q); }
+      for (const q of p.reverse()) { while (up.length > 1 && cr(up[up.length - 2], up[up.length - 1], q) <= 0) up.pop(); up.push(q); }
+      return lo.slice(0, -1).concat(up.slice(0, -1));
+    };
+    const roundPoly = (g: CanvasRenderingContext2D, q: number[][], r: number) => {
+      const n = q.length, d = (a: number[], b: number[]) => hypot(a[0] - b[0], a[1] - b[1]);
+      g.beginPath();
+      g.moveTo((q[n - 1][0] + q[0][0]) / 2, (q[n - 1][1] + q[0][1]) / 2);
+      for (let i = 0; i < n; i++) {
+        const a = q[i], b = q[(i + 1) % n], p = q[(i + n - 1) % n];
+        g.arcTo(a[0], a[1], b[0], b[1], min(r, d(a, b) / 2, d(a, p) / 2));
+      }
+      g.closePath();
+    };
+    const polyline = (g: CanvasRenderingContext2D, pts: number[][]) => { g.beginPath(); pts.forEach(([x, y], i) => (i ? g.lineTo(x, y) : g.moveTo(x, y))); g.stroke(); };
+
+    const BOX_FACES = [[0, 1, 3, 2], [4, 6, 7, 5], [0, 4, 5, 1], [2, 3, 7, 6], [0, 2, 6, 4], [1, 5, 7, 3]];
+    const cornersOf = (c: number[], ax: number[][]) => {
+      const out: number[][] = [];
+      for (const sx of [-1, 1]) for (const sy of [-1, 1]) for (const sz of [-1, 1]) out.push([0, 1, 2].map(i => c[i] + ax[0][i] * sx + ax[1][i] * sy + ax[2][i] * sz));
+      return out;
+    };
+    // Box with all six faces painted back to front, so its visible edges read as a solid.
+    const boxFaces = (g: CanvasRenderingContext2D, q: number[][], ink: number) => {
+      const faces = BOX_FACES.map(fc => ({ fc, z: fc.reduce((s, i) => s + q[i][2], 0) / 4 })).sort((a, b) => b.z - a.z);
+      g.strokeStyle = col(pal.ink, ink); g.fillStyle = col(pal.bg);
+      for (const { fc } of faces) {
+        g.beginPath(); fc.forEach((i, k) => (k ? g.lineTo(q[i][0], q[i][1]) : g.moveTo(q[i][0], q[i][1])));
+        g.closePath(); g.fill(); g.stroke();
+      }
+    };
+    const PROP_INK: Record<string, number> = { table: 0.62, plank: 0.62, block: 0.7, obstacle: 0.7, tool: 0.85 };
+    const drawProps = (g: CanvasRenderingContext2D, props: Prop[], v: View, alpha = 1, tools = false) => {
+      const lw = clamp(v.focal / v.cam.dist / 240, 0.7, 1.1);
+      const list = props.filter(p => tools || p.kind !== 'tool').map(p => ({ p, q: cornersOf(p.c, p.ax).map(x => P(v, x)) }));
+      list.sort((a, b) => (b.p.kind === 'table' ? 1 : 0) - (a.p.kind === 'table' ? 1 : 0) || b.q.reduce((s, x) => s + x[2], 0) - a.q.reduce((s, x) => s + x[2], 0));
+      for (const { p, q } of list) {
+        const a = alpha * (p.alpha ?? 1);
+        if (a < 0.01) continue;
+        g.globalAlpha = a; g.lineWidth = lw; g.lineJoin = 'round';
+        if (p.kind === 'hole') {
+          const m = P(v, p.c);
+          g.fillStyle = col(pal.ink, 0.75); g.beginPath(); g.ellipse(m[0], m[1], max(1.2, lw * 1.6), max(0.8, lw), 0, 0, TAU); g.fill();
+        } else boxFaces(g, q, (p as Prop & { crate?: boolean }).crate ? 0.86 : PROP_INK[p.kind] ?? 0.7);
+      }
+      g.globalAlpha = 1;
+    };
+
+    const LEGS: [JointName, JointName, number, number][] = [
+      ['lHip', 'lKnee', 0.068, 0.048], ['lKnee', 'lAnkle', 0.05, 0.035], ['rHip', 'rKnee', 0.068, 0.048], ['rKnee', 'rAnkle', 0.05, 0.035],
+    ];
+    // Square-section link: four corners at each end, tapered, oriented by the arm plane.
+    const link = (A: number[], Bp: number[], n: number[], [wa, da]: number[], [wb, db]: number[], ea: number, eb: number) => {
+      const d = nrm(sub(Bp, A)), u = nrm(addv(n, d, -dot(n, d))), w = crs(d, u), a = addv(A, d, -ea), b = addv(Bp, d, eb), pts: number[][] = [];
+      for (const [c0, hw, hd] of [[a, wa, da], [b, wb, db]] as [number[], number, number][]) for (const su of [-1, 1]) for (const sw of [-1, 1]) pts.push(addv(addv(c0, u, su * hw), w, sw * hd));
+      return pts;
+    };
+
+    // The humanoid: tapered capsule legs, square-section arms, torso and pelvis shells, feet, helmet with visor.
+    const drawFigure = (g: CanvasRenderingContext2D, f: Frame, v: View, tools: Prop[] = []) => {
+      const J = f.joints, items: { z: number; draw: () => void }[] = [];
+      const pr = (p: number[]) => P(v, p), rad = (r: number, z: number) => (r * v.focal) / z;
+      const lw = clamp(rad(1.6, hypot(...sub(J.pelvis, v.eye))) / 240, 0.7, 1.15);
+      g.lineJoin = 'round'; g.lineCap = 'round';
+      const style = () => { g.strokeStyle = col(pal.ink, 0.86); g.fillStyle = col(pal.bg); g.lineWidth = lw; };
+      const solid = (pts: number[][], corner: number, z: number, extra?: () => void) => {
+        const q = pts.map(pr);
+        items.push({ z, draw: () => { style(); roundPoly(g, hull(q), rad(corner, z)); g.fill(); g.stroke(); extra?.(); } });
+      };
+      const ball = (c0: number[], r: number, dz = 0) => {
+        const Q = pr(c0);
+        items.push({ z: Q[2] + dz, draw: () => { style(); g.beginPath(); g.arc(Q[0], Q[1], rad(r, Q[2]), 0, TAU); g.fill(); g.stroke(); } });
+      };
+      const corners = (lo: number[], hi: number[]) => {
+        const out: number[][] = [];
+        for (const x of [lo[0], hi[0]]) for (const y of [lo[1], hi[1]]) for (const z of [lo[2], hi[2]]) out.push([x, y, z]);
+        return out;
+      };
+      const frameBox = (c0: number[], ax: number[][], ext: number[][]) => ext.map(e => ax.reduce((p, a, i) => addv(p, a, e[i]), c0));
+
+      for (const [a, b, ra, rb] of LEGS) {
+        const Aq = pr(J[a]), Bq = pr(J[b]);
+        items.push({ z: (Aq[2] + Bq[2]) / 2, draw: () => { style(); capsule(g, Aq, Bq, rad(ra, Aq[2]), rad(rb, Bq[2])); } });
+      }
+      const side = nrm(sub(J.rShoulder, J.lShoulder)), up = nrm(sub(J.neck, J.pelvis)), fwd = nrm(crs(up, side));
+      for (const s of ['l', 'r'] as const) {
+        const S = J[`${s}Shoulder`], E = J[`${s}Elbow`], Hd = J[`${s}Hand`], ua = sub(E, S), fa = sub(Hd, E);
+        const nc = crs(ua, fa), k = smooth(0.02, 0.12, hypot(...nc) / (hypot(...ua) * hypot(...fa) || 1));
+        const n = nrm(addv(addv([0, 0, 0], side, 1 - k), nrm(nc), k * (dot(nc, side) < 0 ? -1 : 1)));
+        const segs = [
+          link(S, E, n, [0.045, 0.04], [0.037, 0.034], 0.01, 0.03),
+          link(E, Hd, n, [0.034, 0.031], [0.028, 0.026], 0.026, 0.0),
+          link(Hd, addv(Hd, nrm(fa), 0.075), n, [0.025, 0.02], [0.021, 0.017], 0, 0),
+        ];
+        segs.forEach((pts, i) => {
+          const q = pts.map(pr), z = (q.reduce((a, p) => a + p[2], 0) / q.length) + (i === 2 ? -0.004 : 0);
+          items.push({ z, draw: () => {
+            style(); roundPoly(g, hull(q), rad(0.008, z)); g.fill(); g.stroke();
+            let best = 0, bz = 1e9;
+            for (let e = 0; e < 4; e++) { const m = (q[e][2] + q[e + 4][2]) / 2; if (m < bz) { bz = m; best = e; } }
+            g.strokeStyle = col(pal.ink, 0.28); g.beginPath(); g.moveTo(q[best][0], q[best][1]); g.lineTo(q[best + 4][0], q[best + 4][1]); g.stroke();
+          } });
+        });
+        const Eq = pr(E);
+        items.push({ z: Eq[2] - 0.03, draw: () => { style(); g.beginPath(); g.arc(Eq[0], Eq[1], rad(0.02, Eq[2]), 0, TAU); g.fill(); g.stroke(); } });
+        ball(S, 0.05, 0.03);
+      }
+
+      const axes = [side, up, fwd];
+      const toCam = (p: number[]) => nrm(sub(v.eye, p));
+      const shell: number[][] = [];
+      for (const [c0, w, d] of [
+        [addv(J.neck, up, -0.02), 0.13, 0.07], [addv(J.chest, up, 0.1), 0.17, 0.1], [addv(J.chest, up, -0.06), 0.14, 0.09], [addv(J.pelvis, up, 0.11), 0.095, 0.068],
+      ] as [number[], number, number][]) shell.push(...frameBox(c0, axes, corners([-w, 0, -d], [w, 0, d])));
+      solid(shell, 0.03, pr(J.chest)[2], () => {
+        if (dot(fwd, toCam(J.chest)) < 0.15) return;
+        const s2 = [-1, 1].map(kk => pr(addv(addv(addv(J.chest, up, -0.07), fwd, 0.092), side, kk * 0.1)));
+        g.strokeStyle = col(pal.ink, 0.3); g.beginPath(); g.moveTo(s2[0][0], s2[0][1]); g.lineTo(s2[1][0], s2[1][1]); g.stroke();
+      });
+      solid(frameBox(J.pelvis, axes, corners([-0.115, -0.06, -0.075], [0.115, 0.05, 0.075])), 0.03, pr(J.pelvis)[2]);
+
+      for (const [an, to, kn] of [['lAnkle', 'lToe', 'lKnee'], ['rAnkle', 'rToe', 'rKnee']] as JointName[][]) {
+        const Aj = J[an], Tj = J[to], fu = nrm(sub(J[kn], Aj)), d = sub(Tj, Aj), lat = nrm(crs(d, fu));
+        const heel = addv(addv(Aj, fu, -0.055), d, -0.35), toeSole = addv(Tj, fu, -0.022);
+        const pts = [Aj, Tj, toeSole, heel].flatMap(p => [addv(p, lat, 0.038), addv(p, lat, -0.038)]);
+        solid(pts, 0.012, pr(addv(Aj, d, 0.4))[2]);
+      }
+
+      const neckTop = addv(J.head, up, -0.07), NA = pr(J.neck), NB = pr(neckTop);
+      items.push({ z: (NA[2] + NB[2]) / 2 + 0.02, draw: () => { style(); capsule(g, NA, NB, rad(0.034, NA[2]), rad(0.032, NB[2])); } });
+      const hc = addv(J.head, up, 0.01);
+      solid(frameBox(hc, axes, corners([-0.085, -0.085, -0.092], [0.085, 0.1, 0.1])), 0.055, pr(hc)[2], () => {
+        if (dot(fwd, toCam(J.head)) < -0.25) return;
+        g.save(); g.clip();
+        const vis = frameBox(addv(hc, fwd, 0.1), axes, [[-0.066, 0.004, 0], [0.066, 0.004, 0], [0.066, 0.05, 0], [-0.066, 0.05, 0]]).map(pr);
+        roundPoly(g, vis, rad(0.012, vis[0][2]));
+        g.fillStyle = col(pal.accent, 0.92); g.strokeStyle = col(pal.accent); g.fill(); g.stroke();
+        g.restore();
+      });
+
+      const box = f.box;
+      if (box && (box.alpha ?? 1) > 0.05) {
+        const { center, size, yaw } = box, cy = cos(yaw), sy = sin(yaw);
+        const q = cornersOf(center, [[(size[0] / 2) * cy, 0, (-size[0] / 2) * sy], [0, size[1] / 2, 0], [(size[2] / 2) * sy, 0, (size[2] / 2) * cy]]).map(pr);
+        items.push({ z: pr(center)[2], draw: () => { g.lineWidth = lw; g.globalAlpha = box.alpha ?? 1; boxFaces(g, q, 0.86); g.globalAlpha = 1; } });
+      }
+      for (const t of tools) {
+        if (t.kind !== 'tool') continue;
+        const q = cornersOf(t.c, t.ax).map(pr);
+        items.push({ z: pr(t.c)[2] - 0.02, draw: () => { g.lineWidth = lw; boxFaces(g, q, 0.86); } });
+      }
+      items.sort((a, b) => b.z - a.z).forEach(it => it.draw());
+    };
+
+    // Draws through an offscreen layer so overlapping parts of a faint figure do not show through each other.
+    const faded = (a: number, r: Rect, draw: (g: CanvasRenderingContext2D) => void) => {
+      if (a <= 0.004) return;
+      if (a >= 0.996) { draw(ctx); return; }
+      const x = max(0, floor(r.x)), y = max(0, floor(r.y)), w = min(W, Math.ceil(r.x + r.w)) - x, h = min(H, Math.ceil(r.y + r.h)) - y;
+      if (w <= 0 || h <= 0) return;
+      lctx.clearRect(x, y, w, h);
+      draw(lctx);
+      ctx.globalAlpha = a;
+      ctx.drawImage(layer, x * dpr, y * dpr, w * dpr, h * dpr, x, y, w, h);
+      ctx.globalAlpha = 1;
+    };
+    const grow = (r: Rect, k: number): Rect => ({ x: r.x - r.w * k, y: r.y - r.h * k, w: r.w * (1 + 2 * k), h: r.h * (1 + 2 * k) });
+    const lerpRect = (a: Rect, b: Rect, k: number): Rect => ({ x: lerp(a.x, b.x, k), y: lerp(a.y, b.y, k), w: lerp(a.w, b.w, k), h: lerp(a.h, b.h, k) });
+
+    const arrow = (v: View, from: number[], to: number[], a: number) => {
+      const Aq = P(v, from), Bq = P(v, to), th = atan2(Bq[1] - Aq[1], Bq[0] - Aq[0]), hl = 6;
+      ctx.strokeStyle = col(pal.accent, a); ctx.lineWidth = 1.3;
+      polyline(ctx, [Aq, Bq]);
+      polyline(ctx, [[Bq[0] - hl * cos(th - 0.45), Bq[1] - hl * sin(th - 0.45)], Bq, [Bq[0] - hl * cos(th + 0.45), Bq[1] - hl * sin(th + 0.45)]]);
+    };
+
+    // A few faint nodes beside the head, wired into it; pulses run through them in step with the action.
+    const NET = [3, 3];
+    const drawNet = (f: Frame, v: View, a: number, out: number) => {
+      if (a < 0.01) return;
+      const h = P(v, f.joints.head), s = v.focal / v.cam.dist / 170;
+      const nodes = NET.map((n, L) => Array.from({ length: n }, (_, i) => [h[0] + out * (70 - L * 26) * s, h[1] - 30 * s + (i - (n - 1) / 2) * 12 * s]));
+      const into = [h[0] + out * 13 * s, h[1] - 4 * s];
+      const edges: [number[], number[], number][] = [];
+      for (const p of nodes[0]) for (const q of nodes[1]) edges.push([p, q, 0]);
+      for (const p of nodes[1]) edges.push([p, into, 1]);
+      ctx.lineWidth = 0.7;
+      edges.forEach(([p, q, L], i) => {
+        let lit = 0;
+        for (const pu of pulses) {
+          const u = (time - pu.t) / 0.5;
+          lit = max(lit, pu.k * (0.35 + 0.65 * pu.w[i % pu.w.length]) * smooth(L * 0.4 - 0.05, L * 0.4 + 0.15, u) * (1 - smooth(L * 0.4 + 0.3, L * 0.4 + 0.7, u)));
+        }
+        ctx.strokeStyle = col(pal.ink, 0.1 * a); polyline(ctx, [p, q]);
+        if (lit > 0.02) { ctx.strokeStyle = col(pal.accent, min(0.7, lit * 0.7) * a); polyline(ctx, [p, q]); }
+      });
+      nodes.flat().forEach((p, i) => {
+        let lit = 0;
+        for (const pu of pulses) { const u = (time - pu.t) / 0.5, L = i < NET[0] ? 0 : 1; lit = max(lit, pu.k * smooth(L * 0.4, L * 0.4 + 0.12, u) * (1 - smooth(L * 0.4 + 0.25, L * 0.4 + 0.65, u))); }
+        ctx.fillStyle = lit > 0.05 ? col(pal.accent, min(0.8, lit) * a) : col(pal.bg); ctx.strokeStyle = col(pal.ink, 0.32 * a);
+        ctx.beginPath(); ctx.arc(p[0], p[1], 1.8 * max(0.8, s), 0, TAU); ctx.fill(); ctx.stroke();
+      });
+    };
+    const ring = (v: View, r: number, a: number, cx = 0, cz = 0) => {
+      if (a < 0.01) return;
+      const pts: number[][] = [];
+      for (let i = 0; i <= 72; i++) pts.push(P(v, [cx + r * cos((i / 72) * TAU), 0, cz + r * sin((i / 72) * TAU)]));
+      ctx.strokeStyle = col(pal.line, a); ctx.lineWidth = 1; polyline(ctx, pts);
+    };
+
+    const groundLine = (x0: number, x1: number, y: number, a: number) => {
+      if (a < 0.01 || x1 - x0 < 2) return;
+      const gr = ctx.createLinearGradient(x0, 0, x1, 0), f = min(0.3, 60 / (x1 - x0));
+      gr.addColorStop(0, col(pal.line, 0)); gr.addColorStop(f, col(pal.line, a)); gr.addColorStop(1 - f, col(pal.line, a)); gr.addColorStop(1, col(pal.line, 0));
+      ctx.strokeStyle = gr; ctx.lineWidth = 1;
+      polyline(ctx, [[x0, y + 0.5], [x1, y + 0.5]]);
+    };
+    const caption = (text: string, x: number, y: number, a: number, align: CanvasTextAlign = 'center') => {
+      if (a < 0.01) return;
+      ctx.font = '500 10px "Geist Mono", ui-monospace, monospace';
+      ctx.letterSpacing = '0.09em';
+      ctx.textAlign = align; ctx.textBaseline = 'alphabetic';
+      ctx.fillStyle = col(pal.muted, a);
+      ctx.fillText(text.toUpperCase(), x, y);
+    };
+
+    let figRect: Rect = { x: 0, y: 0, w: 0, h: 0 };
+    const render = () => {
+      if (!heroFit) return;
+      ctx.clearRect(0, 0, W, H);
+      const ce = reduced ? c : ease(c);
+      const sr = toRect(stage.getBoundingClientRect());
+      const progress = clamp(scrollY / max(1, document.documentElement.scrollHeight - innerHeight));
+      dockBar.style.transform = `scaleX(${progress.toFixed(4)})`;
+      dock.style.setProperty('--c', String(clamp(c * 1.5)));
+
+      if (c < 1) {
+        // Hero grid, collapsing into the selected tile.
+        const sel = envs[SEL], tgt: Vec3 = [sel.gx + FOL_TARGET[0], FOL_TARGET[1], sel.gz + FOL_TARGET[2]];
+        const r = lerpRect(sr, folRect, ce);
+        const cam: Camera = {
+          yaw: YAW, fov: FOV, pitch: lerp(heroFit.cam.pitch, FOL_PITCH, ce), dist: exp(lerp(log(heroFit.cam.dist), log(folFit.cam.dist), ce)),
+          target: heroFit.cam.target.map((t, i) => lerp(t, tgt[i], ce)) as Vec3,
+        };
+        const v = makeView(cam, r, lerp(heroFit.ox, folFit.ox, ce), lerp(heroFit.oy, folFit.oy, ce));
+        figRect = r;
+        const ha = 1 - smooth(0, 0.4, c);
+        if (ha > 0.01) {
+          ctx.strokeStyle = col(pal.line, ha); ctx.lineWidth = 1;
+          const m = 10, { x, y, w, h } = sr;
+          for (const [cx, cy, sx, sy] of [[x, y, 1, 1], [x + w, y, -1, 1], [x, y + h, 1, -1], [x + w, y + h, -1, -1]]) polyline(ctx, [[cx + sx * m, cy], [cx, cy], [cx, cy + sy * m]]);
+          caption('nine skills, trained in parallel', sr.x + 16, sr.y + sr.h - 6, ha, 'left');
+        }
+        const selFrame = place(F.frame, [], 0, 0, 0).frame;
+        const order = envs.map(e => ({ e, z: P(v, [e.gx, 0, e.gz])[2] })).sort((a, b) => b.z - a.z);
+        const others = 1 - smooth(0.04, 0.5, c);
+        for (const { e } of order) {
+          const isSel = e.i === SEL, s = TILE / 2;
+          const q = [[-s, -s], [s, -s], [s, s], [-s, s], [-s, -s]].map(([a, b]) => P(v, [e.gx + a, 0, e.gz + b]));
+          const ta = isSel ? 1 - smooth(0.55, 0.9, c) : others;
+          ctx.lineWidth = 1; ctx.strokeStyle = col(pal.line, ta); polyline(ctx, q);
+          const hi = isSel ? smooth(0.02, 0.22, c) * (1 - smooth(0.6, 0.92, c)) : e.flash * 0.6 * others;
+          if (hi > 0.01) { ctx.strokeStyle = col(pal.accent, hi); polyline(ctx, q); }
+          const fr = isSel ? selFrame : e.frame, props = isSel ? [] : e.props;
+          const placed = place(fr, props, e.yaw, e.gx, e.gz);
+          const pel = P(v, placed.frame.joints.pelvis);
+          e.sx = pel[0]; e.sy = pel[1];
+          const alpha = isSel ? 1 : others * (e.fallT >= 0 ? lerp(0.42, 1, e.p) * (1 - smooth(1.0, 1.6, e.fallT)) : lerp(0.42, 1, e.p));
+          const xs = q.map(p => p[0]), ys = q.map(p => p[1]), tall = (max(...ys) - min(...ys)) * 2.2;
+          const tileR: Rect = { x: min(...xs) - 12, y: min(...ys) - tall, w: max(...xs) - min(...xs) + 24, h: max(...ys) - min(...ys) + tall + 12 };
+          const bg = isSel ? secProps(0) : placed.props;
+          faded(alpha, isSel ? grow(r, 0.3) : tileR, g => {
+            if (isSel) drawProps(g, place(LIE, bg, e.yaw, e.gx, e.gz).props, v);
+            else drawProps(g, bg, v);
+            drawFigure(g, placed.frame, v, isSel ? [] : placed.props);
+            if (!isSel && placed.frame.push && placed.frame.push.strength > 0.05) {
+              const { at, dir, strength } = placed.frame.push;
+              const A2 = P(v, addv(at, dir, -0.7)), B2 = P(v, addv(at, dir, -0.06));
+              g.strokeStyle = col(pal.accent, strength); g.lineWidth = 1.2; polyline(g, [A2, B2]);
+            }
+          });
+        }
+        ring(v, 0.6, 0.8 * smooth(0.6, 1, c) * (mobile ? 0 : 1), sel.gx, sel.gz);
+        return;
+      }
+
+      // Follower: the robot, the props of nearby sections, the ground it walks on and a faint policy.
+      const fo = scene, camX = mobile ? fo.x : 0;
+      const vAt = (x: number) => folView((x - camX) * ppm);
+      const v = vAt(fo.x);
+      const gy = P(v, [0, 0, 0])[1], rx = P(v, [0, 0, 0])[0];
+      figRect = { x: rx - folRect.w * 0.3, y: folRect.y, w: folRect.w * 0.6, h: folRect.h };
+      if (mobile) {
+        const d = dock.getBoundingClientRect();
+        ctx.save();
+        ctx.beginPath(); ctx.rect(d.left + 1, d.top + 1, d.width - 2, d.height - 2); ctx.clip();
+        ctx.strokeStyle = col(pal.line); ctx.lineWidth = 1;
+        polyline(ctx, [[folRect.x - 20, gy + 0.5], [d.right, gy + 0.5]]);
+        for (let i = -12; i <= 12; i++) {
+          const x = rx + (floor(camX / 0.5) * 0.5 - camX + i * 0.5) * ppm;
+          if (x < folRect.x - 10 || x > d.right) continue;
+          polyline(ctx, [[x, gy + 0.5], [x - 4, gy + 4.5]]);
+        }
+      } else {
+        const xa = P(vAt(X[fo.k]), [0, 0, 0])[0], xb = P(vAt(X[min(4, fo.k + 1)]), [0, 0, 0])[0];
+        const span = smooth(0.01, 0.14, fo.s) * (1 - smooth(0.86, 0.99, fo.s)), half = folRect.w * 0.3;
+        groundLine(min(xa, xb) - half, max(xa, xb) + half, gy, span);
+        for (let i = 0; i < 5; i++) ring(vAt(X[i]), 0.6, 0.8 * (1 - smooth(0.02, 0.16, abs(F.g - i))));
+      }
+      // The drill is sorted with the hands while the robot works at the table, otherwise it is a prop.
+      const atTable = F.task === 2 && abs(F.g - 2) < 0.004;
+      for (const pp of fo.props) drawProps(ctx, pp.props, vAt(pp.x), pp.a, !(atTable && pp.k === 2));
+      drawFigure(ctx, fo.frame, v, atTable ? fo.props.find(pp => pp.k === 2)?.props ?? [] : []);
+      if (F.pushA > 0.02) {
+        const ch = fo.frame.joints.chest, dir = [cos(F.theta), 0, -sin(F.theta)];
+        arrow(v, addv(ch, dir, -0.75), addv(ch, dir, -0.14), F.pushA);
+      }
+      if (!mobile) {
+        drawNet(fo.frame, v, (F.wTask * 0.9 + 0.35 * (1 - F.wTask)) * 0.95, SEC[F.task].side > 0 && F.wTask > 0.5 ? 1 : fo.x < (X[0] + X[1]) / 2 ? -1 : 1);
+        caption(fo.cap, rx, gy + 28, fo.capA);
+      } else {
+        ctx.restore();
+        if (dockCap.textContent !== fo.cap) dockCap.textContent = fo.cap;
+      }
+    };
+    const secProps = (k: number) => {
+      const sc = secScene(k, clocks[k]);
+      return [...sc.props, ...(sc.spec.box && sc.spec.box[4] < 0.02 ? [crate(sc.spec.box)] : [])];
+    };
+
+    // Pointer: moving across a robot nudges it; the follower and the nearest hero tile react.
+    let lastPt: [number, number] | null = null;
+    const inside = (x: number, y: number, r: Rect) => x > r.x && x < r.x + r.w && y > r.y && y < r.y + r.h;
+    addEventListener('pointermove', ev => {
+      const pt: [number, number] = [ev.clientX, ev.clientY];
+      if (lastPt && inside(pt[0], pt[1], figRect) && !reduced) {
+        const dx = ((pt[0] - lastPt[0]) * 1.2) / max(80, figRect.h), rx = sin(YAW), rz = -cos(YAW);
+        if (abs(dx) > 0.002) {
+          if (c >= 1) kick(F.sp, rx * dx * 6, rz * dx * 6);
+          else {
+            let best = envs[0], bd = 1e9;
+            for (const e of envs) { const d = hypot(e.sx - pt[0], e.sy - pt[1]); if (d < bd) { bd = d; best = e; } }
+            if (best.i !== SEL) { const l = toLocal(rx * dx * 6, rz * dx * 6, best.yaw); kick(best.sp, l[0], l[2]); }
+          }
+        }
+      }
+      lastPt = pt;
+    }, { passive: true });
+
+    let last = 0, running = false, raf = 0;
+    const loop = (now: number) => {
+      const dt = last ? min(0.05, (now - last) / 1000) : 0;
+      last = now;
+      update(dt);
+      render();
+      raf = requestAnimationFrame(loop);
+    };
+    const start = () => { if (!running && !document.hidden) { running = true; last = 0; raf = requestAnimationFrame(loop); } };
+    const stop = () => { running = false; cancelAnimationFrame(raf); };
+    const still = () => { update(0); render(); };
+
+    resize();
+    for (const e of envs) { e.p = reduced ? 1 : 0; stepEnv(e, 0, 0); }
+    addEventListener('resize', () => { resize(); if (reduced) still(); });
+    narrow.addEventListener('change', () => { resize(); if (reduced) still(); });
+    document.fonts?.ready.then(() => { resize(); if (reduced) still(); });
+    if (reduced) {
+      for (const e of envs) { e.clock = TASK[e.task].D * 0.4; stepEnv(e, 0, 0); }
+      still();
+      addEventListener('scroll', still, { passive: true });
+    } else {
+      document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+      start();
+    }
+  }
+</script>
+
+<style>
+  .s23 {
+    --bg: #fbfbfa;
+    --ink: #1f2636;
+    --body: #545e6e;
+    --muted: #8a92a0;
+    --line: #ebedf0;
+    --line-2: #dcdfe5;
+    --accent: #2b5be6;
+    --sans: 'Geist', 'Helvetica Neue', Arial, sans-serif;
+    --mono: 'Geist Mono', ui-monospace, Menlo, monospace;
+    --ease: cubic-bezier(.2, .7, .2, 1);
+    --max: 1280px;
+    --gut: clamp(16px, 4vw, 56px);
+    --colgap: 64px;
+    --nav: 64px;
+    position: relative;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--body);
+    font: 400 16px/1.6 var(--sans);
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: 80px;
+    overflow-x: clip;
+  }
+  .s23 *, .s23 *::before, .s23 *::after { box-sizing: border-box; }
+  :where(.s23 a) { color: inherit; text-decoration: none; }
+  .s23 a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+  :where(.s23 h1, .s23 h2, .s23 h3, .s23 p, .s23 ol, .s23 ul, .s23 dl, .s23 dd) { margin: 0; padding: 0; }
+  :where(.s23 ol, .s23 ul) { list-style: none; }
+  .mono { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+  .s23 .wrap { max-width: var(--max); margin-inline: auto; padding-inline: var(--gut); }
+  .s23 [id] { scroll-margin-top: calc(var(--nav) + 24px); }
+
+  .s23.js [data-r] { opacity: 0; transform: translateY(10px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
+  .s23.js [data-r].in { opacity: 1; transform: none; }
+
+  /* Nav */
+  .nav { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); }
+  .nav-in { height: var(--nav); display: flex; align-items: center; gap: 28px; }
+  .brand { font-weight: 500; font-size: 15px; letter-spacing: -.01em; color: var(--ink); margin-right: auto; }
+  .nav nav { display: flex; gap: clamp(16px, 2.4vw, 34px); font-size: 14px; }
+  .nav nav a { color: var(--body); transition: color .2s; }
+  .nav nav a:hover { color: var(--accent); }
+
+  /* Fixed canvas and mobile dock */
+  .view { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; }
+  .dock { display: none; }
+
+  /* Hero */
+  .hero-in {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--colgap); align-items: center;
+    min-height: calc(100vh - var(--nav)); padding-block: clamp(32px, 6vh, 72px);
+  }
+  .kicker { color: var(--muted); margin-bottom: 28px; }
+  .kicker span { color: var(--line-2); margin-inline: 6px; }
+  .hero h1 { font-weight: 500; font-size: clamp(50px, 6vw, 88px); line-height: .98; letter-spacing: -.04em; color: var(--ink); }
+  .role { margin-top: 30px; font-size: 17px; color: var(--ink); opacity: .88; }
+  .role a { color: var(--accent); border-bottom: 1px solid transparent; transition: border-color .2s; }
+  .role a:hover { border-color: currentColor; }
+  .tagline { margin-top: 12px; font-size: clamp(18px, 1.55vw, 21px); line-height: 1.5; max-width: 30ch; color: var(--body); }
+  .hero-links { display: flex; gap: 22px; margin-top: 36px; }
+  .hero-links a { color: var(--muted); transition: color .2s; }
+  .hero-links a:hover { color: var(--accent); }
+  .stage { height: min(500px, 58vh); width: 100%; }
+
+  /* Sections: text in one half, the other half belongs to the robot */
+  .sec { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--colgap); padding-block: clamp(72px, 10vh, 112px); }
+  .sec[data-side="R"] .col { grid-column: 1; }
+  .sec[data-side="L"] .col { grid-column: 2; }
+  .sec:first-child { padding-top: clamp(48px, 8vh, 96px); }
+  .band { height: 80vh; }
+  .head { margin-bottom: 44px; }
+  .idx { display: flex; align-items: center; gap: 12px; color: var(--muted); }
+  .idx span { color: var(--accent); }
+  .idx::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+  .head h2 { margin-top: 24px; font-weight: 500; font-size: clamp(30px, 2.9vw, 42px); line-height: 1.08; letter-spacing: -.03em; color: var(--ink); max-width: 18ch; }
+  h3 { font-weight: 500; font-size: 18px; line-height: 1.3; letter-spacing: -.012em; color: var(--ink); }
+
+  /* Research */
+  .areas { border-top: 1px solid var(--line-2); }
+  .area { display: grid; grid-template-columns: 48px minmax(0, 1fr); padding: 24px 0 26px; border-bottom: 1px solid var(--line); }
+  .a-idx { color: var(--accent); padding-top: 4px; }
+  .a-sum { margin-top: 8px; font-size: 15px; line-height: 1.62; }
+  .kw { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 14px; color: var(--muted); font-size: 10.5px; }
+
+  /* About */
+  .lead { font-size: clamp(19px, 1.6vw, 22px); line-height: 1.52; letter-spacing: -.01em; color: var(--ink); opacity: .9; }
+  .body { margin-top: 22px; font-size: 15.5px; line-height: 1.68; }
+  .facts { margin-top: 36px; border-top: 1px solid var(--line-2); }
+  .facts div { display: grid; grid-template-columns: 96px 1fr; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .facts dt { color: var(--muted); font-size: 10.5px; }
+  .facts dd { color: var(--ink); font-size: 15px; }
+
+  /* Experience */
+  .tl { border-top: 1px solid var(--line-2); }
+  .tl-row { display: grid; grid-template-columns: 112px minmax(0, 1fr); padding: 24px 0 26px; border-bottom: 1px solid var(--line); }
+  .period { color: var(--muted); font-size: 10.5px; padding-top: 4px; }
+  .now .period { color: var(--accent); }
+  .org { margin-top: 4px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; font-size: 15px; }
+  .org a { color: var(--ink); opacity: .82; border-bottom: 1px solid var(--line-2); transition: color .2s, border-color .2s; }
+  .org a:hover { color: var(--accent); border-color: currentColor; opacity: 1; }
+  .org .mono { color: var(--muted); font-size: 10px; }
+  .tl-sum { margin-top: 10px; font-size: 15px; line-height: 1.62; }
+
+  /* Notes */
+  .notes { border-top: 1px solid var(--line-2); }
+  .note { display: grid; grid-template-columns: 112px minmax(0, 1fr); column-gap: 0; row-gap: 6px; padding: 24px 0; border-bottom: 1px solid var(--line); }
+  .note time { color: var(--muted); font-size: 10.5px; padding-top: 4px; grid-row: span 3; }
+  .n-title { color: var(--ink); font-weight: 500; font-size: 18px; letter-spacing: -.012em; line-height: 1.3; transition: color .2s; }
+  .note:hover .n-title { color: var(--accent); }
+  .n-desc { font-size: 15px; line-height: 1.55; }
+  .n-tags { display: flex; flex-wrap: wrap; gap: 4px 16px; color: var(--muted); font-size: 10px; margin-top: 4px; }
+
+  /* Contact */
+  .links { margin-top: 32px; border-top: 1px solid var(--line-2); }
+  .links a { display: grid; grid-template-columns: minmax(0, 1fr) auto 24px; align-items: baseline; gap: 20px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+  .l-name { font-size: clamp(22px, 2vw, 28px); font-weight: 500; letter-spacing: -.02em; color: var(--ink); transition: color .2s; }
+  .l-host { color: var(--muted); font-size: 10.5px; text-transform: none; letter-spacing: .02em; }
+  .l-arrow { color: var(--muted); text-align: right; transition: color .2s, transform .3s var(--ease); }
+  .links a:hover .l-name, .links a:hover .l-arrow { color: var(--accent); }
+  .links a:hover .l-arrow { transform: translate(2px, -2px); }
+
+  .foot-in { display: flex; gap: 28px; margin-top: 24px; padding: 26px 0 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 10.5px; }
+  .foot-in a { margin-left: auto; transition: color .2s; }
+  .foot-in a:hover { color: var(--accent); }
+
+  @media (max-width: 900px) {
+    .s23 { padding-bottom: 132px; }
+    .nav-in { gap: 18px; }
+    .nav nav { gap: 18px; }
+    .nav nav a.opt { display: none; }
+    .hero-in { grid-template-columns: 1fr; row-gap: 20px; min-height: calc(100svh - var(--nav)); padding-block: 36px 16px; align-content: space-between; }
+    .kicker { margin-bottom: 18px; }
+    .role { margin-top: 22px; font-size: 16px; }
+    .hero-links { margin-top: 22px; }
+    .stage { height: min(38vh, 320px); }
+    .sec { grid-template-columns: 1fr; padding-block: 56px; }
+    .sec[data-side] .col { grid-column: 1; }
+    .band { height: 28vh; }
+    .dock {
+      display: block; position: fixed; z-index: 2; pointer-events: none; left: 12px; right: 12px; bottom: 12px; height: 92px;
+      border: 1px solid var(--line-2); border-radius: 14px; background: var(--bg); overflow: hidden; opacity: var(--c, 0);
+    }
+    .dock-cap { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 10px; }
+    .dock-fig { position: absolute; top: 0; bottom: 0; right: 4%; width: 52%; }
+    .dock-bar { position: absolute; left: 18px; right: 18px; bottom: 0; height: 1px; background: var(--line); }
+    .dock-bar i { position: absolute; inset: 0; background: var(--accent); transform-origin: left; transform: scaleX(0); }
+    .tl-row, .note { grid-template-columns: 1fr; }
+    .period, .note time { padding-top: 0; margin-bottom: 6px; grid-row: auto; }
+    .area { grid-template-columns: 36px minmax(0, 1fr); }
+    .links a { grid-template-columns: minmax(0, 1fr) 20px; }
+    .l-host { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .s23.js [data-r] { opacity: 1; transform: none; transition: none; }
+  }
+</style>

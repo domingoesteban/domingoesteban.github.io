@@ -1,0 +1,44 @@
+---
+import { profile } from '@/data/profile';
+---
+<section class="hero" id="top" aria-labelledby="hero-name">
+  <div class="wrap hero-in">
+    <div class="hero-text" data-r>
+      <p class="kicker mono">Robot learning <span aria-hidden="true">/</span> {profile.location}</p>
+      <h1 id="hero-name">{profile.firstName}<br />{profile.lastName}</h1>
+      <p class="role">{profile.role} at <a href={profile.companyHref} target="_blank" rel="noopener">{profile.company}</a></p>
+      <p class="tagline">{profile.tagline}</p>
+      <ul class="hero-links mono">
+        {profile.links.map(l => <li><a href={l.href} target="_blank" rel="noopener">{l.label}</a></li>)}
+      </ul>
+    </div>
+    <!-- The robot canvas draws the hero tiles inside this box. -->
+    <div class="stage" aria-hidden="true"></div>
+  </div>
+</section>
+
+<style>
+  .hero-in {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--colgap); align-items: center;
+    min-height: calc(100vh - var(--nav)); padding-block: clamp(32px, 6vh, 72px);
+  }
+  .kicker { color: var(--muted); margin-bottom: 28px; }
+  .kicker span { color: var(--line-2); margin-inline: 6px; }
+  h1 { font-weight: 500; font-size: clamp(50px, 6vw, 88px); line-height: .98; letter-spacing: -.04em; color: var(--ink); }
+  .role { margin-top: 30px; font-size: 17px; color: var(--ink); opacity: .88; }
+  .role a { color: var(--accent); border-bottom: 1px solid transparent; transition: border-color .2s; }
+  .role a:hover { border-color: currentColor; }
+  .tagline { margin-top: 12px; font-size: clamp(18px, 1.55vw, 21px); line-height: 1.5; max-width: 30ch; color: var(--body); }
+  .hero-links { display: flex; gap: 22px; margin-top: 36px; }
+  .hero-links a { color: var(--muted); transition: color .2s; }
+  .hero-links a:hover { color: var(--accent); }
+  .stage { height: min(500px, 58vh); width: 100%; }
+
+  @media (max-width: 900px) {
+    .hero-in { grid-template-columns: 1fr; row-gap: 20px; min-height: calc(100svh - var(--nav)); padding-block: 36px 16px; align-content: space-between; }
+    .kicker { margin-bottom: 18px; }
+    .role { margin-top: 22px; font-size: 16px; }
+    .hero-links { margin-top: 22px; }
+    .stage { height: min(38vh, 320px); }
+  }
+</style>

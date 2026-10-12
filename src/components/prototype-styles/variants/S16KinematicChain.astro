@@ -1,0 +1,659 @@
+---
+// PROTOTYPE 16 Kinematic Chain: the page spine is a serial chain whose joints bend toward the section you are reading.
+import { profile, areas, experience, notes, formatDate } from '../content';
+
+const jobs = experience.map((e, i) => ({ ...e, side: i % 2 ? 'left' : 'right', j: 3 + i }));
+const index = [
+  { id: 's16-research', j: 1, name: 'Research' },
+  { id: 's16-about', j: 2, name: 'About' },
+  { id: 's16-work', j: 3, name: 'Experience' },
+  { id: 's16-notes', j: 7, name: 'Notes' },
+  { id: 's16-contact', j: 8, name: 'Contact' },
+];
+const year = new Date().getFullYear();
+---
+<div class="s16">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" />
+
+  <header class="nav">
+    <a class="brand" href="#s16-top">{profile.name}</a>
+    <nav aria-label="Primary">
+      {index.map(s => <a href={`#${s.id}`}>{s.name}</a>)}
+    </nav>
+  </header>
+
+  <main class="course" id="s16-top">
+    <svg class="chain" aria-hidden="true"></svg>
+
+    <section class="hero" aria-labelledby="s16-name">
+      <div class="hero-l" data-r>
+        <p class="eyebrow mono">Robot learning · {profile.location}</p>
+        <h1 id="s16-name"><span>{profile.firstName}</span> <span class="blue">{profile.lastName}</span></h1>
+        <p class="role">{profile.role}<br />at <a href={profile.companyHref} target="_blank" rel="noopener">{profile.company}</a></p>
+      </div>
+      <figure class="graph">
+        <canvas role="img" aria-label="A small neural network whose nodes and edges rearrange into the kinematic tree of a wheel-legged humanoid, which then slowly turns and balances."></canvas>
+        <figcaption class="mono"><span data-state>policy network</span><span data-sub>17 nodes · 52 edges</span></figcaption>
+      </figure>
+      <div class="hero-r" data-r>
+        <p class="tagline">{profile.tagline}</p>
+        <ol class="joints mono" aria-label="Sections">
+          {index.map(s => <li><a href={`#${s.id}`}><span>j{s.j}</span>{s.name}</a></li>)}
+        </ol>
+      </div>
+    </section>
+
+    <section class="block right" id="s16-research" aria-labelledby="s16-research-h">
+      <div class="content" data-r>
+        <p class="eyebrow mono"><span class="n">j1</span>Research</p>
+        <h2 id="s16-research-h" data-joint="right">Learning skills for the <span class="blue">whole body</span>.</h2>
+        <ol class="areas">
+          {areas.map((a, i) => (
+            <li>
+              <span class="mono idx">0{i + 1}</span>
+              <div>
+                <h3>{a.title}</h3>
+                <p>{a.summary}</p>
+                <p class="kw mono">{a.keywords.join(' / ')}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="block left" id="s16-about" aria-labelledby="s16-about-h">
+      <div class="content" data-r>
+        <p class="eyebrow mono"><span class="n">j2</span>About</p>
+        <h2 id="s16-about-h" data-joint="left">From simulation to the <span class="blue">real robot</span>.</h2>
+        <p class="lead">{profile.bio[0]}</p>
+        <p>{profile.bio[1]}</p>
+      </div>
+    </section>
+
+    {jobs.map((j, i) => (
+      <section class={`block job ${j.side}`} id={i === 0 ? 's16-work' : undefined} aria-labelledby={`s16-job-${i}`}>
+        <div class="content" data-r>
+          {i === 0 && <p class="eyebrow mono"><span class="n">j3 to j6</span>Experience</p>}
+          <p class="period mono"><span>j{j.j}</span>{j.period}</p>
+          <h3 id={`s16-job-${i}`} data-joint={j.side}>{j.title}</h3>
+          <p class="org"><a href={j.href} target="_blank" rel="noopener">{j.org}<span aria-hidden="true"> ↗</span></a><span class="mono">{j.place}</span></p>
+          <p class="summary">{j.summary}</p>
+        </div>
+      </section>
+    ))}
+
+    <section class="block right" id="s16-notes" aria-labelledby="s16-notes-h">
+      <div class="content" data-r>
+        <p class="eyebrow mono"><span class="n">j7</span>Notes</p>
+        <h2 id="s16-notes-h" data-joint="right">Notes</h2>
+        <ul class="notes">
+          {notes.map(n => (
+            <li>
+              <time class="mono" datetime={n.date.toISOString()}>{formatDate(n.date)}</time>
+              <h3>{n.title}</h3>
+              <p>{n.description}</p>
+              {n.tags && <p class="tags mono">{n.tags.map(t => <span>{t}</span>)}</p>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class="block left contact" id="s16-contact" aria-labelledby="s16-contact-h">
+      <div class="content" data-r>
+        <p class="eyebrow mono"><span class="n">j8</span>Contact</p>
+        <h2 id="s16-contact-h" data-joint="left">Let's <span class="blue">talk</span>.</h2>
+        <ul class="links">
+          {profile.links.map(l => <li><a href={l.href} target="_blank" rel="noopener">{l.label}<span aria-hidden="true">↗</span></a></li>)}
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer mono">
+    <span>© {year} {profile.name}</span>
+    <span>{profile.location} · From {profile.origin}</span>
+  </footer>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('.s16');
+  if (root) {
+    root.classList.add('js');
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const clamp = (x: number, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+    const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+    // ---------- hero: a policy network that rearranges into a humanoid kinematic tree ----------
+    type V = [number, number, number];
+    const rx = (v: V, a: number): V => { const c = Math.cos(a), s = Math.sin(a); return [v[0], v[1] * c - v[2] * s, v[1] * s + v[2] * c]; };
+    const rz = (v: V, a: number): V => { const c = Math.cos(a), s = Math.sin(a); return [v[0] * c - v[1] * s, v[0] * s + v[1] * c, v[2]]; };
+    const add = (a: V, b: V, k = 1): V => [a[0] + b[0] * k, a[1] + b[1] * k, a[2] + b[2] * k];
+    const DOWN: V = [0, -1, 0];
+    const R_WHEEL = 0.11;
+
+    // Forward kinematics of a wheel-legged humanoid; t drives a slow breathing and balancing motion.
+    const tree = (t: number) => {
+      const b = Math.sin(t * 0.9), sway = Math.sin(t * 0.45);
+      const pitch = 0.08 + 0.025 * b, hip = 0.34 + 0.05 * b, knee = 0.7 + 0.1 * b, roll = 0.025 * sway;
+      const j: Record<string, V> = {};
+      const up = (v: V) => rx(v, pitch);
+      j.pelvis = [0, 0, 0];
+      j.waist = up([0, 0.24, 0]);
+      j.chest = up([0, 0.5, 0]);
+      j.neck = up([0, 0.62, 0]);
+      j.head = up([0, 0.8, 0]);
+      for (const s of [1, -1]) {
+        const k = s === 1 ? 'L' : 'R';
+        const hp: V = [s * 0.11, -0.06, 0];
+        const kn = add(hp, rx(DOWN, -(hip + s * 0.02 * sway)), 0.42);
+        const an = add(kn, rx(DOWN, -(hip - knee)), 0.4);
+        j['hip' + k] = hp; j['knee' + k] = kn; j['hub' + k] = [an[0] + s * 0.04, an[1], an[2]];
+        const sh = up([s * 0.21, 0.5, 0]);
+        const swing = 0.12 + 0.06 * Math.sin(t * 0.6 + s);
+        const el = add(sh, up(rz(rx(DOWN, -swing), s * 0.18)), 0.27);
+        j['sh' + k] = sh; j['el' + k] = el; j['wr' + k] = add(el, up(rz(rx(DOWN, -(swing + 0.75)), s * 0.12)), 0.26);
+      }
+      const lift = R_WHEEL - Math.min(j.hubL[1], j.hubR[1]);
+      for (const k in j) j[k] = rz([j[k][0], j[k][1] + lift, j[k][2]], roll);
+      return j;
+    };
+    const NODES = ['shL', 'head', 'shR', 'elL', 'neck', 'chest', 'elR', 'wrL', 'waist', 'pelvis', 'wrR', 'hipL', 'kneeL', 'kneeR', 'hipR', 'hubL', 'hubR'];
+    const LAYERS = [3, 4, 4, 4, 2];
+    const TREE = [
+      ['pelvis', 'waist'], ['waist', 'chest'], ['chest', 'neck'], ['neck', 'head'],
+      ['chest', 'shL'], ['shL', 'elL'], ['elL', 'wrL'], ['chest', 'shR'], ['shR', 'elR'], ['elR', 'wrR'],
+      ['pelvis', 'hipL'], ['hipL', 'kneeL'], ['kneeL', 'hubL'], ['pelvis', 'hipR'], ['hipR', 'kneeR'], ['kneeR', 'hubR'],
+    ].map(([a, b]) => [NODES.indexOf(a), NODES.indexOf(b)]);
+    const ARCS = ['shL', 'elL', 'shR', 'elR', 'hipL', 'kneeL', 'hipR', 'kneeR', 'neck', 'waist'].map(n => NODES.indexOf(n));
+
+    // Layer layout: each layer is a row in the z = 0 plane, members ordered by their rest x.
+    const rest = tree(0);
+    const layerOf: number[] = [];
+    const nn: V[] = [];
+    let k0 = 0;
+    LAYERS.forEach((size, l) => {
+      const members = NODES.slice(k0, k0 + size).map((n, i) => k0 + i).sort((a, b) => rest[NODES[a]][0] - rest[NODES[b]][0]);
+      members.forEach((idx, r) => { nn[idx] = [(r - (size - 1) / 2) * 0.3, 1.72 - l * 0.38, 0]; layerOf[idx] = l; });
+      k0 += size;
+    });
+    const NN_EDGES: [number, number][] = [];
+    for (let a = 0; a < NODES.length; a++) for (let b = 0; b < NODES.length; b++) if (layerOf[b] === layerOf[a] + 1) NN_EDGES.push([a, b]);
+
+    const graph = root.querySelector<HTMLElement>('.graph')!;
+    const canvas = graph.querySelector('canvas')!;
+    const ctx = canvas.getContext('2d')!;
+    const stateEl = graph.querySelector<HTMLElement>('[data-state]')!;
+    const subEl = graph.querySelector<HTMLElement>('[data-sub]')!;
+    const INK = '23, 32, 51', BLUE = '37, 88, 245';
+    let w = 0, h = 0;
+
+    const CYCLE = 34;
+    const morphAt = (t: number) => {
+      const c = t % CYCLE;
+      if (c < 3.2) return 0;
+      if (c < 6.4) return ease((c - 3.2) / 3.2);
+      if (c < 28) return 1;
+      if (c < 31.2) return 1 - ease((c - 28) / 3.2);
+      return 0;
+    };
+
+    const draw = (t: number) => {
+      if (!w) return;
+      ctx.clearRect(0, 0, w, h);
+      const m = morphAt(t);
+      const scale = Math.min((h - 70) / 1.95, w / 1.25);
+      const cam = { yaw: Math.PI + 0.18 * Math.sin(t * 0.12) + m * (0.55 + 0.3 * Math.sin(t * 0.07)), pitch: 0.1 + 0.08 * m, D: 7, f: scale * 7, ox: w / 2, oy: h - 46 };
+      const cy = Math.cos(cam.yaw), sy = Math.sin(cam.yaw), cp = Math.cos(cam.pitch), sp = Math.sin(cam.pitch);
+      const proj = (v: V) => {
+        const xr = v[0] * cy - v[2] * sy, zr = v[0] * sy + v[2] * cy;
+        const yr = v[1] * cp + zr * sp, zz = -v[1] * sp + zr * cp + cam.D;
+        return [cam.ox + (xr * cam.f) / zz, cam.oy - (yr * cam.f) / zz];
+      };
+      const body = tree(t);
+      const p = NODES.map((n, i) => {
+        const k = ease(clamp((m - layerOf[i] * 0.07) / 0.72));
+        const v = add(nn[i], [body[n][0] - nn[i][0], body[n][1] - nn[i][1], body[n][2] - nn[i][2]], k);
+        return { k, v, s: proj(v) };
+      });
+      ctx.lineCap = 'round';
+
+      // the stem that continues into the page spine
+      const g = proj([0, 0, 0]);
+      ctx.strokeStyle = `rgba(${INK}, 0.55)`;
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(g[0], g[1]); ctx.lineTo(w / 2, h); ctx.stroke();
+
+      if (m > 0.01) {
+        ctx.strokeStyle = `rgba(${INK}, ${0.12 * m})`;
+        for (const r of [0.55, 0.32]) {
+          ctx.beginPath();
+          for (let i = 0; i <= 48; i++) { const a = (i / 48) * Math.PI * 2, q = proj([Math.cos(a) * r, 0, Math.sin(a) * r]); i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1]); }
+          ctx.stroke();
+        }
+      }
+
+      // network edges and a wave of activations flowing from observation to action
+      const fade = 1 - m;
+      if (fade > 0.01) {
+        ctx.lineWidth = 1;
+        for (const [a, b] of NN_EDGES) {
+          const al = (1 - Math.max(p[a].k, p[b].k)) * 0.16;
+          if (al < 0.005) continue;
+          ctx.strokeStyle = `rgba(${INK}, ${al})`;
+          ctx.beginPath(); ctx.moveTo(p[a].s[0], p[a].s[1]); ctx.lineTo(p[b].s[0], p[b].s[1]); ctx.stroke();
+        }
+        for (const [a, b] of NN_EDGES) {
+          const u = (t * 0.55 - layerOf[a] * 0.55 + ((a * 7 + b * 3) % 5) * 0.035) % 2.4;
+          if (u < 0 || u > 1) continue;
+          const al = (1 - Math.max(p[a].k, p[b].k)) * Math.sin(Math.PI * u) * 0.9;
+          ctx.fillStyle = `rgba(${BLUE}, ${al})`;
+          ctx.beginPath();
+          ctx.arc(p[a].s[0] + (p[b].s[0] - p[a].s[0]) * u, p[a].s[1] + (p[b].s[1] - p[a].s[1]) * u, 1.6, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // kinematic tree: a faint ground shadow, links, wheels and small revolute angle arcs
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = `rgba(${INK}, ${0.14 * m})`;
+      ctx.beginPath();
+      for (const [a, b] of TREE) {
+        const sa = proj([p[a].v[0], 0, p[a].v[2]]), sb = proj([p[b].v[0], 0, p[b].v[2]]);
+        ctx.moveTo(sa[0], sa[1]); ctx.lineTo(sb[0], sb[1]);
+      }
+      if (m > 0.01) ctx.stroke();
+      ctx.lineWidth = 1.25;
+      for (const [a, b] of TREE) {
+        const al = Math.min(p[a].k, p[b].k);
+        if (al < 0.01) continue;
+        ctx.strokeStyle = `rgba(${INK}, ${0.85 * al})`;
+        ctx.beginPath(); ctx.moveTo(p[a].s[0], p[a].s[1]); ctx.lineTo(p[b].s[0], p[b].s[1]); ctx.stroke();
+      }
+      if (m > 0.01) {
+        for (const hub of ['hubL', 'hubR']) {
+          const { v: c, k } = p[NODES.indexOf(hub)];
+          if (k < 0.01) continue;
+          ctx.lineWidth = 1.1;
+          ctx.strokeStyle = `rgba(${INK}, ${0.8 * k * k})`;
+          for (const [r, dx] of [[R_WHEEL, -0.02], [R_WHEEL, 0.02], [R_WHEEL * 0.4, 0.025]]) {
+            ctx.beginPath();
+            for (let i = 0; i <= 28; i++) {
+              const a = (i / 28) * Math.PI * 2;
+              const q = proj([c[0] + dx * (hub === 'hubL' ? 1 : -1), c[1] + Math.cos(a) * r, c[2] + Math.sin(a) * r]);
+              i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1]);
+            }
+            ctx.stroke();
+          }
+        }
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = `rgba(${BLUE}, ${0.8 * m})`;
+        const parent = (i: number) => TREE.find(([, b]) => b === i)?.[0];
+        for (const i of ARCS) {
+          const pa = parent(i), ch = TREE.find(([a]) => a === i)?.[1];
+          if (pa === undefined || ch === undefined) continue;
+          const o = p[i].s, a0 = Math.atan2(o[1] - p[pa].s[1], o[0] - p[pa].s[0]), a1 = Math.atan2(p[ch].s[1] - o[1], p[ch].s[0] - o[0]);
+          let d = a1 - a0;
+          while (d > Math.PI) d -= Math.PI * 2;
+          while (d < -Math.PI) d += Math.PI * 2;
+          ctx.beginPath(); ctx.arc(o[0], o[1], 9, a0, a0 + d * 1.6 + (d >= 0 ? 0.25 : -0.25), d < 0); ctx.stroke();
+        }
+      }
+
+      // nodes
+      for (let i = 0; i < NODES.length; i++) {
+        const { k, s } = p[i];
+        const lit = fade > 0.01 ? clamp(Math.sin(Math.PI * clamp(((t * 0.55 - layerOf[i] * 0.55 + 0.55) % 2.4) / 0.6))) * (1 - k) : 0;
+        const r = 4.6 - 1.6 * k + (NODES[i] === 'pelvis' ? 1.2 * k : 0);
+        ctx.beginPath(); ctx.arc(s[0], s[1], r, 0, Math.PI * 2);
+        ctx.fillStyle = NODES[i] === 'pelvis' && k > 0.5 ? `rgb(${BLUE})` : '#fafbfc';
+        ctx.fill();
+        if (lit > 0.01) { ctx.fillStyle = `rgba(${BLUE}, ${lit * 0.85})`; ctx.fill(); }
+        ctx.lineWidth = 1.1;
+        ctx.strokeStyle = `rgba(${k > 0.5 ? BLUE : INK}, 0.9)`;
+        ctx.stroke();
+      }
+
+      ctx.font = '400 10px "DM Mono", ui-monospace, monospace';
+      const label = (txt: string, x: number, y: number, al: number, align: CanvasTextAlign = 'left') => {
+        if (al < 0.02) return;
+        ctx.textAlign = align;
+        ctx.fillStyle = `rgba(${INK}, ${0.55 * al})`;
+        ctx.fillText(txt, x, y);
+      };
+      const top = p.filter((_, i) => layerOf[i] === 0), bot = p.filter((_, i) => layerOf[i] === 4);
+      label('observation', Math.max(...top.map(q => q.s[0])) + 14, top[0].s[1] + 3.5, fade * fade);
+      label('action', Math.max(...bot.map(q => q.s[0])) + 14, bot[0].s[1] + 3.5, fade * fade);
+      const iL = NODES.indexOf('hubL'), iR = NODES.indexOf('hubR');
+      const wheel = p[iL].s[0] > p[iR].s[0] ? p[iL].s : p[iR].s;
+      label('head', p[NODES.indexOf('head')].s[0] + 14, p[NODES.indexOf('head')].s[1] + 3, m ** 3);
+      label('pelvis', p[NODES.indexOf('pelvis')].s[0] - 14, p[NODES.indexOf('pelvis')].s[1] + 3, m ** 3, 'right');
+      label('wheel', wheel[0] + R_WHEEL * scale + 10, wheel[1] + 3, m ** 3);
+      ctx.textAlign = 'left';
+
+      const tree0 = m > 0.5;
+      if (stateEl.dataset.v !== String(tree0)) {
+        stateEl.dataset.v = String(tree0);
+        stateEl.textContent = tree0 ? 'kinematic tree' : 'policy network';
+        subEl.textContent = tree0 ? '17 bodies · 16 joints' : '17 nodes · 52 edges';
+      }
+    };
+
+    new ResizeObserver(() => {
+      const r = canvas.getBoundingClientRect();
+      const dpr = Math.min(2, devicePixelRatio || 1);
+      w = r.width; h = r.height;
+      canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      draw(clock);
+      schedule();
+    }).observe(canvas);
+    let clock = reduce ? 12 : 0.4, last = 0, raf = 0;
+    const loop = (now: number) => {
+      clock += Math.min(0.05, (now - (last || now)) / 1000);
+      last = now;
+      draw(clock);
+      raf = requestAnimationFrame(loop);
+    };
+    if (!reduce) {
+      new IntersectionObserver(([e]) => {
+        if (e.isIntersecting && !raf) { last = 0; raf = requestAnimationFrame(loop); }
+        if (!e.isIntersecting && raf) { cancelAnimationFrame(raf); raf = 0; }
+      }).observe(graph);
+    }
+    document.fonts?.ready.then(() => draw(clock));
+
+    // ---------- page spine: a serial chain with one revolute joint per section ----------
+    const NS = 'http://www.w3.org/2000/svg';
+    const course = root.querySelector<HTMLElement>('.course')!;
+    const svg = root.querySelector<SVGSVGElement>('.chain')!;
+    const anchors = [...root.querySelectorAll<HTMLElement>('[data-joint]')];
+    const el = (tag: string, attrs: Record<string, string | number>, parent: Element = svg) => {
+      const e = document.createElementNS(NS, tag);
+      for (const k in attrs) e.setAttribute(k, String(attrs[k]));
+      parent.append(e);
+      return e;
+    };
+    const ahead = el('path', { class: 'link ahead' });
+    const reached = el('path', { class: 'link reached' });
+    const baseMark = el('g', { class: 'base' });
+    el('circle', { r: 4.5 }, baseMark);
+    el('text', { x: 12, y: 3.5 }, baseMark).textContent = 'j0';
+    const endMark = el('g', { class: 'end' });
+    el('path', { d: 'M-6 0H6M0 -6V6' }, endMark);
+    const joints = anchors.map((a, i) => {
+      const g = el('g', { class: 'joint' });
+      const target = el('g', { class: 'target' });
+      el('circle', { r: 5.5 }, target);
+      el('path', { d: 'M-10 0H-7M7 0H10M0 -10V-7M0 7V10' }, target);
+      const tool = el('line', { class: 'tool' });
+      const ref = el('line', { class: 'ref' }, g);
+      const arc = el('path', { class: 'arc' }, g);
+      el('circle', { class: 'ring', r: 6.5 }, g);
+      el('circle', { class: 'dot', r: 1.6 }, g);
+      const name = el('text', { class: 'jn' }, g);
+      name.textContent = `j${i + 1}`;
+      const val = el('text', { class: 'jv' }, g);
+      return { a, side: a.dataset.joint === 'left' ? -1 : 1, y: 0, off: 0, w: 0, g, target, tool, ref, arc, name, val };
+    });
+
+    let cx = 0, A = 56, mobile = false, base = { x: 0, y: 0 }, j0 = { x: 0, y: 0 }, endY = 0, settle = 0;
+    const build = () => {
+      const cr = course.getBoundingClientRect();
+      mobile = innerWidth <= 760;
+      const height = course.offsetHeight;
+      svg.setAttribute('viewBox', `0 0 ${cr.width} ${height}`);
+      svg.setAttribute('width', `${cr.width}`);
+      svg.setAttribute('height', `${height}`);
+      const gr = canvas.getBoundingClientRect();
+      base = { x: gr.left + gr.width / 2 - cr.left, y: gr.bottom - cr.top };
+      cx = mobile ? 18 : cr.width / 2;
+      A = mobile ? 7 : 56;
+      j0 = { x: cx, y: base.y + (mobile ? 36 : 56) };
+      for (const j of joints) {
+        const r = j.a.getBoundingClientRect();
+        j.y = r.top - cr.top + Math.min(r.height, parseFloat(getComputedStyle(j.a).lineHeight) || 40) / 2;
+        if (mobile) j.side = 1;
+        else j.side = j.a.dataset.joint === 'left' ? -1 : 1;
+      }
+      endY = height - 40;
+      baseMark.setAttribute('transform', `translate(${j0.x} ${j0.y})`);
+      endMark.setAttribute('transform', `translate(${cx} ${endY})`);
+      update(true);
+    };
+
+    const fmt = (deg: number) => `${deg >= 0 ? '+' : '-'}${Math.abs(deg).toFixed(1)}°`;
+    const update = (snap = false) => {
+      const cr = course.getBoundingClientRect();
+      const focus = innerHeight * 0.42 - cr.top, spread = innerHeight * 0.45;
+      let moving = false, active = -1, best = 0.12;
+      joints.forEach((j, i) => {
+        const goal = Math.exp(-(((j.y - focus) / spread) ** 2));
+        j.w = snap || reduce ? goal : j.w + (goal - j.w) * 0.08;
+        if (Math.abs(goal - j.w) > 0.002) moving = true;
+        j.off = j.side * A * ease(j.w);
+        if (j.w > best) { best = j.w; active = i; }
+      });
+      const P = [base, j0, ...joints.map(j => ({ x: cx + j.off, y: j.y })), { x: cx, y: endY }];
+      const path = (pts: { x: number; y: number }[]) => pts.map((p, i) => `${i ? 'L' : 'M'}${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join('');
+      const split = active < 0 ? 2 : active + 3;
+      reached.setAttribute('d', path(P.slice(0, split)));
+      ahead.setAttribute('d', path(P.slice(split - 1)));
+
+      joints.forEach((j, i) => {
+        const p = P[i + 2], prev = P[i + 1], next = P[i + 3];
+        const a0 = Math.atan2(p.y - prev.y, p.x - prev.x), a1 = Math.atan2(next.y - p.y, next.x - p.x);
+        const th = a1 - a0, shown = clamp(th * 5, -1.3, 1.3), r = 14;
+        j.g.setAttribute('transform', `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)})`);
+        j.ref.setAttribute('x2', (Math.cos(a0) * 22).toFixed(1));
+        j.ref.setAttribute('y2', (Math.sin(a0) * 22).toFixed(1));
+        const ax = (a: number) => `${(Math.cos(a) * r).toFixed(2)} ${(Math.sin(a) * r).toFixed(2)}`;
+        j.arc.setAttribute('d', Math.abs(shown) < 0.01 ? '' : `M${ax(a0)}A${r} ${r} 0 0 ${shown > 0 ? 1 : 0} ${ax(a0 + shown)}`);
+        const lx = -j.side * 16;
+        for (const [t, dy] of [[j.name, -4], [j.val, 9]] as const) {
+          t.setAttribute('x', `${lx}`);
+          t.setAttribute('y', `${dy}`);
+          t.setAttribute('text-anchor', j.side > 0 ? 'end' : 'start');
+        }
+        j.val.textContent = fmt((th * 180) / Math.PI);
+        const tx = cx + j.side * (A + (mobile ? 12 : 34));
+        j.target.setAttribute('transform', `translate(${tx} ${j.y.toFixed(1)})`);
+        const reach = ease(clamp((j.w - 0.15) / 0.85)) * (Math.abs(tx - p.x) - 6);
+        j.tool.setAttribute('x1', p.x.toFixed(1));
+        j.tool.setAttribute('y1', p.y.toFixed(1));
+        j.tool.setAttribute('x2', (p.x + j.side * Math.max(0, reach)).toFixed(1));
+        j.tool.setAttribute('y2', p.y.toFixed(1));
+        const on = i === active;
+        j.g.classList.toggle('on', on || i < active);
+        j.target.classList.toggle('on', on && j.w > 0.85);
+        j.tool.classList.toggle('on', on);
+      });
+      return moving;
+    };
+
+    const step = () => { settle = update() ? requestAnimationFrame(step) : 0; };
+    const kick = () => { if (!settle) settle = requestAnimationFrame(step); };
+    let pending = 0;
+    const schedule = () => { cancelAnimationFrame(pending); pending = requestAnimationFrame(build); };
+    new ResizeObserver(schedule).observe(course);
+    document.fonts?.ready.then(schedule);
+    addEventListener('scroll', kick, { passive: true });
+
+    const reveal = new IntersectionObserver(entries => {
+      for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); reveal.unobserve(e.target); }
+    }, { rootMargin: '0px 0px -8% 0px' });
+    root.querySelectorAll('[data-r]').forEach(e => reveal.observe(e));
+  }
+</script>
+
+<style>
+  .s16 {
+    --bg: #fafbfc;
+    --ink: #172033;
+    --ink-2: #4a5568;
+    --ink-3: #8a93a5;
+    --line: #e5e8ee;
+    --blue: #2558f5;
+    --gutter: clamp(16px, 4vw, 48px);
+    --mono: 'DM Mono', ui-monospace, Menlo, monospace;
+    --ease: cubic-bezier(.2, .7, .2, 1);
+    position: relative;
+    background: var(--bg);
+    color: var(--ink);
+    font: 400 16px/1.65 'Hanken Grotesk', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+    padding-bottom: 88px;
+  }
+  .s16 *, .s16 *::before, .s16 *::after { box-sizing: border-box; }
+  :where(.s16 h1, .s16 h2, .s16 h3, .s16 p, .s16 ol, .s16 ul, .s16 figure) { margin: 0; padding: 0; }
+  :where(.s16 ol, .s16 ul) { list-style: none; }
+  :where(.s16 a) { color: inherit; text-decoration: none; }
+  .s16 a:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; border-radius: 3px; }
+  .mono { font-family: var(--mono); }
+  .blue { color: var(--blue); }
+
+  .nav {
+    position: relative; z-index: 3;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    max-width: 1240px; margin: 0 auto; padding: 28px var(--gutter);
+  }
+  .brand { font-weight: 600; font-size: 15px; letter-spacing: -.005em; }
+  .nav nav { display: flex; gap: clamp(14px, 2.4vw, 32px); }
+  .nav nav a { font-size: 14.5px; color: var(--ink-2); transition: color .3s; }
+  .nav nav a:hover { color: var(--blue); }
+
+  .course { position: relative; max-width: 1240px; margin: 0 auto; padding: 0 var(--gutter); }
+  .chain { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: visible; }
+  .chain :global(.link) { fill: none; stroke-linejoin: round; }
+  .chain :global(.reached) { stroke: var(--blue); stroke-width: 1.25; }
+  .chain :global(.ahead) { stroke: #c5ccd8; stroke-width: 1; }
+  .chain :global(.base circle) { fill: var(--ink); }
+  .chain :global(text) { font: 400 10px var(--mono); fill: var(--ink-3); letter-spacing: .04em; }
+  .chain :global(.end path) { stroke: #c5ccd8; stroke-width: 1; }
+  .chain :global(.joint .ring) { fill: var(--bg); stroke: #b4bccb; stroke-width: 1; transition: stroke .5s; }
+  .chain :global(.joint .dot) { fill: #b4bccb; transition: fill .5s; }
+  .chain :global(.joint .arc) { fill: none; stroke: var(--blue); stroke-width: 1; }
+  .chain :global(.joint .ref) { stroke: #c5ccd8; stroke-width: 1; stroke-dasharray: 2 3; }
+  .chain :global(.joint .jn) { fill: var(--ink-2); }
+  .chain :global(.joint.on .ring) { stroke: var(--blue); }
+  .chain :global(.joint.on .dot) { fill: var(--blue); }
+  .chain :global(.target circle) { fill: none; stroke: #c5ccd8; stroke-width: 1; transition: stroke .5s; }
+  .chain :global(.target path) { stroke: #c5ccd8; stroke-width: 1; transition: stroke .5s; }
+  .chain :global(.target.on circle), .chain :global(.target.on path) { stroke: var(--blue); }
+  .chain :global(.tool) { stroke: var(--blue); stroke-width: 1; opacity: 0; transition: opacity .5s; }
+  .chain :global(.tool.on) { opacity: 1; }
+
+  .hero {
+    position: relative; z-index: 1;
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, 440px) minmax(0, 1fr); gap: 32px; align-items: center;
+    min-height: clamp(600px, calc(100vh - 90px), 820px); padding: 8px 0 0;
+  }
+  .eyebrow { display: flex; align-items: center; gap: 12px; font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+  .eyebrow .n { color: var(--blue); text-transform: none; }
+  .hero h1 { margin: 24px 0 30px; font-weight: 500; font-size: clamp(48px, 5.4vw, 82px); line-height: .98; letter-spacing: -.035em; }
+  .hero h1 span { display: block; }
+  .role { font-size: 15.5px; color: var(--ink-2); line-height: 1.6; }
+  .role a { color: var(--ink); border-bottom: 1px solid var(--line); transition: color .3s, border-color .3s; }
+  .role a:hover { color: var(--blue); border-color: var(--blue); }
+  .hero-r { justify-self: end; max-width: 300px; }
+  .tagline { font-size: clamp(19px, 1.7vw, 23px); line-height: 1.42; letter-spacing: -.01em; }
+  .joints { margin-top: 40px; border-top: 1px solid var(--line); font-size: 12px; }
+  .joints a { display: flex; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--line); color: var(--ink-2); transition: color .3s; }
+  .joints a span { width: 22px; color: var(--blue); }
+  .joints a:hover { color: var(--ink); }
+
+  .graph { position: relative; align-self: stretch; display: flex; flex-direction: column; }
+  .graph canvas { display: block; width: 100%; flex: 1; min-height: 520px; }
+  .graph figcaption {
+    position: absolute; left: 0; right: 0; top: 18px; display: flex; justify-content: space-between;
+    font-size: 10.5px; letter-spacing: .05em; color: var(--ink-3);
+  }
+  .graph [data-state] { color: var(--ink); }
+
+  .block {
+    position: relative; z-index: 1;
+    display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px;
+    padding-block: clamp(80px, 10vw, 140px);
+  }
+  .block.left .content { grid-column: 1 / 6; }
+  .block.right .content { grid-column: 8 / 13; }
+  .job { padding-block: clamp(48px, 6vw, 84px); }
+  .job + .job { padding-top: clamp(24px, 3vw, 40px); }
+  .content h2 { margin: 18px 0 30px; font-weight: 500; font-size: clamp(32px, 3.4vw, 46px); line-height: 1.1; letter-spacing: -.03em; }
+  .lead { font-size: 20px; line-height: 1.55; letter-spacing: -.005em; margin-bottom: 18px; }
+  .content > p:not(.eyebrow):not(.lead):not(.period):not(.org) { color: var(--ink-2); }
+
+  .areas li { display: grid; grid-template-columns: 34px 1fr; padding: 22px 0; border-top: 1px solid var(--line); }
+  .areas li:last-child { border-bottom: 1px solid var(--line); }
+  .idx, .period span { font-size: 11px; letter-spacing: .06em; color: var(--blue); line-height: 2.6; }
+  .areas h3 { font-weight: 600; font-size: 19px; letter-spacing: -.012em; line-height: 1.35; }
+  .areas p { margin-top: 6px; font-size: 15px; color: var(--ink-2); }
+  .areas .kw { margin-top: 12px; font-size: 11.5px; color: var(--ink-3); }
+
+  .period { display: flex; gap: 12px; margin-top: 26px; font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+  .period span { line-height: inherit; text-transform: none; }
+  .job .eyebrow + .period { margin-top: 30px; }
+  .job h3 { margin: 12px 0 8px; font-weight: 500; font-size: clamp(23px, 2.3vw, 29px); line-height: 1.2; letter-spacing: -.022em; }
+  .org { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; font-weight: 500; }
+  .org a { color: var(--blue); background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size .5s var(--ease); }
+  .org a:hover { background-size: 100% 1px; }
+  .org .mono { font-size: 11px; font-weight: 400; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+  .summary { margin-top: 12px; max-width: 46ch; }
+
+  .notes li { padding: 22px 0; border-top: 1px solid var(--line); }
+  .notes li:last-child { border-bottom: 1px solid var(--line); }
+  .notes time { font-size: 11.5px; color: var(--ink-3); letter-spacing: .04em; }
+  .notes h3 { margin-top: 6px; font-weight: 500; font-size: 19px; letter-spacing: -.012em; line-height: 1.35; }
+  .notes p { margin-top: 4px; font-size: 15px; color: var(--ink-2); }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px !important; }
+  .tags span { font-size: 11px; padding: 3px 9px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink-2); }
+
+  .contact h2 { font-size: clamp(44px, 5.4vw, 76px); letter-spacing: -.04em; }
+  .links { border-top: 1px solid var(--line); }
+  .links a { display: flex; justify-content: space-between; padding: 18px 0; border-bottom: 1px solid var(--line); font-size: 20px; letter-spacing: -.01em; transition: color .3s, padding .5s var(--ease); }
+  .links a span { color: var(--ink-3); transition: color .3s; }
+  .links a:hover { color: var(--blue); padding-left: 6px; }
+  .links a:hover span { color: var(--blue); }
+
+  .footer {
+    display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    max-width: 1240px; margin: 0 auto; padding: 26px var(--gutter) 0;
+    font-size: 11.5px; color: var(--ink-3); letter-spacing: .03em;
+  }
+
+  .js [data-r] { opacity: 0; transform: translateY(10px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
+  .js [data-r].in { opacity: 1; transform: none; }
+
+  @media (max-width: 1100px) {
+    .hero { grid-template-columns: minmax(0, 1fr) minmax(300px, 400px); }
+    .hero-r { grid-column: 1; grid-row: 2; justify-self: start; align-self: start; }
+    .hero-l { align-self: end; }
+    .graph { grid-column: 2; grid-row: 1 / 3; }
+    .block.left .content { grid-column: 1 / 7; }
+    .block.right .content { grid-column: 7 / 13; }
+  }
+  @media (max-width: 760px) {
+    .nav { flex-direction: column; align-items: flex-start; gap: 12px; padding-block: 20px; }
+    .nav nav { flex-wrap: wrap; gap: 6px 18px; }
+    .course { padding-left: 46px; padding-right: 16px; }
+    .hero { display: flex; flex-direction: column; align-items: stretch; min-height: 0; padding-top: 24px; margin-left: -30px; }
+    .graph { order: 2; }
+    .hero-l, .hero-r { padding-left: 30px; align-self: stretch; }
+    .hero h1 { margin: 16px 0 18px; }
+    .hero-r { max-width: none; margin-top: 16px; }
+    .joints { display: none; }
+    .graph { margin-top: 12px; }
+    .graph canvas { min-height: 420px; }
+    .graph figcaption { left: 30px; }
+    .chain :global(text) { display: none; }
+    .block { display: block; padding-block: 64px; }
+    .job { padding-block: 36px; }
+    .job + .job { padding-top: 12px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .s16 *, .s16 *::before, .s16 *::after { transition: none !important; animation: none !important; }
+    .js [data-r] { opacity: 1; transform: none; }
+  }
+</style>

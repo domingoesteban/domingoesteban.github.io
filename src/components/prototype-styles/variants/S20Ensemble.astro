@@ -1,0 +1,966 @@
+---
+// PROTOTYPE 20 Ensemble: a grid of parallel getup rollouts collapses into one robot that docks on the right
+// and, at each section, splits into a few sampled rollouts of a new skill before merging back into one policy.
+import { profile, areas, experience, notes, formatDate } from '../content';
+
+const year = new Date().getFullYear();
+const host = (href: string) => href.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+const nav = [
+  { id: 's20-research', label: 'Research', keep: true },
+  { id: 's20-about', label: 'About' },
+  { id: 's20-work', label: 'Experience' },
+  { id: 's20-notes', label: 'Notes', keep: true },
+  { id: 's20-contact', label: 'Contact' },
+];
+---
+<div class="s20" data-theme="light">
+  <script is:inline>
+    {
+      const root = document.querySelector('.s20');
+      try {
+        const t = localStorage.getItem('proto-theme');
+        if (root && (t === 'dark' || t === 'light')) root.dataset.theme = t;
+      } catch (e) {}
+    }
+  </script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+
+  <header class="nav">
+    <div class="wrap nav-in">
+      <a class="brand" href="#s20-top">{profile.name}</a>
+      <nav aria-label="Primary">
+        {nav.map(n => <a class:list={[{ opt: !n.keep }]} href={`#${n.id}`}>{n.label}</a>)}
+      </nav>
+      <button class="theme" type="button" aria-pressed="false" aria-label="Toggle dark mode">
+        <svg class="sun" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="2.8" /><path d="M8 1.5v1.7M8 12.8v1.7M1.5 8h1.7M12.8 8h1.7M3.4 3.4l1.2 1.2M11.4 11.4l1.2 1.2M3.4 12.6l1.2-1.2M11.4 4.6l1.2-1.2" /></svg>
+        <svg class="moon" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.2 9.8A5.4 5.4 0 0 1 6.2 2.8a5.4 5.4 0 1 0 7 7z" /></svg>
+      </button>
+    </div>
+  </header>
+
+  <canvas class="view" aria-hidden="true"></canvas>
+  <div class="dock" aria-hidden="true"><div class="dock-fig"></div><span class="dock-bar"><i></i></span></div>
+
+  <section class="hero" id="s20-top" aria-labelledby="s20-name">
+    <div class="wrap hero-in">
+      <div class="hero-text" data-r>
+        <p class="kicker mono">Robot learning <span aria-hidden="true">/</span> {profile.location}</p>
+        <h1 id="s20-name">{profile.firstName}<br />{profile.lastName}</h1>
+        <p class="role">{profile.role} at <a href={profile.companyHref} target="_blank" rel="noopener">{profile.company}</a></p>
+        <p class="tagline">{profile.tagline}</p>
+        <ul class="hero-links mono">
+          {profile.links.map(l => <li><a href={l.href} target="_blank" rel="noopener">{l.label}</a></li>)}
+        </ul>
+      </div>
+      <div class="stage" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <main class="wrap">
+    <section class="sec" id="s20-research" data-skill="carry" aria-labelledby="s20-research-h">
+      <div class="sec-in">
+        <header class="head" data-r>
+          <p class="idx mono"><span>01</span>Research</p>
+          <h2 id="s20-research-h">Robots that learn their own skills.</h2>
+        </header>
+        <ol class="areas">
+          {areas.map((a, i) => (
+            <li class="area" data-r>
+              <p class="a-idx mono"><span>0{i + 1}</span>{a.short}</p>
+              <h3>{a.title}</h3>
+              <p class="a-sum">{a.summary}</p>
+              <ul class="kw mono">{a.keywords.map(k => <li>{k}</li>)}</ul>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="sec" id="s20-about" data-skill="balance" aria-labelledby="s20-about-h">
+      <div class="sec-in">
+        <header class="head" data-r>
+          <p class="idx mono"><span>02</span>About</p>
+          <h2 id="s20-about-h">Skills from experience, not rules.</h2>
+        </header>
+        <div class="about">
+          <p class="lead" data-r>{profile.bio[0]}</p>
+          <div class="about-sub" data-r>
+            <p>{profile.bio[1]}</p>
+            <dl class="facts">
+              <div><dt class="mono">Now</dt><dd>{profile.company}, {profile.robot}</dd></div>
+              <div><dt class="mono">Based</dt><dd>{profile.location}</dd></div>
+              <div><dt class="mono">From</dt><dd>{profile.origin}</dd></div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="s20-work" data-skill="push" aria-labelledby="s20-work-h">
+      <div class="sec-in">
+        <header class="head" data-r>
+          <p class="idx mono"><span>03</span>Experience</p>
+          <h2 id="s20-work-h">Across legged robots and humanoids.</h2>
+        </header>
+        <ol class="tl">
+          {experience.map((e, i) => (
+            <li class:list={['tl-row', { now: i === 0 }]} data-r>
+              <div class="tl-when">
+                <p class="period mono">{e.period}</p>
+                <a class="org" href={e.href} target="_blank" rel="noopener">{e.org}<span aria-hidden="true">↗</span></a>
+                <p class="place mono">{e.place}</p>
+              </div>
+              <div class="tl-what">
+                <h3>{e.title}</h3>
+                <p>{e.summary}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="sec" id="s20-notes" data-skill="kick" aria-labelledby="s20-notes-h">
+      <div class="sec-in">
+        <header class="head" data-r>
+          <p class="idx mono"><span>04</span>Notes</p>
+          <h2 id="s20-notes-h">Notes on robot learning.</h2>
+        </header>
+        <ol class="notes">
+          {notes.map(n => (
+            <li data-r>
+              <a class="note" href="#s20-notes">
+                <time class="mono" datetime={n.date.toISOString()}>{formatDate(n.date)}</time>
+                <span class="n-main">
+                  <span class="n-title">{n.title}</span>
+                  <span class="n-desc">{n.description}</span>
+                </span>
+                {n.tags && <span class="n-tags mono">{n.tags.map(t => <span>{t}</span>)}</span>}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="sec" id="s20-contact" data-skill="stand" aria-labelledby="s20-contact-h">
+      <div class="sec-in">
+        <header class="head" data-r>
+          <p class="idx mono"><span>05</span>Contact</p>
+          <h2 id="s20-contact-h">Get in touch.</h2>
+        </header>
+        <ul class="links">
+          {profile.links.map(l => (
+            <li data-r>
+              <a href={l.href} target="_blank" rel="noopener">
+                <span class="l-name">{l.label}</span>
+                <span class="l-host mono">{host(l.href)}</span>
+                <span class="l-arrow" aria-hidden="true">↗</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap foot">
+    <div class="foot-in mono">
+      <span>© {year} {profile.name}</span>
+      <span>{profile.location}</span>
+      <a href="#s20-top">Top ↑</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+  import { pose, blend, project, BALL_RADIUS } from '../humanoid';
+  import type { Frame, Skill, Vec3, Camera, JointName } from '../humanoid';
+
+  const root = document.querySelector<HTMLElement>('.s20');
+  if (root) {
+    root.classList.add('js');
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const narrow = matchMedia('(max-width: 899px)');
+    const { min, max, abs, sin, cos, sqrt, PI, hypot, exp, log, atan2, acos, floor } = Math;
+    const TAU = PI * 2;
+    const clamp = (x: number, a = 0, b = 1) => min(b, max(a, x));
+    const lerp = (a: number, b: number, k: number) => a + (b - a) * k;
+    const smooth = (a: number, b: number, x: number) => { const k = clamp((x - a) / (b - a)); return k * k * (3 - 2 * k); };
+    const ease = (k: number) => (k < 0.5 ? 4 * k * k * k : 1 - (-2 * k + 2) ** 3 / 2);
+    const mod = (a: number, n: number) => ((a % n) + n) % n;
+    let seed = 20;
+    const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+
+    const reveal = new IntersectionObserver(entries => {
+      for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); reveal.unobserve(e.target); }
+    }, { rootMargin: '0px 0px -6% 0px' });
+    root.querySelectorAll('[data-r]').forEach(el => reveal.observe(el));
+
+    // Palette from CSS variables, re-read on theme change.
+    const rgb = (hex: string) => {
+      const h = hex.replace('#', ''), f = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+      return [0, 2, 4].map(i => parseInt(f.slice(i, i + 2), 16)).join(', ');
+    };
+    let pal = { bg: '', ink: '', muted: '', line: '', accent: '' };
+    const readPalette = () => {
+      const cs = getComputedStyle(root);
+      const v = (n: string) => rgb(cs.getPropertyValue(n).trim());
+      pal = { bg: v('--bg'), ink: v('--ink'), muted: v('--muted'), line: v('--line-2'), accent: v('--accent') };
+    };
+    const col = (c: string, a = 1) => `rgba(${c}, ${a})`;
+
+    const toggle = root.querySelector<HTMLButtonElement>('.theme')!;
+    const setTheme = (dark: boolean) => {
+      root.dataset.theme = dark ? 'dark' : 'light';
+      toggle.setAttribute('aria-pressed', String(dark));
+      readPalette();
+      if (reduced) render();
+    };
+    toggle.addEventListener('click', () => {
+      const dark = root.dataset.theme !== 'dark';
+      setTheme(dark);
+      try { localStorage.setItem('proto-theme', dark ? 'dark' : 'light'); } catch {}
+    });
+
+    const canvas = root.querySelector<HTMLCanvasElement>('.view')!;
+    const ctx = canvas.getContext('2d')!;
+    const layer = document.createElement('canvas');
+    const lctx = layer.getContext('2d')!;
+    const hero = root.querySelector<HTMLElement>('.hero')!;
+    const stage = root.querySelector<HTMLElement>('.stage')!;
+    const dock = root.querySelector<HTMLElement>('.dock')!;
+    const dockFig = root.querySelector<HTMLElement>('.dock-fig')!;
+    const dockBar = root.querySelector<HTMLElement>('.dock-bar i')!;
+    const sections = [...root.querySelectorAll<HTMLElement>('[data-skill]')].map(el => ({
+      el: el.querySelector<HTMLElement>('.sec-in')!, skill: el.dataset.skill as Skill,
+    }));
+    const CAPTION: Partial<Record<Skill, string>> = { getup: 'get up', carry: 'carry', balance: 'balance', push: 'push recovery', kick: 'kick', stand: 'stand' };
+
+    // Cameras: one fixed yaw for everything so the grid and the dock read as the same scene.
+    type Rect = { x: number; y: number; w: number; h: number };
+    type Fit = { cam: Camera; ox: number; oy: number };
+    const YAW = -0.82, FOV = 0.42;
+    const GRID = 2.1, TILE = 1.85, CENTER = 4, RING = 0.85;
+    const OFFSET: Partial<Record<Skill, number>> = { getup: 0.3, kick: -0.06 };
+
+    const fitCam = (cam: Camera, pts: Vec3[], aspect: number, [mt, mr, mb, ml]: number[]): Fit => {
+      const box = (dist: number) => {
+        let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
+        for (const p of pts) {
+          const [x, y] = project(p, { ...cam, dist }, aspect, 1);
+          x0 = min(x0, x); x1 = max(x1, x); y0 = min(y0, y); y1 = max(y1, y);
+        }
+        return [x0, x1, y0, y1];
+      };
+      let lo = 1, hi = 80;
+      for (let i = 0; i < 32; i++) {
+        const mid = (lo + hi) / 2, [x0, x1, y0, y1] = box(mid);
+        if (x1 - x0 <= aspect - ml - mr && y1 - y0 <= 1 - mt - mb) hi = mid; else lo = mid;
+      }
+      const [x0, x1, y0, y1] = box(hi);
+      return { cam: { ...cam, dist: hi }, ox: (ml + aspect - mr) / 2 - (x0 + x1) / 2, oy: (mt + 1 - mb) / 2 - (y0 + y1) / 2 };
+    };
+    const heroPts: Vec3[] = [];
+    for (const sx of [-1, 1]) for (const sz of [-1, 1]) heroPts.push([sx * (GRID + TILE / 2), 0, sz * (GRID + TILE / 2)], [sx * GRID + 0.3, 1.65, sz * GRID]);
+    const dockPts: Vec3[] = [];
+    for (let i = 0; i < 16; i++) dockPts.push([RING * cos((i / 16) * TAU), 0, RING * sin((i / 16) * TAU)]);
+    for (const sx of [-1, 1]) for (const sz of [-1, 1]) dockPts.push([sx * 0.3, 1.78, sz * 0.3]);
+    let heroFit: Fit, dockFit: Fit;
+
+    let W = 0, H = 0, dpr = 1, mobile = false;
+    const resize = () => {
+      W = canvas.clientWidth; H = canvas.clientHeight;
+      dpr = min(2, devicePixelRatio || 1);
+      for (const c of [canvas, layer]) { c.width = Math.round(W * dpr); c.height = Math.round(H * dpr); }
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      lctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      mobile = narrow.matches;
+      const s = stage.getBoundingClientRect(), d = (mobile ? dockFig : dock).getBoundingClientRect();
+      const base = (pitch: number, target: Vec3): Camera => ({ yaw: YAW, pitch, fov: FOV, target, dist: 10 });
+      heroFit = fitCam(base(0.7, [0, 0.4, 0]), heroPts, s.width / s.height, [0.06, 0.03, 0.12, 0.03]);
+      dockFit = fitCam(base(0.3, [0, 0.8, 0]), dockPts, d.width / d.height, mobile ? [0.1, 0.04, 0.06, 0.04] : [0.05, 0.05, 0.14, 0.05]);
+    };
+
+    // Damped spring used for pushes from the cursor, taps and scroll velocity.
+    type Spring = { x: number; z: number; vx: number; vz: number };
+    const spring = (): Spring => ({ x: 0, z: 0, vx: 0, vz: 0 });
+    const stepSpring = (s: Spring, dt: number) => {
+      s.vx += (-40 * s.x - 9 * s.vx) * dt; s.vz += (-40 * s.z - 9 * s.vz) * dt;
+      s.x += s.vx * dt; s.z += s.vz * dt;
+    };
+    const kick = (s: Spring, dx: number, dz: number) => {
+      s.vx += dx; s.vz += dz;
+      const m = hypot(s.vx, s.vz);
+      if (m > 2.4) { s.vx *= 2.4 / m; s.vz *= 2.4 / m; }
+    };
+
+    // Moves a frame into the world: uniform scale, yaw about the feet, then translate.
+    const place = (f: Frame, s: number, yaw: number, dx: number, dz: number): Frame => {
+      const c = cos(yaw), si = sin(yaw);
+      const P = (p: Vec3): Vec3 => { const x = p[0] * s, z = p[2] * s; return [x * c + z * si + dx, p[1] * s, -x * si + z * c + dz]; };
+      const joints = {} as Record<JointName, Vec3>;
+      for (const k in f.joints) joints[k as JointName] = P(f.joints[k as JointName]);
+      const out: Frame = { ...f, joints };
+      if (f.box) out.box = { ...f.box, center: P(f.box.center), yaw: f.box.yaw + yaw, size: f.box.size.map(v => v * s) as Vec3 };
+      if (f.ball) out.ball = P(f.ball);
+      if (f.push) out.push = { ...f.push, at: P(f.push.at), dir: [f.push.dir[0] * c + f.push.dir[2] * si, 0, -f.push.dir[0] * si + f.push.dir[2] * c] };
+      return out;
+    };
+
+    // Parallel environments: randomized timing, size and heading; early attempts fail and reset.
+    const D = 12, LIE = pose('getup', 0.5);
+    const START = [4.4, 1.5, 3.2, 2.1, 2.8, 5.6, 0.7, 3.9, 6.6];
+    const envs = START.map((clock, i) => ({
+      gx: (floor(i / 3) - 1) * GRID, gz: ((i % 3) - 1) * GRID, clock,
+      rate: i === CENTER ? 1 : 0.84 + rnd() * 0.32, size: i === CENTER ? 1 : 0.95 + rnd() * 0.1, yaw: i === CENTER ? 0 : (rnd() - 0.5) * 0.26,
+      fallT: -1, from: LIE, flash: 0, sp: spring(), frame: LIE, sx: 0, sy: 0,
+    }));
+    const wrapD = (x: number) => mod(x + D / 2, D) - D / 2;
+    const stepEnv = (e: typeof envs[number], dt: number, p: number, c: number) => {
+      e.flash = max(0, e.flash - dt * 1.2);
+      if (e.fallT >= 0) {
+        e.fallT += dt;
+        const w = min(1, e.fallT / 0.85);
+        e.frame = blend(e.from, LIE, w * w);
+        if (e.fallT > 1.5) { e.fallT = -1; e.clock = 0.2; e.flash = 1; }
+        return;
+      }
+      const prev = e.clock, lead = envs[CENTER], hurried = e === lead && hurry !== 0;
+      const rate = hurried ? hurry : lerp(e.rate, 1, p) + clamp(wrapD(master - e.clock) * 0.5, -0.5, 0.5) * p;
+      e.clock = mod(e.clock + dt * rate, D);
+      if (e !== lead && c > 0) e.clock = mod(e.clock + wrapD(lead.clock - e.clock) * min(1, dt * 4 * c), D);
+      e.frame = pose('getup', e.clock, { perturb: [e.sp.x, 0, e.sp.z] });
+      const crossed = (t: number) => prev < t && e.clock >= t;
+      const risk = e === lead ? 0 : 0.7 * (1 - p) ** 1.5 * (1 - c);
+      if ((crossed(4.75) || (crossed(3.7) && rnd() < 0.5)) && rnd() < risk) { e.fallT = 0; e.from = e.frame; }
+    };
+
+    // The single robot: one skill per section, with sampled rollouts that converge when a section opens.
+    const SKILL_START: Partial<Record<Skill, number>> = { carry: 0, balance: 0.3, push: 0.6, kick: 0.9, stand: 0 };
+    const SKILL_STILL: Partial<Record<Skill, number>> = { carry: 0.5, balance: 2.3, push: 1.62, kick: 3.0, stand: 0, getup: 6.5 };
+    const GHOSTS = [
+      { t: -0.7, r: -0.62, n: [0.16, 0, -0.1] },
+      { t: 0.45, r: -0.31, n: [-0.12, 0, 0.14] },
+      { t: -0.35, r: 0.31, n: [0.1, 0, 0.18] },
+      { t: 0.8, r: 0.62, n: [-0.18, 0, -0.08] },
+    ];
+    let cur: Skill = 'getup', prev: Skill = 'getup', curClock = 0, prevClock = 0, switchT = 9, learnT = 9, armed = false;
+    const main = envs[CENTER];
+    const skillFrame = (s: Skill, t: number, perturb: number[] = [main.sp.x, 0, main.sp.z]) =>
+      s === 'getup' ? main.frame : pose(s, t, { perturb: perturb as Vec3 });
+    let pushVis = { at: [0, 0, 0] as Vec3, dir: [0, 0, 1] as Vec3, a: 0 };
+
+    // Pointer and scroll input.
+    let lastPt: [number, number] | null = null, figRect: Rect = { x: 0, y: 0, w: 0, h: 0 }, cNow = 0, lastScroll = scrollY;
+    const inside = (x: number, y: number, r: Rect) => x > r.x && x < r.x + r.w && y > r.y && y < r.y + r.h;
+    const camRight = () => [sin(YAW), -cos(YAW)];
+    const nearestEnv = (x: number, y: number) => {
+      if (cNow > 0.5) return main;
+      let best = main, bd = 1e9;
+      for (const e of envs) { const d = hypot(e.sx - x, e.sy - y); if (d < bd) { bd = d; best = e; } }
+      return best;
+    };
+    addEventListener('pointermove', ev => {
+      const pt: [number, number] = [ev.clientX, ev.clientY];
+      if (lastPt && inside(pt[0], pt[1], figRect)) {
+        const k = 1.2 / max(80, figRect.h), dx = (pt[0] - lastPt[0]) * k, [rx, rz] = camRight();
+        const e = nearestEnv(pt[0], pt[1]);
+        if (abs(dx) > 0.002) kick(e.sp, rx * dx * 6, rz * dx * 6);
+      }
+      lastPt = pt;
+    }, { passive: true });
+    addEventListener('pointerdown', ev => {
+      if (!inside(ev.clientX, ev.clientY, figRect) || (ev.target as HTMLElement).closest('a, button')) return;
+      const e = nearestEnv(ev.clientX, ev.clientY), side = ev.clientX < e.sx ? 1 : -1, [rx, rz] = camRight();
+      kick(e.sp, rx * side * 1.8, rz * side * 1.8);
+      if (e === main && cNow > 0.5) {
+        const dir: Vec3 = [rx * side, 0, rz * side], ch = mainFrame.joints.chest;
+        pushVis = { at: [ch[0] - dir[0] * 0.13, ch[1], ch[2] - dir[2] * 0.13], dir, a: 1 };
+      }
+    });
+
+    // Drawing helpers.
+    type View = { cam: Camera; r: Rect; ox: number; oy: number; focal: number; eye: number[] };
+    const makeView = (cam: Camera, r: Rect, ox: number, oy: number): View => {
+      const cp = cos(cam.pitch), t = cam.target;
+      return { cam, r, ox, oy, focal: r.h / 2 / Math.tan(FOV / 2), eye: [t[0] + cam.dist * cp * cos(cam.yaw), t[1] + cam.dist * sin(cam.pitch), t[2] + cam.dist * cp * sin(cam.yaw)] };
+    };
+    const P = (v: View, p: number[]) => {
+      const [x, y, z] = project(p as Vec3, v.cam, v.r.w, v.r.h);
+      return [x + v.r.x + v.ox * v.r.h, y + v.r.y + v.oy * v.r.h, z];
+    };
+    const sub = (a: number[], b: number[]) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+    const addv = (a: number[], b: number[], s = 1) => [a[0] + b[0] * s, a[1] + b[1] * s, a[2] + b[2] * s];
+    const nrm = (a: number[]) => { const l = hypot(a[0], a[1], a[2]) || 1; return [a[0] / l, a[1] / l, a[2] / l]; };
+    const crs = (a: number[], b: number[]) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+    const dot = (a: number[], b: number[]) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+
+    const capsule = (g: CanvasRenderingContext2D, a: number[], b: number[], ra: number, rb: number) => {
+      const dx = b[0] - a[0], dy = b[1] - a[1], d = hypot(dx, dy);
+      g.beginPath();
+      if (d <= abs(ra - rb) + 0.01) g.arc(ra > rb ? a[0] : b[0], ra > rb ? a[1] : b[1], max(ra, rb), 0, TAU);
+      else {
+        const th = atan2(dy, dx), ph = acos((ra - rb) / d);
+        g.arc(a[0], a[1], ra, th + ph, th - ph + TAU);
+        g.arc(b[0], b[1], rb, th - ph, th + ph);
+        g.closePath();
+      }
+      g.fill(); g.stroke();
+    };
+    const hull = (pts: number[][]) => {
+      const p = [...pts].sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+      const cr = (o: number[], a: number[], b: number[]) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+      const lo: number[][] = [], up: number[][] = [];
+      for (const q of p) { while (lo.length > 1 && cr(lo[lo.length - 2], lo[lo.length - 1], q) <= 0) lo.pop(); lo.push(q); }
+      for (const q of p.reverse()) { while (up.length > 1 && cr(up[up.length - 2], up[up.length - 1], q) <= 0) up.pop(); up.push(q); }
+      return lo.slice(0, -1).concat(up.slice(0, -1));
+    };
+    // Rounded polygon with a fixed corner radius, clamped by the edge lengths.
+    const roundPoly = (g: CanvasRenderingContext2D, q: number[][], r: number) => {
+      const n = q.length, d = (a: number[], b: number[]) => hypot(a[0] - b[0], a[1] - b[1]);
+      g.beginPath();
+      g.moveTo((q[n - 1][0] + q[0][0]) / 2, (q[n - 1][1] + q[0][1]) / 2);
+      for (let i = 0; i < n; i++) {
+        const a = q[i], b = q[(i + 1) % n], p = q[(i + n - 1) % n];
+        g.arcTo(a[0], a[1], b[0], b[1], min(r, d(a, b) / 2, d(a, p) / 2));
+      }
+      g.closePath();
+    };
+
+    const BOX_FACES = [[0, 1, 3, 2], [4, 6, 7, 5], [0, 4, 5, 1], [2, 3, 7, 6], [0, 2, 6, 4], [1, 5, 7, 3]];
+    const LIMBS: [JointName, JointName, number, number][] = [
+      ['lShoulder', 'lElbow', 0.048, 0.038], ['lElbow', 'lHand', 0.036, 0.029], ['rShoulder', 'rElbow', 0.048, 0.038], ['rElbow', 'rHand', 0.036, 0.029],
+      ['lHip', 'lKnee', 0.068, 0.048], ['lKnee', 'lAnkle', 0.05, 0.035], ['rHip', 'rKnee', 0.068, 0.048], ['rKnee', 'rAnkle', 0.05, 0.035],
+    ];
+
+    // A humanoid with body volume: tapered limbs, torso and pelvis shells, feet, a helmet with a visor; painter-sorted.
+    const drawFigure = (g: CanvasRenderingContext2D, f: Frame, v: View) => {
+      const J = f.joints, items: { z: number; draw: () => void }[] = [];
+      const pr = (p: number[]) => P(v, p), rad = (r: number, z: number) => (r * v.focal) / z;
+      const px = rad(1.6, hypot(...sub(J.pelvis, v.eye)));
+      const lw = clamp(px / 240, 0.75, 1.2);
+      g.lineJoin = 'round'; g.lineCap = 'round';
+      const style = () => { g.strokeStyle = col(pal.ink, 0.86); g.fillStyle = col(pal.bg); g.lineWidth = lw; };
+      const solid = (pts: number[][], corner: number, z: number, extra?: () => void) => {
+        const q = pts.map(pr);
+        items.push({ z, draw: () => { style(); roundPoly(g, hull(q), rad(corner, z)); g.fill(); g.stroke(); extra?.(); } });
+      };
+      const ball = (c: number[], r: number, dz = 0) => {
+        const Q = pr(c);
+        items.push({ z: Q[2] + dz, draw: () => { style(); g.beginPath(); g.arc(Q[0], Q[1], rad(r, Q[2]), 0, TAU); g.fill(); g.stroke(); } });
+      };
+      const box = (c: number[], ax: number[][], ext: number[][]) => {
+        const out: number[][] = [];
+        for (const e of ext) out.push(ax.reduce((p, a, i) => addv(p, a, e[i]), c));
+        return out;
+      };
+      const corners = (lo: number[], hi: number[]) => {
+        const out: number[][] = [];
+        for (const x of [lo[0], hi[0]]) for (const y of [lo[1], hi[1]]) for (const z of [lo[2], hi[2]]) out.push([x, y, z]);
+        return out;
+      };
+
+      for (const [a, b, ra, rb] of LIMBS) {
+        const A = pr(J[a]), B = pr(J[b]);
+        items.push({ z: (A[2] + B[2]) / 2, draw: () => { style(); capsule(g, A, B, rad(ra, A[2]), rad(rb, B[2])); } });
+      }
+      for (const h of ['lHand', 'rHand'] as JointName[]) ball(J[h], 0.034, -0.01);
+      for (const s of ['lShoulder', 'rShoulder'] as JointName[]) ball(J[s], 0.054, -0.03);
+
+      const side = nrm(sub(J.rShoulder, J.lShoulder)), up = nrm(sub(J.neck, J.pelvis)), fwd = nrm(crs(up, side));
+      const axes = [side, up, fwd];
+      const toCam = (p: number[]) => nrm(sub(v.eye, p));
+
+      const shell: number[][] = [];
+      for (const [c, w, d] of [
+        [addv(J.neck, up, -0.02), 0.13, 0.07], [addv(J.chest, up, 0.1), 0.17, 0.1], [addv(J.chest, up, -0.06), 0.14, 0.09], [addv(J.pelvis, up, 0.11), 0.095, 0.068],
+      ] as [number[], number, number][]) shell.push(...box(c, axes, corners([-w, 0, -d], [w, 0, d])));
+      solid(shell, 0.03, pr(J.chest)[2], () => {
+        if (dot(fwd, toCam(J.chest)) < 0.15) return;
+        const s = [-1, 1].map(k => pr(addv(addv(addv(J.chest, up, -0.07), fwd, 0.092), side, k * 0.1)));
+        g.strokeStyle = col(pal.ink, 0.3); g.beginPath(); g.moveTo(s[0][0], s[0][1]); g.lineTo(s[1][0], s[1][1]); g.stroke();
+      });
+      solid(box(J.pelvis, axes, corners([-0.115, -0.06, -0.075], [0.115, 0.05, 0.075])), 0.03, pr(J.pelvis)[2]);
+
+      for (const [an, to, kn] of [['lAnkle', 'lToe', 'lKnee'], ['rAnkle', 'rToe', 'rKnee']] as JointName[][]) {
+        const A = J[an], T = J[to], fu = nrm(sub(J[kn], A)), d = sub(T, A), lat = nrm(crs(d, fu));
+        const heel = addv(addv(A, fu, -0.055), d, -0.35), toeSole = addv(T, fu, -0.022);
+        const pts = [A, T, toeSole, heel].flatMap(p => [addv(p, lat, 0.038), addv(p, lat, -0.038)]);
+        solid(pts, 0.012, pr(addv(A, d, 0.4))[2]);
+      }
+
+      const neckTop = addv(J.head, up, -0.07);
+      const NA = pr(J.neck), NB = pr(neckTop);
+      items.push({ z: (NA[2] + NB[2]) / 2 + 0.02, draw: () => { style(); capsule(g, NA, NB, rad(0.034, NA[2]), rad(0.032, NB[2])); } });
+      const hc = addv(J.head, up, 0.01);
+      solid(box(hc, axes, corners([-0.085, -0.085, -0.092], [0.085, 0.1, 0.1])), 0.055, pr(hc)[2], () => {
+        if (dot(fwd, toCam(J.head)) < 0.1) return;
+        g.save(); g.clip();
+        const vis = box(addv(hc, fwd, 0.1), axes, [[-0.066, 0.004, 0], [0.066, 0.004, 0], [0.066, 0.05, 0], [-0.066, 0.05, 0]]).map(pr);
+        roundPoly(g, vis, rad(0.012, vis[0][2]));
+        g.fillStyle = col(pal.accent, 0.92); g.strokeStyle = col(pal.accent); g.fill(); g.stroke();
+        g.restore();
+      });
+
+      if (f.box && (f.box.alpha ?? 1) > 0.05) {
+        const { center, size, yaw } = f.box, c = cos(yaw), si = sin(yaw);
+        const cs = corners([-1, -1, -1], [1, 1, 1]).map(([x, y, z]) => {
+          const lx = (x * size[0]) / 2, lz = (z * size[2]) / 2;
+          return pr([center[0] + lx * c + lz * si, center[1] + (y * size[1]) / 2, center[2] - lx * si + lz * c]);
+        });
+        const faces = BOX_FACES.map(fc => ({ fc, z: fc.reduce((s, i) => s + cs[i][2], 0) / 4 })).sort((a, b) => b.z - a.z);
+        items.push({ z: pr(center)[2], draw: () => {
+          style();
+          g.globalAlpha = f.box!.alpha ?? 1;
+          for (const { fc } of faces) {
+            g.beginPath(); fc.forEach((i, k) => (k ? g.lineTo(cs[i][0], cs[i][1]) : g.moveTo(cs[i][0], cs[i][1])));
+            g.closePath(); g.fill(); g.stroke();
+          }
+          g.globalAlpha = 1;
+        } });
+      }
+      if (f.ball) {
+        const b = f.ball, a = (f.ballAlpha ?? 1) * (1 - smooth(1.1, 2.0, hypot(b[0], b[2]))), Q = pr(b);
+        if (a > 0.02) items.push({ z: Q[2], draw: () => {
+          style(); g.globalAlpha = a;
+          const r = rad(BALL_RADIUS, Q[2]);
+          g.beginPath(); g.arc(Q[0], Q[1], r, 0, TAU); g.fill(); g.stroke();
+          g.beginPath(); g.arc(Q[0] - r * 0.25, Q[1] - r * 0.1, r * 0.62, -0.9, 1.3); g.stroke();
+          g.globalAlpha = 1;
+        } });
+      }
+      items.sort((a, b) => b.z - a.z).forEach(it => it.draw());
+      return px;
+    };
+
+    // Draws through an offscreen layer so overlapping parts of a faint figure do not show through each other.
+    const faded = (a: number, r: Rect, draw: (g: CanvasRenderingContext2D) => void) => {
+      if (a <= 0.004) return;
+      if (a >= 0.996) { draw(ctx); return; }
+      const x = max(0, floor(r.x)), y = max(0, floor(r.y)), w = min(W, Math.ceil(r.x + r.w)) - x, h = min(H, Math.ceil(r.y + r.h)) - y;
+      if (w <= 0 || h <= 0) return;
+      lctx.clearRect(x, y, w, h);
+      draw(lctx);
+      ctx.globalAlpha = a;
+      ctx.drawImage(layer, x * dpr, y * dpr, w * dpr, h * dpr, x, y, w, h);
+      ctx.globalAlpha = 1;
+    };
+    const grow = (r: Rect, k: number): Rect => ({ x: r.x - r.w * k, y: r.y - r.h * k * 0.5, w: r.w * (1 + 2 * k), h: r.h * (1 + k) });
+    const polyline = (pts: number[][]) => { ctx.beginPath(); pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.stroke(); };
+
+    const arrow = (v: View, from: number[], to: number[], a: number) => {
+      const A = P(v, from), B = P(v, to), th = atan2(B[1] - A[1], B[0] - A[0]), hl = 7;
+      ctx.strokeStyle = col(pal.accent, a); ctx.lineWidth = 1.5;
+      polyline([A, B]);
+      polyline([[B[0] - hl * cos(th - 0.45), B[1] - hl * sin(th - 0.45)], B, [B[0] - hl * cos(th + 0.45), B[1] - hl * sin(th + 0.45)]]);
+    };
+
+    // State.
+    let time = 0, hurry = 0, master = 2.8, last = 0, running = false, raf = 0, scrollV = 0;
+    let mainFrame: Frame = main.frame;
+    const lerpRect = (a: Rect, b: Rect, k: number): Rect => ({ x: lerp(a.x, b.x, k), y: lerp(a.y, b.y, k), w: lerp(a.w, b.w, k), h: lerp(a.h, b.h, k) });
+    const scaleRect = (r: Rect, s: number): Rect => ({ x: r.x + (r.w * (1 - s)) / 2, y: r.y + (r.h * (1 - s)) / 2, w: r.w * s, h: r.h * s });
+    const toRect = (d: DOMRect): Rect => ({ x: d.left, y: d.top, w: d.width, h: d.height });
+
+    const update = (dt: number) => {
+      time += dt; master = mod(master + dt, D);
+      const p = smooth(1.5, 20, time);
+      const vh = innerHeight, heroH = hero.offsetHeight;
+      let c = mobile ? smooth(0, 1, scrollY / max(120, min(heroH * 0.45, 280))) : smooth(0, 1, scrollY / (heroH * 0.72));
+      const vc = mobile ? vh * 0.45 : vh * 0.5 + 32, R = min(240, vh * 0.28);
+      let feat = 0, want: Skill = 'getup', bestIn = -1e9;
+      sections.forEach(({ el, skill }) => {
+        const r = el.getBoundingClientRect(), a = vc - r.top, b = r.bottom - vc;
+        feat = max(feat, smooth(0, R, a) * smooth(0, R, b));
+        if (min(a, b) > bestIn) { bestIn = min(a, b); want = skill; }
+      });
+      if (vc - sections[0].el.getBoundingClientRect().top < -R * 0.6) want = 'getup';
+      if (reduced) { c = c > 0.4 ? 1 : 0; feat = feat > 0.5 ? 1 : 0; }
+      cNow = c;
+
+      const sv = scrollY - lastScroll;
+      lastScroll = scrollY;
+      scrollV = lerp(scrollV, dt > 0 ? sv / dt : 0, 0.2);
+      if (!reduced && abs(scrollV) > 200) kick(main.sp, clamp(scrollV / 4000, -0.6, 0.6) * dt * 6, 0);
+      // Leaving the getup: finish standing up quickly (or rewind the lie-down) before switching skill.
+      const leaving = cur === 'getup' && want !== 'getup';
+      const ready = reduced || (main.fallT < 0 && main.clock >= 5.6 && main.clock <= 8.2);
+      hurry = leaving && !ready ? (main.clock > 8.2 ? -3.5 : 3.5) : 0;
+      for (const e of envs) { stepSpring(e.sp, dt); stepEnv(e, dt, reduced ? 1 : p, c); }
+
+      if (want !== cur && (!leaving || ready)) {
+        prev = cur; prevClock = curClock; cur = want; switchT = reduced ? 9 : 0; learnT = 9;
+        curClock = reduced ? SKILL_STILL[want]! : SKILL_START[want] ?? 0;
+        armed = want !== 'getup' && !reduced;
+      }
+      if (armed && feat > 0.35) { armed = false; learnT = 0; }
+      curClock += dt; prevClock += dt; switchT += dt; learnT += dt;
+      const sw = ease(clamp(switchT / 0.9));
+      const curF = skillFrame(cur, curClock), dx = (s: Skill) => OFFSET[s] ?? 0;
+      const placed = (f: Frame, s: Skill) => place(f, 1, 0, dx(s), 0);
+      mainFrame = sw < 1 ? blend(placed(skillFrame(prev, prevClock), prev), placed(curF, cur), sw) : placed(curF, cur);
+      if (mainFrame.push && mainFrame.push.strength > 0.05) pushVis = { at: mainFrame.push.at, dir: mainFrame.push.dir, a: max(pushVis.a, mainFrame.push.strength) };
+      else pushVis.a = max(0, pushVis.a - dt * 0.9);
+      const spread = smooth(0, 0.5, learnT) * (1 - smooth(1.3, 3.1, learnT));
+      const ghosts = spread > 0.004 ? GHOSTS.map(gh => {
+        let f = placed(pose(cur, curClock + gh.t * spread, { perturb: gh.n.map(v => v * spread) as Vec3 }), cur);
+        if (sw < 1) f = blend(placed(skillFrame(prev, prevClock), prev), f, sw);
+        const [rx, rz] = camRight();
+        return place(f, 1, 0, rx * gh.r * spread, rz * gh.r * spread);
+      }) : [];
+      return { c, feat, spread, ghosts };
+    };
+
+    let state = { c: 0, feat: 0, spread: 0, ghosts: [] as Frame[] };
+    const render = () => {
+      if (!heroFit) return;
+      const { c, feat, spread, ghosts } = state, ce = reduced ? c : ease(c);
+      ctx.clearRect(0, 0, W, H);
+      const stageR = toRect(stage.getBoundingClientRect());
+      const dockR = scaleRect(toRect((mobile ? dockFig : dock).getBoundingClientRect()), mobile ? lerp(0.74, 1, feat) : lerp(0.44, 1, feat));
+      const r = lerpRect(stageR, dockR, ce);
+      figRect = r;
+      const cam: Camera = {
+        yaw: YAW, fov: FOV, pitch: lerp(heroFit.cam.pitch, dockFit.cam.pitch, ce),
+        dist: exp(lerp(log(heroFit.cam.dist), log(dockFit.cam.dist), ce)),
+        target: heroFit.cam.target.map((t, i) => lerp(t, dockFit.cam.target[i], ce)) as Vec3,
+      };
+      const v = makeView(cam, r, lerp(heroFit.ox, dockFit.ox, ce), lerp(heroFit.oy, dockFit.oy, ce));
+      const progress = clamp(scrollY / max(1, document.documentElement.scrollHeight - innerHeight));
+      dockBar.style.transform = `scaleX(${progress.toFixed(4)})`;
+      dock.style.setProperty('--c', String(clamp(c * 1.6)));
+
+      // Stage corner marks and caption, fading out as the grid collapses.
+      const ha = 1 - smooth(0, 0.5, c);
+      if (ha > 0.01) {
+        ctx.strokeStyle = col(pal.line, ha); ctx.lineWidth = 1;
+        const m = 10, { x, y, w, h } = stageR;
+        for (const [cx, cy, sx, sy] of [[x, y, 1, 1], [x + w, y, -1, 1], [x, y + h, 1, -1], [x + w, y + h, -1, -1]])
+          polyline([[cx + sx * m, cy], [cx, cy], [cx, cy + sy * m]]);
+      }
+
+      // Floor: tiles in the grid, a ring with page progress around the docked robot.
+      const k = 1 - ce, tileA = 1 - smooth(0.25, 0.95, c);
+      const order = envs.map((e, i) => ({ e, i, z: P(v, [e.gx * k, 0, e.gz * k])[2] })).sort((a, b) => b.z - a.z);
+      ctx.lineWidth = 1;
+      for (const { e } of order) {
+        if (tileA < 0.01) break;
+        const cx = e.gx * k, cz = e.gz * k, s = TILE / 2;
+        const q = [[-s, -s], [s, -s], [s, s], [-s, s], [-s, -s]].map(([a, b]) => P(v, [cx + a, 0, cz + b]));
+        ctx.strokeStyle = col(pal.line, tileA);
+        polyline(q);
+        if (e.flash > 0) { ctx.strokeStyle = col(pal.accent, e.flash * tileA * 0.55); polyline(q); }
+      }
+      const ringA = smooth(0.5, 1, c) * (mobile ? 0 : 1);
+      if (ringA > 0.01) {
+        const ring = (a0: number, a1: number) => {
+          const pts = [];
+          for (let i = 0; i <= 72; i++) { const a = lerp(a0, a1, i / 72); pts.push(P(v, [RING * cos(a), 0, RING * sin(a)])); }
+          polyline(pts);
+        };
+        ctx.lineWidth = 1; ctx.strokeStyle = col(pal.line, ringA); ring(0, TAU);
+        if (progress > 0.002) { ctx.lineWidth = 1.4; ctx.strokeStyle = col(pal.accent, ringA); ring(YAW, YAW + progress * TAU); }
+      }
+      const speed = mainFrame.speed;
+      if (speed > 0.02 && c > 0.5) {
+        ctx.lineWidth = 1;
+        for (const z of [-0.36, 0.36]) for (let i = 0; i < 6; i++) {
+          const x = mod(i * 0.3 - time * speed, 1.8) - 0.9, a = sin((PI * (x + 0.9)) / 1.8) * (speed / 0.6) * smooth(0.5, 1, c) * 0.8;
+          ctx.strokeStyle = col(pal.muted, a);
+          polyline([P(v, [x, 0, z]), P(v, [x + 0.1, 0, z])]);
+        }
+      }
+
+      // Hero environments slide together and fade into the center one.
+      const others = 1 - smooth(0.15, 0.85, c);
+      const area = grow(r, 0.25);
+      const figs = order.map(({ e, i }) => {
+        const f = i === CENTER ? mainFrame : place(e.frame, e.size, e.yaw, OFFSET.getup!, 0);
+        const fw = place(f, 1, 0, e.gx * k, e.gz * k), pel = P(v, fw.joints.pelvis);
+        e.sx = pel[0]; e.sy = pel[1];
+        return { fw, isMain: i === CENTER };
+      });
+      const mainFw = figs.find(f => f.isMain)!.fw;
+      if (others >= 0.996) figs.forEach(({ fw }) => drawFigure(ctx, fw, v));
+      else {
+        faded(others, area, g => figs.forEach(({ fw, isMain }) => !isMain && drawFigure(g, fw, v)));
+        const depth = (f: Frame) => P(v, f.joints.pelvis)[2];
+        const sorted = [...ghosts].sort((a, b) => depth(b) - depth(a));
+        faded(0.24 * spread, area, g => sorted.forEach(gf => drawFigure(g, gf, v)));
+        faded(1 - 0.3 * spread, area, g => drawFigure(g, mainFw, v));
+      }
+
+      if (pushVis.a > 0.01 && c > 0.5) {
+        const { at, dir } = pushVis;
+        arrow(v, addv(at, dir, -0.8), addv(at, dir, -0.05), pushVis.a);
+      }
+
+      // One tiny caption: hero under the grid, dock under the ring (or at the left of the bottom bar).
+      ctx.font = '500 10.5px "IBM Plex Mono", ui-monospace, monospace';
+      ctx.letterSpacing = '0.08em';
+      ctx.textBaseline = 'alphabetic';
+      if (ha > 0.01) {
+        ctx.fillStyle = col(pal.muted, ha);
+        ctx.textAlign = 'left';
+        ctx.fillText('PARALLEL ROLLOUTS / GET UP', stageR.x + 16, stageR.y + stageR.h - 6);
+      }
+      const capA = mobile ? smooth(0.6, 1, c) : smooth(0.6, 1, c) * smooth(0.35, 0.9, feat);
+      if (capA > 0.01) {
+        const label = (CAPTION[cur] ?? cur).toUpperCase();
+        ctx.fillStyle = col(pal.muted, capA);
+        if (mobile) {
+          const d = dock.getBoundingClientRect();
+          ctx.textAlign = 'left';
+          ctx.fillText(label, d.left + 18, d.top + d.height / 2 + 4);
+        } else {
+          ctx.textAlign = 'center';
+          ctx.fillText(label, r.x + r.w / 2, r.y + r.h - 6);
+        }
+      }
+    };
+
+    const loop = (now: number) => {
+      const dt = last ? min(0.05, (now - last) / 1000) : 0;
+      last = now;
+      state = update(dt);
+      render();
+      raf = requestAnimationFrame(loop);
+    };
+    const start = () => { if (!running && !document.hidden) { running = true; last = 0; raf = requestAnimationFrame(loop); } };
+    const stop = () => { running = false; cancelAnimationFrame(raf); };
+    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+    const still = () => { state = update(0); render(); };
+
+    readPalette();
+    setTheme(root.dataset.theme === 'dark');
+    resize();
+    addEventListener('resize', () => { resize(); if (reduced) still(); });
+    if (reduced) {
+      main.clock = 6.5;
+      envs.forEach(e => (e.frame = pose('getup', e.clock)));
+      still();
+      addEventListener('scroll', still, { passive: true });
+    } else start();
+    document.fonts?.ready.then(() => { resize(); if (reduced) still(); });
+  }
+</script>
+
+<style>
+  .s20 {
+    --bg: #fcfcfb;
+    --ink: #1d2434;
+    --body: #535d6e;
+    --muted: #8c94a2;
+    --line: #eceef1;
+    --line-2: #dde1e7;
+    --accent: #2c5be8;
+    --sans: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+    --mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+    --ease: cubic-bezier(.2, .7, .2, 1);
+    --max: 1320px;
+    --gut: clamp(16px, 4vw, 56px);
+    --rail: clamp(240px, 27vw, 380px);
+    --gap: clamp(40px, 4.6vw, 72px);
+    --nav: 64px;
+    position: relative;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--body);
+    font: 400 16px/1.6 var(--sans);
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: 80px;
+    overflow-x: clip;
+    transition: background-color .4s ease, color .4s ease;
+  }
+  .s20[data-theme="dark"] {
+    --bg: #0d121b;
+    --ink: #e2e6ee;
+    --body: #a2abba;
+    --muted: #6d7789;
+    --line: #19212d;
+    --line-2: #283141;
+    --accent: #7c9cff;
+  }
+  .s20 *, .s20 *::before, .s20 *::after { box-sizing: border-box; }
+  :where(.s20 a) { color: inherit; text-decoration: none; }
+  .s20 a:focus-visible, .s20 button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+  :where(.s20 h1, .s20 h2, .s20 h3, .s20 p, .s20 ol, .s20 ul, .s20 dl, .s20 dd) { margin: 0; padding: 0; }
+  :where(.s20 ol, .s20 ul) { list-style: none; }
+  .mono { font-family: var(--mono); font-size: 11.5px; letter-spacing: .07em; text-transform: uppercase; }
+  .s20 .wrap { max-width: var(--max); margin-inline: auto; padding-inline: var(--gut); }
+  .s20 [id] { scroll-margin-top: calc(var(--nav) + 16px); }
+
+  .s20.js [data-r] { opacity: 0; transform: translateY(10px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
+  .s20.js [data-r].in { opacity: 1; transform: none; }
+
+  /* Nav */
+  .nav { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); transition: background-color .4s ease, border-color .4s ease; }
+  .nav-in { height: var(--nav); display: flex; align-items: center; gap: 28px; }
+  .brand { font-weight: 500; font-size: 15px; letter-spacing: -.01em; color: var(--ink); margin-right: auto; }
+  .nav nav { display: flex; gap: clamp(16px, 2.4vw, 32px); font-size: 14px; }
+  .nav nav a { color: var(--body); transition: color .2s; }
+  .nav nav a:hover { color: var(--accent); }
+  .theme {
+    width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%;
+    border: 1px solid var(--line-2); background: transparent; color: var(--ink); cursor: pointer; padding: 0;
+    transition: border-color .2s, color .2s;
+  }
+  .theme:hover { border-color: var(--accent); color: var(--accent); }
+  .theme svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+  .theme .moon { display: none; }
+  .s20[data-theme="dark"] .theme .sun { display: none; }
+  .s20[data-theme="dark"] .theme .moon { display: block; }
+
+  /* Fixed canvas and dock */
+  .view { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; }
+  .dock {
+    position: fixed; z-index: 2; pointer-events: none;
+    top: calc(50% + var(--nav) / 2); transform: translateY(-50%);
+    right: max(var(--gut), calc((100vw - var(--max)) / 2 + var(--gut)));
+    width: var(--rail); height: min(460px, 60vh);
+  }
+  .dock-fig { position: absolute; inset: 0; }
+  .dock-bar { display: none; }
+
+  /* Hero */
+  .hero-in {
+    display: grid; grid-template-columns: minmax(0, 56fr) minmax(0, 44fr); gap: clamp(32px, 4vw, 64px); align-items: center;
+    padding-block: clamp(36px, 7vh, 88px) clamp(40px, 8vh, 96px);
+  }
+  .kicker { color: var(--muted); margin-bottom: 26px; }
+  .kicker span { color: var(--line-2); margin-inline: 6px; }
+  .hero h1 { font-weight: 500; font-size: clamp(48px, 5.8vw, 86px); line-height: .98; letter-spacing: -.038em; color: var(--ink); }
+  .role { margin-top: 30px; font-size: 17px; color: var(--ink); opacity: .86; }
+  .role a { color: var(--accent); border-bottom: 1px solid transparent; transition: border-color .2s; }
+  .role a:hover { border-color: currentColor; }
+  .tagline { margin-top: 12px; font-size: clamp(18px, 1.6vw, 21px); line-height: 1.5; max-width: 30ch; color: var(--body); }
+  .hero-links { display: flex; gap: 22px; margin-top: 34px; }
+  .hero-links a { color: var(--muted); transition: color .2s; }
+  .hero-links a:hover { color: var(--accent); }
+  .stage { height: min(440px, 54vh); width: 100%; }
+
+  /* Sections */
+  .sec { padding-block: clamp(80px, 12vh, 128px); padding-right: calc(var(--rail) + var(--gap)); }
+  .sec:first-child { padding-top: clamp(40px, 6vh, 72px); }
+  .head { margin-bottom: clamp(40px, 5vw, 64px); }
+  .idx { display: flex; align-items: center; gap: 12px; color: var(--muted); }
+  .idx span { color: var(--accent); }
+  .idx::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+  .head h2 { margin-top: 26px; font-weight: 500; font-size: clamp(30px, 3.1vw, 44px); line-height: 1.08; letter-spacing: -.028em; color: var(--ink); max-width: 20ch; }
+  h3 { font-weight: 500; font-size: 19px; line-height: 1.3; letter-spacing: -.012em; color: var(--ink); }
+
+  /* Research: three columns sharing rows so index, title, summary and keywords align */
+  .areas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(4, auto); column-gap: clamp(24px, 2.6vw, 40px); }
+  .area { display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 0; border-top: 1px solid var(--line-2); padding-top: 18px; }
+  .a-idx { color: var(--muted); display: flex; gap: 10px; margin-bottom: 30px; }
+  .a-idx span { color: var(--accent); }
+  .area h3 { margin-bottom: 12px; }
+  .a-sum { font-size: 15px; line-height: 1.62; margin-bottom: 24px; }
+  .kw { display: grid; gap: 4px; align-content: start; color: var(--muted); font-size: 12px; text-transform: none; letter-spacing: .01em; padding-top: 14px; border-top: 1px dashed var(--line-2); }
+
+  /* About */
+  .about { display: grid; gap: 40px; }
+  .lead { font-size: clamp(20px, 1.75vw, 24px); line-height: 1.5; letter-spacing: -.01em; color: var(--ink); opacity: .9; max-width: 36ch; }
+  .about-sub { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 56px); padding-top: 28px; border-top: 1px solid var(--line); }
+  .about-sub > p { font-size: 15.5px; line-height: 1.68; max-width: 46ch; }
+  .facts { display: grid; align-content: start; }
+  .facts div { display: grid; grid-template-columns: 76px 1fr; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .facts div:first-child { padding-top: 0; }
+  .facts dt { color: var(--muted); font-size: 10.5px; }
+  .facts dd { color: var(--ink); font-size: 15px; }
+
+  /* Experience: two-column timeline */
+  .tl-row { display: grid; grid-template-columns: minmax(170px, 0.8fr) minmax(0, 1.6fr); }
+  .tl-when { padding: 0 28px 44px 0; display: grid; align-content: start; gap: 4px; }
+  .period { color: var(--muted); font-size: 10.5px; }
+  .now .period { color: var(--accent); }
+  .org { color: var(--ink); font-weight: 500; font-size: 15.5px; line-height: 1.35; margin-top: 4px; transition: color .2s; }
+  .org span { font-size: 12px; margin-left: 5px; color: var(--muted); transition: color .2s; }
+  .org:hover, .org:hover span { color: var(--accent); }
+  .place { color: var(--muted); font-size: 10.5px; }
+  .tl-what { position: relative; padding: 0 0 44px 32px; border-left: 1px solid var(--line-2); }
+  .tl-row:last-child .tl-when, .tl-row:last-child .tl-what { padding-bottom: 0; }
+  .tl-what::before {
+    content: ''; position: absolute; left: -4px; top: 5px; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--bg); border: 1px solid var(--line-2);
+  }
+  .now .tl-what::before { border-color: var(--accent); background: var(--accent); }
+  .tl-what h3 { line-height: 1.2; }
+  .tl-what p { margin-top: 8px; font-size: 15px; line-height: 1.62; max-width: 52ch; }
+
+  /* Notes: editorial list */
+  .notes { border-top: 1px solid var(--line-2); }
+  .note { display: grid; grid-template-columns: 112px minmax(0, 1fr) auto; column-gap: 28px; align-items: baseline; padding: 26px 0; border-bottom: 1px solid var(--line); }
+  .note time { color: var(--muted); font-size: 10.5px; }
+  .n-main { display: grid; gap: 6px; }
+  .n-title { color: var(--ink); font-weight: 500; font-size: 19px; letter-spacing: -.012em; line-height: 1.3; transition: color .2s; }
+  .note:hover .n-title { color: var(--accent); }
+  .n-desc { font-size: 15px; line-height: 1.55; }
+  .n-tags { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; color: var(--muted); font-size: 10.5px; }
+
+  /* Contact */
+  .links { border-top: 1px solid var(--line-2); }
+  .links a { display: grid; grid-template-columns: minmax(0, 1fr) auto 24px; align-items: baseline; gap: 20px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+  .l-name { font-size: clamp(22px, 2vw, 28px); font-weight: 500; letter-spacing: -.02em; color: var(--ink); transition: color .2s; }
+  .l-host { color: var(--muted); font-size: 11px; text-transform: none; letter-spacing: .02em; }
+  .l-arrow { color: var(--muted); text-align: right; transition: color .2s, transform .3s var(--ease); }
+  .links a:hover .l-name, .links a:hover .l-arrow { color: var(--accent); }
+  .links a:hover .l-arrow { transform: translate(2px, -2px); }
+
+  .foot-in { display: flex; gap: 28px; padding: 28px 0 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 10.5px; margin-right: calc(var(--rail) + var(--gap)); }
+  .foot-in a { margin-left: auto; transition: color .2s; }
+  .foot-in a:hover { color: var(--accent); }
+
+  @media (max-width: 1279px) {
+    .areas { grid-template-columns: 1fr; grid-template-rows: none; }
+    .area { grid-row: auto; grid-template-rows: none; grid-template-columns: 44px minmax(0, 1fr); column-gap: 16px; padding: 22px 0 26px; }
+    .a-idx { grid-row: span 3; margin: 0; padding-top: 3px; }
+    .a-idx { font-size: 0; }
+    .a-idx span { font-size: 11.5px; }
+    .kw { grid-auto-flow: column; justify-content: start; gap: 18px; border-top: 0; padding-top: 0; }
+    .a-sum { margin-bottom: 14px; }
+  }
+
+  @media (max-width: 899px) {
+    .s20 { padding-bottom: 196px; }
+    .nav-in { gap: 18px; }
+    .nav nav { gap: 18px; }
+    .nav nav a.opt { display: none; }
+    .hero-in { grid-template-columns: 1fr; gap: 24px; padding-block: 36px 16px; min-height: calc(100svh - var(--nav)); align-content: space-between; }
+    .kicker { margin-bottom: 18px; }
+    .role { margin-top: 22px; font-size: 16px; }
+    .hero-links { margin-top: 22px; }
+    .stage { height: min(38vh, 330px); }
+    .sec { padding-right: 0; padding-block: 72px; }
+    .foot-in { margin-right: 0; }
+    .dock {
+      top: auto; transform: none; left: 12px; right: 12px; bottom: 12px; width: auto; height: 84px;
+      border: 1px solid var(--line-2); border-radius: 14px; background: var(--bg); overflow: hidden;
+      opacity: var(--c, 0);
+    }
+    .dock-fig { left: auto; width: 52%; right: 6px; }
+    .dock-bar { display: block; position: absolute; left: 18px; right: 18px; bottom: 0; height: 1px; background: var(--line); }
+    .dock-bar i { position: absolute; inset: 0; background: var(--accent); transform-origin: left; transform: scaleX(0); }
+    .about-sub { grid-template-columns: 1fr; }
+    .tl-row { grid-template-columns: 1fr; }
+    .tl-when { padding: 0 0 10px 24px; border-left: 1px solid var(--line-2); position: relative; }
+    .tl-what { padding: 0 0 40px 24px; }
+    .tl-when::before {
+      content: ''; position: absolute; left: -4px; top: 5px; width: 7px; height: 7px; border-radius: 50%;
+      background: var(--bg); border: 1px solid var(--line-2);
+    }
+    .now .tl-when::before { border-color: var(--accent); background: var(--accent); }
+    .tl-what::before { display: none; }
+    .note { grid-template-columns: 1fr; row-gap: 8px; padding: 22px 0; }
+    .n-tags { flex-direction: row; align-items: flex-start; gap: 14px; }
+    .area { grid-template-columns: 34px minmax(0, 1fr); }
+    .kw { grid-auto-flow: row; gap: 4px; }
+    .links a { grid-template-columns: minmax(0, 1fr) 20px; }
+    .l-host { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .s20.js [data-r] { opacity: 1; transform: none; transition: none; }
+  }
+</style>
