@@ -1,23 +1,30 @@
 ---
-import BaseHead from "@/components/BaseHead.astro";
-import Header from "@/components/Header.astro";
-import Footer from "@/components/Footer.astro";
-import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
-import Hero from "@/components/Hero.astro";
-import WhatIDo from "@/components/WhatIDo.astro";
----
+import HomePage from '@/components/home/HomePage.astro';
+import { profile } from '@/data/profile';
 
+const title = `${profile.name}, ${profile.role}`;
+const url = new URL(Astro.url.pathname, Astro.site);
+---
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{profile.name}</title>
+    <meta name="description" content={profile.tagline} />
+    <link rel="canonical" href={url} />
+    <link rel="icon" href="/favicon.svg" />
+    <!-- How the link looks when shared (LinkedIn, X, chats). -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={profile.tagline} />
+    <meta name="twitter:card" content="summary" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&display=swap" />
   </head>
-  <body class="p-0 m-0 max-w-screen">
-    <Header />
-    <main class="container mx-auto md:px-10">
-      <Hero />
-      <!--<WhatIDo />-->
-    </main>
-    <Footer />
+  <body style="margin:0">
+    <HomePage />
   </body>
 </html>

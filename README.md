@@ -1,20 +1,53 @@
-# domingoesteban.github.io
+# domingoesteban.com
 
-Personal website built with Astro.
+Personal website, built with [Astro](https://astro.build) as a static site and deployed to GitHub Pages on every push
+to `main` (`.github/workflows/astro.yml`).
 
-Requires Node.js 22.12 or newer and Bun 1.4.2. Use Bun with the committed lockfile:
+Requires Node.js 22.12 or newer and Bun 1.4.2:
 
 ```sh
 bun install --frozen-lockfile
-bun run dev
+bun run dev      # http://localhost:4321
+bun run check    # type and content check
+bun run build    # the site in dist/
 ```
 
-Before deploying, run `bun run check` and `bun run build`.
+## Editing content
 
-The typography plugin's selector parser is overridden to a patched release
-for GHSA-rj75-hqrm-r3gf until the plugin updates its dependency.
+| To change | Edit |
+| --- | --- |
+| Name, role, company, location, tagline, social links | `src/data/profile.ts` |
+| About text | `src/content/about.md` |
+| Jobs (Experience) and research areas | one Markdown file each in `src/content/experience/` and `src/content/research/` (`order:` sets the position) |
+| Notes | `src/content/notes/` (the section is hidden until there are real notes) |
+| Which sections the page has, their order, nav labels, robot skill per section | `PAGE` in `src/data/page.ts` |
+| A section's heading and layout | `src/components/home/sections/<Id>.astro` |
 
-Based on the upstream project: https://github.com/jramma/sorollaportfolio  
-Original author credit: Jose (`jramma`).
+The fields each Markdown file needs are in `src/content.config.ts`; a missing or misspelled one is reported with the
+file name.
 
-Upstream is released under the MIT License.
+To add a section, write `src/components/home/sections/Talks.astro`:
+
+```astro
+---
+import Section from '../Section.astro';
+---
+<Section id="talks" heading="Talks and teaching.">
+  <p>Text here.</p>
+</Section>
+```
+
+and add `{ id: 'talks', label: 'Talks', task: 'jump' }` to `PAGE` where it goes. `task` is the robot skill shown
+beside it: lift, poise, drill, sit, wave, walk, carry, jump or push. The nav, numbering and the robot's walks follow.
+
+## Structure
+
+- `src/pages/index.astro` the home page (the only published page)
+- `src/components/home/` its parts: nav, hero, sections, footer, the robot canvas
+- `src/lib/robot/` the animated robot (see its README)
+- `src/content/`, `src/data/` the content
+- `src/assets/old-site/` images, icons and a font from the previous site, kept for reuse
+- `src/pages/prototype/`, `src/components/prototype-styles/` design prototypes, served only by the dev server
+- `scripts/shots.mjs`, `scripts/compare.py` screenshot checks of the home page
+
+The site started from [jramma/sorollaportfolio](https://github.com/jramma/sorollaportfolio) (MIT, see `LICENSE`).
