@@ -217,16 +217,21 @@ export const drawFigure = (g: G, f: Frame, v: View, extras: Prop[] = []) => {
   paintParts(g, parts, COVERS, { style, project: pr, eye: v.eye, lw }, box);
 };
 
-// Draws through an offscreen layer so overlapping parts of a faint figure do not show through each other.
+// Draws through an offscreen layer so overlapping parts of a faint figure do not show through each other. The layer
+// only covers r: drawing on a layer that was just drawn makes the browser copy all of it, so keep layers small and
+// use one per figure.
 export const faded = (ctx: G, lctx: G, a: number, r: Rect, draw: (g: G) => void) => {
   if (a <= 0.004) return;
   if (a >= 0.996) { draw(ctx); return; }
   const { W, H, dpr } = layout;
   const x = max(0, floor(r.x)), y = max(0, floor(r.y)), w = min(W, ceil(r.x + r.w)) - x, h = min(H, ceil(r.y + r.h)) - y;
   if (w <= 0 || h <= 0) return;
+  const L = lctx.canvas, pw = ceil(w * dpr), ph = ceil(h * dpr);
+  if (L.width < pw || L.height < ph) { L.width = max(L.width, pw); L.height = max(L.height, ph); }
+  lctx.setTransform(dpr, 0, 0, dpr, -x * dpr, -y * dpr);
   lctx.clearRect(x, y, w, h);
   draw(lctx);
   ctx.globalAlpha = a;
-  ctx.drawImage(lctx.canvas, x * dpr, y * dpr, w * dpr, h * dpr, x, y, w, h);
+  ctx.drawImage(L, 0, 0, pw, ph, x, y, pw / dpr, ph / dpr);
   ctx.globalAlpha = 1;
 };

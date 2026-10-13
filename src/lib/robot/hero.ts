@@ -65,7 +65,10 @@ export const stepHero = (dt: number, c: number, time: number) => { for (const e 
 
 // Hero grid, collapsing into the selected tile as c goes 0 -> 1 (ce is c eased). sr is the stage rect.
 // Returns the rect the pointer can nudge.
-export function renderHero(g: G, lg: G, c: number, ce: number, sr: Rect): Rect {
+// One fade layer per tile: drawing a layer again in the same frame would make the browser copy it first.
+const layers = envs.map(() => document.createElement('canvas').getContext('2d')!);
+
+export function renderHero(g: G, c: number, ce: number, sr: Rect): Rect {
   const { heroFit, folFit, folRect, mobile } = layout;
   if (!heroFit) return sr;
   const sel = envs[SEL], tgt: Vec3 = [sel.gx + FOL_TARGET[0], FOL_TARGET[1], sel.gz + FOL_TARGET[2]];
@@ -105,7 +108,7 @@ export function renderHero(g: G, lg: G, c: number, ce: number, sr: Rect): Rect {
     const alpha = isSel ? 1 : others * (e.fallT >= 0 ? lerp(0.42, 1, e.p) * (1 - smooth(1.0, 1.6, e.fallT)) : lerp(0.42, 1, e.p));
     const xs = q.map(p => p[0]), ys = q.map(p => p[1]), tall = (max(...ys) - min(...ys)) * 2.2;
     const tileR: Rect = { x: min(...xs) - 12, y: min(...ys) - tall, w: max(...xs) - min(...xs) + 24, h: max(...ys) - min(...ys) + tall + 12 };
-    faded(g, lg, alpha, isSel ? grow(r, 0.3) : tileR, d => {
+    faded(g, layers[e.i], alpha, isSel ? grow(r, 0.3) : tileR, d => {
       drawProps(d, placed.props, v);
       drawFigure(d, placed.frame, v, placed.props);
       if (!isSel && placed.frame.push && placed.frame.push.strength > 0.05) {

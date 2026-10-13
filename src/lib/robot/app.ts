@@ -21,8 +21,6 @@ export function startRobot(root: HTMLElement) {
 
   const canvas = root.querySelector<HTMLCanvasElement>('.view')!;
   const ctx = canvas.getContext('2d')!;
-  const layer = document.createElement('canvas');
-  const lctx = layer.getContext('2d')!;
   const hero = root.querySelector<HTMLElement>('.hero')!;
   const stage = root.querySelector<HTMLElement>('.stage')!;
   const dock = root.querySelector<HTMLElement>('.dock')!;
@@ -39,9 +37,8 @@ export function startRobot(root: HTMLElement) {
     const L = layout, { A, B } = track;
     L.W = canvas.clientWidth; L.H = canvas.clientHeight; L.vh = innerHeight;
     L.dpr = min(2, devicePixelRatio || 1);
-    for (const c of [canvas, layer]) { c.width = Math.round(L.W * L.dpr); c.height = Math.round(L.H * L.dpr); }
+    canvas.width = Math.round(L.W * L.dpr); canvas.height = Math.round(L.H * L.dpr);
     ctx.setTransform(L.dpr, 0, 0, L.dpr, 0, 0);
-    lctx.setTransform(L.dpr, 0, 0, L.dpr, 0, 0);
     L.mobile = narrow.matches;
     L.navH = navEl.offsetHeight;
     const s = stage.getBoundingClientRect();
@@ -100,7 +97,7 @@ export function startRobot(root: HTMLElement) {
     const progress = clamp(scrollY / max(1, document.documentElement.scrollHeight - innerHeight));
     dockBar.style.transform = `scaleX(${progress.toFixed(4)})`;
     dock.style.setProperty('--c', String(clamp(c * 1.5)));
-    if (c < 1) figRect = renderHero(ctx, lctx, c, reduced ? c : ease(c), toRect(stage.getBoundingClientRect()));
+    if (c < 1) figRect = renderHero(ctx, c, reduced ? c : ease(c), toRect(stage.getBoundingClientRect()));
     else {
       figRect = renderFollower(ctx, layout.mobile ? dock.getBoundingClientRect() : null);
       if (layout.mobile && dockCap.textContent !== scene.cap) dockCap.textContent = scene.cap;
