@@ -35,7 +35,8 @@ import { profile } from '@/data/profile';
   .stage { height: min(500px, 58vh); width: 100%; }
 
   @media (max-width: 900px) {
-    .hero-in { grid-template-columns: 1fr; row-gap: 20px; min-height: calc(100svh - var(--nav)); padding-block: 36px 16px; align-content: space-between; }
+    /* As tall as its content: a full-screen hero leaves a gap between the text and the grid on tall screens. */
+    .hero-in { grid-template-columns: 1fr; row-gap: 20px; min-height: 0; padding-block: 36px 16px; }
     .kicker { margin-bottom: 18px; }
     .role { margin-top: 22px; font-size: 16px; }
     .hero-links { margin-top: 22px; }
