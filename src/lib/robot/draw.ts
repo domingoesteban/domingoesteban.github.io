@@ -58,7 +58,7 @@ const cornersOf = (c: number[], ax: number[][]) => {
 // Colors per prop kind. The objects the robot handles, sits on or jumps over (boxes, the block, the obstacle) take the
 // object color; furniture and tools are drawn in ink, with its strength per kind.
 const OBJECTS: PropKind[] = ['block', 'obstacle'];
-const PROP_INK: Partial<Record<PropKind, number>> = { table: 0.62, plank: 0.62, tool: 0.86 };
+const PROP_INK: Partial<Record<PropKind, number>> = { table: 0.62, leg: 0.62, plank: 0.62, tool: 0.86 };
 // Box with all six faces painted back to front, so its visible edges read as a solid.
 const boxFaces = (g: G, q: number[][], kind: PropKind) => {
   const faces = BOX_FACES.map(fc => ({ fc, z: fc.reduce((s, i) => s + q[i][2], 0) / 4 })).sort((a, b) => b.z - a.z);
@@ -70,13 +70,17 @@ const boxFaces = (g: G, q: number[][], kind: PropKind) => {
   }
 };
 
-// Tools and loose crates are drawn by drawFigure when they are the robot's (all = false skips them).
+// Tools, the table (top, legs and what lies on it) and loose crates are drawn by drawFigure when they are the robot's
+// (all = false skips them), so they go in front of or behind its limbs.
 const isCrate = (p: Prop) => !!(p as Prop & { crate?: boolean }).crate;
-const withFigure = (p: Prop) => p.kind === 'tool' || isCrate(p);
+const onTop = (p: Prop) => p.kind === 'plank' || p.kind === 'hole';
+const withFigure = (p: Prop) => p.kind === 'tool' || p.kind === 'table' || p.kind === 'leg' || onTop(p) || isCrate(p);
 export const drawProps = (g: G, props: Prop[], v: View, alpha = 1, all = false) => {
   const lw = clamp(v.focal / v.cam.dist / 240, 0.7, 1.1);
   const list = props.filter(p => all || !withFigure(p)).map(p => ({ p, q: cornersOf(p.c, p.ax).map(x => P(v, x)) }));
-  list.sort((a, b) => (b.p.kind === 'table' ? 1 : 0) - (a.p.kind === 'table' ? 1 : 0) || b.q.reduce((s, x) => s + x[2], 0) - a.q.reduce((s, x) => s + x[2], 0));
+  // Tabletops first, then far to near, and holes last: they are marks on the plank's surface.
+  const rank = (p: Prop) => (p.kind === 'table' ? 0 : p.kind === 'hole' ? 2 : 1);
+  list.sort((a, b) => rank(a.p) - rank(b.p) || b.q.reduce((s, x) => s + x[2], 0) - a.q.reduce((s, x) => s + x[2], 0));
   for (const { p, q } of list) {
     const a = alpha * (p.alpha ?? 1);
     if (a < 0.01) continue;
@@ -109,7 +113,8 @@ const COVERS: [string, string][] = [
 ];
 
 // The figure as parts (see paint.ts for how they are ordered). extras: the props of the robot's own section; its
-// tools are held, and a loose crate hides the parts behind it like the held box does.
+// tools are held, its table legs are ordered with the limbs by depth, and a loose crate or the tabletop hides the
+// parts behind it like the held box does.
 export const drawFigure = (g: G, f: Frame, v: View, extras: Prop[] = []) => {
   const J = f.joints, parts: Part[] = [];
   const mid = (pts: number[][]) => pts.reduce((s, p) => addv(s, p, 1 / pts.length), [0, 0, 0]);
@@ -199,13 +204,19 @@ export const drawFigure = (g: G, f: Frame, v: View, extras: Prop[] = []) => {
     gg.restore();
   });
 
+  for (const t of extras.filter(p => p.kind === 'leg')) {
+    const q = cornersOf(t.c, t.ax).map(pr), h = hull(q);
+    parts.push({ name: 'leg', z: pr(t.c)[2], at: t.c, bounds: bbox(h), outline: gg => polygonPath(gg, h), custom: gg => { gg.lineWidth = lw; boxFaces(gg, q, 'leg'); } });
+  }
   for (const t of extras.filter(p => p.kind === 'tool')) {
     const q = cornersOf(t.c, t.ax).map(pr), h = hull(q);
     parts.push({ name: 'tool', z: pr(t.c)[2], at: t.c, bounds: bbox(h), outline: gg => polygonPath(gg, h), custom: gg => { gg.lineWidth = lw; boxFaces(gg, q, 'tool'); } });
   }
 
-  // The box: the one in the frame (held, or about to be) or else a loose crate of the robot's section.
+  // The box that hides the parts behind it: the one in the frame (held, or about to be), else a loose crate of the
+  // robot's section, else its tabletop, painted with what lies on it (plank, holes).
   const fb = f.box && (f.box.alpha ?? 1) > 0.05 ? f.box : null, crate = extras.find(isCrate);
+  const table = extras.find(p => p.kind === 'table'), onTable = extras.filter(onTop);
   let box: Box | null = null;
   const boxOf = (c: number[], ax: number[][], a: number): Box => {
     const q = cornersOf(c, ax).map(pr);
@@ -215,6 +226,12 @@ export const drawFigure = (g: G, f: Frame, v: View, extras: Prop[] = []) => {
     const { center, size, yaw } = fb, cy = cos(yaw), sy = sin(yaw);
     box = boxOf(center, [[(size[0] / 2) * cy, 0, (-size[0] / 2) * sy], [0, size[1] / 2, 0], [(size[2] / 2) * sy, 0, (size[2] / 2) * cy]], fb.alpha ?? 1);
   } else if (crate) box = boxOf(crate.c, crate.ax, crate.alpha ?? 1);
+  else if (table) {
+    const surface = [table, ...onTable];
+    box = { c: table.c, ax: table.ax, outline: hull(surface.flatMap(p => cornersOf(p.c, p.ax)).map(pr)), paint: gg => drawProps(gg, surface, v, 1, true) };
+  }
+  // A table that is not the box (the robot holds one) stays behind the figure.
+  if (table && box?.c !== table.c) drawProps(g, [table, ...onTable], v, 1, true);
 
   paintParts(g, parts, COVERS, { style, project: pr, eye: v.eye, lw }, box);
 };

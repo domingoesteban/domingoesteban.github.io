@@ -12,7 +12,7 @@ const add = (a: V, b: V): V => a.map((v, i) => v + b[i]);
 const mix = (a: V, b: V, w: number): V => a.map((v, i) => v + (b[i] - v) * w);
 
 // Props are oriented boxes: center and three half-extent vectors.
-export type PropKind = 'block' | 'table' | 'plank' | 'tool' | 'hole' | 'obstacle';
+export type PropKind = 'block' | 'table' | 'leg' | 'plank' | 'tool' | 'hole' | 'obstacle';
 export interface Prop { kind: PropKind; c: Vec3; ax: [Vec3, Vec3, Vec3]; alpha?: number }
 const boxProp = (kind: PropKind, c: V, size: V, alpha?: number): Prop =>
   ({ kind, c: c as Vec3, ax: [[size[0] / 2, 0, 0], [0, size[1] / 2, 0], [0, 0, size[2] / 2]], alpha });
@@ -153,7 +153,8 @@ const sitKeys = keyed(SIT_DURATION, [[0, sStand], [0.5, sStand], [1.0, sLook], [
 export const sitSpec = (t: number) => sitKeys(mod(t, SIT_DURATION));
 export const sitBlock = (alpha?: number) => boxProp('block', [BLOCK.x, BLOCK.size[1] / 2, 0], BLOCK.size, alpha);
 
-// Drill at a table: grip the parked drill, turn it bit-down over a plank, press two holes with both hands, park it.
+// Drill at a table: grip the parked drill, turn it bit-down over a plank, press into its two holes with both hands,
+// park it. The holes are always there, so it reads as drilling or as driving screws.
 export const TABLE = { x: 0.5, top: 0.74, size: [0.44, 0.04, 0.9] as Vec3 };
 export const DRILL_DURATION = 10;
 const PLANK_Y = TABLE.top + 0.03, HOLES = [[0.45, 0.04], [0.45, -0.1]], PARK = [0.42, TABLE.top + 0.185, 0.3];
@@ -184,12 +185,11 @@ export function drillScene(t: number): { spec: Spec; props: Prop[]; buzz: number
   s.rh = mix(s.rh, [0.12, -0.42, 0.06], wr);
   s.lh = mix(s.lh, [0.1, -0.44, -0.06], wl);
   if (buzz > 0) { s.cr = add(s.cr, [0, 0.006 * buzz * sin(t * 140), 0]); s.p = add(s.p, [0, -0.012 * buzz, 0]); }
-  const holeA = (k: number) => smooth(3.4 + k * 2, 3.8 + k * 2, t) * (1 - smooth(9.2, 9.9, t));
   const props: Prop[] = [
     boxProp('table', [TABLE.x, TABLE.top - TABLE.size[1] / 2, 0], TABLE.size),
-    ...[-1, 1].flatMap(i => [-1, 1].map(j => boxProp('table', [TABLE.x + i * 0.18, (TABLE.top - 0.04) / 2, j * 0.4], [0.035, TABLE.top - 0.04, 0.035]))),
+    ...[-1, 1].flatMap(i => [-1, 1].map(j => boxProp('leg', [TABLE.x + i * 0.18, (TABLE.top - 0.04) / 2, j * 0.4], [0.035, TABLE.top - 0.04, 0.035]))),
     boxProp('plank', [HOLES[0][0], TABLE.top + 0.015, -0.03], [0.16, 0.03, 0.56]),
-    ...HOLES.map(([x, z], k) => boxProp('hole', [x, PLANK_Y + 0.001, z], [0.018, 0.002, 0.018], holeA(k))),
+    ...HOLES.map(([x, z]) => boxProp('hole', [x, PLANK_Y + 0.001, z], [0.018, 0.002, 0.018])),
     tool(at(-0.12, 0), 0.085, 0.035, 0.03),
     tool(at(-0.02, 0), 0.03, 0.022, 0.022),
     tool(at(-0.18, -0.09), 0.022, 0.06, 0.022),
