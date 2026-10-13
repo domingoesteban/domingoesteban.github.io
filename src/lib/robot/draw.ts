@@ -43,6 +43,8 @@ const roundPolyPath = (g: G, q: number[][], r: number) => {
   g.closePath();
 };
 export const roundPoly = (g: G, q: number[][], r: number) => { g.beginPath(); roundPolyPath(g, q, r); };
+// Screen bounding box [x0, y0, x1, y1] of points, grown by r.
+const bbox = (pts: number[][], r = 0) => [min(...pts.map(p => p[0])) - r, min(...pts.map(p => p[1])) - r, max(...pts.map(p => p[0])) + r, max(...pts.map(p => p[1])) + r];
 // Adds a closed polygon to the current path.
 const polygonPath = (g: G, q: number[][]) => { q.forEach(([x, y], i) => (i ? g.lineTo(x, y) : g.moveTo(x, y))); g.closePath(); };
 export const polyline = (g: G, pts: number[][]) => { g.beginPath(); pts.forEach(([x, y], i) => (i ? g.lineTo(x, y) : g.moveTo(x, y))); g.stroke(); };
@@ -117,15 +119,15 @@ export const drawFigure = (g: G, f: Frame, v: View, extras: Prop[] = []) => {
   const style = (gg: G) => { gg.strokeStyle = col(pal.ink, 0.86); gg.fillStyle = col(pal.bg); gg.lineWidth = lw; };
   const solid = (name: string, pts: number[][], corner: number, z: number, extra?: (g: G) => void) => {
     const q = hull(pts.map(pr));
-    parts.push({ name, z, at: mid(pts), outline: gg => roundPolyPath(gg, q, rad(corner, z)), extra });
+    parts.push({ name, z, at: mid(pts), bounds: bbox(q), outline: gg => roundPolyPath(gg, q, rad(corner, z)), extra });
   };
   const ball = (name: string, c0: number[], r: number) => {
     const Q = pr(c0), R = rad(r, Q[2]);
-    parts.push({ name, z: Q[2], at: c0, outline: gg => { gg.moveTo(Q[0] + R, Q[1]); gg.arc(Q[0], Q[1], R, 0, TAU); } });
+    parts.push({ name, z: Q[2], at: c0, bounds: bbox([Q], R), outline: gg => { gg.moveTo(Q[0] + R, Q[1]); gg.arc(Q[0], Q[1], R, 0, TAU); } });
   };
   const tube = (name: string, a: number[], b: number[], ra: number, rb: number) => {
     const Aq = pr(a), Bq = pr(b), rA = rad(ra, Aq[2]), rB = rad(rb, Bq[2]);
-    parts.push({ name, z: (Aq[2] + Bq[2]) / 2, at: mid([a, b]), axis: [a, b, max(rA, rB)], outline: gg => capsulePath(gg, Aq, Bq, rA, rB) });
+    parts.push({ name, z: (Aq[2] + Bq[2]) / 2, at: mid([a, b]), axis: [a, b, max(rA, rB)], bounds: bbox([Aq, Bq], max(rA, rB)), outline: gg => capsulePath(gg, Aq, Bq, rA, rB) });
   };
   const corners = (lo: number[], hi: number[]) => {
     const out: number[][] = [];
@@ -153,7 +155,7 @@ export const drawFigure = (g: G, f: Frame, v: View, extras: Prop[] = []) => {
     ];
     for (const [name, A, B, wa, wb, ea, eb] of links) {
       const pts = link(A, B, n, wa, wb, ea, eb), q = pts.map(pr), z = q.reduce((a, p) => a + p[2], 0) / q.length, h = hull(q);
-      parts.push({ name, z, at: mid(pts), axis: [A, B, rad(wa[0], z)], outline: gg => roundPolyPath(gg, h, rad(0.008, z)), extra: gg => {
+      parts.push({ name, z, at: mid(pts), axis: [A, B, rad(wa[0], z)], bounds: bbox(h), outline: gg => roundPolyPath(gg, h, rad(0.008, z)), extra: gg => {
         let best = 0, bz = 1e9;
         for (let e = 0; e < 4; e++) { const m = (q[e][2] + q[e + 4][2]) / 2; if (m < bz) { bz = m; best = e; } }
         gg.strokeStyle = col(pal.ink, 0.28); gg.beginPath(); gg.moveTo(q[best][0], q[best][1]); gg.lineTo(q[best + 4][0], q[best + 4][1]); gg.stroke();
@@ -199,7 +201,7 @@ export const drawFigure = (g: G, f: Frame, v: View, extras: Prop[] = []) => {
 
   for (const t of extras.filter(p => p.kind === 'tool')) {
     const q = cornersOf(t.c, t.ax).map(pr), h = hull(q);
-    parts.push({ name: 'tool', z: pr(t.c)[2], at: t.c, outline: gg => polygonPath(gg, h), custom: gg => { gg.lineWidth = lw; boxFaces(gg, q, 'tool'); } });
+    parts.push({ name: 'tool', z: pr(t.c)[2], at: t.c, bounds: bbox(h), outline: gg => polygonPath(gg, h), custom: gg => { gg.lineWidth = lw; boxFaces(gg, q, 'tool'); } });
   }
 
   // The box: the one in the frame (held, or about to be) or else a loose crate of the robot's section.

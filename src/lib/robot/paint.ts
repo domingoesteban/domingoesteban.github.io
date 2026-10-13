@@ -15,6 +15,7 @@ export type Part = {
   name: string; // for covers ('lThigh', 'torso', ...); names need not be unique
   z: number; // depth, larger is farther
   at: number[]; // world point that decides its side of the box
+  bounds: number[]; // screen box [x0, y0, x1, y1] that contains the outline
   axis?: [number[], number[], number]; // a limb: world axis ends and its half width in pixels, so it can be cut
   outline: (g: G) => void; // adds the part's screen silhouette to the current path
   extra?: (g: G) => void; // details painted after the fill and stroke (seams, visor), with the outline as path
@@ -39,7 +40,6 @@ export const beforeBox = (p: number[], { c, ax }: Pick<Box, 'c' | 'ax'>, eye: nu
   return deepest <= 1 && front;
 };
 
-const BIG = 1e5;
 const polygon = (g: G, q: number[][]) => { q.forEach(([x, y], k) => (k ? g.lineTo(x, y) : g.moveTo(x, y))); g.closePath(); };
 
 export function paintParts(g: G, parts: Part[], covers: [string, string][], look: Look, box: Box | null) {
@@ -50,12 +50,14 @@ export function paintParts(g: G, parts: Part[], covers: [string, string][], look
     if (p.custom) return p.custom(g);
     style(g); g.beginPath(); p.outline(g); g.fill(); g.stroke(); p.extra?.(g);
   };
-  // A part painted without its coverers' areas, then their outlines redrawn over it (the clip halves them).
+  // A part painted without its coverers' areas, then their outlines redrawn over it (the clip halves them). The
+  // inverted clip is bounded by the part's own box (grown by the line width): canvas clips cost about their area.
   const paint = (p: Part) => {
     const top = over(p);
     if (!top.length) return fill(p);
     g.save();
-    for (const q of top) { g.beginPath(); g.rect(-BIG, -BIG, 2 * BIG, 2 * BIG); q.outline(g); g.clip('evenodd'); }
+    const [x0, y0, x1, y1] = p.bounds, m = 2 * lw;
+    for (const q of top) { g.beginPath(); g.rect(x0 - m, y0 - m, x1 - x0 + 2 * m, y1 - y0 + 2 * m); q.outline(g); g.clip('evenodd'); }
     fill(p);
     g.restore();
     g.save(); g.beginPath(); p.outline(g); g.clip();
