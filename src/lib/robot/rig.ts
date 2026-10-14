@@ -21,7 +21,7 @@ export const SKILLS: Skill[] = ['stand', 'walk', 'getup', 'carry', 'lift', 'push
 export const DURATION: Record<Skill, number> = { stand: 6, walk: 2.2, getup: 12, carry: 2.4, lift: 9, push: 8, kick: 6, balance: 10, reach: 8 };
 const SPEED: Partial<Record<Skill, number>> = { walk: 0.8, carry: 0.6 };
 export const BALL_RADIUS = 0.11;
-export const BOX_SIZE: Vec3 = [0.28, 0.34, 0.34];
+export const BOX_SIZE: Vec3 = [0.34, 0.44, 0.36];
 
 const SPINE = 0.28, UPPER = 0.2, NECK = 0.17, SHOULDER = 0.19, HIP = 0.1;
 const ARM = [0.28, 0.26], LEG = [0.4, 0.39], ANKLE = 0.07, HEEL = -0.06, TOE = 0.15;
@@ -243,7 +243,8 @@ const stepUp = tweak(rise, { p: [-0.06, 0.8, -0.05], pr: [0, 0.15, 0], rf: [-0.3
 const upright = tweak(S0, { p: [-0.02, 0.845, -0.005], lf: sit.lf, rf: [-0.02, 0.12, 0, 0, -0.06] });
 
 // lift: squat with a straight back, grip, stand with the box at the chest, turn, put it down, release.
-const BOX_REST = [0.42, 0.17, 0];
+// The box rests where the lift picks it up and puts it down.
+export const BOX_REST = [0.36, BOX_SIZE[1] / 2, 0];
 const lift0 = tweak(S0, { lf: [0.04, -0.2, 0, 0, 0.28], rf: [0.04, 0.2, 0, 0, -0.28], hd: [0, 0.35, 0], box: [...BOX_REST, 0, 0, 0] });
 const squat = tweak(lift0, { p: [-0.08, 0.46, 0], pr: [0, 0.8, 0], cr: [0, 0.15, 0], hd: [0, -0.5, 0], lh: [0.3, -0.38, -0.1], rh: [0.3, -0.38, 0.1] });
 const grab = tweak(squat, { box: [...BOX_REST, 0, 0, 1] });

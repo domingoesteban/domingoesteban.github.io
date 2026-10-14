@@ -1,6 +1,6 @@
 // Tasks: every skill the robot can show, as a scene (spec + props in the task frame) per clock time. Each one can be
 // a hero tile and a section of the page (story.ts).
-import { pose, pushAt, solve, skillSpec, BOX_SIZE, type Frame, type Spec, type Vec3 } from './rig';
+import { pose, pushAt, solve, skillSpec, BOX_REST, BOX_SIZE, type Frame, type Spec, type Vec3 } from './rig';
 import { drillScene, mixSpec, moveScene, place, poiseSpec, sitBlock, sitSpec, waveSpec, MOVE_DURATION, DRILL_DURATION, POISE_DURATION, SIT_DURATION, WAVE_DURATION, type Prop } from './skills';
 import { addv, clamp, mod, smooth } from './math';
 
@@ -24,13 +24,14 @@ type Task = {
   // page load when it is the first section.
   caption: string; heading: number; still: number; leave?: number; rewind?: number; start?: number;
   room?: boolean; // a box put down in front of the robot (BOX_REST) is out of its way: no props, path or feet there
+  seat?: boolean; // sits on the box: one carried in is put down, then the robot turns around and sits on it
 };
 
 export const TASK: Record<TaskName, Task> = {
   lift: { D: 9, scene: t => ({ spec: skillSpec('lift', t), props: [] }), risk: [3.1], caption: '', heading: -0.45, still: 3.75, leave: LIFT.up[1], rewind: 5, start: 1.2, room: true },
   poise: { D: POISE_DURATION, scene: t => ({ spec: poiseSpec(t), props: [] }), risk: [2.7, 5.7], caption: '', heading: 0.25, still: 3.2, room: true },
   drill: { D: DRILL_DURATION, scene: t => drillScene(t), risk: [3.5], caption: '', heading: 2.0, still: 5.4 },
-  sit: { D: SIT_DURATION, scene: t => ({ spec: sitSpec(t), props: [sitBlock()] }), risk: [3.2, 5.8], caption: '', heading: 1.7, still: 4.3, room: true },
+  sit: { D: SIT_DURATION, scene: t => ({ spec: sitSpec(t), props: [sitBlock()] }), risk: [3.2, 5.8], caption: '', heading: 1.7, still: 4.3, room: true, seat: true },
   wave: { D: WAVE_DURATION, scene: t => ({ spec: waveSpec(t), props: [] }), risk: [1.6], caption: '', heading: 0.55, still: 2.2, room: true },
   walk: { D: MOVE_DURATION.walkturn, scene: t => moveScene('walkturn', t), risk: [1.3, 3.9], caption: '', heading: 0.3, still: 1.2 },
   carry: { D: MOVE_DURATION.carryturn, scene: t => moveScene('carryturn', t), risk: [2.7, 6.3], caption: '', heading: 0.4, still: 1.2 },
@@ -72,7 +73,6 @@ export const stepMix = (a: Spec, b: Spec, w: number): Spec => {
 };
 
 // The lift box resting where the lift puts it down (spec.box with hold = 0, grip = 0).
-export const BOX_REST = [0.42, 0.17, 0];
 export const withBox = (s: Spec): Spec => ({ ...s, box: [BOX_REST[0], BOX_REST[1], BOX_REST[2], 0, 0, 0] });
 // A box neither held nor gripped rests on its own: it is drawn as a prop where it lies. While the hands still grip
 // it (about to lift it, or just put it down) it stays in the spec, so the arms keep reaching for it.

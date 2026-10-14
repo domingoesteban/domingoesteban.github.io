@@ -1,8 +1,8 @@
 // Scroll-driven locomotion. The page position g is k at section k and k + s inside the transition band after it.
 // A damped follower chases g; the robot walks (or runs, if the reader scrolls fast) between sections, plays the
 // transition of each band (story.ts) and runs the task clock of the section it is parked at.
-import { blend, type Frame, type Spec } from './rig';
-import { gaitSpec, standSpec, strideFor, dutyFor, jumpSpec, JUMP, jumpObstacle, mixSpec, place, type Prop } from './skills';
+import { blend, BOX_REST, type Frame, type Spec } from './rig';
+import { gaitSpec, standSpec, strideFor, dutyFor, jumpSpec, JUMP, jumpObstacle, mixSpec, place, BLOCK, type Prop } from './skills';
 import { TASK, LIE, stepMix, withBox, crate, loose, solveScene, type Scene } from './tasks';
 import { SECTIONS, TRANSITIONS } from './story';
 import { HR, HL, P, folView, layout, type Rect } from './camera';
@@ -11,20 +11,36 @@ import { arrow, caption, drawNet, groundLine, ring, stepNet } from './overlay';
 import { pal, col } from './palette';
 import { addv, clamp, follow, lerp, mod, smooth, stepSpring, toLocal, wrapA, type Spring } from './math';
 
-const { min, max, abs, sin, cos, floor, sign } = Math;
+const { min, max, abs, sin, cos, floor, sign, PI } = Math;
 const N = SECTIONS.length, LAST = N - 1;
 
 // Section x positions (m) along the walk, and the scroll range [A, B] (px) of each band. app.ts fills it on resize.
 export const track = { X: SECTIONS.map(() => 0), A: TRANSITIONS.map(() => 0), B: TRANSITIONS.map(() => 0), xLeft: 0 };
 
 // Section clocks: [0, I) plays the intro, then the task loops with length L.
-const I = SECTIONS.map(s => (s.intro ? s.intro.to - s.intro.from + s.intro.mix : 0));
+const I = SECTIONS.map(s => (s.intro ? s.intro.to - s.intro.from + s.intro.mix + (s.intro.turn ?? 0) : 0));
 const L = SECTIONS.map(s => TASK[s.robot].D);
 export const clocks = SECTIONS.map(s => s.start ?? 0);
+
+// A box carried to a task that sits is its seat: the clip puts it down facing back (root yaw PI, so BOX_REST lands on
+// BLOCK), then a stepping turn brings the robot round to sit on it. The box stays where it was put down.
+const SEAT = [crate([BLOCK.x, BOX_REST[1], 0])];
+const seatScene = (k: number, t: number): Scene => {
+  const intro = SECTIONS[k].intro!, own = TASK[SECTIONS[k].robot].scene, clip = intro.to - intro.from, m = clip + intro.mix;
+  if (t >= I[k]) return { ...own(t - I[k]), props: [], world: SEAT };
+  const u = clamp((t - m) / intro.turn!);
+  let spec = t < clip ? TASK[intro.task].scene(intro.from + t).spec
+    : t < m ? stepMix(TASK[intro.task].scene(intro.to).spec, own(0).spec, (t - clip) / intro.mix)
+    : mixSpec(own(0).spec, gaitSpec(2 * u, { stride: 0.16, lift: 0.7 }), sin(PI * u) ** 0.5);
+  const down = !spec.box || loose(spec.box);
+  if (down) { spec = { ...spec }; delete spec.box; }
+  return { spec, props: [], world: down ? SEAT : [], root: [0, 0, PI * (1 - smooth(0, 1, u))] };
+};
 
 export const secScene = (k: number, t: number): Scene => {
   const { robot, intro } = SECTIONS[k], own = TASK[robot].scene;
   if (!intro) return own(t);
+  if (intro.turn) return seatScene(k, t);
   const clip = intro.to - intro.from, box = (s: Spec) => (intro.keepBox ? withBox(s) : s);
   if (t < clip) return TASK[intro.task].scene(intro.from + t);
   if (t < I[k]) return { spec: box(stepMix(TASK[intro.task].scene(intro.to).spec, own(0).spec, (t - clip) / intro.mix)), props: [] };
@@ -66,6 +82,7 @@ const LAG = 0.3; // how far (in bands) the robot may trail the scroll
 export const F = {
   g: 0, gv: 0, theta: SECTIONS[0].heading, phase: 0, run: 0, amp: 0, stride: 0.5, wTask: 1, task: 0, dir: 1, v: 0,
   lastX: 0, lastSeg: '', lastS: 0, jumpDir: 0, jw: 0, pz: 0, pv: 0, pushT: -9, pushA: 0, offL: 0, offR: 0, out: 1, late: false,
+  ra: 0, raK: 0, // the task's own turn (root yaw) last frame, and its section
   sp: { x: 0, z: 0, vx: 0, vz: 0 } as Spring, snapFrom: null as Frame | null, snapT: 9, frame: LIE,
 };
 // What render draws: the robot at x (m), props of nearby sections, the caption, and band k at progress s.
@@ -142,7 +159,7 @@ export function update(dt: number, time: number, c: number) {
     if (F.wTask > 0.05) snap();
   }
   const sec = SECTIONS[F.task];
-  const thetaT = parked >= 0 && speed < 0.12 && !seg.g.jump ? SECTIONS[parked].heading : travel;
+  const thetaT = parked >= 0 && speed < 0.12 && !seg.g.jump ? SECTIONS[parked].heading : travel - F.ra;
   const dTh = reduced ? wrapA(thetaT - F.theta) : clamp(wrapA(thetaT - F.theta), -4.2 * dt, 4.2 * dt);
   F.theta = wrapA(F.theta + dTh);
   const settled = parked >= 0 && speed < 0.15 && abs(wrapA(F.theta - SECTIONS[parked].heading)) < 0.3;
@@ -188,6 +205,10 @@ export function update(dt: number, time: number, c: number) {
   stepSpring(F.sp, dt);
   const hand = toLocal(F.sp.x, F.sp.z, F.theta);
   const [rx, rz, ra] = atSection(j, tsc).root;
+  // The robot faces theta plus its task's own turn ra. Walking, or as the task changes, theta takes up any change of
+  // ra so the robot does not flip; parked at its section, the task turns it.
+  if (parked !== j || F.raK !== j) F.theta = wrapA(F.theta + F.ra - ra);
+  F.ra = ra; F.raK = j;
   let frame = place(place(solveScene({ ...tsc, spec, push: tsc.push && { ...tsc.push, strength: tsc.push.strength * F.wTask } }, [hand[0] + F.pz, 0, hand[2]]), [], ra, rx, rz).frame, [], F.theta, 0, 0).frame;
   F.snapT += dt;
   if (F.snapFrom && F.snapT < 0.35) frame = blend(F.snapFrom, frame, smooth(0, 0.35, F.snapT));

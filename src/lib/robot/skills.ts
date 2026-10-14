@@ -3,7 +3,7 @@
 // drilling at a table, a one-foot balance that keeps the whole-body CoM over the stance foot, and a wave.
 // Same conventions as the rig: meters, y up, faces +x, its left is -z, ground y = 0.
 // Forked from prototype-styles/humanoid-extra.ts.
-import { solve, base, tweak, keyed, pchip, skillSpec, hermite, type Spec, type Frame, type Vec3, type JointName } from './rig';
+import { solve, base, tweak, keyed, pchip, skillSpec, hermite, BOX_REST, BOX_SIZE, type Spec, type Frame, type Vec3, type JointName } from './rig';
 import { clamp, lerp, smooth, mod } from './math';
 
 type V = number[];
@@ -137,8 +137,9 @@ export const jumpSpec = (u: number) => jumpTrack(clamp(u));
 export const jumpObstacle = (x0 = 0, alpha?: number) =>
   boxProp('obstacle', [x0 + JUMP.obstacle.x, JUMP.obstacle.height / 2, 0], [JUMP.obstacle.depth, JUMP.obstacle.height, JUMP.obstacle.width], alpha);
 
-// Sit down on a block behind the robot and stand up, hinging at the hips so the CoM stays over the feet.
-export const BLOCK = { x: -0.3, size: [0.34, 0.44, 0.36] as Vec3 };
+// Sit down on a block behind the robot and stand up, hinging at the hips so the CoM stays over the feet. The block is
+// the lift box where the lift puts it down, seen from behind: a robot can put the box down, turn around and sit on it.
+export const BLOCK = { x: -BOX_REST[0], size: BOX_SIZE };
 const sFeet = { lf: [0.04, -0.12, 0, 0, 0.08], rf: [0.04, 0.12, 0, 0, -0.08] };
 const sStand = tweak(base(), { ...sFeet, hd: [0, 0.04, 0] });
 const sLook = tweak(sStand, { hd: [0.5, -0.1, 0], cr: [0.12, 0.02, 0] });
