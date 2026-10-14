@@ -9,4 +9,6 @@ export default defineConfig({
   // Preserve Astro 6 spacing between inline elements after the v7 upgrade.
   compressHTML: true,
   integrations: [sitemap()],
+  // Pages of the old site, so links to them still land on the home page.
+  redirects: { '/about': '/', '/blog': '/' },
 });
