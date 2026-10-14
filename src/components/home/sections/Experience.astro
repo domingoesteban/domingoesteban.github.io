@@ -23,13 +23,13 @@ const roles = await Promise.all(entries.map(async e => ({ ...e.data, Summary: (a
 <style>
   .tl { border-top: 1px solid var(--line-2); }
   .tl-row { display: grid; grid-template-columns: 112px minmax(0, 1fr); padding: 24px 0 26px; border-bottom: 1px solid var(--line); }
-  .period { color: var(--muted); font-size: 10.5px; padding-top: 4px; }
+  .period { color: var(--muted); padding-top: 4px; }
   .now .period { color: var(--accent); }
-  .org { margin-top: 4px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; font-size: 15px; }
-  .org a { color: var(--ink); opacity: .82; border-bottom: 1px solid var(--line-2); transition: color .2s, border-color .2s; }
-  .org a:hover { color: var(--accent); border-color: currentColor; opacity: 1; }
-  .org .mono { color: var(--muted); font-size: 10px; }
-  .tl-sum { margin-top: 10px; font-size: 15px; line-height: 1.62; }
+  .org { margin-top: 4px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+  .org a { color: var(--body); border-bottom: 1px solid var(--line-2); transition: color .2s, border-color .2s; }
+  .org a:hover { color: var(--accent); border-color: currentColor; }
+  .org .mono { color: var(--muted); }
+  .tl-sum { margin-top: 10px; line-height: 1.62; }
 
   @media (max-width: 900px) {
     .tl-row { grid-template-columns: 1fr; }

@@ -1,4 +1,4 @@
-// DOM wiring of the robot: layout on resize, the animation loop, pointer nudges and reduced motion.
+// DOM wiring of the robot: layout on resize, the animation loop, pointer nudges, reduced motion and theme changes.
 // It reads these elements inside the page root: .view (fixed canvas), .dock / .dock-fig / .dock-cap / .dock-bar i
 // (mobile dock), .nav, .hero, .stage (hero grid area), main.wrap (text columns) and .band (one per transition).
 import { HERO, SECTIONS, TRANSITIONS } from './story';
@@ -139,6 +139,8 @@ export function startRobot(root: HTMLElement) {
   for (const e of envs) { e.p = reduced ? 1 : 0; stepEnv(e, 0, 0, 0); }
   addEventListener('resize', () => { resize(); if (reduced) still(); });
   narrow.addEventListener('change', () => { resize(); if (reduced) still(); });
+  // A theme switch (data-theme on <html>) changes the CSS colors: read them again.
+  new MutationObserver(() => { readPalette(root); if (reduced) still(); }).observe(document.documentElement, { attributeFilter: ['data-theme'] });
   document.fonts?.ready.then(() => { resize(); if (reduced) still(); });
   if (reduced) {
     // Every tile frozen at a converged mid-task pose; the page redraws on scroll only.

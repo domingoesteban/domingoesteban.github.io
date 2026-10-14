@@ -32,13 +32,14 @@ To add a section, write `src/components/home/sections/Talks.astro`:
 ---
 import Section from '../Section.astro';
 ---
-<Section id="talks" heading="Talks and teaching.">
+<Section id="talks" heading="Talks and *teaching*.">
   <p>Text here.</p>
 </Section>
 ```
 
 and add `{ id: 'talks', label: 'Talks', task: 'jump' }` to `PAGE` where it goes. `task` is the robot skill shown
 beside it: lift, poise, drill, sit, wave, walk, carry, jump or push. The nav, numbering and the robot's walks follow.
+The words between stars in the heading are shown in blue: mark the key idea, usually one word.
 
 ## Structure
 

@@ -1,15 +1,19 @@
 /* Home page: design tokens and base styles, all under the .home root. Component styles live in each component.
    Base rules use :where() so any component rule overrides them. The robot canvas reads --bg, --ink, --muted,
-   --line-2, --accent, --object, --object-fill, --mono and --colgap from here. */
+   --line-2, --accent, --object, --object-fill, --mono and --colgap from here.
+   Text tones, darkest first: --ink (h1, h2), --ink-2 (other dark text), --body, --muted (labels).
+   The dark theme (data-theme="dark" on <html>, set by the toggle in Nav.astro) only changes the colors. */
 
 .home {
   --bg: #fbfbfa;
   --ink: #1f2636;
-  --body: #545e6e;
-  --muted: #8a92a0;
+  --ink-2: #444e60;
+  --body: #5a6476;
+  --muted: #6b7381;
   --line: #ebedf0;
   --line-2: #dcdfe5;
   --accent: #2b5be6;
+  --accent-2: #4f6fd8; /* the marked word in a heading */
   --object: #b8742a; /* boxes the robot handles, sits on or jumps over */
   --object-fill: #f6ebdc;
   --sans: 'Geist', 'Helvetica Neue', Arial, sans-serif;
@@ -19,12 +23,20 @@
   --gut: clamp(16px, 4vw, 56px);
   --colgap: 64px;
   --nav: 64px;
+  /* Type scale. */
+  --fs-label: 11px;
+  --fs-small: 14px;
+  --fs-body: 15px;
+  --fs-large: 18px;
+  --fs-lead: clamp(19px, 1.6vw, 22px);
+  --fs-h2: clamp(30px, 2.9vw, 42px);
+  --fs-h1: clamp(50px, 6vw, 88px);
 
   position: relative;
   min-height: 100vh;
   background: var(--bg);
   color: var(--body);
-  font: 400 16px/1.6 var(--sans);
+  font: 400 var(--fs-body)/1.6 var(--sans);
   -webkit-font-smoothing: antialiased;
   padding-bottom: 80px;
   overflow-x: clip;
@@ -34,14 +46,40 @@
 .home a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
 :where(.home h1, .home h2, .home h3, .home p, .home ol, .home ul, .home dl, .home dd) { margin: 0; padding: 0; }
 :where(.home ol, .home ul) { list-style: none; }
-:where(.home) .mono { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
-:where(.home) h3 { font-weight: 500; font-size: 18px; line-height: 1.3; letter-spacing: -.012em; color: var(--ink); }
+:where(.home) .mono { font-family: var(--mono); font-size: var(--fs-label); letter-spacing: .08em; text-transform: uppercase; }
+:where(.home) h3 { font-weight: 500; font-size: var(--fs-large); line-height: 1.3; letter-spacing: -.012em; color: var(--ink-2); }
+:where(.home p) { text-wrap: pretty; }
 .home .wrap { max-width: var(--max); margin-inline: auto; padding-inline: var(--gut); }
 .home [id] { scroll-margin-top: calc(var(--nav) + 24px); }
 
 /* Reveal on scroll (HomePage.astro adds .js and .in). data-r-each reveals each child, for rendered Markdown. */
 .home.js :is([data-r], [data-r-each] > *) { opacity: 0; transform: translateY(10px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
 .home.js :is([data-r], [data-r-each] > *).in { opacity: 1; transform: none; }
+
+/* Dark theme: the same tones, light on dark. */
+:root[data-theme="dark"] { color-scheme: dark; background: #14171c; /* --bg, for the area outside the page */ }
+:root[data-theme="dark"] .home {
+  --bg: #14171c;
+  --ink: #e7eaf0;
+  --ink-2: #c4cad4;
+  --body: #99a1af;
+  --muted: #7d8594;
+  --line: #252a32;
+  --line-2: #333944;
+  --accent: #6f8ff2;
+  --accent-2: #8ea6f4;
+  --object: #c98a45;
+  --object-fill: #2b2219;
+}
+
+/* Very wide screens: a larger and wider page. The robot follows --max and --colgap. */
+@media (min-width: 2000px) {
+  .home {
+    --max: 1600px; --colgap: 96px; --nav: 76px;
+    --fs-label: 13px; --fs-small: 16px; --fs-body: 18px; --fs-large: 21px;
+    --fs-lead: 27px; --fs-h2: 54px; --fs-h1: 120px;
+  }
+}
 
 @media (max-width: 900px) {
   .home { padding-bottom: 132px; }

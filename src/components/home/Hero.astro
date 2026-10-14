@@ -24,15 +24,16 @@ import { profile } from '@/data/profile';
   }
   .kicker { color: var(--muted); margin-bottom: 28px; }
   .kicker span { color: var(--line-2); margin-inline: 6px; }
-  h1 { font-weight: 500; font-size: clamp(50px, 6vw, 88px); line-height: .98; letter-spacing: -.04em; color: var(--ink); }
-  .role { margin-top: 30px; font-size: 17px; color: var(--ink); opacity: .88; }
+  h1 { font-weight: 400; font-size: var(--fs-h1); line-height: .98; letter-spacing: -.04em; color: var(--ink); }
+  .role { margin-top: 30px; font-size: var(--fs-large); color: var(--body); text-wrap: balance; }
   .role a { color: var(--accent); border-bottom: 1px solid transparent; transition: border-color .2s; }
   .role a:hover { border-color: currentColor; }
-  .tagline { margin-top: 12px; font-size: clamp(18px, 1.55vw, 21px); line-height: 1.5; max-width: 30ch; color: var(--body); }
+  .tagline { margin-top: 12px; font-size: var(--fs-lead); text-wrap: balance; line-height: 1.5; max-width: 30ch; color: var(--body); }
   .hero-links { display: flex; gap: 22px; margin-top: 36px; }
   .hero-links a { color: var(--muted); transition: color .2s; }
   .hero-links a:hover { color: var(--accent); }
   .stage { height: min(500px, 58vh); width: 100%; }
+  @media (min-width: 2000px) { .stage { height: min(720px, 58vh); } }
 
   @media (max-width: 900px) {
     /* As tall as its content: a full-screen hero leaves a gap between the text and the grid on tall screens. */

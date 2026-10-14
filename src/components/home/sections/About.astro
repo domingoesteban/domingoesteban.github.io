@@ -14,8 +14,8 @@ import Section from '../Section.astro';
 </Section>
 
 <style>
-  .bio :global(p:first-child) { font-size: clamp(19px, 1.6vw, 22px); line-height: 1.52; letter-spacing: -.01em; color: var(--ink); }
-  .bio :global(p + p) { margin-top: 22px; font-size: 15.5px; line-height: 1.68; }
+  .bio :global(p:first-child) { font-size: var(--fs-lead); line-height: 1.52; letter-spacing: -.01em; color: var(--ink-2); }
+  .bio :global(p + p) { margin-top: 22px; line-height: 1.68; }
   .facts { margin-top: 36px; border-top: 1px solid var(--line-2); }
   .facts div { display: grid; grid-template-columns: 96px 1fr; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--line); }
   .facts dt { color: var(--muted); font-size: 10.5px; }

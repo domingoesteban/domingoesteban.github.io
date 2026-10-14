@@ -11,16 +11,37 @@ const links = SECTIONS.map(s => ({ id: s.id, label: s.label, keep: !!s.mobile })
     <nav aria-label="Primary">
       {links.map(n => <a class:list={[{ opt: !n.keep }]} href={`#${n.id}`}>{n.label}</a>)}
     </nav>
+    <button class="theme" type="button" aria-label="Dark theme" aria-pressed="false">
+      <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z" /></svg>
+    </button>
   </div>
 </header>
+
+<script>
+  // Light by default; the choice is saved for the next visit (read back in the head of src/pages/index.astro).
+  const html = document.documentElement, button = document.querySelector<HTMLButtonElement>('.nav .theme')!;
+  const show = () => button.setAttribute('aria-pressed', String(html.dataset.theme === 'dark'));
+  show();
+  button.addEventListener('click', () => {
+    const dark = html.dataset.theme !== 'dark';
+    if (dark) html.dataset.theme = 'dark'; else delete html.dataset.theme;
+    try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch {}
+    show();
+  });
+</script>
 
 <style>
   .nav { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); }
   .nav-in { height: var(--nav); display: flex; align-items: center; gap: 28px; }
-  .brand { font-weight: 500; font-size: 15px; letter-spacing: -.01em; color: var(--ink); margin-right: auto; }
-  nav { display: flex; gap: clamp(16px, 2.4vw, 34px); font-size: 14px; }
+  .brand { font-weight: 500; font-size: var(--fs-body); letter-spacing: -.01em; color: var(--ink-2); margin-right: auto; }
+  nav { display: flex; gap: clamp(16px, 2.4vw, 34px); font-size: var(--fs-small); }
   nav a { color: var(--body); transition: color .2s; }
   nav a:hover { color: var(--accent); }
+  .theme { display: grid; place-items: center; width: 32px; height: 32px; margin-right: -7px; padding: 0; border: 0; border-radius: 50%; background: none; color: var(--body); cursor: pointer; transition: color .2s; }
+  .theme:hover, .theme[aria-pressed="true"] { color: var(--accent); }
+  .theme svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linejoin: round; }
+  .theme[aria-pressed="true"] svg { fill: currentColor; }
+  .theme:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
   @media (max-width: 900px) {
     .nav-in { gap: 18px; }

@@ -1,6 +1,7 @@
 ---
 // A page section: index and label, heading, then the slot, in the half of the page the robot does not use.
 // The side, label and number come from PAGE (src/data/page.ts), so the page and the robot agree on the layout.
+// One word of the heading between stars is shown in blue: "Robots that *learn* their own skills."
 import { SECTIONS } from '@/lib/robot/story';
 
 interface Props { id: string; heading: string }
@@ -8,12 +9,13 @@ const { id, heading } = Astro.props;
 const index = SECTIONS.findIndex(s => s.id === id);
 if (index < 0) throw new Error(`Section "${id}" is not in PAGE (src/data/page.ts)`);
 const { side, label } = SECTIONS[index];
+const parts = heading.split('*');
 ---
 <section class="sec" data-side={side} id={id} aria-labelledby={`${id}-h`}>
   <div class="col">
     <header class="head" data-r>
       <p class="idx mono"><span>{String(index + 1).padStart(2, '0')}</span>{label}</p>
-      <h2 id={`${id}-h`}>{heading}</h2>
+      <h2 id={`${id}-h`}>{parts.map((p, i) => (i % 2 ? <em>{p}</em> : p))}</h2>
     </header>
     <slot />
   </div>
@@ -28,7 +30,8 @@ const { side, label } = SECTIONS[index];
   .idx { display: flex; align-items: center; gap: 12px; color: var(--muted); }
   .idx span { color: var(--accent); }
   .idx::after { content: ''; flex: 1; height: 1px; background: var(--line); }
-  h2 { margin-top: 24px; font-weight: 500; font-size: clamp(30px, 2.9vw, 42px); line-height: 1.08; letter-spacing: -.03em; color: var(--ink); max-width: 18ch; }
+  h2 { margin-top: 24px; font-weight: 500; font-size: var(--fs-h2); line-height: 1.08; letter-spacing: -.03em; color: var(--ink); max-width: 18ch; text-wrap: balance; }
+  h2 em { font-style: normal; color: var(--accent-2); }
 
   @media (max-width: 900px) {
     .sec { grid-template-columns: 1fr; padding-block: 56px; }

@@ -23,6 +23,10 @@ const url = new URL(Astro.url.pathname, Astro.site);
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&display=swap" />
+    <!-- The saved theme, set before the page paints so a dark page never flashes light. -->
+    <script is:inline>
+      try { if (localStorage.getItem('theme') === 'dark') document.documentElement.dataset.theme = 'dark'; } catch {}
+    </script>
   </head>
   <body style="margin:0">
     <HomePage />

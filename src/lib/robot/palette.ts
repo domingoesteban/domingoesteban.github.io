@@ -1,5 +1,5 @@
 // Canvas colors and caption font, read from the CSS variables of the page root (home.css).
-// Kept as variables so a dark theme only has to call readPalette again after switching.
+// Read again when the theme changes (app.ts).
 
 // Each color is an "r, g, b" string, so col() can add any alpha.
 export const pal = { bg: '', ink: '', muted: '', line: '', accent: '', obj: '', objFill: '', mono: '' };
