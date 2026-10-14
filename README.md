@@ -43,12 +43,16 @@ The words between stars in the heading are shown in blue: mark the key idea, usu
 
 ## Structure
 
-- `src/pages/index.astro` the home page (the only published page)
+- `src/pages/index.astro` the home page, and `404.astro` the page for missing addresses
 - `src/components/home/` its parts: nav, hero, sections, footer, the robot canvas
 - `src/lib/robot/` the animated robot (see its README)
 - `src/content/`, `src/data/` the content
-- `src/assets/old-site/` images, icons and a font from the previous site, kept for reuse
+- `src/assets/old-site/` the robot head drawings of the previous site, kept for reuse
 - `src/pages/prototype/`, `src/components/prototype-styles/` design prototypes, served only by the dev server
 - `scripts/shots.mjs`, `scripts/compare.py` screenshot checks of the home page
 
-The site started from [jramma/sorollaportfolio](https://github.com/jramma/sorollaportfolio) (MIT, see `LICENSE`).
+## License
+
+The source is public so you can see how the site is built. It is available under the
+[PolyForm Strict License 1.0.0](LICENSE): you may read it, run it and learn from it for noncommercial purposes, but not
+publish copies or changed versions of the site, its design, the robot animation, its text or images.
