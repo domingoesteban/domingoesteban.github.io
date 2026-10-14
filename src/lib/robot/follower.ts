@@ -2,7 +2,7 @@
 // A damped follower chases g; the robot walks (or runs, if the reader scrolls fast) between sections, plays the
 // transition of each band (story.ts) and runs the task clock of the section it is parked at.
 import { blend, BOX_REST, type Frame, type Spec } from './rig';
-import { gaitSpec, standSpec, strideFor, dutyFor, jumpSpec, JUMP, jumpObstacle, mixSpec, place, BLOCK, type Prop } from './skills';
+import { gaitSpec, standSpec, strideFor, dutyFor, jumpSpec, JUMP, jumpObstacle, mixSpec, place, sitTurnSpec, BLOCK, type Prop } from './skills';
 import { TASK, LIE, stepMix, withBox, crate, loose, solveScene, type Scene } from './tasks';
 import { SECTIONS, TRANSITIONS } from './story';
 import { HR, HL, P, folView, layout, type Rect } from './camera';
@@ -24,15 +24,16 @@ const L = SECTIONS.map(s => TASK[s.robot].D);
 export const clocks = SECTIONS.map(s => s.start ?? 0);
 
 // A box carried to a task that sits is its seat: the clip puts it down facing back (root yaw PI, so BOX_REST lands on
-// BLOCK), then a stepping turn brings the robot round to sit on it. The box stays where it was put down.
-const SEAT = [crate([BLOCK.x, BOX_REST[1], 0])];
+// BLOCK), a stepping turn brings the robot round and it steps back to the box to sit. The box stays where it was put down.
+const SEAT = [crate([BLOCK.x, BOX_REST[1], 0])], BACK = 0.8; // seconds of the turn spent stepping back
 const seatScene = (k: number, t: number): Scene => {
   const intro = SECTIONS[k].intro!, own = TASK[SECTIONS[k].robot].scene, clip = intro.to - intro.from, m = clip + intro.mix;
   if (t >= I[k]) return { ...own(t - I[k]), props: [], world: SEAT };
-  const u = clamp((t - m) / intro.turn!);
+  const turn = intro.turn! - BACK, u = clamp((t - m) / turn), stand = sitTurnSpec();
   let spec = t < clip ? TASK[intro.task].scene(intro.from + t).spec
-    : t < m ? stepMix(TASK[intro.task].scene(intro.to).spec, own(0).spec, (t - clip) / intro.mix)
-    : mixSpec(own(0).spec, gaitSpec(2 * u, { stride: 0.16, lift: 0.7 }), sin(PI * u) ** 0.5);
+    : t < m ? stepMix(TASK[intro.task].scene(intro.to).spec, stand, (t - clip) / intro.mix)
+    : t < m + turn ? mixSpec(stand, gaitSpec(2 * u, { stride: 0.16, lift: 0.7 }), sin(PI * u) ** 0.5)
+    : stepMix(stand, own(0).spec, (t - m - turn) / BACK);
   const down = !spec.box || loose(spec.box);
   if (down) { spec = { ...spec }; delete spec.box; }
   return { spec, props: [], world: down ? SEAT : [], root: [0, 0, PI * (1 - smooth(0, 1, u))] };

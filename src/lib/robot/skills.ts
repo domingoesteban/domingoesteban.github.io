@@ -138,8 +138,10 @@ export const jumpObstacle = (x0 = 0, alpha?: number) =>
   boxProp('obstacle', [x0 + JUMP.obstacle.x, JUMP.obstacle.height / 2, 0], [JUMP.obstacle.depth, JUMP.obstacle.height, JUMP.obstacle.width], alpha);
 
 // Sit down on a block behind the robot and stand up, hinging at the hips so the CoM stays over the feet. The block is
-// the lift box where the lift puts it down, seen from behind: a robot can put the box down, turn around and sit on it.
+// the lift box where the lift puts it down, seen from behind: a robot can put the box down, turn around, step back to it
+// and sit. The poses are made for a block at SIT_X and moved with it.
 export const BLOCK = { x: -BOX_REST[0], size: BOX_SIZE };
+const SIT_X = -0.3, toBlock = BLOCK.x - SIT_X;
 const sFeet = { lf: [0.04, -0.12, 0, 0, 0.08], rf: [0.04, 0.12, 0, 0, -0.08] };
 const sStand = tweak(base(), { ...sFeet, hd: [0, 0.04, 0] });
 const sLook = tweak(sStand, { hd: [0.5, -0.1, 0], cr: [0.12, 0.02, 0] });
@@ -151,7 +153,10 @@ const sLean = tweak(sTouch, { p: [-0.24, 0.53, 0], pr: [0, 0.88, 0], hd: [0, -0.
 const sRise = tweak(sHinge, { p: [-0.1, 0.72, 0], pr: [0, 0.5, 0], hd: [0, -0.15, 0] });
 export const SIT_DURATION = 8;
 const sitKeys = keyed(SIT_DURATION, [[0, sStand], [0.5, sStand], [1.0, sLook], [1.6, sStand], [2.4, sHinge], [3.1, sTouch], [3.7, sSit], [4.3, sRest], [5.0, sSit], [5.5, sLean], [6.2, sRise], [7.0, sStand]]);
-export const sitSpec = (t: number) => sitKeys(mod(t, SIT_DURATION));
+const shift = (s: Spec, dx: number): Spec => ({ ...s, p: [s.p[0] + dx, ...s.p.slice(1)], lf: [s.lf[0] + dx, ...s.lf.slice(1)], rf: [s.rf[0] + dx, ...s.rf.slice(1)] });
+export const sitSpec = (t: number) => shift(sitKeys(mod(t, SIT_DURATION)), toBlock);
+// Standing where the lift leaves the robot, the step back to the block still ahead.
+export const sitTurnSpec = () => sStand;
 export const sitBlock = (alpha?: number) => boxProp('block', [BLOCK.x, BLOCK.size[1] / 2, 0], BLOCK.size, alpha);
 
 // Drill at a table: grip the parked drill, turn it bit-down over a plank, press into its two holes with both hands,

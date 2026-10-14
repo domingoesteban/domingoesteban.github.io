@@ -17,8 +17,8 @@ export type Section = Entry & {
   heading: number;
   start?: number; // clock on page load (first section only, where the hero tile starts)
   // Before its own loop, play another task's clip [from, to] and step into this task over `mix` seconds.
-  // keepBox leaves the box on the floor where the clip put it down. turn: then turn around on the spot over `turn`
-  // seconds, to sit on the box (follower.ts).
+  // keepBox leaves the box on the floor where the clip put it down. turn: then turn around and step back to the box
+  // over `turn` seconds, to sit on it (follower.ts).
   intro?: { task: TaskName; from: number; to: number; mix: number; keepBox?: boolean; turn?: number };
   // Section clock where the robot leaves for the next / previous section (null: keep looping).
   // Times below the intro length rewind the intro, so the robot arrives back in the state it came in.
@@ -38,7 +38,7 @@ export const SECTIONS: Section[] = PAGE.map((p, i) => {
   const t = TASK[p.robot], last = i === PAGE.length - 1;
   // A robot that walks in holding the box puts it down first; one whose task needs the box picks it up first.
   const came = i > 0 && holding[i - 1], starts = holds(p.robot, 0);
-  const intro: Section['intro'] = came && !starts ? { task: 'lift', from: LIFT.down[0], to: LIFT.down[1], mix: 0.8, keepBox: !hasBox(p.robot) && !t.seat, turn: t.seat ? 1.4 : undefined }
+  const intro: Section['intro'] = came && !starts ? { task: 'lift', from: LIFT.down[0], to: LIFT.down[1], mix: 0.8, keepBox: !hasBox(p.robot) && !t.seat, turn: t.seat ? 2.2 : undefined }
     : !came && starts ? { task: 'lift', from: LIFT.up[0], to: LIFT.up[1], mix: 0.8 } : undefined;
   const I = intro ? intro.to - intro.from + intro.mix + (intro.turn ?? 0) : 0;
   // A task that would leave holding the box does so only if the next section can take it. Otherwise it leaves from

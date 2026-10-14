@@ -242,11 +242,11 @@ const rise = tweak(kneel, { p: [-0.14, 0.66, -0.03], pr: [0, 0.45, 0], lw: [0.06
 const stepUp = tweak(rise, { p: [-0.06, 0.8, -0.05], pr: [0, 0.15, 0], rf: [-0.35, 0.12, 0.1, 0.25, -0.05], lw: [0.06, 0.5, -0.16, 0] });
 const upright = tweak(S0, { p: [-0.02, 0.845, -0.005], lf: sit.lf, rf: [-0.02, 0.12, 0, 0, -0.06] });
 
-// lift: squat with a straight back, grip, stand with the box at the chest, turn, put it down, release.
-// The box rests where the lift picks it up and puts it down.
-export const BOX_REST = [0.36, BOX_SIZE[1] / 2, 0];
+// lift: hinge at the hips with a straight back, grip, stand with the box at the chest, turn, put it down, release.
+// The box rests where the lift picks it up and puts it down, far enough out that the knees stay clear of it.
+export const BOX_REST = [0.48, BOX_SIZE[1] / 2, 0];
 const lift0 = tweak(S0, { lf: [0.04, -0.2, 0, 0, 0.28], rf: [0.04, 0.2, 0, 0, -0.28], hd: [0, 0.35, 0], box: [...BOX_REST, 0, 0, 0] });
-const squat = tweak(lift0, { p: [-0.08, 0.46, 0], pr: [0, 0.8, 0], cr: [0, 0.15, 0], hd: [0, -0.5, 0], lh: [0.3, -0.38, -0.1], rh: [0.3, -0.38, 0.1] });
+const squat = tweak(lift0, { p: [-0.14, 0.6, 0], pr: [0, 1.1, 0], cr: [0, 0.15, 0], hd: [0, -0.5, 0], lh: [0.3, -0.38, -0.1], rh: [0.3, -0.38, 0.1] });
 const grab = tweak(squat, { box: [...BOX_REST, 0, 0, 1] });
 const hold = tweak(lift0, { p: [-0.03, 0.835, 0], hd: [0, 0.1, 0], box: [...BOX_REST, 0, 1, 1] });
 const turn = tweak(hold, { pr: [0.12, 0.03, 0], cr: [0.3, 0.02, 0], hd: [0.15, 0.1, 0] });
