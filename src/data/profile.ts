@@ -17,4 +17,6 @@ export const profile = {
     { label: 'GitHub', href: 'https://github.com/domingoesteban' },
     { label: 'X', href: 'https://x.com/domingoesteban' },
   ],
+  // In the hero after the links; not in Contact, as it is not a way to reach me.
+  scholar: { label: 'Scholar', href: 'https://scholar.google.com/citations?user=kJh20NUAAAAJ' },
 };

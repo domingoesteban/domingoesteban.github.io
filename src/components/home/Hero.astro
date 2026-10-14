@@ -9,7 +9,7 @@ import { profile } from '@/data/profile';
       <p class="role">{profile.role}, {profile.focus}</p>
       <p class="tagline">{profile.tagline}</p>
       <ul class="hero-links mono">
-        {profile.links.map(l => <li><a href={l.href} target="_blank" rel="noopener">{l.label}</a></li>)}
+        {[...profile.links, profile.scholar].map(l => <li><a href={l.href} target="_blank" rel="noopener">{l.label}</a></li>)}
       </ul>
     </div>
     <!-- The robot canvas draws the hero tiles inside this box. -->
