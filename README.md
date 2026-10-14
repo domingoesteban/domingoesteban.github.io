@@ -50,7 +50,7 @@ The words between stars in the heading are shown in blue: mark the key idea, usu
 - `src/assets/old-site/` the robot head drawings of the previous site, kept for reuse
 - `src/pages/prototype/`, `src/components/prototype-styles/` design prototypes, served only by the dev server
 - `scripts/shots.mjs`, `scripts/compare.py` screenshot checks of the home page
-- `scripts/og.mjs` the link preview image `public/og.png`, captured from the hero (usage at its top)
+- `scripts/og.mjs` the link preview image `src/assets/og.png`, captured from the hero (usage at its top)
 
 ## License
 
