@@ -1,0 +1,36 @@
+---
+// Served by GitHub Pages for any address that does not exist, with a 404 status.
+import '@/components/home/home.css';
+import { profile } from '@/data/profile';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{`Page not found, ${profile.name}`}</title>
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&display=swap" />
+    <script is:inline>
+      try { if (localStorage.getItem('theme') === 'dark') document.documentElement.dataset.theme = 'dark'; } catch {}
+    </script>
+  </head>
+  <body style="margin:0">
+    <div class="home">
+      <main class="wrap lost">
+        <p class="mono">404</p>
+        <h1>This page is not here.</h1>
+        <p><a href="/">Go to the home page</a></p>
+      </main>
+    </div>
+  </body>
+</html>
+
+<style>
+  .lost { padding-top: 22vh; }
+  .lost .mono { color: var(--accent); }
+  h1 { margin-top: 18px; font-weight: 500; font-size: var(--fs-h2); letter-spacing: -.03em; color: var(--ink); }
+  p + p { margin-top: 20px; }
+  a { color: var(--accent); }
+</style>

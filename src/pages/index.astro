@@ -1,31 +1,59 @@
 ---
+import { getCollection } from 'astro:content';
 import HomePage from '@/components/home/HomePage.astro';
 import { profile } from '@/data/profile';
 
-const title = `${profile.name}, ${profile.role}`;
+const title = `${profile.name}, ${profile.focus}`;
+const description = `${profile.summary} ${profile.tagline}`;
 const url = new URL(Astro.url.pathname, Astro.site);
 // The picture in link previews: a capture of the hero (1200x630). Capture it again when the hero changes.
 const image = new URL('/og.png', Astro.site);
+
+// Structured data: who the page is about, for search engines and AI assistants. Every fact here is also on the page:
+// the current title and employer from Experience, the places from About. IIT is where the PhD was done (the degree
+// is from the University of Genoa, to add once /cv/ says so).
+const [now] = (await getCollection('experience')).sort((a, b) => a.data.order - b.data.order);
+const me = `${Astro.site}#me`;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'WebSite', '@id': `${Astro.site}#site`, url: `${Astro.site}`, name: profile.name },
+    { '@type': 'ProfilePage', url: `${url}`, isPartOf: { '@id': `${Astro.site}#site` }, mainEntity: { '@id': me } },
+    {
+      '@type': 'Person', '@id': me, name: profile.name, url: `${Astro.site}`, description: profile.tagline,
+      jobTitle: now.data.title, worksFor: { '@type': 'Organization', name: now.data.org, url: now.data.href },
+      alumniOf: [
+        { '@type': 'ResearchOrganization', name: 'Istituto Italiano di Tecnologia (IIT)', url: 'https://www.iit.it/' },
+        { '@type': 'CollegeOrUniversity', name: 'Universidad Carlos III de Madrid (UC3M)', url: 'https://www.uc3m.es/' },
+      ],
+      knowsAbout: ['Reinforcement learning', 'Robot learning', 'Humanoid robots', 'Whole-body motion', 'Legged locomotion', 'Sim-to-real transfer'],
+      sameAs: [...profile.links.map(l => l.href), profile.scholar.href, profile.orcid],
+    },
+  ],
+};
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{`${profile.name}, ${profile.focus}`}</title>
-    <meta name="description" content={profile.tagline} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
     <link rel="canonical" href={url} />
     <link rel="icon" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <!-- How the link looks when shared (LinkedIn, X, chats). -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={profile.name} />
     <meta property="og:url" content={url} />
     <meta property="og:title" content={title} />
-    <meta property="og:description" content={profile.tagline} />
+    <meta property="og:description" content={description} />
     <meta property="og:image" content={image} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={`${profile.name} and nine humanoid robots learning whole-body skills`} />
     <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&display=swap" />

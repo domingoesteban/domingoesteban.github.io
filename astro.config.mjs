@@ -8,6 +8,7 @@ import sitemap from '@astrojs/sitemap';
 // The prototype pages are dev-only and never built, but Vite still bundles their scripts and styles into _astro/.
 // After the build, remove every asset that no page uses (directly or through another used asset), so they are never
 // published.
+/** @type {import('astro').AstroIntegration} */
 const dropUnusedAssets = {
   name: 'drop-unused-assets',
   hooks: {

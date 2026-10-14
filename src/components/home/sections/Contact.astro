@@ -9,7 +9,7 @@ const host = (href: string) => href.replace(/^https?:\/\/(www\.)?/, '').replace(
   <ul class="links">
     {profile.links.map(l => (
       <li data-r>
-        <a href={l.href} target="_blank" rel="noopener">
+        <a href={l.href} target="_blank" rel="me noopener">
           <span class="l-name">{l.label}</span>
           <span class="l-host mono">{host(l.href)}</span>
           <span class="l-arrow" aria-hidden="true">↗</span>
