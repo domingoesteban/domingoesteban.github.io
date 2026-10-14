@@ -14,8 +14,9 @@ import { addv, clamp, follow, lerp, mod, smooth, stepSpring, toLocal, wrapA, typ
 const { min, max, abs, sin, cos, floor, sign, PI } = Math;
 const N = SECTIONS.length, LAST = N - 1;
 
-// Section x positions (m) along the walk, and the scroll range [A, B] (px) of each band. app.ts fills it on resize.
-export const track = { X: SECTIONS.map(() => 0), A: TRANSITIONS.map(() => 0), B: TRANSITIONS.map(() => 0), xLeft: 0 };
+// Section x positions (m) along the walk, the scroll range [A, B] (px) of each band and the page's max scroll (end).
+// app.ts fills it on resize.
+export const track = { X: SECTIONS.map(() => 0), A: TRANSITIONS.map(() => 0), B: TRANSITIONS.map(() => 0), xLeft: 0, end: 0 };
 
 // Section clocks: [0, I) plays the intro, then the task loops with length L.
 const I = SECTIONS.map(s => (s.intro ? s.intro.to - s.intro.from + s.intro.mix + (s.intro.turn ?? 0) : 0));
@@ -167,7 +168,10 @@ export function update(dt: number, time: number, c: number) {
 
   // Task clock: loops while featured and steers to the exit state when the reader is about to leave, faster the
   // further into the band they have scrolled.
-  const j = F.task, y = scrollY, soon = mobile ? vh * 0.12 : vh * 0.25;
+  // It starts `soon` before a band, but at most half way into the section's scroll range: a short one (the last
+  // section on a tall screen) still plays its task.
+  const j = F.task, y = scrollY, room = (j < LAST ? A[j] : track.end) - (j > 0 ? B[j - 1] : -Infinity);
+  const soon = min(mobile ? vh * 0.12 : vh * 0.25, room / 2);
   const fwdSoon = j < LAST && (y > A[j] - soon || F.g > j + 0.001);
   const backSoon = j > 0 && (y < B[j - 1] + soon || F.g < j - 0.001);
   const T = fwdSoon ? sec.exit.next : backSoon ? sec.exit.prev : null;

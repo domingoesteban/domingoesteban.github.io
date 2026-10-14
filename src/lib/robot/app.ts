@@ -74,6 +74,7 @@ export function startRobot(root: HTMLElement) {
       if (L.mobile) { A[k] = top - L.vh * 0.72; B[k] = bot - L.vh * 0.3; }
       else { A[k] = top - gDoc[0]; B[k] = bot - gDoc[1]; }
     });
+    track.end = document.documentElement.scrollHeight - innerHeight;
     L.heroH = hero.offsetHeight;
     root.dataset.ab = JSON.stringify([A.map(Math.round), B.map(Math.round)]); // read by the screenshot script
   };
