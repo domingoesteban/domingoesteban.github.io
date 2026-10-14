@@ -6,7 +6,7 @@ import { profile } from '@/data/profile';
 const title = `${profile.name}, ${profile.focus}`;
 const description = `${profile.summary} ${profile.tagline}`;
 const url = new URL(Astro.url.pathname, Astro.site);
-// The picture in link previews: a capture of the hero (1200x630). Capture it again when the hero changes.
+// The picture in link previews: a capture of the hero (1200x630). Capture it again when the hero changes (scripts/og.mjs).
 const image = new URL('/og.png', Astro.site);
 
 // Structured data: who the page is about, for search engines and AI assistants. Every fact here is also on the page:
