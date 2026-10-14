@@ -7,7 +7,7 @@ import { HERO } from './story';
 import { F, secProps } from './follower';
 import { FOL_PITCH, FOL_TARGET, FOV, YAW, P, grow, layout, lerpRect, makeView, type Rect } from './camera';
 import { drawFigure, drawProps, faded, polyline } from './draw';
-import { caption, drawNet, ring } from './overlay';
+import { drawNet, ring } from './overlay';
 import { pal, col } from './palette';
 import { addv, lerp, rnd, smooth, stepSpring, TAU } from './math';
 
@@ -79,13 +79,12 @@ export function renderHero(g: G, c: number, ce: number, sr: Rect): Rect {
   };
   const v = makeView(cam, r, lerp(heroFit.ox, folFit.ox, ce), lerp(heroFit.oy, folFit.oy, ce));
 
-  // Corner marks of the stage and the caption, gone early in the collapse.
+  // Corner marks of the stage, gone early in the collapse.
   const ha = 1 - smooth(0, 0.4, c);
   if (ha > 0.01) {
     g.strokeStyle = col(pal.line, ha); g.lineWidth = 1;
     const m = 10, { x, y, w, h } = sr;
     for (const [cx, cy, sx, sy] of [[x, y, 1, 1], [x + w, y, -1, 1], [x, y + h, 1, -1], [x + w, y + h, -1, -1]]) polyline(g, [[cx + sx * m, cy], [cx, cy], [cx, cy + sy * m]]);
-    caption(g, HERO.caption, sr.x + 16, sr.y + sr.h - 6, ha, 'left');
   }
 
   const order = envs.map(e => ({ e, z: P(v, [e.gx, 0, e.gz])[2] })).sort((a, b) => b.z - a.z);

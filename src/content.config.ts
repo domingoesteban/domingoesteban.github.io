@@ -19,7 +19,6 @@ const research = defineCollection({
     schema: z.object({
         order: z.number(),
         title: z.string(),
-        keywords: z.array(z.string()),
     }),
 });
 

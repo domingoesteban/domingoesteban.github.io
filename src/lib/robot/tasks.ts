@@ -19,7 +19,7 @@ type Task = {
   D: number; // loop duration (s)
   scene: (t: number) => Scene;
   risk: number[]; // clock times where a robot that is still learning may fall (hero tiles)
-  // As a section: caption under the robot, yaw it faces (rad, + turns left), pose with reduced motion, clock
+  // As a section: caption under the robot ('' for none), yaw it faces (rad, + turns left), pose with reduced motion, clock
   // where it leaves (default 0, the loop start), seconds it may play backwards to get there (default 1.2), clock on
   // page load when it is the first section.
   caption: string; heading: number; still: number; leave?: number; rewind?: number; start?: number;
@@ -27,14 +27,14 @@ type Task = {
 };
 
 export const TASK: Record<TaskName, Task> = {
-  lift: { D: 9, scene: t => ({ spec: skillSpec('lift', t), props: [] }), risk: [3.1], caption: 'pick and place', heading: -0.45, still: 3.75, leave: LIFT.up[1], rewind: 5, start: 1.2, room: true },
-  poise: { D: POISE_DURATION, scene: t => ({ spec: poiseSpec(t), props: [] }), risk: [2.7, 5.7], caption: 'balance', heading: 0.25, still: 3.2, room: true },
-  drill: { D: DRILL_DURATION, scene: t => drillScene(t), risk: [3.5], caption: 'drill', heading: 2.0, still: 5.4 },
-  sit: { D: SIT_DURATION, scene: t => ({ spec: sitSpec(t), props: [sitBlock()] }), risk: [3.2, 5.8], caption: 'sit to stand', heading: 1.7, still: 4.3, room: true },
-  wave: { D: WAVE_DURATION, scene: t => ({ spec: waveSpec(t), props: [] }), risk: [1.6], caption: 'hello', heading: 0.55, still: 2.2, room: true },
-  walk: { D: MOVE_DURATION.walkturn, scene: t => moveScene('walkturn', t), risk: [1.3, 3.9], caption: 'walk', heading: 0.3, still: 1.2 },
-  carry: { D: MOVE_DURATION.carryturn, scene: t => moveScene('carryturn', t), risk: [2.7, 6.3], caption: 'carry', heading: 0.4, still: 1.2 },
-  jump: { D: MOVE_DURATION.jump, scene: t => moveScene('jump', t), risk: [1.6, 4.9], caption: 'jump', heading: 0.3, still: 1.2 },
+  lift: { D: 9, scene: t => ({ spec: skillSpec('lift', t), props: [] }), risk: [3.1], caption: '', heading: -0.45, still: 3.75, leave: LIFT.up[1], rewind: 5, start: 1.2, room: true },
+  poise: { D: POISE_DURATION, scene: t => ({ spec: poiseSpec(t), props: [] }), risk: [2.7, 5.7], caption: '', heading: 0.25, still: 3.2, room: true },
+  drill: { D: DRILL_DURATION, scene: t => drillScene(t), risk: [3.5], caption: '', heading: 2.0, still: 5.4 },
+  sit: { D: SIT_DURATION, scene: t => ({ spec: sitSpec(t), props: [sitBlock()] }), risk: [3.2, 5.8], caption: '', heading: 1.7, still: 4.3, room: true },
+  wave: { D: WAVE_DURATION, scene: t => ({ spec: waveSpec(t), props: [] }), risk: [1.6], caption: '', heading: 0.55, still: 2.2, room: true },
+  walk: { D: MOVE_DURATION.walkturn, scene: t => moveScene('walkturn', t), risk: [1.3, 3.9], caption: '', heading: 0.3, still: 1.2 },
+  carry: { D: MOVE_DURATION.carryturn, scene: t => moveScene('carryturn', t), risk: [2.7, 6.3], caption: '', heading: 0.4, still: 1.2 },
+  jump: { D: MOVE_DURATION.jump, scene: t => moveScene('jump', t), risk: [1.6, 4.9], caption: '', heading: 0.3, still: 1.2 },
   push: { D: 8, scene: t => ({ spec: skillSpec('push', t), props: [], push: pushAt(t) }), risk: [1.4, 5.4], caption: 'push recovery', heading: 0.25, still: 1.62, room: true },
 };
 

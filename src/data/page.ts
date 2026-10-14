@@ -6,7 +6,8 @@ import type { TaskName } from '@/lib/robot/tasks';
 export type Entry = {
   id: string; // the <section id> on the page
   label: string; // in the nav and above the heading
-  task: TaskName; // the skill: lift, poise, drill, sit, wave, walk, carry, jump or push
+  robot: TaskName; // what the robot does beside it: lift, poise, drill, sit, wave, walk, carry, jump or push. Chosen
+  // for the animation, not the section's theme; the first one is the robot picked from the hero grid.
   mobile?: boolean; // keep its nav link on small screens
   arrive?: 'walk' | 'jump' | 'push'; // how the robot walks in from the section before (default: varied)
   caption?: string; // overrides the skill's caption under the robot
@@ -14,10 +15,10 @@ export type Entry = {
 };
 
 export const PAGE: Entry[] = [
-  { id: 'research', label: 'Research', task: 'lift', mobile: true },
-  { id: 'about', label: 'About', task: 'poise' },
-  { id: 'experience', label: 'Experience', task: 'drill' },
+  { id: 'about', label: 'About', robot: 'lift' },
+  { id: 'experience', label: 'Experience', robot: 'sit' },
+  { id: 'research', label: 'Research', robot: 'drill', mobile: true },
   // Back once there are real notes (src/content/notes holds only samples).
-  // { id: 'notes', label: 'Notes', task: 'sit', mobile: true },
-  { id: 'contact', label: 'Contact', task: 'wave' },
+  // { id: 'notes', label: 'Notes', robot: 'sit', mobile: true },
+  { id: 'contact', label: 'Contact', robot: 'wave' },
 ];

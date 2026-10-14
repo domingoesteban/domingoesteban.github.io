@@ -99,7 +99,7 @@ export const groundLine = (g: G, x0: number, x1: number, y: number, a: number) =
 };
 
 export const caption = (g: G, text: string, x: number, y: number, a: number, align: CanvasTextAlign = 'center') => {
-  if (a < 0.01) return;
+  if (!text || a < 0.01) return;
   g.font = `500 10px ${pal.mono}`;
   g.letterSpacing = '0.09em';
   g.textAlign = align; g.textBaseline = 'alphabetic';

@@ -26,7 +26,7 @@ with the scroll. Booted by `src/components/home/RobotCanvas.astro`.
 
 1. Write `src/components/home/sections/<Id>.astro` with its content inside `<Section id="<id>" heading="...">`
    (id `talks` is `Talks.astro`, `open-source` is `OpenSource.astro`).
-2. Add `{ id, label, task }` to `PAGE` in `src/data/page.ts`, where it goes in the page. `task` is any of the nine skills:
+2. Add `{ id, label, robot }` to `PAGE` in `src/data/page.ts`, where it goes in the page. `robot` is any of the nine skills:
    lift, poise, drill, sit, wave, walk, carry, jump, push.
 
 The page, the nav and the robot all follow `PAGE`. The rest is derived from the order:

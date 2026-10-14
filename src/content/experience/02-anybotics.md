@@ -1,10 +1,10 @@
 ---
 order: 2
-period: Previously
+period: 2021 – 2026
 title: Senior AI & Robotics Engineer
-org: ANYbotics AG
+org: ANYbotics
 place: Zurich
 href: https://www.anybotics.com
 ---
 
-AI-driven motion control systems that enable ANYmal to navigate complex terrain.
+RL locomotion for ANYmal, from training to real-world deployment.

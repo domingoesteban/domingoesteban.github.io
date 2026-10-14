@@ -1,3 +1,3 @@
-My work focuses on AI-driven decision-making and motion intelligence, particularly reinforcement learning, to enable robots to learn new skills, adapt, and operate autonomously in complex environments.
+A humanoid robot is useful when it can move, keep its balance and use its hands at the same time. I develop AI for this whole-body motion, from planning how the robot moves to the learned control that carries it out.
 
-I specialize in reinforcement learning for control and planning, developing adaptive algorithms for locomotion and manipulation, while leveraging massively parallel simulation for skill acquisition and ensuring real-world deployment.
+My first humanoid was TEO, a full-size humanoid at **UC3M** in Madrid, where I started planning its movements in 2013. My PhD at **IIT** then studied how a robot can combine skills, learn from failures as well as successes, and pass what it knows to a different robot. Nearly seven years on legged robots followed, most at **ANYbotics**, where learned locomotion had to hold up on a commercial robot. At **Hexagon Robotics** I bring that experience back to humanoids, on AEON.

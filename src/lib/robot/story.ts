@@ -30,22 +30,22 @@ export type Section = Entry & {
 const holds = (task: TaskName, t: number) => (TASK[task].scene(t).spec.box?.[4] ?? 0) > 0.5;
 const hasBox = (task: TaskName) => !!TASK[task].scene(0).spec.box;
 // Whether section i can take a box carried in: it has room to put it down, or carries it and can pass it on.
-const take = (i: number): boolean => i < PAGE.length && (!!TASK[PAGE[i].task].room || (holds(PAGE[i].task, 0) && (i === PAGE.length - 1 || take(i + 1))));
+const take = (i: number): boolean => i < PAGE.length && (!!TASK[PAGE[i].robot].room || (holds(PAGE[i].robot, 0) && (i === PAGE.length - 1 || take(i + 1))));
 
 const holding: boolean[] = []; // whether the robot leaves section i with the box
 export const SECTIONS: Section[] = PAGE.map((p, i) => {
-  const t = TASK[p.task], last = i === PAGE.length - 1;
+  const t = TASK[p.robot], last = i === PAGE.length - 1;
   // A robot that walks in holding the box puts it down first; one whose task needs the box picks it up first.
-  const came = i > 0 && holding[i - 1], starts = holds(p.task, 0);
-  const intro = came && !starts ? { task: 'lift' as const, from: LIFT.down[0], to: LIFT.down[1], mix: 0.8, keepBox: !hasBox(p.task) }
-    : !came && starts ? { task: 'lift' as const, from: LIFT.up[0], to: LIFT.up[1], mix: 0.8 } : undefined;
+  const came = i > 0 && holding[i - 1], starts = holds(p.robot, 0);
+  const intro: Section['intro'] = came && !starts ? { task: 'lift', from: LIFT.down[0], to: LIFT.down[1], mix: 0.8, keepBox: !hasBox(p.robot) }
+    : !came && starts ? { task: 'lift', from: LIFT.up[0], to: LIFT.up[1], mix: 0.8 } : undefined;
   const I = intro ? intro.to - intro.from + intro.mix : 0;
   // A task that would leave holding the box does so only if the next section can take it. Otherwise it leaves from
   // its loop start with the box down, or, if its task always holds the box, by undoing the pick-up.
-  const L = t.leave ?? 0, wants = holds(p.task, L);
+  const L = t.leave ?? 0, wants = holds(p.robot, L);
   holding[i] = !last && wants && take(i + 1);
   const leave = !wants || holding[i] ? I + L : starts ? 0 : I;
-  if (!last && !holding[i] && starts && came) console.warn(`robot: "${p.id}" (${p.task}) cannot hand on the box it was given`);
+  if (!last && !holding[i] && starts && came) console.warn(`robot: "${p.id}" (${p.robot}) cannot hand on the box it was given`);
   return {
     ...p, side: i % 2 ? 'L' : 'R', caption: p.caption ?? t.caption, heading: p.heading ?? t.heading, start: t.start, intro,
     exit: { next: last ? null : leave, prev: i > 0 ? 0 : null }, rewind: t.rewind, still: I + t.still,
@@ -66,8 +66,7 @@ const TILES: { task: TaskName; yaw: number; t0: number }[] = [
   { task: 'wave', yaw: 0.82, t0: 2.0 }, { task: 'push', yaw: 0.25, t0: 0.3 }, { task: 'carry', yaw: 0.4, t0: 1.3 },
 ];
 export const HERO = {
-  selected: TILES.findIndex(t => t.task === SECTIONS[0].task),
-  caption: 'nine skills, trained in parallel',
+  selected: TILES.findIndex(t => t.task === SECTIONS[0].robot),
   tiles: TILES,
 };
 

@@ -19,11 +19,11 @@ export const track = { X: SECTIONS.map(() => 0), A: TRANSITIONS.map(() => 0), B:
 
 // Section clocks: [0, I) plays the intro, then the task loops with length L.
 const I = SECTIONS.map(s => (s.intro ? s.intro.to - s.intro.from + s.intro.mix : 0));
-const L = SECTIONS.map(s => TASK[s.task].D);
+const L = SECTIONS.map(s => TASK[s.robot].D);
 export const clocks = SECTIONS.map(s => s.start ?? 0);
 
 export const secScene = (k: number, t: number): Scene => {
-  const { task, intro } = SECTIONS[k], own = TASK[task].scene;
+  const { robot, intro } = SECTIONS[k], own = TASK[robot].scene;
   if (!intro) return own(t);
   const clip = intro.to - intro.from, box = (s: Spec) => (intro.keepBox ? withBox(s) : s);
   if (t < clip) return TASK[intro.task].scene(intro.from + t);
@@ -35,7 +35,7 @@ export const secScene = (k: number, t: number): Scene => {
 // that offset [x, z, yaw] from where the loop starts, and the section's props: those that move with the robot, the
 // world ones, and a box that was put down (where the robot stood, so it stays) drawn as a crate. All in the section
 // frame, before turning it to the heading.
-const R0 = SECTIONS.map(s => TASK[s.task].scene(0).root ?? [0, 0, 0]);
+const R0 = SECTIONS.map(s => TASK[s.robot].scene(0).root ?? [0, 0, 0]);
 const atSection = (k: number, sc: Scene) => {
   const [x0, z0, a0] = R0[k], [x, z, a] = sc.root ?? R0[k], d = toLocal(x - x0, z - z0, a0), w = toLocal(-x0, -z0, a0);
   const props = [...place(LIE, sc.props, a - a0, d[0], d[2]).props, ...place(LIE, sc.world ?? [], -a0, w[0], w[2]).props];
@@ -205,8 +205,8 @@ export function update(dt: number, time: number, c: number) {
   if (move === 'jump') props.push({ props: place(LIE, [jumpObstacle(-JUMP.obstacle.x)], HR, 0, 0).props, x: (X[k] + X[k + 1]) / 2, a: smooth(0.02, 0.16, s) * (1 - smooth(0.84, 0.98, s)), k: -1 });
 
   const inBand = parked < 0;
-  const gaitCap = move === 'carry' ? 'carry' : F.run > 0.6 ? 'run' : 'walk';
-  const cap = !inBand ? SECTIONS[parked].caption : seg.g.jump ? 'jump' : move === 'push' && time - F.pushT < 2 ? 'push recovery' : gaitCap;
+  // Only a push is captioned on the way: walks and jumps read without words.
+  const cap = !inBand ? SECTIONS[parked].caption : move === 'push' && time - F.pushT < 2 ? TASK.push.caption : '';
   // The policy reads the robot every frame. Its side flips mid-walk, folding through the head instead of jumping.
   stepNet(frame, { v: F.v, phase: F.phase, amp: F.amp, push: F.pv }, dt);
   const outT = SECTIONS[F.task].side === 'R' && F.wTask > 0.5 ? 1 : ax < track.xLeft / 2 ? -1 : 1;

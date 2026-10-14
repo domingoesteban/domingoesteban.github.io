@@ -4,9 +4,9 @@ import { profile } from '@/data/profile';
 <section class="hero" id="top" aria-labelledby="hero-name">
   <div class="wrap hero-in">
     <div class="hero-text" data-r>
-      <p class="kicker mono">Robot learning <span aria-hidden="true">/</span> {profile.location}</p>
+      <p class="kicker mono">{profile.field} <span aria-hidden="true">/</span> {profile.location}</p>
       <h1 id="hero-name">{profile.firstName}<br />{profile.lastName}</h1>
-      <p class="role">{profile.role} at <a href={profile.companyHref} target="_blank" rel="noopener">{profile.company}</a></p>
+      <p class="role">{profile.role}, {profile.focus}</p>
       <p class="tagline">{profile.tagline}</p>
       <ul class="hero-links mono">
         {profile.links.map(l => <li><a href={l.href} target="_blank" rel="noopener">{l.label}</a></li>)}
@@ -26,8 +26,6 @@ import { profile } from '@/data/profile';
   .kicker span { color: var(--line-2); margin-inline: 6px; }
   h1 { font-weight: 400; font-size: var(--fs-h1); line-height: .98; letter-spacing: -.04em; color: var(--ink); }
   .role { margin-top: 30px; font-size: var(--fs-large); color: var(--body); text-wrap: balance; }
-  .role a { color: var(--accent); border-bottom: 1px solid transparent; transition: border-color .2s; }
-  .role a:hover { border-color: currentColor; }
   .tagline { margin-top: 12px; font-size: var(--fs-lead); text-wrap: balance; line-height: 1.5; max-width: 30ch; color: var(--body); }
   .hero-links { display: flex; gap: 22px; margin-top: 36px; }
   .hero-links a { color: var(--muted); transition: color .2s; }

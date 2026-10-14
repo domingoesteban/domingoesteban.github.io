@@ -1,23 +1,13 @@
 ---
 import { Content as Bio } from '../../../content/about.md';
-import { profile } from '@/data/profile';
 import Section from '../Section.astro';
 ---
-<Section id="about" heading="Skills from experience, not rules.">
+<Section id="about" heading="Real work takes the *whole* body.">
   <!-- The first paragraph of about.md is the lead. -->
   <div class="bio" data-r-each><Bio /></div>
-  <dl class="facts" data-r>
-    <div><dt class="mono">Now</dt><dd>{profile.company}, {profile.robot}</dd></div>
-    <div><dt class="mono">Based</dt><dd>{profile.location}</dd></div>
-    <div><dt class="mono">From</dt><dd>{profile.origin}</dd></div>
-  </dl>
 </Section>
 
 <style>
   .bio :global(p:first-child) { font-size: var(--fs-lead); line-height: 1.52; letter-spacing: -.01em; color: var(--ink-2); }
   .bio :global(p + p) { margin-top: 22px; line-height: 1.68; }
-  .facts { margin-top: 36px; border-top: 1px solid var(--line-2); }
-  .facts div { display: grid; grid-template-columns: 96px 1fr; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--line); }
-  .facts dt { color: var(--muted); font-size: 10.5px; }
-  .facts dd { color: var(--ink); font-size: 15px; }
 </style>

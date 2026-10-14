@@ -3,13 +3,15 @@ export const profile = {
   name: 'Domingo Esteban',
   firstName: 'Domingo',
   lastName: 'Esteban',
-  role: 'Robot Learning Researcher & Engineer',
+  field: 'AI & Robotics', // the small line above the name, before the location
+  role: 'Senior Research Engineer',
+  focus: 'humanoid robot learning', // after the role in the hero
   company: 'Hexagon Robotics',
-  companyHref: 'https://hexagon.com',
+  companyHref: 'https://robotics.hexagon.com',
   robot: 'AEON',
   location: 'Zurich, Switzerland',
-  origin: 'Peru',
-  tagline: 'I develop intelligent robots that learn, adapt, and make decisions through AI.',
+  origin: 'Arequipa, Peru',
+  tagline: 'I teach humanoid robots whole-body skills with reinforcement learning, from simulation to hardware.',
   links: [
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/domingoesteban/' },
     { label: 'GitHub', href: 'https://github.com/domingoesteban' },

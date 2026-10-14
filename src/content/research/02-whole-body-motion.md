@@ -1,7 +1,6 @@
 ---
 order: 2
-title: Whole-body motion
-keywords: [Humanoids, Wheeled-legged robots, Whole-body control, Locomotion]
+title: Whole-body humanoid motion
 ---
 
-Motion intelligence for humanoids and legged robots: balancing, rolling, walking and recovering, with the whole body working as one system.
+Humanoid motion, from trajectory generation to learned control on the robot. Next, I want to explore world models and vision-language-action models for whole-body behavior.

@@ -37,7 +37,7 @@ import Section from '../Section.astro';
 </Section>
 ```
 
-and add `{ id: 'talks', label: 'Talks', task: 'jump' }` to `PAGE` where it goes. `task` is the robot skill shown
+and add `{ id: 'talks', label: 'Talks', robot: 'jump' }` to `PAGE` where it goes. `robot` is the skill the robot shows
 beside it: lift, poise, drill, sit, wave, walk, carry, jump or push. The nav, numbering and the robot's walks follow.
 The words between stars in the heading are shown in blue: mark the key idea, usually one word.
 
