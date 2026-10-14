@@ -16,8 +16,8 @@ export type Entry = {
 
 export const PAGE: Entry[] = [
   { id: 'about', label: 'About', robot: 'lift' },
-  { id: 'experience', label: 'Experience', robot: 'sit' },
-  { id: 'research', label: 'Research', robot: 'drill', mobile: true },
+  { id: 'research', label: 'Research', robot: 'sit', mobile: true },
+  { id: 'experience', label: 'Experience', robot: 'drill' },
   // Back once there are real notes (src/content/notes holds only samples).
   // { id: 'notes', label: 'Notes', robot: 'sit', mobile: true },
   { id: 'contact', label: 'Contact', robot: 'wave' },
